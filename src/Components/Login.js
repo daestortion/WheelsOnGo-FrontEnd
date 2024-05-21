@@ -24,7 +24,7 @@ export const Login = () => {
     setErrorMessage("");
 
     try {
-      const response = await axios.post("http://localhost:8080/user/login", {
+      const response = await axios.post("https://pretty-trust-production.up.railway.app/user/login", {
         identifier,
         password,
       });
@@ -35,12 +35,12 @@ export const Login = () => {
 
         // Fetch user profile including isRenting status
         try {
-          const userProfileResponse = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
+          const userProfileResponse = await axios.get(`https://pretty-trust-production.up.railway.app/user/getUserById/${userId}`);
           const userProfile = userProfileResponse.data;
 
           // Fetch verification status
           try {
-            const verificationResponse = await axios.get(`http://localhost:8080/verification/getVerificationByUserId/${userId}`);
+            const verificationResponse = await axios.get(`https://pretty-trust-production.up.railway.app/verification/getVerificationByUserId/${userId}`);
             const userWithVerification = {
               ...userProfile,
               verificationStatus: verificationResponse.data.status
