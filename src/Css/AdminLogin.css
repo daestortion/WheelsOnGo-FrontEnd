@@ -1,0 +1,180 @@
+.admin-login {
+    background-color: #1e1e1e;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.admin-login .overlap-wrapper {
+    background-color: #1e1e1e;
+    height: 939px;
+    width: 1920px;
+}
+
+.admin-login .overlap {
+    height: 860px;
+    position: relative;
+    top: 79px;
+}
+
+.admin-login .username {
+    height: 45px;
+    left: 1126px;
+    position: absolute;
+    top: 361px;
+    width: 506px;
+}
+
+.admin-login .overlap-group {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    color: #1e1e1e;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    height: 45px;
+    padding-left: 33px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.admin-login .text-wrapper {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 64px;
+    font-weight: 700;
+    left: 1129px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 239px;
+    width: 498px;
+}
+
+.admin-login .overlap-group-wrapper {
+    height: 45px;
+    left: 1126px;
+    position: absolute;
+    top: 431px;
+    width: 506px;
+}
+
+.admin-login .div-wrapper {
+    background-color: #ffffff;
+    border-radius: 10px;
+    height: 45px;
+    position: relative;
+    width: 504px;
+}
+
+.admin-login .div {
+    color: #1e1e1e;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 35px;
+    letter-spacing: 0;
+    line-height: 20px;
+    position: absolute;
+    top: 13px;
+    width: 109px;
+}
+
+.admin-login .login-btn {
+    all: unset;
+    box-sizing: border-box;
+    height: 45px;
+    left: 1126px;
+    position: absolute;
+    top: 507px;
+    width: 506px;
+}
+
+.admin-login .login-wrapper {
+    background-color: #e80029;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px #0000004c;
+    height: 45px;
+    position: relative;
+    width: 504px;
+    cursor: pointer;
+}
+
+.admin-login .login-admin {
+    color: #ffffff;
+    font-family: "Lexend Deca-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 194px;
+    letter-spacing: 0;
+    line-height: 20px;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    width: 115px;
+}
+
+.admin-login .check-btn {
+    all: unset;
+    box-sizing: border-box;
+    height: 45px;
+    left: 1126px;
+    position: absolute;
+    top: 570px;
+    width: 506px;
+    cursor: pointer;
+}
+
+.admin-login .check-wrapper {
+    background-color: #4CAF50;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px #0000004c;
+    height: 45px;
+    position: relative;
+    width: 504px;
+}
+
+.admin-login .check {
+    color: #ffffff;
+    font-family: "Lexend Deca-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 194px;
+    letter-spacing: 0;
+    line-height: 20px;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    width: 115px;
+}
+
+.admin-login .overlap-2 {
+    height: 860px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+}
+
+.admin-login .vector {
+    height: 111px;
+    left: 0;
+    position: absolute;
+    top: 749px;
+    width: 1920px;
+}
+
+.admin-login .wog {
+    height: 816px;
+    left: 29px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 993px;
+}

@@ -1,0 +1,145 @@
+.admin-registration {
+    background-color: #e80029;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.admin-registration .overlap-wrapper {
+    background-color: #e80029;
+    height: 939px;
+    width: 1920px;
+}
+
+.admin-registration .overlap {
+    height: 860px;
+    position: relative;
+    top: 79px;
+}
+
+.admin-registration .password {
+    height: 45px;
+    left: 1127px;
+    position: absolute;
+    top: 314px;
+    width: 506px;
+}
+
+.admin-registration .overlap-group {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    color: #1e1e1e;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    height: 45px;
+    letter-spacing: 0;
+    line-height: 20px;
+    padding: 0;
+    padding-left: 33px;
+    position: relative;
+    width: 504px;
+}
+
+.admin-registration .text-wrapper {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 64px;
+    font-weight: 700;
+    left: 1071px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 183px;
+    width: 614px;
+}
+
+.admin-registration .overlap-group-wrapper {
+    height: 45px;
+    left: 1127px;
+    position: absolute;
+    top: 384px;
+    width: 506px;
+}
+
+.admin-registration .div-wrapper {
+    background-color: #ffffff;
+    border-radius: 10px;
+    height: 45px;
+    position: relative;
+    width: 504px;
+}
+
+.admin-registration .div {
+    color: #1e1e1e;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 14px;
+    font-weight: 400;
+    left: 35px;
+    letter-spacing: 0;
+    line-height: 20px;
+    position: absolute;
+    top: 13px;
+    width: 109px;
+}
+
+.admin-registration .password-2 {
+    height: 45px;
+    left: 1127px;
+    position: absolute;
+    top: 454px;
+    width: 506px;
+}
+
+.admin-registration .register-btn {
+    all: unset;
+    box-sizing: border-box;
+    height: 45px;
+    left: 1127px;
+    position: absolute;
+    top: 552px;
+    width: 507px;
+}
+
+.admin-registration .overlap-2 {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px #0000004c;
+    height: 45px;
+    position: relative;
+    width: 537px;
+}
+
+.admin-registration .text-wrapper-2 {
+    color: #ffffff;
+    font-family: "Lexend Deca-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 210px;
+    letter-spacing: 0;
+    line-height: 20px;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    width: 115px;
+}
+
+.admin-registration .vector {
+    height: 111px;
+    left: 0;
+    position: absolute;
+    top: 749px;
+    width: 1920px;
+}
+
+.admin-registration .wogo {
+    height: 816px;
+    left: 29px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 1100px;
+}

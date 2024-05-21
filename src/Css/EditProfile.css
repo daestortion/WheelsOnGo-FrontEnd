@@ -1,0 +1,289 @@
+.edit-profile {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Disable vertical scrolling */
+    height: 100vh; /* Limit the height to the viewport height */
+  }
+  
+  .edit-profile .overlap-wrapper {
+    background-color: #ffffff;
+    height: 939px;
+    width: 1920px;
+    height: 100%; /* Adjust to 100% of parent's height */
+  }
+  
+  .edit-profile .overlap {
+    background-image: url(../Images/homebackground.png);
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 939px;
+    position: relative;
+  }
+  
+  .edit-profile .overlap-group {
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px #00000040;
+    height: 112px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+  }
+  
+  .edit-profile .text-wrapper {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 1327px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  
+  .edit-profile .div {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 1465px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  
+  .edit-profile .text-wrapper-2 {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 1589px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  
+  .edit-profile .sideview {
+    height: 75px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 19px;
+    width: 291px;
+  }
+  
+  .edit-profile .group {
+    left: 1760px;
+    position: absolute;
+    height: 50px;
+    top: 15px;
+    width: 50px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .edit-profile .overlap-2 {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 706px;
+    left: 917px;
+    position: absolute;
+    top: 179px;
+    width: 907px;
+  }
+  
+  .edit-profile .div-wrapper {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 99px;
+    position: absolute;
+    top: 323px;
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 675px;
+    border: none;
+  }
+  
+  .edit-profile .text-wrapper-3 {
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    left: 36px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 15px;
+    white-space: nowrap;
+    width: 641px;
+  }
+  
+  .edit-profile .overlap-3 {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 98px;
+    position: absolute;
+    top: 406px; 
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 675px;
+    border: none;
+  }
+  
+  .edit-profile .text-wrapper-4 {
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    left: 37px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 18px;
+    white-space: nowrap;
+    width: 641px;
+  }
+  
+  .edit-profile .overlap-group-wrapper {
+    height: 71px;
+    left: 99px;
+    position: absolute;
+    top: 534px;
+    width: 714px;
+  }
+  
+  .edit-profile .overlap-4 {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 712px;
+    border: none;
+  }
+  
+  .edit-profile .text-wrapper-5 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 258px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 200px;
+  }
+  
+  .edit-profile .new-profile-details {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 40px;
+    font-weight: 700;
+    left: 265px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 86px;
+    white-space: nowrap;
+  }
+  
+  .edit-profile .p {
+    color: #000000;
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    height: 70px;
+    left: 78px;
+    letter-spacing: 0;
+    line-height: 35px;
+    position: absolute;
+    text-align: center;
+    top: 185px;
+    width: 751px;
+  }
+  
+  .edit-profile .text-wrapper-6 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 250px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    top: 162px;
+    width: 575px;
+  }
+  
+  .edit-profile .rectangle {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 450px;
+    left: 196px;
+    position: absolute;
+    top: 274px;
+    width: 450px;
+  }
+  
+  .edit-profile .group-2 {
+    height: 71px;
+    left: 196px;
+    position: absolute;
+    top: 750px;
+    width: 450px;
+  }
+  
+  .edit-profile .overlap-group-2 {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 448px;
+    border: none;
+  }
+  
+  .edit-profile .text-wrapper-7 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 162px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 126px;
+  }
+  

@@ -1,0 +1,315 @@
+.landing-page {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Disable vertical scrolling */
+    height: 100vh; /* Limit the height to the viewport height */
+}
+
+.landing-page .div {
+    background-color: #ffffff;
+    height: 100%; /* Adjust to 100% of parent's height */
+    position: relative;
+    width: 1920px;
+}
+  
+  .landing-page .overlap {
+    height: 231px;
+    left: 217px;
+    position: absolute;
+    top: 253px;
+    width: 575px;
+  }
+  
+  .landing-page .find-book-and-rent-a {
+    color: transparent;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 64px;
+    font-weight: 600;
+    left: 0;
+    letter-spacing: 0.8px;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    width: 575px;
+  }
+  
+  .landing-page .text-wrapper {
+    color: #000000;
+    letter-spacing: 0.51px;
+  }
+  
+  .landing-page .span {
+    color: #ff0009;
+    letter-spacing: 0.51px;
+  }
+  
+  .landing-page .vector {
+    height: 45px;
+    left: 418px;
+    position: absolute;
+    top: 142px;
+    width: 157px;
+    top: 200px;
+  }
+  
+  .landing-page .p {
+    color: #ff0009;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    height: 34px;
+    left: 217px;
+    letter-spacing: 0.25px;
+    line-height: 140px;
+    position: absolute;
+    top: 505px;
+    white-space: nowrap;
+    width: 418px;
+  }
+  
+  .landing-page .overlap-group {
+    height: 595px;
+    left: 990px;
+    position: absolute;
+    top: 225px;
+    width: 930px;
+  }
+  
+  .landing-page .rectangle {
+    height: 594px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 1px;
+    width: 560px;
+  }
+  
+  .landing-page .img {
+    height: 594px;
+    left: 775px;
+    object-fit: cover;
+    position: absolute;
+    top: 1px;
+    width: 155px;
+  }
+  
+  .landing-page .rectangle-2 {
+    height: 594px;
+    left: 592px;
+    object-fit: cover;
+    position: absolute;
+    top: 1px;
+    width: 155px;
+  }
+  
+  .landing-page .text-wrapper-2 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 530px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 78px;
+    transform: rotate(-89.62deg);
+    width: 186px;
+  }
+  
+  .landing-page .text-wrapper-3 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 23px;
+    font-weight: 700;
+    left: 722px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 452px;
+    transform: rotate(-90.33deg);
+    width: 179px;
+  }
+  
+  .landing-page .overlap-2 {
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px #00000040;
+    height: 112px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+  }
+  
+  .landing-page .group {
+    height: 50px;
+    left: 1541px;
+    position: absolute;
+    top: 31px;
+    width: 126px;
+    border: none;
+    background: none;
+  }
+  
+  .landing-page .overlap-group-2 {
+    border-radius: 9px;
+    height: 50px;
+    position: relative;
+    width: 124px;
+    cursor: pointer;
+  }
+  
+  .landing-page .text-wrapper-4 {
+    color: #ff0000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 16px;
+    font-weight: 700;
+    left: 37px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 16px;
+    white-space: nowrap;
+  }
+  
+  .landing-page .rectangle-3 {
+    border: 3px solid;
+    border-color: #e32128;
+    border-radius: 9px;
+    height: 50px;
+    width: 124px;
+    left: 0;
+    position: absolute;
+    top: -4px;
+  }
+  
+  .landing-page .text-wrapper-5 {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 1076px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+  }
+  
+  .landing-page .text-wrapper-6 {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 1214px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+  }
+  
+  .landing-page .text-wrapper-7 {
+    color: #000000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    left: 1338px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+  }
+  
+  .landing-page .sideview {
+    height: 75px;
+    left: 71px;
+    object-fit: cover;
+    position: absolute;
+    top: 19px;
+    width: 291px;
+  }
+  
+  .landing-page .line {
+    height: 50px;
+    left: 1482px;
+    position: absolute;
+    top: 31px;
+    width: 3px;
+  }
+  
+  .landing-page .overlap-wrapper {
+    height: 50px;
+    left: 1693px;
+    position: absolute;
+    top: 31px;
+    width: 126px;
+  }
+  
+  .landing-page .div-wrapper {
+    background-color: #e32128;
+    border-radius: 9px;
+    position: relative;
+    height: 55px;
+    width: 124px;
+    border: none;
+    top: -3px;
+    cursor: pointer;
+  }
+
+  .landing-page .text-wrapper-8 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 16px;
+    font-weight: 700;
+    left: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 17px;
+    white-space: nowrap;
+  }
+  
+  .landing-page .vector-2 {
+    height: 5px;
+    left: 218px;
+    position: absolute;
+    top: 226px;
+    width: 80px;
+  }
+  
+  .landing-page .overlap-group-wrapper {
+    height: 92px;
+    left: 384px;
+    position: absolute;
+    top: 593px;
+    width: 243px;
+  }
+  
+  .landing-page .overlap-3 {
+    background-color: #e32128;
+    border-radius: 30px;
+    height: 92px;
+    position: relative;
+    width: 241px;
+    top: 60px;
+    border: none;
+  }
+  
+  .landing-page .text-wrapper-9 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    left: 35px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 28px;
+    white-space: nowrap;
+  }
+  

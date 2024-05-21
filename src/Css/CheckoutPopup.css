@@ -1,0 +1,383 @@
+.checkout-popup { 
+  position: fixed;  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;  
+  justify-content: center;  
+  background-color: rgba(0, 0, 0, 0.5);  
+  z-index: 1050;  
+}
+
+.checkout-popup .overlap-wrapper { 
+  height: 724px; 
+  width: 1698px; 
+  top: 10px;
+}
+
+.checkout-popup .cp-overlap { 
+  background-color: #d7d1d1; 
+  border-radius: 40px; 
+  height: 724px; 
+  position: relative; 
+}
+
+.checkout-popup .text-wrapper { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 50px; 
+  font-weight: 600; 
+  left: 265px; 
+  letter-spacing: 0.62px; 
+  line-height: normal; 
+  position: absolute; 
+  text-align: center; 
+  top: 67px; 
+  width: 393px; 
+}
+
+.checkout-popup .rectangle { 
+  background-color: #ffffff; 
+  border-radius: 40px; 
+  height: 200px;  /* Adjusted height to fit the image */
+  width: 200px;   /* Adjusted width to fit the image */
+  left: 95px; 
+  position: absolute; 
+  top: 148px; 
+  display: flex;          /* Use flexbox to center the image */
+  align-items: center;    /* Vertically center the image */
+  justify-content: center; /* Horizontally center the image */
+  overflow: hidden;       /* Hide overflow to maintain border radius */
+}
+
+.car-image {
+  max-width: 100%;   /* Ensure the image does not exceed the container width */
+  max-height: 100%;  /* Ensure the image does not exceed the container height */
+  border-radius: 40px; /* Maintain the border radius */
+}
+
+.checkout-popup .div-checkbox {
+  background-color: #ffffff;
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  left: 177px;
+  top: 574px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid #000;
+}
+
+.checkout-popup .div-checkbox.checked {
+  background-color: #000;
+}
+
+.checkout-popup .text-wrapper-2 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 40px; 
+  font-weight: 600; 
+  left: 309px; 
+  letter-spacing: 0.5px; 
+  line-height: normal; 
+  position: absolute; 
+  top: 190px; 
+  width: 575px; 
+}
+
+.checkout-popup .cp-overlap-group { 
+  height: 43px; 
+  left: 309px; 
+  position: absolute; 
+  top: 248px; 
+  width: 590px; 
+}
+
+.checkout-popup .text-wrapper-3 { 
+  color: #e32128; 
+  font-family: "Inter-Medium", Helvetica; 
+  font-size: 30px; 
+  font-weight: 500; 
+  height: 34px; 
+  left: 40px; 
+  letter-spacing: 0.38px; 
+  line-height: 140px; 
+  position: absolute; 
+  top: -47px; 
+  white-space: nowrap; 
+  width: 418px; 
+}
+
+.checkout-popup .text-wrapper-4 { 
+  color: #e32128; 
+  font-family: "Inter-Medium", Helvetica; 
+  font-size: 30px; 
+  font-weight: 500; 
+  height: 34px; 
+  left: 172px; 
+  letter-spacing: 0.38px; 
+  line-height: 140px; 
+  position: absolute; 
+  top: -48px; 
+  white-space: nowrap; 
+  width: 418px; 
+}
+
+.checkout-popup .vector { 
+  height: 43px; 
+  left: 152px; 
+  position: absolute; 
+  top: 0; 
+  width: 2px; 
+}
+
+.checkout-popup .text-wrapper-5 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 1337px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  text-align: center; 
+  top: 187px; 
+  white-space: nowrap; 
+  width: 237px; 
+}
+
+.checkout-popup .text-wrapper-6 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 980px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  text-align: center; 
+  top: 187px; 
+  white-space: nowrap; 
+  width: 237px; 
+}
+
+.checkout-popup .div-wrapper { 
+  background-color: #ffffff; 
+  border-radius: 35px; 
+  height: 71px; 
+  left: 960px; 
+  position: absolute; 
+  top: 237px; 
+  width: 284px; 
+}
+
+.checkout-popup .text-wrapper-7 { 
+  color: #7c7c7c; 
+  font-family: "Inter-Regular", Helvetica; 
+  font-size: 25px; 
+  font-weight: 400; 
+  left: 78px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 19px; 
+  width: 223px; 
+}
+
+.checkout-popup .text-wrapper-8 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 1238px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 494px; 
+  white-space: nowrap; 
+  width: 87px; 
+}
+
+.checkout-popup .text-wrapper-9 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 1335px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 494px; 
+  white-space: nowrap; 
+  width: 150px; 
+}
+
+.checkout-popup .text-wrapper-10 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 309px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 384px; 
+  white-space: nowrap; 
+  width: 257px; 
+}
+
+.checkout-popup .text-wrapper-11 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 355px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 445px; 
+  white-space: nowrap; 
+  width: 712px; 
+}
+
+.checkout-popup .overlap-2 { 
+  background-color: #ffffff; 
+  border-radius: 35px; 
+  height: 71px; 
+  left: 1319px; 
+  position: absolute; 
+  top: 237px; 
+  width: 284px; 
+  border: none;
+  box-shadow: none;
+}
+
+.checkout-popup .text-wrapper-12 { 
+  color: #7c7c7c; 
+  font-family: "Inter-Regular", Helvetica; 
+  font-size: 25px; 
+  font-weight: 400; 
+  left: 83px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 19px; 
+  width: 223px; 
+}
+
+.checkout-popup .group { 
+  height: 71px; 
+  left: 960px; 
+  position: absolute; 
+  top: 551px; 
+  width: 645px; 
+}
+
+.checkout-popup .overlap-group-2 { 
+  background-color: #e80029; 
+  border-radius: 35px; 
+  height: 71px; 
+  position: relative; 
+  width: 643px; 
+}
+
+.checkout-popup .text-wrapper-13 { 
+  color: #ffffff; 
+  font-family: "Inter-Bold", Helvetica; 
+  font-size: 20px; 
+  font-weight: 700; 
+  left: 233px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  text-align: center; 
+  top: 22px; 
+  width: 181px; 
+}
+
+.checkout-popup .p { 
+  color: #e32128; 
+  font-family: "Inter-Medium", Helvetica; 
+  font-size: 20px; 
+  font-weight: 500; 
+  height: 34px; 
+  left: 239px; 
+  letter-spacing: 0.25px; 
+  line-height: 140px; 
+  position: absolute; 
+  top: 490px; 
+  white-space: nowrap; 
+  width: 608px; 
+}
+
+.checkout-popup .understood-and-agree { 
+  color: #e32128; 
+  font-family: "Inter-Medium", Helvetica; 
+  font-size: 20px; 
+  font-weight: 500; 
+  height: 34px; 
+  left: 239px; 
+  letter-spacing: 0.25px; 
+  line-height: 140px; 
+  position: absolute; 
+  top: 520px; 
+  white-space: nowrap; 
+  width: 608px; 
+}
+
+.checkout-popup .span { 
+  letter-spacing: 0.05px; 
+}
+
+.checkout-popup .text-wrapper-14 { 
+  letter-spacing: 0.05px; 
+  text-decoration: underline; 
+}
+
+.checkout-popup .close { 
+  background-color: #e32128; 
+  border-radius: 9px; 
+  height: 50px; 
+  left: 1608px; 
+  position: absolute; 
+  top: 35px; 
+  width: 50px; 
+}
+
+.checkout-popup .img { 
+  height: 30px; 
+  left: 10px; 
+  position: absolute; 
+  top: 10px; 
+  width: 30px; 
+}
+
+.react-datepicker {
+  font-family: inherit;
+}
+
+.react-datepicker__navigation {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.react-datepicker__navigation-icon::before {
+  border-color: #000;
+}
+
+.react-datepicker__header {
+  background-color: #fff;
+}
+
+.react-datepicker__navigation--previous {
+  left: 10px;
+}
+
+.react-datepicker__navigation--next {
+  right: 10px;
+}

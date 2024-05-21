@@ -1,0 +1,90 @@
+.apply-as-owner-popup {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.apply-as-owner-popup .overlap-wrapper {
+  background-color: #ffffff;
+  height: 410px;
+  width: 907px;
+}
+
+.apply-as-owner-popup .overlap {
+  background-color: #d7d1d1;
+  border-radius: 40px;
+  height: 410px;
+  position: relative;
+}
+
+.apply-as-owner-popup .do-you-want-to-apply {
+  color: #000000;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 50px;
+  font-weight: 600;
+  left: 142px;
+  letter-spacing: 0.62px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 69px;
+  width: 623px;
+}
+
+.apply-as-owner-popup .group {
+  height: 71px;
+  left: 226px;
+  position: absolute;
+  top: 269px;
+  width: 157px;
+}
+
+.apply-as-owner-popup .overlap-group {
+  background-color: #e80029;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 155px;
+}
+
+.apply-as-owner-popup .text-wrapper {
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 35px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 22px;
+  width: 85px;
+}
+
+.apply-as-owner-popup .overlap-group-wrapper {
+  height: 71px;
+  left: 527px;
+  position: absolute;
+  top: 269px;
+  width: 157px;
+}
+
+.apply-as-owner-popup .close {
+  background-color: #e32128;
+  border-radius: 9px;
+  height: 50px;
+  left: 818px;
+  position: absolute;
+  top: 29px;
+  width: 50px;
+}
+
+.apply-as-owner-popup .vector {
+  height: 30px;
+  left: 10px;
+  position: absolute;
+  top: 10px;
+  width: 30px;
+}
