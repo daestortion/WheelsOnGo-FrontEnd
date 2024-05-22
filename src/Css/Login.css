@@ -189,13 +189,13 @@
   color: #721c24; /* Dark red text color */
   position: fixed; /* Fixed position */
   bottom: 0; /* Align to the bottom */
-  left: 1380px; /* Center horizontally */
+  left: 1435px; /* Center horizontally */
   transform: translateX(-50%); /* Adjust for exact centering */
   text-align: center;
   width: 100%; /* Full width */
   box-sizing: border-box; /* Include padding and border in element's total width */
   border: none;
-  top: 480px;
+  top: 120px;
 }
 
 .error-message {
