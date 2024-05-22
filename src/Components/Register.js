@@ -1,9 +1,11 @@
+// src/components/Registration.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Css/Register.css";
 import logo from "../Images/wheelsongo.png";
 import axios from "axios";
 import RegisteredPopup from './RegisteredPopup';
+import Loading from './Loading';
 
 export const Registration = () => {
   const [userName, setUserName] = useState("");
@@ -13,6 +15,7 @@ export const Registration = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -32,6 +35,8 @@ export const Registration = () => {
       setError("Password must be 8 characters long with at least 1 capital letter, 1 small letter, 1 number, and 1 symbol.");
       return;
     }
+
+    setIsLoading(true);
 
     try {
       const response = await axios.post("https://extraordinary-abundance-production.up.railway.app/user/insertUser", {
@@ -60,11 +65,14 @@ export const Registration = () => {
         console.error("Registration Error:", error);
         setError("Failed to register. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="registration">
+      {isLoading && <Loading />}
       <div className="div">
         <div className="overlap">
           <form onSubmit={handleSubmit}>
@@ -127,4 +135,5 @@ export const Registration = () => {
     </div>
   );
 };
+
 export default Registration;

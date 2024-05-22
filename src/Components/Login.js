@@ -1,14 +1,17 @@
+// src/components/Login.js
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../AuthContext';
 import "../Css/Login.css";
 import logo from "../Images/wheelsongo.png";
 import axios from "axios";
+import Loading from './Loading';
 
 export const Login = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
 
@@ -22,6 +25,7 @@ export const Login = () => {
     event.preventDefault();
     console.log("Attempting login with identifier:", identifier, "and password:", password);
     setErrorMessage("");
+    setIsLoading(true);
 
     try {
       const response = await axios.post("https://extraordinary-abundance-production.up.railway.app/user/login", {
@@ -70,11 +74,14 @@ export const Login = () => {
     } catch (error) {
       console.error("Error logging in:", error);
       setErrorMessage("An error occurred while logging in.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="login">
+      {isLoading && <Loading />}
       <div className="div">
         <div className="overlap">
           <div className="text-wrapper">LOGIN</div>
