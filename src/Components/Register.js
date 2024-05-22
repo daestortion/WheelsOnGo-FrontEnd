@@ -34,7 +34,7 @@ export const Registration = () => {
     }
 
     try {
-      const response = await axios.post("https://pretty-trust-production.up.railway.app/user/insertUser", {
+      const response = await axios.post("https://extraordinary-abundance-production.up.railway.app/user/insertUser", {
         username: userName,
         fName: firstName,
         lName: lastName,
