@@ -14,7 +14,7 @@ export const AdminPageUsers = () => {
   const [filter, setFilter] = useState('all'); // 'all', 'regular', 'owner'
 
   useEffect(() => {
-    axios.get('http://localhost:8080/user/getAllUsers')
+    axios.get('https://extraordinary-abundance-production.up.railway.app/user/getAllUsers')
       .then(response => {
         setUsers(response.data);
       })

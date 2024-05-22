@@ -12,7 +12,7 @@ export const AdminVerify = () => {
   const [users, setUsers] = useState({});
 
   useEffect(() => {
-    axios.get('http://localhost:8080/verification/getAllVerification')
+    axios.get('https://extraordinary-abundance-production.up.railway.app/verification/getAllVerification')
       .then(response => {
         const verificationsData = response.data;
         setVerifications(verificationsData);
@@ -22,7 +22,7 @@ export const AdminVerify = () => {
           .map(verification => verification.user.userId);
         const uniqueUserIds = [...new Set(userIds)];
         uniqueUserIds.forEach(userId => {
-          axios.get(`http://localhost:8080/user/getUserById/${userId}`)
+          axios.get(`https://extraordinary-abundance-production.up.railway.app/user/getUserById/${userId}`)
             .then(userResponse => {
               setUsers(prevUsers => ({ ...prevUsers, [userId]: userResponse.data }));
             })
@@ -41,7 +41,7 @@ export const AdminVerify = () => {
   };
 
   const handleApprove = (vId) => {
-    axios.put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=1`)
+    axios.put(`https://extraordinary-abundance-production.up.railway.app/verification/changeStatus/${vId}?newStatus=1`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
           verification.vId === vId ? { ...verification, status: 1 } : verification
@@ -54,7 +54,7 @@ export const AdminVerify = () => {
   };
 
   const handleDeny = (vId) => {
-    axios.delete(`http://localhost:8080/verification/deleteVerix  fication/${vId}`)
+    axios.delete(`https://extraordinary-abundance-production.up.railway.app/verification/deleteVerix  fication/${vId}`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.filter(verification => verification.vId !== vId));
       })

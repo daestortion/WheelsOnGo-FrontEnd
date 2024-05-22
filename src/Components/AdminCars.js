@@ -17,7 +17,7 @@ export const AdminPageCars = () => {
 
   const fetchCars = async () => {
     try {
-      const response = await fetch('http://localhost:8080/car/getAllCars');
+      const response = await fetch('https://extraordinary-abundance-production.up.railway.app/car/getAllCars');
       const data = await response.json();
       setCars(data);
     } catch (error) {

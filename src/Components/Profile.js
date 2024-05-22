@@ -48,7 +48,7 @@ const UserProfile = () => {
             const userId = JSON.parse(storedUser).userId;
             const fetchUserData = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
+                    const response = await axios.get(`https://extraordinary-abundance-production.up.railway.app/user/getUserById/${userId}`);
                     if (response.status === 200) {
                         const userData = response.data;
                         setCurrentUser({
@@ -96,7 +96,7 @@ const UserProfile = () => {
         const confirmProceed = window.confirm('Do you want to proceed to register as an owner?');
         if (confirmProceed) {
             try {
-                const response = await axios.put(`http://localhost:8080/user/updateIsOwner/${currentUser.userId}`, {
+                const response = await axios.put(`https://extraordinary-abundance-production.up.railway.app/user/updateIsOwner/${currentUser.userId}`, {
                     isOwner: true
                 });
                 if (response.status === 200) {

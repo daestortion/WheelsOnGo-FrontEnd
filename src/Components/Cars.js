@@ -16,7 +16,7 @@ export const Cars = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/car/getAllCars');
+        const response = await axios.get('https://extraordinary-abundance-production.up.railway.app/car/getAllCars');
         setCars(response.data.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null

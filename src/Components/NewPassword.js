@@ -50,7 +50,7 @@ const NewPassword = () => {
 
     // API call to reset the password
     try {
-      const response = await fetch('http://localhost:8080/user/reset-password', {
+      const response = await fetch('https://extraordinary-abundance-production.up.railway.app/user/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

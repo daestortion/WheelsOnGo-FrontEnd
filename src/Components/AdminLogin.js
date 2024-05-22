@@ -31,7 +31,7 @@ export const AdminLogin = () => {
     console.log("Sending login request with data:", loginData);
 
     try {
-      const response = await fetch("http://localhost:8080/admin/login", {
+      const response = await fetch("https://extraordinary-abundance-production.up.railway.app/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -11,7 +11,7 @@ export const ForgotPassword = () => {
 
     const handleResetPassword = async () => {
         try {
-            await axios.get(`http://localhost:8080/user/forgot-password`, {
+            await axios.get(`https://extraordinary-abundance-production.up.railway.app/user/forgot-password`, {
                 params: { identifier: email }
             });
             setMessage('If the email is associated with an account, a reset link has been sent.');
