@@ -324,3 +324,18 @@
 
 
 
+.admin-page .logout-button {
+  position: absolute;
+  top: 128px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #ff4b4b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin-page .logout-button:hover {
+  background-color: #ff0000;
+}
