@@ -63,7 +63,7 @@ const UserProfile = () => {
                             isRenting: userData.renting,
                             cars: userData.cars,
                             orders: userData.orders,
-                            isOwner : userData.owner
+                            isOwner: userData.owner
                         });
                     } else {
                         navigate('/login');
@@ -153,22 +153,25 @@ const UserProfile = () => {
                     {currentUser.verificationStatus === 1 && currentUser.isOwner ? (
                         <div className="owner-section">
                             <div className="overlap-group-wrapper6">
-                                <button className="div-wrappercar">
-                                    <div className="text-wrapper-44" onClick={handleAddCar}>Register a Car</div>
+                                <button className="div-wrappercar" onClick={handleAddCar}>
+                                    <div className="text-wrapper-44">Register a Car</div>
                                 </button>
                             </div>
                             <div className="text-wrapper-55">Order History</div>
-
                             <div className="overlap-33">
+                                {currentUser.cars.length > 0 ? (
+                                    currentUser.cars.map(car => (
+                                        <img
+                                            key={car.carId}
+                                            className="car-image"
+                                            alt="Car"
+                                            src={`data:image/jpeg;base64,${car.carImage}`}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>No cars registered</p>
+                                )}
                                 <img className="icon-trashhh" alt="Icon trash" src={trash} />
-                            </div>
-                            
-                            <div className="overlap-44">
-                                <img className="imggg" alt="Icon trash" src={trash} />
-                            </div>
-
-                            <div className="icon-trash-wrapper">
-                                <img className="icon-trash-22" alt="Icon trash" src={trash} />
                             </div>
                         </div>
                     ) : (
