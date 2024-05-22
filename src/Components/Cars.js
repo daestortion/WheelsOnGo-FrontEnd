@@ -1,3 +1,4 @@
+// src/components/Cars.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,15 +7,18 @@ import sidelogo from "../Images/sidelogo.png";
 import profile from "../Images/profile.png";
 import design from "../Images/design.png";
 import Dropdown from "../Components/Dropdown.js";
-import CheckoutPopup from "../Components/CheckoutPopup.js"; // Import the CheckoutPopup component
+import CheckoutPopup from "../Components/CheckoutPopup.js";
+import Loading from "../Components/Loading.js"; // Import the Loading component
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
-  const [selectedCar, setSelectedCar] = useState(null); // State to manage selected car for checkout
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // State to manage loading spinner
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCars = async () => {
+      setIsLoading(true); // Start loading
       try {
         const response = await axios.get('https://extraordinary-abundance-production.up.railway.app/car/getAllCars');
         setCars(response.data.map(car => ({
@@ -24,6 +28,8 @@ export const Cars = () => {
       } catch (error) {
         console.error('Error fetching cars:', error);
         setCars([]);
+      } finally {
+        setIsLoading(false); // Stop loading
       }
     };
 
@@ -44,8 +50,6 @@ export const Cars = () => {
 
   const handleRentClick = (car) => {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log('User:', user); // Debugging line
-    console.log('Verification Status:', user?.verificationStatus); // Debugging line
     if (user && user.verificationStatus === 1) {
       setSelectedCar(car);
     } else {
@@ -55,6 +59,7 @@ export const Cars = () => {
 
   return (
     <div className="cars">
+      {isLoading && <Loading />} {/* Display loading spinner when loading */}
       <div className="div">
         <div className="overlap">
           <img className="vector" alt="Vector" src={design} />

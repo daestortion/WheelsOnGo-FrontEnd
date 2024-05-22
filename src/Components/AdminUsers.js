@@ -25,14 +25,6 @@ export const AdminPageUsers = () => {
     navigate('/home');
   };
 
-  const handleCarsClick = () => {
-    navigate('/cars');
-  };
-
-  const handleAboutClick = () => {
-    navigate('/about-us');
-  };
-
   const handleAdminCars = () => {
     navigate('/admincars');
   };

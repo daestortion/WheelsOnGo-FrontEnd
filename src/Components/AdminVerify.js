@@ -45,8 +45,8 @@ export const AdminVerify = () => {
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
           verification.vId === vId ? { ...verification, status: 1 } : verification
-        ))
-        console.log(vId);
+        ));
+        window.location.reload(); // Refresh the page
       })
       .catch(error => {
         console.error(`Error approving verification ${vId}:`, error);
@@ -54,9 +54,10 @@ export const AdminVerify = () => {
   };
 
   const handleDeny = (vId) => {
-    axios.delete(`https://extraordinary-abundance-production.up.railway.app/verification/deleteVerix  fication/${vId}`)
+    axios.delete(`https://extraordinary-abundance-production.up.railway.app/verification/deleteVerification/${vId}`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.filter(verification => verification.vId !== vId));
+        window.location.reload(); // Refresh the page
       })
       .catch(error => {
         console.error(`Error denying verification ${vId}:`, error);

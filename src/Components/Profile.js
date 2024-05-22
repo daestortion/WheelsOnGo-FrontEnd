@@ -1,3 +1,4 @@
+// src/components/UserProfile.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,6 +11,7 @@ import profileIcon from "../Images/profile.png";
 import check from "../Images/verified.png";
 import trash from "../Images/trash.png";
 import VerifyPopup from './VerifyPopup';
+import Loading from './Loading';
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -28,6 +30,7 @@ const UserProfile = () => {
     });
 
     const [showVerifyPopup, setShowVerifyPopup] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleEditProfile = () => {
@@ -47,6 +50,7 @@ const UserProfile = () => {
         if (storedUser) {
             const userId = JSON.parse(storedUser).userId;
             const fetchUserData = async () => {
+                setIsLoading(true);
                 try {
                     const response = await axios.get(`https://extraordinary-abundance-production.up.railway.app/user/getUserById/${userId}`);
                     if (response.status === 200) {
@@ -63,7 +67,7 @@ const UserProfile = () => {
                             isRenting: userData.renting,
                             cars: userData.cars,
                             orders: userData.orders,
-                            isOwner : userData.owner
+                            isOwner: userData.owner
                         });
                     } else {
                         navigate('/login');
@@ -71,6 +75,8 @@ const UserProfile = () => {
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                     navigate('/login');
+                } finally {
+                    setIsLoading(false);
                 }
             };
 
@@ -119,6 +125,7 @@ const UserProfile = () => {
     console.log(currentUser);
     return (
         <div className="profile-not-verified">
+            {isLoading && <Loading />}
             <div className="overlap-wrapper">
                 <div className="overlap">
                     <div className="overlap-group">
