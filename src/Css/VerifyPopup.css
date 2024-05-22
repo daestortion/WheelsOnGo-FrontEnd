@@ -12,8 +12,8 @@
 }
 
 .vap-popup .vap-wrapper {
-    background-color: #ffffff;
-    border-radius: 10px;  /* Optional: adds rounded corners */
+    background-color: #d7d1d1;
+    border-radius: 50px;  /* Optional: adds rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: drop shadow for better focus */
     width: 90%;  /* Responsive width up to a max */
     max-width: 907px;  /* Max width as before */
@@ -94,7 +94,7 @@
     position: absolute;
     top: 16px;
     white-space: nowrap;
-    width: 641px;
+    width: 400px;
 }
 
 .vap-popup .vap-overlap-2 {
@@ -123,7 +123,7 @@
     position: absolute;
     top: 17px;
     white-space: nowrap;
-    width: 641px;
+    width: 400px;
 }
 
 .vap-popup .vap-group-2 {
@@ -158,10 +158,9 @@
 }
 
 .vap-popup .close{
-    background-color: #e32128;
     border-radius: 9px;
     height: 50px;
-    left: 818px;
+    left: 790px;
     position: absolute;
     top: 29px;
     width: 50px;
