@@ -180,9 +180,35 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+
+.error {
+  padding: 10px;
+  border: 1px solid #f5c6cb; /* Border matching the background */
+  border-radius: 5px; /* Rounded corners */
+  margin: 10px 0; /* Space above and below the error container */
+  color: #721c24; /* Dark red text color */
+  position: fixed; /* Fixed position */
+  bottom: 0; /* Align to the bottom */
+  left: 1380px; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for exact centering */
+  text-align: center;
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Include padding and border in element's total width */
+  border: none;
+  top: 480px;
+}
+
+.error-message {
+  margin: 0; /* Remove default margin */
+  font-size: 20px; /* Set font size */
+  line-height: 1.5; /* Line height for readability */
+}
+
+
+
 @media (max-width: 768px) {
     .auth-form {
         width: 90%;
     }
 }
-  
+
