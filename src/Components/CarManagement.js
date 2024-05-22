@@ -55,6 +55,13 @@ export const CarManagementOwner = () => {
 
   const handleSubmit = async () => {
     if (isSubmitting) return;  // Prevent multiple submissions
+
+    // Validation check
+    if (!carBrand || !carModel || !carYear || !address || !carOR || !carCR || !rentPrice || !carImage) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData();
@@ -98,7 +105,7 @@ export const CarManagementOwner = () => {
             <div className="text-wrapper-2" onClick={handleAboutClick}>About</div>
             <img className="sideview" alt="Sideview" src={sidelogo} />
             <Dropdown>
-              <img className="group" alt="Group" onClick={handleHomeClick} src={profile} />
+              <img className="group" alt="Group" src={profile} />
             </Dropdown>
           </div>
           <div className="overlap-2">
@@ -111,7 +118,7 @@ export const CarManagementOwner = () => {
                 onChange={(e) => setCarBrand(e.target.value)}
               />
             </div>
-            <div className="group-2">
+            <div className="group-22">
               <input
                 className="div-wrapper1"
                 type="text"
@@ -141,7 +148,7 @@ export const CarManagementOwner = () => {
             <div className="overlap-3">
               <div className="group-5">
                 <div className="overlap-4">
-                  <div className="text-wrapper-4">{carORFileName || 'Car OR'}</div>
+                  <div className="text-wrapper-44">{carORFileName || 'Car OR'}</div>
                 </div>
               </div>
               <div className="group-6">
@@ -159,7 +166,7 @@ export const CarManagementOwner = () => {
             <div className="overlap-6">
               <div className="group-5">
                 <div className="overlap-4">
-                  <div className="text-wrapper-6">{carCRFileName || 'Car CR'}</div>
+                  <div className="text-wrapper-66">{carCRFileName || 'Car CR'}</div>
                 </div>
               </div>
               <div className="group-6">
