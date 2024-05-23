@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Css/CheckoutPopup.css";
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
@@ -10,6 +10,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [endDate, setEndDate] = useState(null);
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -32,6 +33,19 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const toggleEndDatePicker = () => {
     setEndDateOpen(!endDateOpen);
   };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      const timeDifference = endDate.getTime() - startDate.getTime();
+      const days = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      const rentTotal = car.rentPrice * days;
+      const systemFee = rentTotal * 0.15;
+      const total = rentTotal + systemFee;
+      setTotalPrice(total);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [startDate, endDate, car.rentPrice]);
 
   return (
     <div className="checkout-popup">
@@ -78,7 +92,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               />
             )}
           </div>
-          <div className="text-wrapper-8">Total: ₱</div>
+          <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-9"></div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
