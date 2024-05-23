@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Css/CheckoutPopup.css";
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PaymentPopup from "./PaymentPopup"; // Import PaymentPopup component
 
 export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to manage PaymentPopup visibility
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -31,6 +34,23 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
   const toggleEndDatePicker = () => {
     setEndDateOpen(!endDateOpen);
+  };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      const timeDifference = endDate.getTime() - startDate.getTime();
+      const days = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      const rentTotal = car.rentPrice * days;
+      const systemFee = rentTotal * 0.15;
+      const total = rentTotal + systemFee;
+      setTotalPrice(total);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [startDate, endDate, car.rentPrice]);
+
+  const handleBook = () => {
+    setShowPaymentPopup(true); // Show PaymentPopup when Book button is pressed
   };
 
   return (
@@ -78,13 +98,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               />
             )}
           </div>
-          <div className="text-wrapper-8">Total: ₱</div>
+          <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-9"></div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
           <div className="group">
             <div className="overlap-group-2">
-              <div className="text-wrapper-13">Book</div>
+              <div className="text-wrapper-13" onClick={handleBook}>
+                Book
+              </div>
             </div>
           </div>
           <div className="close" onClick={closePopup}>
@@ -92,6 +114,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           </div>
         </div>
       </div>
+      {showPaymentPopup && (
+        <PaymentPopup car={car} closePopup={() => setShowPaymentPopup(false)} />
+      )}
     </div>
   );
 };

@@ -1,0 +1,355 @@
+.payment-popup {
+    position: fixed;  
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;  
+    justify-content: center;  
+    background-color: rgba(0, 0, 0, 0.5);  
+    z-index: 1050; 
+  }
+  
+  .payment-popup .overlap-wrapper {
+    height: 724px;
+    overflow-x: hidden;
+    width: 1502px;
+  }
+  
+  .payment-popup .pp-overlap {
+    background-color: #d7d1d1; 
+    border-radius: 40px; 
+    height: 724px; 
+    position: relative; 
+  }
+  
+  .payment-popup .text-wrapper {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 207px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 67px;
+    width: 393px;
+  }
+  
+  .payment-popup .back {
+    background-color: #e32128;
+    border-radius: 9px;
+    height: 50px;
+    left: 37px;
+    position: absolute;
+    top: 33px;
+    width: 50px;
+  }
+  
+  .payment-popup .vector {
+    height: 30px;
+    left: 12px;
+    position: absolute;
+    top: 10px;
+    width: 25px;
+  }
+  
+  .payment-popup .div {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    height: 34px;
+    left: 239px;
+    letter-spacing: 0.25px;
+    line-height: 140px;
+    position: absolute;
+    top: 574px;
+    white-space: nowrap;
+    width: 608px;
+  }
+  
+  .payment-popup .pp {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    height: 34px;
+    left: 890px;
+    letter-spacing: 0.23px;
+    line-height: 140px;
+    position: absolute;
+    text-align: center;
+    top: 406px;
+    white-space: nowrap;
+    width: 592px;
+  }
+  
+  .payment-popup .understood-and-agree {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    height: 34px;
+    left: 239px;
+    letter-spacing: 0.25px;
+    line-height: 140px;
+    position: absolute;
+    top: 608px;
+    white-space: nowrap;
+    width: 608px;
+  }
+  
+  .payment-popup .span {
+    letter-spacing: 0.05px;
+  }
+  
+  .payment-popup .text-wrapper-2 {
+    letter-spacing: 0.05px;
+    text-decoration: underline;
+  }
+  
+  .payment-popup .pp-rectangle {
+    background-color: #ffffff;
+    height: 35px;
+    left: 181px;
+    position: absolute;
+    top: 591px;
+    width: 35px;
+  }
+  
+  .payment-popup .rectangle-2 {
+    background-color: #ffffff;
+    border-radius: 40px;
+    height: 200px;
+    left: 37px;
+    position: absolute;
+    top: 147px;
+    width: 200px;
+  }
+  
+  .payment-popup .text-wrapper-3 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 40px;
+    font-weight: 600;
+    left: 251px;
+    letter-spacing: 0.5px;
+    line-height: normal;
+    position: absolute;
+    top: 189px;
+    width: 575px;
+  }
+  
+  .payment-popup .pp-overlap-group {
+    height: 43px;
+    left: 251px;
+    position: absolute;
+    top: 248px;
+    width: 590px;
+  }
+  
+  .payment-popup .text-wrapper-4 {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 30px;
+    font-weight: 500;
+    height: 34px;
+    left: 0;
+    letter-spacing: 0.38px;
+    line-height: 140px;
+    position: absolute;
+    top: 2px;
+    white-space: nowrap;
+    width: 418px;
+  }
+  
+  .payment-popup .text-wrapper-5 {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 30px;
+    font-weight: 500;
+    height: 34px;
+    left: 172px;
+    letter-spacing: 0.38px;
+    line-height: 140px;
+    position: absolute;
+    top: 2px;
+    white-space: nowrap;
+    width: 418px;
+  }
+  
+  .payment-popup .img {
+    height: 43px;
+    left: 152px;
+    position: absolute;
+    top: 0;
+    width: 2px;
+  }
+  
+  .payment-popup .text-wrapper-6 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 25px;
+    font-weight: 600;
+    left: 111px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 459px;
+    width: 186px;
+  }
+  
+  .payment-popup .text-wrapper-7 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 25px;
+    font-weight: 600;
+    left: 111px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 499px;
+    width: 186px;
+  }
+  
+  .payment-popup .text-wrapper-8 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 25px;
+    font-weight: 600;
+    left: 111px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 419px;
+    width: 224px;
+  }
+  
+  .payment-popup .text-wrapper-9 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 25px;
+    font-weight: 600;
+    left: 111px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 379px;
+    width: 260px;
+  }
+  
+  .payment-popup .overlap-2 {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 902px;
+    position: absolute;
+    top: 464px;
+    width: 569px;
+  }
+  
+  .payment-popup .group {
+    height: 50px;
+    left: 388px;
+    position: absolute;
+    top: 11px;
+    width: 165px;
+  }
+  
+  .payment-popup .pp-div-wrapper {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 50px;
+    position: relative;
+    width: 163px;
+  }
+  
+  .payment-popup .text-wrapper-10 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 45px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    white-space: nowrap;
+    width: 72px;
+  }
+  
+  .payment-popup .payment-screenshot {
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    left: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 15px;
+    white-space: nowrap;
+    width: 434px;
+  }
+  
+  .payment-popup .overlap-group-wrapper {
+    height: 71px;
+    left: 900px;
+    position: absolute;
+    top: 563px;
+    width: 573px;
+  }
+  
+  .payment-popup .overlap-3 {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 571px;
+  }
+  
+  .payment-popup .text-wrapper-11 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 207px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 160px;
+  }
+  
+  .payment-popup .close {
+    background-color: #e32128;
+    border-radius: 9px;
+    height: 50px;
+    left: 1421px;
+    position: absolute;
+    top: 33px;
+    width: 50px;
+  }
+  
+  .payment-popup .vector-2 {
+    height: 30px;
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: 30px;
+  }
+  
+  .payment-popup .image {
+    height: 300px;
+    left: 1037px;
+    object-fit: cover;
+    position: absolute;
+    top: 88px;
+    width: 300px;
+  }
+  
