@@ -37,9 +37,9 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
             <div className="group11">
-              <div className="div-wrapper">
-                <div className="text-wrapper-10">Upload</div>
-              </div>
+              <button className="div-wrapper111">
+                <div className="text-wrapper-101">Upload</div>
+              </button>
             </div>
             <div className="payment-screenshot">Payment&nbsp;&nbsp;Screenshot</div>
           </div>
