@@ -103,9 +103,11 @@ export const Login = () => {
             name="password"
             autoComplete="current-password"
           />
-          <div className="error">
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
-          </div>
+          {errorMessage && (
+            <div className="error">
+              <p className="error-message">{errorMessage}</p>
+            </div>
+          )}
           <p className="not-registered">
             <span className="span">Not Registered? </span>
             <Link to="/register" className="text-wrapper-3">
