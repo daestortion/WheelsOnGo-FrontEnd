@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "../Css/OwnerProfile.css";
-import Dropdown from "../Components/Dropdown.js";
-import sidelogo from "../Images/sidelogo.png";
-import profileIcon from "../Images/profile.png";
-import check from "../Images/verified.png";
-import trash from "../Images/trash.png";
+// ProfileOwner.jsx
+
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import Dropdown from "../Components/Dropdown.js";
+import "../Css/OwnerProfile.css";
+import profileIcon from "../Images/profile.png";
+import sidelogo from "../Images/sidelogo.png";
+import trash from "../Images/trash.png";
+import check from "../Images/verified.png";
 
 export const ProfileOwner = () => {
   const navigate = useNavigate();
@@ -37,10 +39,14 @@ export const ProfileOwner = () => {
     email: '',
     profilePic: ''
   });
-  console.log(user);
+
+  const [cars, setCars] = useState([
+    { id: 1, name: "Car 1", model: "Model 1" },
+    { id: 2, name: "Car 2", model: "Model 2" }
+  ]);
+
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('user'));
-    console.log('Saved user:', savedUser); // Add this line
     if (savedUser) {
       setUser({
         firstName: savedUser.firstName || '',
@@ -53,7 +59,13 @@ export const ProfileOwner = () => {
       navigate('/login');
     }
   }, [navigate]);
-  console.log(user);
+
+  const handleDeleteCar = (id) => {
+    const updatedCars = cars.filter(car => car.id !== id);
+    setCars(updatedCars);
+    localStorage.setItem('cars', JSON.stringify(updatedCars));
+  };
+
   return (
     <div className="profile-owner">
       <div className="overlap-wrapper">
@@ -75,29 +87,27 @@ export const ProfileOwner = () => {
             <img className="vector" alt="Vector" src={check} />
           </div>
           <div className="overlap-group-wrapper">
-            <button className="div-wrapper">
-              <div className="text-wrapper-4" onClick={handleAddCar}>Register a Car</div>
+            <button className="div-wrapper" onClick={handleAddCar}>
+              <div className="text-wrapper-4">Register a Car</div>
             </button>
           </div>
           <p className="p">{`${user.phone} | ${user.email}`}</p>
-          <div className="text-wrapper-5">order history</div>
-          <div className="overlap-3">
-            <div className="fgh" />
-            <div className="rectangle-2" />
-            <img className="icon-trash" alt="Icon trash" src={trash} />
-          </div>
-          <div className="overlap-4">
-            <div className="jkl" />
-            <div className="rectangle-2" />
-            <img className="img" alt="Icon trash" src={trash} />
+          <div className="text-wrapper-5">Order History</div>
+          <div className="car-frames">
+            {cars.map(car => (
+              <div key={car.id} className="car-frame">
+                <div className="car-details">
+                  <p>{car.name}</p>
+                  <p>{car.model}</p>
+                </div>
+                <img className="icon-trash" alt="Icon trash" src={trash} onClick={() => handleDeleteCar(car.id)} />
+              </div>
+            ))}
           </div>
           <div className="group-2">
-            <button className="overlap-5">
-              <div className="text-wrapper-6" onClick={handleEditProfile}>Edit Profile</div>
+            <button className="overlap-5" onClick={handleEditProfile}>
+              <div className="text-wrapper-6">Edit Profile</div>
             </button>
-          </div>
-          <div className="icon-trash-wrapper">
-            <img className="icon-trash-2" alt="Icon trash" src={trash} />
           </div>
         </div>
       </div>
