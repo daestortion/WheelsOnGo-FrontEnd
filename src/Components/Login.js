@@ -75,11 +75,15 @@ export const Login = () => {
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      setErrorMessage("An error occurred while logging in.");
+      if (error.response && error.response.status === 403) {
+        setErrorMessage("Your account has been deactivated.");
+      } else {
+        setErrorMessage("An error occurred while logging in.");
+      }
     } finally {
       setIsLoading(false);
     }
-  };
+  };  
 
   return (
     <div className="login">
