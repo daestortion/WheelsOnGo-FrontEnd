@@ -6,6 +6,7 @@ import sidelogo from "../Images/sidelogo.png";
 import axios from "axios";
 import { debounce } from 'lodash';
 import Dropdown from "./Dropdown";
+import AddCarPopup from './AddCarPopup'; // Import AddCarPopup
 
 
 export const CarManagementOwner = () => {
@@ -21,6 +22,7 @@ export const CarManagementOwner = () => {
   const [carORFileName, setCarORFileName] = useState('');  // New state variable for OR file name
   const [carCRFileName, setCarCRFileName] = useState('');  // New state variable for CR file name
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showAddCarPopup, setShowAddCarPopup] = useState(false); // State for showing AddCarPopup
   const carImageInputRef = useRef(null);
   const carORInputRef = useRef(null);
   const carCRInputRef = useRef(null);
@@ -81,6 +83,7 @@ export const CarManagementOwner = () => {
         },
       });
       console.log(response.data);
+      setShowAddCarPopup(true); // Show AddCarPopup on successful registration
     } catch (error) {
       console.error('Error submitting form', error);
     } finally {
@@ -197,13 +200,13 @@ export const CarManagementOwner = () => {
                 type="button"
                 disabled={isSubmitting}
               >
-            <div className="text-wrapper-8">Register Car</div>
-          </button>
+                <div className="text-wrapper-8">Register Car</div>
+              </button>
             </div>
           </div>
           <div className="text-wrapper-9">Car Registration</div>
           {carImage && (
-            <div className="rectangle" style={{ backgroundImage: `url(${URL.createObjectURL(carImage)})`,backgroundSize: 'cover', position: 'relative'}} />
+            <div className="rectangle" style={{ backgroundImage: `url(${URL.createObjectURL(carImage)})`, backgroundSize: 'cover', position: 'relative'}} />
           )}
           <div className="group-9">
               <input
@@ -218,6 +221,7 @@ export const CarManagementOwner = () => {
           </div>
         </div>
       </div>
+      {showAddCarPopup && <AddCarPopup />} {/* Conditionally render AddCarPopup */}
     </div>
   );
 };

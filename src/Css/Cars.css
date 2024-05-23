@@ -318,3 +318,16 @@
   top: 19px;
   width: 291px;
 }
+
+.cars .unavailable {
+color: red;
+font-family: "Inter-Bold", Helvetica;
+font-size: 80px;
+font-weight: 700;
+position: absolute;
+top: 150px; /* Adjust top value to position it correctly */
+left: 50%;
+transform: translateX(-50%);
+text-align: center;
+width: 100%;
+}

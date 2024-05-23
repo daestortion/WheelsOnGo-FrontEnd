@@ -75,7 +75,11 @@ export const Cars = () => {
                   </div>
                 </div>
               </div>
-            )) : <p>No cars available for rent.</p>}
+            )) : 
+            
+            <p className="unavailable">No cars available for rent.</p>
+            
+            }
           </div>
         </div>
         <Dropdown>

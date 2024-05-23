@@ -6,50 +6,31 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export const CheckoutPopup = ({ car, closePopup }) => {
-  const [isChecked, setIsChecked] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [isCalendarEndOpen, setIsCalendarEndOpen] = useState(false);
-  const [isDivCalendarOpen, setIsDivCalendarOpen] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
-
-  console.log(car);
-
-  const handleStartDateClick = () => {
-    setIsCalendarOpen(!isCalendarOpen);
-    setIsCalendarEndOpen(false);
-    setIsDivCalendarOpen(false);
-  };
-
-  const handleEndDateClick = () => {
-    setIsCalendarEndOpen(!isCalendarEndOpen);
-    setIsCalendarOpen(false);
-    setIsDivCalendarOpen(false);
-  };
-
-  const handleDivDateClick = () => {
-    setIsDivCalendarOpen(!isDivCalendarOpen);
-    setIsCalendarOpen(false);
-    setIsCalendarEndOpen(false);
-  };
+  const [startDateOpen, setStartDateOpen] = useState(false);
+  const [endDateOpen, setEndDateOpen] = useState(false);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    setIsCalendarOpen(false);
+    setStartDateOpen(false);  // Close the date picker
+    // Reset endDate if it is before the new startDate
+    if (endDate && date && endDate < date) {
+      setEndDate(null);
+    }
   };
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
-    setIsCalendarEndOpen(false);
+    setEndDateOpen(false);  // Close the date picker
   };
 
-  const handleDivDateChange = (date) => {
-    setStartDate(date);
-    setIsDivCalendarOpen(false);
+  const toggleStartDatePicker = () => {
+    setStartDateOpen(!startDateOpen);
+  };
+
+  const toggleEndDatePicker = () => {
+    setEndDateOpen(!endDateOpen);
   };
 
   return (
@@ -60,8 +41,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="rectangle">
             <img src={car.carImage} alt="Car" className="car-image" />
           </div>
-          <div className={`div-checkbox ${isChecked ? 'checked' : ''}`} onClick={handleCheckboxChange}></div>
-          <div className="text-wrapper-2">{car.carBrand} {car.carModel} {car.carYear}</div>
+          <div className="text-wrapper-2">
+            {car.carBrand} {car.carModel} {car.carYear}
+          </div>
           <div className="cp-overlap-group">
             <div className="text-wrapper-3">₱{car.rentPrice}</div>
             <div className="text-wrapper-4">{car.owner.pNum}</div>
@@ -69,15 +51,30 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           </div>
           <div className="text-wrapper-5">Return Date</div>
           <div className="text-wrapper-6">Pick-up Date</div>
-          <div className="div-wrapper" onClick={handleDivDateClick}>
-            <div className="text-wrapper-7">
+          <div className="div-wrapper">
+            <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
               {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
             </div>
-            {isDivCalendarOpen && (
+            {startDateOpen && (
               <DatePicker
                 selected={startDate}
-                onChange={handleDivDateChange}
+                onChange={handleStartDateChange}
                 inline
+                shouldCloseOnSelect
+              />
+            )}
+          </div>
+          <div className="overlap-2">
+            <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
+              {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
+            </div>
+            {endDateOpen && (
+              <DatePicker
+                selected={endDate}
+                onChange={handleEndDateChange}
+                inline
+                shouldCloseOnSelect
+                minDate={startDate}  // Disable dates before the start date
               />
             )}
           </div>
@@ -85,41 +82,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="text-wrapper-9"></div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
-          <div className="overlap-2" onClick={handleStartDateClick}>
-            <div className="text-wrapper-12">
-              {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
-            </div>
-            {isCalendarOpen && (
-              <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                inline
-              />
-            )}
-          </div>
-          <div className="overlap-2" onClick={handleEndDateClick}>
-            <div className="text-wrapper-12">
-              {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
-            </div>
-            {isCalendarEndOpen && (
-              <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                inline
-              />
-            )}
-          </div>
           <div className="group">
             <div className="overlap-group-2">
               <div className="text-wrapper-13">Book</div>
             </div>
           </div>
-          <p className="p">by clicking, you are confirming that you have read,</p>
-          <p className="understood-and-agree">
-            <span className="span">understood and agree to the </span>
-            <span className="text-wrapper-14">terms and conditions</span>
-            <span className="span">.</span>
-          </p>
           <div className="close" onClick={closePopup}>
             <img className="img" alt="Close" src={close} />
           </div>

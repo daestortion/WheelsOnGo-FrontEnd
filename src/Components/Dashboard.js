@@ -66,7 +66,7 @@ export const Dashboard = () => {
           </div>
           <img className="vector-2" alt="Vector" src={line1} />
           <div className="overlap-group-wrapper">
-            <button className="div-wrapper">
+            <button className="div-wrapper" onClick={handleCarsClick}>
               <div className="text-wrapper-7">BOOK NOW</div>
             </button>
           </div>

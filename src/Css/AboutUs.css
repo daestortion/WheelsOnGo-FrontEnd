@@ -4,9 +4,13 @@
     flex-direction: row;
     justify-content: center;
     width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Disable vertical scrolling */
+    height: 100vh; /* Limit the height to the viewport height */
   }
   
   .about-us-FINAL .overlap-wrapper {
+    height: 100%; /* Adjust to 100% of parent's height */
     background-color: #ffffff;
     height: 941px;
     overflow: hidden;

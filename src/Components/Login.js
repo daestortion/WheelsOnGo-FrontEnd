@@ -26,40 +26,42 @@ export const Login = () => {
     console.log("Attempting login with identifier:", identifier, "and password:", password);
     setErrorMessage("");
     setIsLoading(true);
-
+  
     try {
       const response = await axios.post("https://extraordinary-abundance-production.up.railway.app/user/login", {
         identifier,
         password,
       });
       console.log("Login response:", response.data);
-
+  
       if (response.data && response.data.userId) {
         const userId = response.data.userId;
-
+  
         // Fetch user profile including isRenting status
         try {
           const userProfileResponse = await axios.get(`https://extraordinary-abundance-production.up.railway.app/user/getUserById/${userId}`);
           const userProfile = userProfileResponse.data;
-
+  
           // Fetch verification status
           try {
             const verificationResponse = await axios.get(`https://extraordinary-abundance-production.up.railway.app/verification/getVerificationByUserId/${userId}`);
             const userWithVerification = {
-              ...userProfile,
+              userId: userProfile.userId,
+              userName: userProfile.userName,
               verificationStatus: verificationResponse.data.status
             };
-
+  
             localStorage.setItem('user', JSON.stringify(userWithVerification));
             login();
             navigate("/home");
           } catch (verificationError) {
             console.error("Error fetching verification status:", verificationError);
             const userWithVerification = {
-              ...userProfile,
+              userId: userProfile.userId,
+              userName: userProfile.userName,
               verificationStatus: null
             };
-
+  
             localStorage.setItem('user', JSON.stringify(userWithVerification));
             login();
             navigate("/home");
