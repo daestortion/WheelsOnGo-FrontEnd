@@ -255,13 +255,13 @@
 }
 
 /* Center the error message */
-.error-message {
+.registration .error-message {
   color: red;
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
   position: absolute;
-  top: 580px; /* Adjust top value to position it correctly */
+  top: 585px; /* Adjust top value to position it correctly */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;

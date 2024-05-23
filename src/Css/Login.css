@@ -181,7 +181,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.error {
+.login .error {
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -196,12 +196,17 @@
   transform: translateX(-50%);
 }
 
-.error-message {
-  margin: 0;
+.login .error-message {
+  color: red;
+  font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
-  line-height: 1.5;
-  display: inline-block;
-  vertical-align: middle; /* Ensures text stays vertically centered */
+  font-weight: 700;
+  position: absolute;
+  top: 95px; /* Adjust top value to position it correctly */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
 }
 
 
