@@ -90,7 +90,10 @@ export const Login = () => {
             type="text"
             placeholder="Username or Email"
             value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
+            onChange={(e) => {
+              setIdentifier(e.target.value);
+              setErrorMessage(""); // Clear error message on input change
+            }}
             name="identifier"
             autoComplete="username"
           />
@@ -99,15 +102,24 @@ export const Login = () => {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorMessage(""); // Clear error message on input change
+            }}
             name="password"
             autoComplete="current-password"
           />
-          {errorMessage && (
-            <div className="error">
-              <p className="error-message">{errorMessage}</p>
-            </div>
-          )}
+            {errorMessage && (
+              <div className="error">
+                <p className="error-message">{errorMessage}</p>
+              </div>
+            )}
+            {!errorMessage && (
+              <div className="error" style={{ visibility: 'hidden' }}>
+                <p className="error-message">Placeholder for error</p>
+              </div>
+            )}
+
           <p className="not-registered">
             <span className="span">Not Registered? </span>
             <Link to="/register" className="text-wrapper-3">

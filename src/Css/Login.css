@@ -1,214 +1,212 @@
+/* src/Css/Login.css */
 .login {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Disable vertical scrolling */
-    height: 100vh; /* Limit the height to the viewport height */
-  }
-  
-  .login .div {
-    background-color: #ffffff;
-    height: 939px;
-    position: relative;
-    height: 100%; /* Adjust to 100% of parent's height */
-    width: 1920px;
-  }
-  
-  .login .overlap {
-    background-color: #d7d1d1;
-    border-radius: 40px;
-    height: 736px;
-    left: 916px;
-    position: absolute;
-    top: 102px;
-    width: 907px;
-  }
-  
-  .login .text-wrapper {
-    color: #3e3a3a;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 40px;
-    font-weight: 700;
-    left: 382px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 73px;
-    white-space: nowrap;
-  }
-  
-  .login .overlap-group {
-    background-color: #ffffff;
-    color: #848484;
-    border-radius: 35px;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 197px;
-    width: 647px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  .login .text-wrapper-email {
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    left: 36px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 17px;
-    white-space: nowrap;
-    width: 641px;
-    text-align: left;
-    border: none;
-  }
-
-  .login .text-wrapper-password {
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    left: 36px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 18px;
-    white-space: nowrap;
-    width: 641px;
-    text-align: left;
-    border: none;
-  }
-  
-  .login .div-wrapper {
-    background-color: #ffffff;
-    color: #848484;
-    border-radius: 35px;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 297px;
-    width: 647px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  .login .not-registered {
-    color: transparent;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    left: 452px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 575px;
-    width: 356px;
-    }
-
-  .login .forgot-password {
-    color: #e80029;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    left: 103px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 575px;
-    width: 190px;
-    outline: none;
-    background: none;
-  }
-  
-  .login .span {
-    color: #848484;
-  }
-  
-  .login .text-wrapper-3 {
-    color: #e80029;
-    text-decoration-line: none;
-  }
-  
-  .login .overlap-group-2 {
-    background-color: #e80029;
-    color: #ffffff;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    border-radius: 35px;
-    height: 71px;
-    position: relative;
-    width: 712px;
-    top: 459px;
-    left: 100px;
-    letter-spacing: 0;
-    line-height: normal;
-    border: none;
-  }
-  
-  .login .wheels-on-go {
-    height: 744px;
-    left: 96px;
-    object-fit: cover;
-    position: absolute;
-    top: 98px;
-    width: 744px;
-  }
-
-  .auth-form {
-    width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+  height: 100vh; /* Limit the height to the viewport height */
 }
 
+.login .div {
+  background-color: #ffffff;
+  height: 939px;
+  position: relative;
+  height: 100%; /* Adjust to 100% of parent's height */
+  width: 1920px;
+}
+
+.login .overlap {
+  background-color: #d7d1d1;
+  border-radius: 40px;
+  height: 736px;
+  left: 916px;
+  position: absolute;
+  top: 102px;
+  width: 907px;
+}
+
+.login .text-wrapper {
+  color: #3e3a3a;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 40px;
+  font-weight: 700;
+  left: 382px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 73px;
+  white-space: nowrap;
+}
+
+.login .overlap-group {
+  background-color: #ffffff;
+  color: #848484;
+  border-radius: 35px;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  height: 71px;
+  left: 98px;
+  position: absolute;
+  top: 197px;
+  width: 647px;
+  border: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.login .text-wrapper-email {
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  left: 36px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 17px;
+  white-space: nowrap;
+  width: 641px;
+  text-align: left;
+  border: none;
+}
+
+.login .text-wrapper-password {
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  left: 36px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  white-space: nowrap;
+  width: 641px;
+  text-align: left;
+  border: none;
+}
+
+.login .div-wrapper {
+  background-color: #ffffff;
+  color: #848484;
+  border-radius: 35px;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  height: 71px;
+  left: 98px;
+  position: absolute;
+  top: 297px;
+  width: 647px;
+  border: none;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.login .not-registered {
+  color: transparent;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 452px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 575px;
+  width: 356px;
+}
+
+.login .forgot-password {
+  color: #e80029;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 103px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 575px;
+  width: 190px;
+  outline: none;
+  background: none;
+}
+
+.login .span {
+  color: #848484;
+}
+
+.login .text-wrapper-3 {
+  color: #e80029;
+  text-decoration-line: none;
+}
+
+.login .overlap-group-2 {
+  background-color: #e80029;
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 712px;
+  top: 459px;
+  left: 100px;
+  letter-spacing: 0;
+  line-height: normal;
+  border: none;
+}
+
+.login .wheels-on-go {
+  height: 744px;
+  left: 96px;
+  object-fit: cover;
+  position: absolute;
+  top: 98px;
+  width: 744px;
+}
+
+.auth-form {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 .error {
   padding: 10px;
-  border: 1px solid #f5c6cb; /* Border matching the background */
-  border-radius: 5px; /* Rounded corners */
-  margin: 10px 0; /* Space above and below the error container */
-  color: #721c24; /* Dark red text color */
-  position: fixed; /* Fixed position */
-  bottom: 0; /* Align to the bottom */
-  left: 1380px; /* Center horizontally */
-  transform: translateX(-50%); /* Adjust for exact centering */
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin: 10px 0;
+  color: #721c24;
+  position: relative;
+  top: 20px;
   text-align: center;
-  width: 100%; /* Full width */
-  box-sizing: border-box; /* Include padding and border in element's total width */
-  border: none;
-  top: 120px;
+  width: 80%;
+  box-sizing: border-box;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .error-message {
-  margin: 0; /* Remove default margin */
-  font-size: 20px; /* Set font size */
-  line-height: 1.5; /* Line height for readability */
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.5;
+  display: inline-block;
+  vertical-align: middle; /* Ensures text stays vertically centered */
 }
-
 
 
 @media (max-width: 768px) {
-    .auth-form {
-        width: 90%;
-    }
+  .auth-form {
+    width: 90%;
+  }
 }
-
