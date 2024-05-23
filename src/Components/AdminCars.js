@@ -19,9 +19,15 @@ export const AdminPageCars = () => {
     try {
       const response = await fetch('https://extraordinary-abundance-production.up.railway.app/car/getAllCars');
       const data = await response.json();
-      setCars(data);
+      if (Array.isArray(data)) {
+        setCars(data);
+      } else {
+        console.error('API response is not an array:', data);
+        setCars([]); // Set to an empty array to avoid map errors
+      }
     } catch (error) {
       console.error('Error fetching cars:', error);
+      setCars([]); // Set to an empty array to avoid map errors
     }
   };
 
@@ -76,7 +82,7 @@ export const AdminPageCars = () => {
                 </tr>
               </thead>
               <tbody>
-                {cars.map(car => (
+                {Array.isArray(cars) && cars.map(car => (
                   <tr key={car.carId}>
                     <td>{car.carBrand}</td>
                     <td>{car.carModel}</td>

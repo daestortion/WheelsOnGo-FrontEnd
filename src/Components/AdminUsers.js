@@ -16,9 +16,18 @@ export const AdminPageUsers = () => {
   useEffect(() => {
     axios.get('https://extraordinary-abundance-production.up.railway.app/user/getAllUsers')
       .then(response => {
-        setUsers(response.data);
+        console.log('API response:', response.data); // Log the response to check its structure
+        if (Array.isArray(response.data)) {
+          setUsers(response.data);
+        } else {
+          console.error('API response is not an array:', response.data);
+          setUsers([]); // Set to an empty array to avoid filter errors
+        }
       })
-      .catch(error => console.error('Error fetching users:', error));
+      .catch(error => {
+        console.error('Error fetching users:', error);
+        setUsers([]); // Set to an empty array to avoid filter errors
+      });
   }, []);
 
   const handleHomeClick = () => {
