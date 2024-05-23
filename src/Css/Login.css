@@ -158,7 +158,7 @@
   height: 71px;
   position: relative;
   width: 712px;
-  top: 459px;
+  top: 420px;
   left: 100px;
   letter-spacing: 0;
   line-height: normal;
@@ -183,12 +183,12 @@
 
 .error {
   padding: 10px;
-  border: 1px solid #f5c6cb;
+  border: none;
   border-radius: 5px;
   margin: 10px 0;
   color: #721c24;
   position: relative;
-  top: 20px;
+  top: 280px;
   text-align: center;
   width: 80%;
   box-sizing: border-box;
