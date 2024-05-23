@@ -363,11 +363,11 @@
 }
 
 .verify-image-modal img {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  margin: 0 auto; /* Center the image horizontally */
+  width: 400px; /* Set desired width */
+  height: 400px; /* Set desired height */
+  object-fit: cover; /* Ensure images maintain aspect ratio */
 }
+
 
 .verify-image-modal button {
   background-color: #007BFF;
@@ -380,5 +380,5 @@
 }
 
 .verify-image-modal button:hover {
-  background-color: #0056b3;
+  background-color: #ff0000;
 }

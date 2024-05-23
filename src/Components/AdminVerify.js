@@ -157,11 +157,11 @@ export const AdminVerify = () => {
         <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
       </div>
 
-      {/* Verify Image Modal */}
-      {selectedImage && (
+     {/* Verify Image Modal */}
+     {selectedImage && (
         <div className="verify-image-modal">
           <div className="modal-content">
-            <img src={selectedImage} alt="Verification Image" />
+            <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Car Document" />
             <button onClick={handleCloseModal}>Close</button>
           </div>
         </div>
