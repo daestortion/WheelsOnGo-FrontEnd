@@ -1,11 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Dropdown from "../Components/Dropdown.js";
 import "../Css/AdminUsers.css";
 import adminbg from "../Images/adminbackground.png";
 import vector from "../Images/adminvector.png";
-import profileIcon from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 
 export const AdminPageUsers = () => {
@@ -54,6 +52,17 @@ export const AdminPageUsers = () => {
     navigate('/adminlogin');
   };
 
+  const handleDelete = (userId) => {
+    axios.delete(`https://extraordinary-abundance-production.up.railway.app/user/deleteUser/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        setUsers(users.map(user => user.userId === userId ? { ...user, isDeleted: true } : user));
+      })
+      .catch(error => {
+        console.error('Error deleting user:', error);
+      });
+  };
+
   const filteredUsers = users.filter(user => {
     switch (filter) {
       case 'all':
@@ -83,7 +92,7 @@ export const AdminPageUsers = () => {
             <div className="text-wrapper-2">Verifications</div>
           </button>
           <button className="group-2">
-              <div className="text-wrapper">Orders</div>
+            <div className="text-wrapper">Orders</div>
           </button>
           <div className="text-wrapper-3" onClick={handleAdminDashboard}>Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
@@ -91,43 +100,51 @@ export const AdminPageUsers = () => {
           <div className="rectangle-3">
             <div className="rectangle-5">
               <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
-                  <option value="all">All Users</option>
-                  <option value="regular">Regular Users</option>
-                  <option value="owner">Car Owners</option>
+                <option value="all">All Users</option>
+                <option value="regular">Regular Users</option>
+                <option value="owner">Car Owners</option>
               </select>
               <div className="table-wrapper">
                 <table className="users-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th>Profile Pic</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.map(user => (
-                            <tr key={user.userId}>
-                                <td>{user.userId}</td>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td>{user.fName}</td>
-                                <td>{user.lName}</td>
-                                <td>{user.pNum}</td>
-                                <td>{user.cars.length ? 'Car Owner' : 'Regular User'}</td>
-                                <td>
-                                  {user.profilePicBase64 ?
-                                    <img src={`data:image/jpeg;base64,${user.profilePicBase64}`} alt="Profile" className="profile-pic" />
-                                    : 'No image'
-                                  }
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Phone</th>
+                      <th>Role</th>
+                      <th>Profile Pic</th>
+                      <th>isDeleted</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredUsers.map(user => (
+                      <tr key={user.userId}>
+                        <td>{user.userId}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.fName}</td>
+                        <td>{user.lName}</td>
+                        <td>{user.pNum}</td>
+                        <td>{user.cars.length ? 'Car Owner' : 'Regular User'}</td>
+                        <td>
+                          {user.profilePicBase64 ?
+                            <img src={`data:image/jpeg;base64,${user.profilePicBase64}`} alt="Profile" className="profile-pic" />
+                            : 'No image'
+                          }
+                        </td>
+                        <td>{user.isDeleted ? 'True' : 'False'}</td>
+                        <td>
+                          {!user.isDeleted && (
+                            <button onClick={() => handleDelete(user.userId)}>Deactive</button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               </div>
             </div>
