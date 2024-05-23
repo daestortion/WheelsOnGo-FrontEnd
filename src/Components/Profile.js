@@ -188,11 +188,7 @@ const UserProfile = () => {
                                 Join our car rental community and start earning extra income <br /> by enlisting your vehicles for rent. Share the convenience and benefits of your car while making money effortlessly.
                             </p>
                             <div className="fgh" />
-                            {currentUser.verificationStatus !== 1 ? (
-                                <button className="overlap-6" onClick={handleRegisterAsOwner} disabled>
-                                    <div className="text-wrapper-6">Register as Owner</div>
-                                </button>
-                            ) : (
+                            {currentUser.verificationStatus === 1 && (
                                 <button className="overlap-6" onClick={handleRegisterAsOwner}>
                                     <div className="text-wrapper-6">Register as Owner</div>
                                 </button>
