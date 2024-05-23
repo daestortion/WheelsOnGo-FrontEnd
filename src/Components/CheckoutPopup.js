@@ -4,6 +4,7 @@ import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PaymentPopup from "./PaymentPopup"; // Import PaymentPopup component
 
 export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDate, setStartDate] = useState(null);
@@ -11,6 +12,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to manage PaymentPopup visibility
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -46,6 +48,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       setTotalPrice(0);
     }
   }, [startDate, endDate, car.rentPrice]);
+
+  const handleBook = () => {
+    setShowPaymentPopup(true); // Show PaymentPopup when Book button is pressed
+  };
 
   return (
     <div className="checkout-popup">
@@ -98,7 +104,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="text-wrapper-11">{car.address}</div>
           <div className="group">
             <div className="overlap-group-2">
-              <div className="text-wrapper-13">Book</div>
+              <div className="text-wrapper-13" onClick={handleBook}>
+                Book
+              </div>
             </div>
           </div>
           <div className="close" onClick={closePopup}>
@@ -106,6 +114,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           </div>
         </div>
       </div>
+      {showPaymentPopup && (
+        <PaymentPopup car={car} closePopup={() => setShowPaymentPopup(false)} />
+      )}
     </div>
   );
 };
