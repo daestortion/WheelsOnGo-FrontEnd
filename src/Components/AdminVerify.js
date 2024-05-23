@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "../Css/AdminVerify.css";
 import adminbg from "../Images/adminbackground.png";
 import vector from "../Images/adminvector.png";
@@ -10,6 +10,7 @@ export const AdminVerify = () => {
   const navigate = useNavigate();
   const [verifications, setVerifications] = useState([]);
   const [users, setUsers] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     axios.get('https://extraordinary-abundance-production.up.railway.app/verification/getAllVerification')
@@ -36,8 +37,12 @@ export const AdminVerify = () => {
       });
   }, []);
 
-  const handleShowImage = (id, type) => {
-    navigate(`/show-image/${id}/${type}`);
+  const handleShowImage = (image) => {
+    setSelectedImage(image);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
   };
 
   const handleApprove = (vId) => {
@@ -110,12 +115,12 @@ export const AdminVerify = () => {
                     <td>{verification.status === 1 ? 'Verified' : 'Pending'}</td>
                     <td>
                       {verification.govId ? (
-                        <button className="button-show-image" onClick={() => handleShowImage(verification.vid, 'govId')}>Show Image</button>
+                        <button className="button-show-image" onClick={() => handleShowImage(verification.govId)}>Show Image</button>
                       ) : 'Not Uploaded'}
                     </td>
                     <td>
                       {verification.driversLicense ? (
-                        <button className="button-show-image" onClick={() => handleShowImage(verification.vid, 'driversLicense')}>Show Image</button>
+                        <button className="button-show-image" onClick={() => handleShowImage(verification.driversLicense)}>Show Image</button>
                       ) : 'Not Uploaded'}
                     </td>
                     <td>
@@ -151,6 +156,18 @@ export const AdminVerify = () => {
           </button>
         <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
       </div>
+
+      {/* Verify Image Modal */}
+      {selectedImage && (
+        <div className="verify-image-modal">
+          <div className="modal-content">
+            <img src={selectedImage} alt="Verification Image" />
+            <button onClick={handleCloseModal}>Close</button>
+          </div>
+        </div>
+      )}
+
+      
     </div>
   );
 };

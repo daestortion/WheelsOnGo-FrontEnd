@@ -266,16 +266,16 @@
 }
 
 .verifications-table th {
-  background-color: #f2f2f2;
-  color: #333333;
+  background-color: #e32128;
+  color: #ffffff;
 }
 
 .verifications-table td {
-  background-color: #ffffff;
+  background-color:;
 }
 
 .button-show-image {
-  background-color: #007BFF;
+  background-color: #e32128;
   color: white;
   border: none;
   padding: 10px;
@@ -338,4 +338,47 @@
 
 .admin-page .logout-button:hover {
   background-color: #ff0000;
+}
+
+.verify-image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure the modal is above other content */
+}
+
+.verify-image-modal .modal-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 80%; /* Adjust the maximum width as needed */
+  max-height: 80%; /* Adjust the maximum height as needed */
+  overflow: auto; /* Enable scrolling for content exceeding the modal size */
+}
+
+.verify-image-modal img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0 auto; /* Center the image horizontally */
+}
+
+.verify-image-modal button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.verify-image-modal button:hover {
+  background-color: #0056b3;
 }
