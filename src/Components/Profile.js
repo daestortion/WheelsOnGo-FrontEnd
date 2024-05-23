@@ -196,7 +196,7 @@ const UserProfile = () => {
                         </div>
                     )}
                 </div>
-                <div className="group-2">
+                <div className="group-22">
                     <button className="overlap-5" onClick={handleEditProfile}>
                         <div className="text-wrapper-5">Edit Profile</div>
                     </button>

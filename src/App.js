@@ -61,7 +61,7 @@ function AuthRoutes() {
             <Route path="/AdminLogin" element={<AdminLogin />} />
             <Route path="/show-image/:id/:type" element={<ShowImage />} />
 
-            <Route path="/userprofile" element={<Profile />} />
+            <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             
             <Route path="/adminorder" element={<AdminOrder />} />
