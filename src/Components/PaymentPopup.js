@@ -24,7 +24,9 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           </p>
           <input type="checkbox" className="rectangle11" />
 
-          <div className="rectangle-2" />
+          <div className="rectangle-2">
+            <img src={car.carImage} alt="Car" className="car-image" />
+          </div>
           <div className="text-wrapper-3">{car.carBrand} {car.carModel} {car.carYear}</div>
           <div className="overlap-groupp">
             <div className="text-wrapper-444">₱{car.rentPrice}</div>
@@ -37,9 +39,9 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
             <div className="group11">
-              <div className="div-wrapper">
-                <div className="text-wrapper-10">Upload</div>
-              </div>
+              <button className="div-wrapper111">
+                <div className="text-wrapper-101">Upload</div>
+              </button>
             </div>
             <div className="payment-screenshot">Payment&nbsp;&nbsp;Screenshot</div>
           </div>

@@ -258,22 +258,26 @@
   }
   
   .payment-popup .group11 {
+
+    border-radius: 30px;
     height: 50px;
     left: 388px;
     position: absolute;
-    top: 11px;
+    top: 10px;
     width: 165px;
+    border: none;
   }
   
-  .payment-popup .div-wrapper {
+  .payment-popup .div-wrapper111 {
     background-color: #e80029;
     border-radius: 35px;
     height: 50px;
     position: relative;
     width: 163px;
+    border: none;
   }
   
-  .payment-popup .text-wrapper-10 {
+  .payment-popup .text-wrapper-101 {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 20px;
@@ -283,7 +287,7 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 13px;
+    top: 12px;
     white-space: nowrap;
     width: 72px;
   }
