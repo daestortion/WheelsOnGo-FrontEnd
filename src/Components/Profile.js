@@ -68,6 +68,8 @@ const UserProfile = () => {
                             orders: userData.orders,
                             isOwner: userData.owner
                         });
+                        // Update local storage with the latest verification status
+                        localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), verificationStatus: userData.verification ? userData.verification.status : null }));
                     } else {
                         navigate('/login');
                     }
