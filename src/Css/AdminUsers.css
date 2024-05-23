@@ -11,14 +11,13 @@
 
 .admin-page-users .div {
   background-color: #ffffff;
-  height: 939px;
   position: relative;
   width: 1920px;
   height: 100%; /* Adjust to 100% of parent's height */
 }
 
 .admin-page-users .overlap {
-  height: 831px;
+  height: 100%;
   left: 0;
   position: absolute;
   top: 108px;
@@ -26,7 +25,7 @@
 }
 
 .admin-page-users .rectangle {
-  height: 827px;
+  height: 100%;
   left: 0;
   object-fit: cover;
   position: absolute;
@@ -36,7 +35,7 @@
 
 .admin-page-users .rectangle-2 {
   background-color: #840000;
-  height: 831px;
+  height: 100%;
   left: 0;
   position: absolute;
   top: 0;
@@ -176,6 +175,7 @@
   position: absolute;
   top: 98px;
   width: 1408px;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .admin-page-users .text-wrapper-4 {
@@ -251,6 +251,11 @@
 }
 
 /* Additional styles for the table */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
 .users-table {
   width: 100%;
   border-collapse: collapse;
@@ -308,4 +313,3 @@
 .admin-page-users .logout-button:hover {
   background-color: #ff0000;
 }
-

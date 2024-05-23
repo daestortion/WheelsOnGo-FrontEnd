@@ -50,7 +50,7 @@ export const AdminPageUsers = () => {
       case 'all':
         return true; // Include all users
       case 'regular':
-        return true; // Include all users as regular users
+        return !user.cars.length; // Only include regular users
       case 'owner':
         return user.cars.length > 0; // Only include users with cars
       default:
@@ -86,39 +86,41 @@ export const AdminPageUsers = () => {
                   <option value="regular">Regular Users</option>
                   <option value="owner">Car Owners</option>
               </select>
-              <table className="users-table">
-                  <thead>
-                      <tr>
-                          <th>ID</th>
-                          <th>Username</th>
-                          <th>Email</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Phone</th>
-                          <th>Role</th>
-                          <th>Profile Pic</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {filteredUsers.map(user => (
-                          <tr key={user.userId}>
-                              <td>{user.userId}</td>
-                              <td>{user.username}</td>
-                              <td>{user.email}</td>
-                              <td>{user.fName}</td>
-                              <td>{user.lName}</td>
-                              <td>{user.pNum}</td>
-                              <td>{user.cars.length ? 'Car Owner' : 'Regular User'}</td>
-                              <td>
-                                {user.profilePicBase64 ?
-                                  <img src={`data:image/jpeg;base64,${user.profilePicBase64}`} alt="Profile" className="profile-pic" />
-                                  : 'No image'
-                                }
-                              </td>
-                          </tr>
-                      ))}
-                  </tbody>
-              </table>
+              <div className="table-wrapper">
+                <table className="users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Profile Pic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredUsers.map(user => (
+                            <tr key={user.userId}>
+                                <td>{user.userId}</td>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                                <td>{user.fName}</td>
+                                <td>{user.lName}</td>
+                                <td>{user.pNum}</td>
+                                <td>{user.cars.length ? 'Car Owner' : 'Regular User'}</td>
+                                <td>
+                                  {user.profilePicBase64 ?
+                                    <img src={`data:image/jpeg;base64,${user.profilePicBase64}`} alt="Profile" className="profile-pic" />
+                                    : 'No image'
+                                  }
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <button className="logout-button" onClick={handleLogout}>
