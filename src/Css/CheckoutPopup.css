@@ -381,3 +381,17 @@
 .react-datepicker__navigation--next {
   right: 10px;
 }
+
+.checkout-popup .error-message {
+  color: red;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  position: absolute;
+  top: 430px; /* Adjust top value to position it correctly */
+  left: 1285px;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+}
+

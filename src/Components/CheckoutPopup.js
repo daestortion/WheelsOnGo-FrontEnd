@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "../Css/CheckoutPopup.css";
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import PaymentPopup from "./PaymentPopup"; // Import PaymentPopup component
 
 export const CheckoutPopup = ({ car, closePopup }) => {
@@ -13,10 +13,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [endDateOpen, setEndDateOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to manage PaymentPopup visibility
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    setStartDateOpen(false);  // Close the date picker
+    setStartDateOpen(false); // Close the date picker
     // Reset endDate if it is before the new startDate
     if (endDate && date && endDate < date) {
       setEndDate(null);
@@ -25,7 +26,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
-    setEndDateOpen(false);  // Close the date picker
+    setEndDateOpen(false); // Close the date picker
   };
 
   const toggleStartDatePicker = () => {
@@ -50,7 +51,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   }, [startDate, endDate, car.rentPrice]);
 
   const handleBook = () => {
-    setShowPaymentPopup(true); // Show PaymentPopup when Book button is pressed
+    if (!startDate || !endDate) {
+      setErrorMessage("Please complete pick-up date and return date.");
+    } else {
+      setShowPaymentPopup(true); // Show PaymentPopup when Book button is pressed
+    }
   };
 
   return (
@@ -99,9 +104,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             )}
           </div>
           <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
-          <div className="text-wrapper-9"></div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="group">
             <div className="overlap-group-2">
               <div className="text-wrapper-13" onClick={handleBook}>
