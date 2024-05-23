@@ -5,13 +5,13 @@ import line1 from "../Images/line11.png";
 import close from "../Images/close.png";
 import back from "../Images/back.png";
 
-export const PaymentPopup = () => {
+export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack }) => {
   return (
     <div className="payment-popup">
       <div className="overlap-wrapper">
         <div className="overlap11">
           <div className="text-wrapper">Payment</div>
-          <button className="back">
+          <button className="back" onClick={onBack}>
             <img className="vector" alt="Vector" src={back} />
           </button>
           <p className="pp">Scan the QR code to pay, then upload a screenshot of the receipt.</p>
@@ -25,16 +25,16 @@ export const PaymentPopup = () => {
           <input type="checkbox" className="rectangle11" />
 
           <div className="rectangle-2" />
-          <div className="text-wrapper-3">carBrand carModel carYear</div>
+          <div className="text-wrapper-3">{car.carBrand} {car.carModel} {car.carYear}</div>
           <div className="overlap-groupp">
-            <div className="text-wrapper-444">rentPrice</div>
-            <div className="text-wrapper-55">contactNumber</div>
+            <div className="text-wrapper-444">₱{car.rentPrice}</div>
+            <div className="text-wrapper-55">{car.owner.pNum}</div>
             <img className="img" alt="Vector" src={line1} />
           </div>
-          <div className="text-wrapper-6">Return Date:</div>
-          <div className="text-wrapper-7">Total: Php</div>
-          <div className="text-wrapper-8">Pick-up Date:</div>
-          <div className="text-wrapper-9">Pick-up Location:</div>
+          <div className="text-wrapper-6">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
+          <div className="text-wrapper-7">Total: ₱{totalPrice.toFixed(2)}</div>
+          <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
+          <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
             <div className="group">
               <div className="div-wrapper">
@@ -48,7 +48,7 @@ export const PaymentPopup = () => {
               <div className="text-wrapper-11">Next</div>
             </button>
           </div>
-          <button className="close">
+          <button className="close" onClick={onClose}>
             <img className="vector-2" alt="Vector" src={close} />
           </button>
           <img className="image" alt="Image" src={qrcode} />
@@ -57,7 +57,5 @@ export const PaymentPopup = () => {
     </div>
   );
 };
-
-
 
 export default PaymentPopup;

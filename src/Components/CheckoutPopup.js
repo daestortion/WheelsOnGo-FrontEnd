@@ -115,7 +115,14 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         </div>
       </div>
       {showPaymentPopup && (
-        <PaymentPopup car={car} closePopup={() => setShowPaymentPopup(false)} />
+        <PaymentPopup
+          car={car}
+          startDate={startDate}
+          endDate={endDate}
+          totalPrice={totalPrice}
+          onClose={() => setShowPaymentPopup(false)}
+          onBack={() => setShowPaymentPopup(false)}
+        />
       )}
     </div>
   );
