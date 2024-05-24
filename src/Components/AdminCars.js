@@ -31,9 +31,6 @@ export const AdminPageCars = () => {
     }
   };
 
-  const handleHomeClick = () => {
-    navigate('/home');
-  };
 
   const handleAdminUsers = () => {
     navigate('/adminusers');
@@ -45,6 +42,10 @@ export const AdminPageCars = () => {
 
   const handleAdminVerify = () => {
     navigate('/adminverify');
+  };
+
+  const handleAdminOrder = () => {
+    navigate('/adminorder'); 
   };
 
   const handleAdminDashboard = () => {
@@ -103,8 +104,8 @@ export const AdminPageCars = () => {
           </div>
           <div className="rectangle-2" />
           <div className="rectangle-3" />
-          <div className="text-wrapper-4" onClick={handleAdminDashboard}>Dashboard</div>
-          <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
+          <div className="text-wrapper-4">Dashboard</div>
+          <img className="sideview" alt="Sideview" src={sidelogo} />
           <div className="overlap-group-wrapper" onClick={handleAdminCars}>
             <div className="overlap-group">
               <div className="text-wrapper-5">Cars</div>
@@ -117,7 +118,7 @@ export const AdminPageCars = () => {
           <button className="group-2" onClick={handleAdminVerify}>
             <div className="text-wrapper-6">Verifications</div>
           </button>
-          <button className="group-222">
+          <button className="group-222" onClick={handleAdminOrder}>
             <div className="text-wrapper-34">Orders</div>
           </button>
           <div className="table-container">

@@ -69,8 +69,8 @@ export const AdminVerify = () => {
       });
   };
 
-  const handleHomeClick = () => {
-    navigate('/home'); 
+  const handleAdminVerify = () => {
+    navigate('/adminverify'); 
   };
 
   const handleAdminUser = () => {
@@ -81,12 +81,12 @@ export const AdminVerify = () => {
     navigate('/admincars');
   };
 
-  const handleAdminDashboard = () => {
-    navigate('/admindashboard'); 
-  };
-
   const handleLogout = () => {
     navigate('/adminlogin');
+  };
+
+  const handleOrder = () => {
+    navigate('/adminorder'); 
   };
 
   return (
@@ -134,7 +134,7 @@ export const AdminVerify = () => {
           </div>
           <div className="rectangle-3" />
 
-          <button className="group-2">
+          <button className="group-2"onClick={handleOrder}>
             <div className="text-wrapper-34">Orders</div>
           </button>
           
@@ -144,17 +144,17 @@ export const AdminVerify = () => {
           <button className="overlap-wrapper" onClick={handleAdminUser}>
             <div className="text-wrapper-2">Users</div>
           </button>
-          <button className="overlap-group-wrapper" onClick={handleAdminDashboard}>
+          <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
             <div className="text-wrapper-3">Verifications</div>
           </button>
           <div className="rectangle-4" />
-          <div className="text-wrapper-4" onClick={handleAdminDashboard}>Dashboard</div>
+          <div className="text-wrapper-4">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
         </div>
         <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>
-        <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
+        <img className="sideview" alt="Sideview" src={sidelogo} />
       </div>
 
      {/* Verify Image Modal */}

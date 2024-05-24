@@ -28,20 +28,20 @@ export const AdminPageUsers = () => {
       });
   }, []);
 
-  const handleHomeClick = () => {
-    navigate('/home');
-  };
-
   const handleAdminCars = () => {
     navigate('/admincars');
+  };
+
+  const handleAdminUsers = () => {
+    navigate('/adminusers');
   };
 
   const handleAdminVerify = () => {
     navigate('/adminverify');
   };
 
-  const handleAdminDashboard = () => {
-    navigate('/admindashboard');
+  const handleOrder = () => {
+    navigate('/adminorder'); 
   };
 
   const handleFilterChange = (event) => {
@@ -85,16 +85,16 @@ export const AdminPageUsers = () => {
           <button className="group" onClick={handleAdminCars}>
             <div className="text-wrapper">Cars</div>
           </button>
-          <button className="overlap-wrapper" onClick={handleAdminDashboard}>
+          <button className="overlap-wrapper" onClick={handleAdminUsers}>
             <div className="text-wrapper">Users</div>
           </button>
           <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
             <div className="text-wrapper-2">Verifications</div>
           </button>
-          <button className="group-2">
+          <button className="group-2" onClick={handleOrder}>
             <div className="text-wrapper">Orders</div>
           </button>
-          <div className="text-wrapper-3" onClick={handleAdminDashboard}>Dashboard</div>
+          <div className="text-wrapper-3">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
           <div className="text-wrapper-4">Manage Users</div>
           <div className="rectangle-3">
@@ -153,7 +153,7 @@ export const AdminPageUsers = () => {
             Logout
           </button>
         </div>
-        <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
+        <img className="sideview" alt="Sideview" src={sidelogo} />
       </div>
     </div>
   );

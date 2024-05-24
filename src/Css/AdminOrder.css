@@ -1,256 +1,244 @@
 .admin-page-order {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Disable vertical scrolling */
-    height: 100vh; /* Limit the height to the viewport height */
-  }
-  
-  .admin-page-order .div {
-    background-color: #ffffff;
-    height: 939px;
-    position: relative;
-    width: 1920px;
-    height: 100%; /* Adjust to 100% of parent's height */
-  }
-  
-  .admin-page-order .overlap {
-    height: 831px;
-    left: 0;
-    position: absolute;
-    top: 108px;
-    width: 1920px;
-  }
-  
-  .admin-page-order .rectangle {
-    height: 827px;
-    left: 0;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    width: 1920px;
-  }
-  
-  .admin-page-order .rectangle-2 {
-    background-color: #840000;
-    height: 831px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 456px;
-  }
-  
-  .admin-page-order .group {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 234px;
-    width: 456px;
-    border: none;
-    background: none;
-    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  }
-  
-  .admin-page-order .group:hover {
-    background-color: #e32128; /* Change to desired hover background color */
-    border-radius: 40px;
-  }
-  
-  .admin-page-order .overlap-group {
-    background-color: #e32128;
-    border-radius: 40px;
-    height: 92px;
-    position: relative;
-    width: 456px;
-  }
-  
-  .admin-page-order .text-wrapper {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 139px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 25px;
-    width: 171px;
-  }
-  
-  .admin-page-order .overlap-wrapper {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 138px;
-    width: 456px;
-    border: none;
-    background: none;
-    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  }
-  
-  .admin-page-order .overlap-wrapper:hover {
-    background-color: #e32128; /* Change to desired hover background color */
-    border-radius: 40px;
-  }
-  
-  .admin-page-order .overlap-group-wrapper {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 330px;
-    width: 456px;
-    border: none;
-    background: none;
-    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  }
-  
-  .admin-page-order .overlap-group-wrapper:hover {
-    background-color: #e32128; /* Change to desired hover background color */
-    border-radius: 40px;
-  }
-  
-  .admin-page-order .div-wrapper {
-    background-size: 100% 100%;
-    height: 92px;
-    position: relative;
-    width: 456px;
-  }
-  
-  .admin-page-order .text-wrapper-2 {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 35px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 25px;
-    width: 385px;
-  }
-  
-  .admin-page-order .group-2 {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 426px;
-    width: 456px;
-    border: none;
-    background: none;
-    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-  }
-  
-  .admin-page-order .group-2:hover {
-    background-color: #e32128; /* Change to desired hover background color */
-    border-radius: 40px;
-  }
-  
-  .admin-page-order .text-wrapper-3 {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 109px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 46px;
-    width: 231px;
-  }
-  
-  .admin-page-order .vector {
-    height: 112px;
-    left: 0;
-    position: absolute;
-    top: 719px;
-    width: 1920px;
-  }
-  
-  .admin-page-order .rectangle-3 {
-    background-color: #ffffff;
-    border-radius: 10px;
-    height: 640px;
-    left: 484px;
-    position: absolute;
-    top: 98px;
-    width: 1408px;
-  }
-  
-  .admin-page-order .text-wrapper-4 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 35px;
-    font-weight: 700;
-    left: 484px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 29px;
-    white-space: nowrap;
-  }
-  
-  .admin-page-order .text-wrapper-5 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1327px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-  }
-  
-  .admin-page-order .text-wrapper-6 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1465px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-  }
-  
-  .admin-page-order .text-wrapper-7 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1589px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-  }
-  
-  .admin-page-order .img {
-    height: 50px;
-    left: 1779px;
-    position: absolute;
-    top: 31px;
-    width: 50px;
-    border: none;
-    background: none;
-  }
-  
-  .admin-page-order .sideview {
-    height: 75px;
-    left: 55px;
-    object-fit: cover;
-    position: absolute;
-    top: 19px;
-    width: 291px;
-  }
-  
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Disable vertical scrolling */
+  height: 100vh; /* Limit the height to the viewport height */
+}
+
+.admin-page-order .div {
+  background-color: #ffffff;
+  height: 939px;
+  position: relative;
+  width: 1920px;
+  height: 100%; /* Adjust to 100% of parent's height */
+}
+
+.admin-page-order .overlap {
+  height: 831px;
+  left: 0;
+  position: absolute;
+  top: 108px;
+  width: 1920px;
+}
+
+.admin-page-order .rectangle {
+  height: 827px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 1920px;
+}
+
+.admin-page-order .rectangle-2 {
+  background-color: #840000;
+  height: 831px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 456px;
+}
+
+.admin-page-order .group {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 234px;
+  width: 456px;
+  border: none;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.admin-page-order .group:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
+
+.admin-page-order .overlap-group {
+  background-color: #e32128;
+  border-radius: 40px;
+  height: 92px;
+  position: relative;
+  width: 456px;
+}
+
+.admin-page-order .text-wrapper {
+  color: #ffffff;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 32px;
+  font-weight: 600;
+  left: 139px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 25px;
+  width: 171px;
+}
+
+.admin-page-order .overlap-wrapper {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 138px;
+  width: 456px;
+  border: none;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.admin-page-order .overlap-wrapper:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
+
+.admin-page-order .overlap-group-wrapper {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 330px;
+  width: 456px;
+  border: none;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.admin-page-order .overlap-group-wrapper:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
+
+.admin-page-order .div-wrapper {
+  background-size: 100% 100%;
+  height: 92px;
+  position: relative;
+  width: 456px;
+}
+
+.admin-page-order .text-wrapper-2 {
+  color: #ffffff;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 32px;
+  font-weight: 600;
+  left: 35px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 25px;
+  width: 385px;
+}
+
+.admin-page-order .group-2 {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 426px;
+  width: 456px;
+  border: none;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.admin-page-order .group-2:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
+
+.admin-page-order .text-wrapper-3 {
+  color: #ffffff;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 32px;
+  font-weight: 600;
+  left: 109px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 46px;
+  width: 231px;
+}
+
+.admin-page-order .vector {
+  height: 112px;
+  left: 0;
+  position: absolute;
+  top: 719px;
+  width: 1920px;
+}
+
+.admin-page-order .rectangle-3 {
+  background-color: #ffffff;
+  border-radius: 10px;
+  height: 700px;
+  left: 484px;
+  position: absolute;
+  top: 30px;
+  width: 1408px;
+  padding: 20px; /* Added padding */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.admin-page-order .text-wrapper-4444 {
+  color: #000000;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 35px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
+}
+
+.admin-page-order .img {
+  height: 50px;
+  left: 1779px;
+  position: absolute;
+  top: 31px;
+  width: 50px;
+  border: none;
+  background: none;
+}
+
+.admin-page-order .sideview {
+  height: 75px;
+  left: 55px;
+  object-fit: cover;
+  position: absolute;
+  top: 19px;
+  width: 291px;
+}
+
+.table-container {
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.order-table th, .order-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.order-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.order-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.order-table tr:hover {
+  background-color: #ddd;
+}

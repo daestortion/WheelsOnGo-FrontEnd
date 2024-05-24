@@ -4,7 +4,6 @@ import { AdminAuthProvider } from './AdminAuthContext';
 import { AuthProvider, useAuth } from './AuthContext';
 import AboutUs from './Components/AboutUs.js';
 import AdminCars from './Components/AdminCars.js';
-import { AdminPageDashboard } from './Components/AdminDashboard.js';
 import { AdminLogin } from './Components/AdminLogin.js';
 import AdminOrder from './Components/AdminOrder.js';
 import { AdminRegister } from './Components/AdminRegister.js';
@@ -51,13 +50,13 @@ function AuthRoutes() {
             <Route path="/carmanagement" element={<PrivateRoute><CarManagement /></PrivateRoute>} />
             <Route path="/updatecar" element={<PrivateRoute><UpdateCar /></PrivateRoute>} />
             
-            <Route path="/admindashboard" element={<AdminPrivateRoute><AdminPageDashboard /></AdminPrivateRoute>} />
             <Route path="/adminusers" element={<AdminPrivateRoute><AdminUsers /></AdminPrivateRoute>} />
             <Route path="/admincars" element={<AdminPrivateRoute><AdminCars /></AdminPrivateRoute>} />
             <Route path="/adminverify" element={<AdminPrivateRoute><AdminVerify /></AdminPrivateRoute>} />
             <Route path="/AdminRegister" element={<AdminRegister />} />
             <Route path="/AdminLogin" element={<AdminLogin />} />
             <Route path="/show-image/:id/:type" element={<ShowImage />} />
+            <Route path="/adminorder" element={<AdminPrivateRoute><AdminOrder /></AdminPrivateRoute>} />
 
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
