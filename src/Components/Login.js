@@ -77,8 +77,10 @@ export const Login = () => {
       console.error("Error logging in:", error);
       if (error.response && error.response.status === 403) {
         setErrorMessage("Your account has been deactivated.");
-      } else {
-        setErrorMessage("An error occurred while logging in.");
+      } else if(error.response && error.response.status === 401) {
+        setErrorMessage("Account Credentials are Invalid.");
+      } else{
+        setErrorMessage("There has a been a problem logging in. Please try again");
       }
     } finally {
       setIsLoading(false);

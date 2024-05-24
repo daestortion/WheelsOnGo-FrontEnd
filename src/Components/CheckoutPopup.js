@@ -5,6 +5,7 @@ import "../Css/CheckoutPopup.css";
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
 import PaymentPopup from "./PaymentPopup"; // Import PaymentPopup component
+import axios from 'axios';
 
 export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDate, setStartDate] = useState(null);
@@ -14,6 +15,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to manage PaymentPopup visibility
   const [errorMessage, setErrorMessage] = useState(null);
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const storedUserId = storedUser.userId;
+  console.log(storedUserId);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -58,7 +62,35 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     if (!startDate || !endDate) {
       setErrorMessage("Please complete pick-up date and return date.");
     } else {
-      setShowPaymentPopup(true); // Show PaymentPopup when Book button is pressed
+      const order = {
+        startDate,
+        endDate,
+        totalPrice,
+        isDeleted: false,
+        referenceNumber: '', // Leave it empty as it will be generated on the server side
+        payment: null // Handle payment later
+      };
+      insertOrder(order, storedUserId, car.carId);
+    }
+  };
+
+  const insertOrder = async (order, userId, carId) => {
+    try {
+      const response = await axios.post('http://extraordinary-abundance-production.up.railway.app/order/insertOrder', order, {
+        params: {
+          userId: userId,
+          carId: carId
+        },
+        withCredentials: true // Ensure credentials are included
+      });
+      if (response.status === 200) {
+        setShowPaymentPopup(true); // Show payment popup on successful order insertion
+      } else {
+        setErrorMessage("Failed to place order. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred while placing the order. Please try again.");
+      console.error(error);
     }
   };
 

@@ -15,7 +15,7 @@ export const Cars = () => {
   const [selectedCar, setSelectedCar] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // State to manage loading spinner
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const fetchCars = async () => {
       setIsLoading(true); // Start loading
