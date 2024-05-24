@@ -5,6 +5,7 @@ import line1 from "../Images/line11.png";
 import close from "../Images/close.png";
 import back from "../Images/back.png";
 import BookedPopup from './BookedPopup'; // Import BookedPopup component
+import TAC from "../Images/WheelsOnGoTAC.pdf";
 
 export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
@@ -37,7 +38,7 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <p className="divv">by clicking, you are confirming that you have read,</p>
           <p className="understood-and-agree">
             <span className="span">understood and agree to the </span>
-            <span className="text-wrapper-22">terms and conditions</span>
+            <a href={TAC} target="_blank" rel="noopener noreferrer" className="text-wrapper-22">terms and conditions</a>
             <span className="span">.</span>
           </p>
           <input
