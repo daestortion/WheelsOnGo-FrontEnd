@@ -73,26 +73,24 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       insertOrder(order, storedUserId, car.carId);
     }
   };
-
+  
   const insertOrder = async (order, userId, carId) => {
     try {
-      const response = await axios.post('http://extraordinary-abundance-production.up.railway.app/order/insertOrder', order, {
-        params: {
-          userId: userId,
-          carId: carId
-        },
-        withCredentials: true // Ensure credentials are included
-      });
-      if (response.status === 200) {
-        setShowPaymentPopup(true); // Show payment popup on successful order insertion
-      } else {
-        setErrorMessage("Failed to place order. Please try again.");
-      }
+        const response = await axios.post('https://extraordinary-abundance-production.up.railway.app/order/insertOrder', order, {
+            params: { userId, carId },
+            withCredentials: true
+        });
+        if (response.status === 200) {
+            setShowPaymentPopup(true);
+        } else {
+            throw new Error('Server responded with non-200 status');
+        }
     } catch (error) {
-      setErrorMessage("An error occurred while placing the order. Please try again.");
-      console.error(error);
+        console.error(error);
+        setErrorMessage(error.response?.data?.message || "An error occurred while placing the order. Please try again.");
     }
-  };
+};
+
 
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);

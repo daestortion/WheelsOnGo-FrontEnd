@@ -92,3 +92,5 @@ export const AdminLogin = () => {
     </div>
   );
 };
+
+export default AdminLogin;
