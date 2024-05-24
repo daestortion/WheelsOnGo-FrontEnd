@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "../Css/PaymentPopup.css";
 import qrcode from "../Images/qrcode.png";
 import line1 from "../Images/line11.png";
 import close from "../Images/close.png";
 import back from "../Images/back.png";
+import BookedPopup from './BookedPopup'; // Import BookedPopup component
 
 export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack }) => {
+  const [showBookedPopup, setShowBookedPopup] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleClick = () => {
+    if (isChecked) {
+      setShowBookedPopup(true); // Show BookedPopup when Book button is clicked
+    }
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+  const handleBookedPopupClose = () => {
+    setShowBookedPopup(false);
+    onClose(); // Close the PaymentPopup when BookedPopup is closed
+  };
+
   return (
     <div className="payment-popup">
       <div className="overlap-wrapper">
@@ -16,14 +35,17 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           </button>
           <p className="pp">Scan the QR code to pay, then upload a screenshot of the receipt.</p>
           <p className="divv">by clicking, you are confirming that you have read,</p>
-          
           <p className="understood-and-agree">
             <span className="span">understood and agree to the </span>
             <span className="text-wrapper-22">terms and conditions</span>
             <span className="span">.</span>
           </p>
-          <input type="checkbox" className="rectangle11" />
-
+          <input
+            type="checkbox"
+            className="rectangle11"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
           <div className="rectangle-2">
             <img src={car.carImage} alt="Car" className="car-image" />
           </div>
@@ -46,8 +68,12 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
             <div className="payment-screenshot">Payment&nbsp;&nbsp;Screenshot</div>
           </div>
           <div className="overlap-group-wrapper">
-            <button className="overlap-33">
-              <div className="text-wrapper-11">Next</div>
+            <button
+              className="overlap-33"
+              onClick={handleClick}
+              disabled={!isChecked} // Disable the button if the checkbox is not checked
+            >
+              <div className="text-wrapper-11">Book</div>
             </button>
           </div>
           <button className="close" onClick={onClose}>
@@ -56,6 +82,7 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <img className="image" alt="Image" src={qrcode} />
         </div>
       </div>
+      {showBookedPopup && <BookedPopup onClose={handleBookedPopupClose} />}
     </div>
   );
 };

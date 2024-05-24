@@ -402,15 +402,20 @@
 
 
 .profile-not-verified .overlap-33 {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
   background-color: #d9d9d9;
-  border: 2px solid;
-  border-color: #000000;
+  border: 2px solid #000000;
   border-radius: 35px;
-  height: 467px;
-  left: 742px;
   position: absolute;
   top: 419px;
-  width: 438px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%; /* Adjust width as needed */
 }
 
 .profile-not-verified .overlap-44 {
@@ -459,4 +464,34 @@
   position: absolute;
   top: 29px;
   width: 27px;
+}
+
+.profile-not-verified .car-frame {
+  position: relative;
+  width: 300px; /* Adjust width as needed */
+  height: 300px; /* Adjust height as needed */
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-not-verified .car-imagee {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.profile-not-verified .icon-trashhh {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
 }

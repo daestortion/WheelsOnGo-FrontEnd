@@ -52,10 +52,12 @@
   overflow: hidden;       /* Hide overflow to maintain border radius */
 }
 
-.car-image {
+.checkout-popup .car-image {
+  position: relative;
   max-width: 100%;   /* Ensure the image does not exceed the container width */
   max-height: 100%;  /* Ensure the image does not exceed the container height */
   border-radius: 40px; /* Maintain the border radius */
+  top: 0px;
 }
 
 .checkout-popup .div-checkbox {

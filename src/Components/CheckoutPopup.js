@@ -37,6 +37,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     setEndDateOpen(!endDateOpen);
   };
 
+  const clearErrorMessage = () => {
+    setErrorMessage(null);
+  };
+
   useEffect(() => {
     if (startDate && endDate) {
       const timeDifference = endDate.getTime() - startDate.getTime();
@@ -58,6 +62,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     }
   };
 
+  const handlePaymentPopupClose = () => {
+    setShowPaymentPopup(false);
+    closePopup(); // Close the CheckoutPopup when PaymentPopup is closed
+  };
+
   return (
     <div className="checkout-popup">
       <div className="overlap-wrapper">
@@ -76,7 +85,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           </div>
           <div className="text-wrapper-5">Return Date</div>
           <div className="text-wrapper-6">Pick-up Date</div>
-          <div className="div-wrapper">
+          <div className="div-wrapper" onMouseEnter={clearErrorMessage}>
             <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
               {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
             </div>
@@ -89,7 +98,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               />
             )}
           </div>
-          <div className="overlap-2">
+          <div className="overlap-2" onMouseEnter={clearErrorMessage}>
             <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
               {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
             </div>
@@ -108,10 +117,8 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="text-wrapper-11">{car.address}</div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="group">
-            <div className="overlap-group-2">
-              <div className="text-wrapper-13" onClick={handleBook}>
-                Book
-              </div>
+            <div className="overlap-group-2" onClick={handleBook}>
+              <div className="text-wrapper-13">Next</div>
             </div>
           </div>
           <div className="close" onClick={closePopup}>
@@ -125,7 +132,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           startDate={startDate}
           endDate={endDate}
           totalPrice={totalPrice}
-          onClose={() => setShowPaymentPopup(false)}
+          onClose={handlePaymentPopupClose}
           onBack={() => setShowPaymentPopup(false)}
         />
       )}

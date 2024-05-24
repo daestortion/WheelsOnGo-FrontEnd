@@ -169,17 +169,18 @@ const UserProfile = () => {
                             <div className="overlap-33">
                                 {currentUser.cars.length > 0 ? (
                                     currentUser.cars.map(car => (
-                                        <img
-                                            key={car.carId}
-                                            className="car-image"
-                                            alt="Car"
-                                            src={`data:image/jpeg;base64,${car.carImage}`}
-                                        />
+                                        <div key={car.carId} className="car-frame">
+                                            <img
+                                                className="car-imagee"
+                                                alt="Car"
+                                                src={`data:image/jpeg;base64,${car.carImage}`}
+                                            />
+                                            <img className="icon-trashhh" alt="Icon trash" src={trash} />
+                                        </div>
                                     ))
                                 ) : (
                                     <p>No cars registered</p>
                                 )}
-                                <img className="icon-trashhh" alt="Icon trash" src={trash} />
                             </div>
                         </div>
                     ) : (
@@ -196,7 +197,7 @@ const UserProfile = () => {
                         </div>
                     )}
                 </div>
-                <div className="group-22">
+                <div className="group-2">
                     <button className="overlap-5" onClick={handleEditProfile}>
                         <div className="text-wrapper-5">Edit Profile</div>
                     </button>
