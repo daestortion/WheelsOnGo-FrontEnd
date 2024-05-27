@@ -173,6 +173,19 @@
     white-space: nowrap;
     width: 641px;
   }
+
+  .edit-profile .error-message {
+    color: red;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    position: absolute;
+    top: 95px; /* Adjust top value to position it correctly */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+  }
   
   .edit-profile .overlap-group-wrapper {
     height: 71px;

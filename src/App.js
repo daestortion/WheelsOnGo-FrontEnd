@@ -1,7 +1,8 @@
 import React from 'react';
-import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { AdminAuthProvider } from './AdminAuthContext';
-import { AuthProvider, useAuth } from './AuthContext';
+import AdminPrivateRoute from './AdminPrivateRoute.js';
+import { AuthProvider } from './AuthContext';
 import AboutUs from './Components/AboutUs.js';
 import AdminCars from './Components/AdminCars.js';
 import { AdminLogin } from './Components/AdminLogin.js';
@@ -11,6 +12,7 @@ import AdminUsers from './Components/AdminUsers.js';
 import AdminVerify from './Components/AdminVerify.js';
 import CarManagement from './Components/CarManagement.js';
 import Cars from './Components/Cars.js';
+import CheckoutPopup from './Components/CheckoutPopup.js';
 import Dashboard from './Components/Dashboard.js';
 import EditProfile from './Components/EditProfile.js';
 import ForgotPassword from './Components/Forgetpassword.js';
@@ -18,14 +20,11 @@ import Home from './Components/LandingPage.js';
 import Login from './Components/Login.js';
 import NewPassword from './Components/NewPassword.js';
 import OrderHistory from './Components/OrderHistory.js';
-import ShowImage from './Components/ShowImage.js';
 import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
+import ShowImage from './Components/ShowImage.js';
 import UpdateCar from './Components/UpdateCar.js';
 import PrivateRoute from './PrivateRoute';
-import AdminPrivateRoute from './AdminPrivateRoute.js';
-import CheckoutPopup from './Components/CheckoutPopup.js';
-
 
 function DebugRoutes() {
     const location = useLocation();
@@ -34,9 +33,6 @@ function DebugRoutes() {
 }
 
 function AuthRoutes() {
-    const { isAuthenticated } = useAuth();
-    console.log("isAuthenticated:", isAuthenticated);
-
     return (
         <Routes>
             <Route path="/" element={<Home />} />
@@ -44,28 +40,26 @@ function AuthRoutes() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/resetpassword" element={<NewPassword />} />
-            <Route path="/home" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <PrivateRoute path="/home" element={<Dashboard />} />
 
-            <Route path="/cars" element={<PrivateRoute><Cars /></PrivateRoute>} />
-            <Route path="/carmanagement" element={<PrivateRoute><CarManagement /></PrivateRoute>} />
-            <Route path="/updatecar" element={<PrivateRoute><UpdateCar /></PrivateRoute>} />
+            <PrivateRoute path="/cars" element={<Cars />} />
+            <PrivateRoute path="/carmanagement" element={<CarManagement />} />
+            <PrivateRoute path="/updatecar" element={<UpdateCar />} />
             
-            <Route path="/adminusers" element={<AdminPrivateRoute><AdminUsers /></AdminPrivateRoute>} />
-            <Route path="/admincars" element={<AdminPrivateRoute><AdminCars /></AdminPrivateRoute>} />
-            <Route path="/adminverify" element={<AdminPrivateRoute><AdminVerify /></AdminPrivateRoute>} />
-            <Route path="/AdminRegister" element={<AdminRegister />} />
-            <Route path="/AdminLogin" element={<AdminLogin />} />
+            <AdminPrivateRoute path="/adminusers" element={<AdminUsers />} />
+            <AdminPrivateRoute path="/admincars" element={<AdminCars />} />
+            <AdminPrivateRoute path="/adminverify" element={<AdminVerify />} />
+            <Route path="/adminregister" element={<AdminRegister />} />
+            <Route path="/adminlogin" element={<AdminLogin />} />
             <Route path="/show-image/:id/:type" element={<ShowImage />} />
-            <Route path="/adminorder" element={<AdminPrivateRoute><AdminOrder /></AdminPrivateRoute>} />
+            <AdminPrivateRoute path="/adminorder" element={<AdminOrder />} />
 
-            <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-            <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+            <PrivateRoute path="/userprofile" element={<Profile />} />
+            <PrivateRoute path="/editprofile" element={<EditProfile />} />
             
-            <Route path="/adminorder" element={<AdminOrder />} />
-            <Route path="/orderhistory" element={<OrderHistory />} />
+            <AdminPrivateRoute path="/orderhistory" element={<OrderHistory />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
-
         </Routes>
     );
 }

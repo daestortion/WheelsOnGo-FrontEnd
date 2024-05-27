@@ -1,4 +1,3 @@
-// src/components/Cars.js
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,20 +7,21 @@ import profile from "../Images/profile.png";
 import design from "../Images/design.png";
 import Dropdown from "../Components/Dropdown.js";
 import CheckoutPopup from "../Components/CheckoutPopup.js";
-import Loading from "../Components/Loading.js"; // Import the Loading component
+import Loading from "../Components/Loading.js";
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // State to manage loading spinner
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchCars = async () => {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
-        setCars(response.data.map(car => ({
+        const activeCars = response.data.filter(car => !car.deleted);
+        setCars(activeCars.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null
         })));
@@ -29,7 +29,7 @@ export const Cars = () => {
         console.error('Error fetching cars:', error);
         setCars([]);
       } finally {
-        setIsLoading(false); // Stop loading
+        setIsLoading(false);
       }
     };
 
@@ -59,7 +59,7 @@ export const Cars = () => {
 
   return (
     <div className="cars">
-      {isLoading && <Loading />} {/* Display loading spinner when loading */}
+      {isLoading && <Loading />}
       <div className="div">
         <div className="overlap">
           <img className="vector" alt="Vector" src={design} />
