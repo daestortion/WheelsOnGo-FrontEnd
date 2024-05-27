@@ -249,6 +249,34 @@
   width: 291px;
 }
 
+.admin-page .button-approve {
+  background-color: #e32128;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.admin-page .button-deny {
+  background-color: #e32128;
+  color: white;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
 /* Add styling for the table */
 .verifications-table {
   width: 100%;
@@ -256,23 +284,26 @@
   margin: 20px 0;
   font-size: 18px;
   text-align: left;
-  color: black;
 }
 
 .verifications-table th,
 .verifications-table td {
-  border: 1px solid #dddddd;
-  padding: 8px;
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .verifications-table th {
   background-color: #e32128;
-  color: #ffffff;
+  color: white;
+  font-weight: bold;
 }
 
-.verifications-table td {
-  background-color:;
+.verifications-table tr {
+  border-bottom: 1px solid #ddd;
 }
+
+
 
 .button-show-image {
   background-color: #e32128;
@@ -288,8 +319,10 @@
   border-radius: 5px;
 }
 
+
+
 .button-show-image:hover {
-  background-color: #0056b3;
+  background-color:#e32128;
 }
 
 .group-2 {
@@ -321,6 +354,7 @@
   top: 25px;
   width: 171px;
 }
+
 
 
 
@@ -379,6 +413,3 @@
   border-radius: 5px;
 }
 
-.verify-image-modal button:hover {
-  background-color: #ff0000;
-}

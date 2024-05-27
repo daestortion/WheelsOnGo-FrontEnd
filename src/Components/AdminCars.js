@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import "../Css/AdminCars.css";
 import adminbg from "../Images/adminbackground.png";
 import vector from "../Images/adminvector.png";
 import sidelogo from "../Images/sidelogo.png";
-import Modal from 'react-modal';
 
 export const AdminPageCars = () => {
   const [cars, setCars] = useState([]);
@@ -140,18 +140,19 @@ export const AdminPageCars = () => {
         </div>
       </div>
       {selectedImage && (
-        <Modal
-          isOpen={true}
-          onRequestClose={handleCloseModal}
-          contentLabel="Image Modal"
-          className="image-modal"
-          overlayClassName="image-modal-overlay"
-        >
-          <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Car Document" />
-          <button onClick={handleCloseModal}>Close</button>
-        </Modal>
-      )}
-    </div>
+  <Modal
+    isOpen={true}
+    onRequestClose={handleCloseModal}
+    contentLabel="Image Modal"
+    className="image-modal"
+    overlayClassName="image-modal-overlay"
+  >
+    <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Car Document" />
+    <button onClick={handleCloseModal} className="close-button">Close</button>
+  </Modal>
+)}
+</div>
+
   );
 };
 

@@ -152,13 +152,14 @@ export const AdminPageUsers = () => {
                           }
                         </td>
                         <td>{user.deleted ? 'True' : 'False'}</td>
-                        <td>
-                          {!user.deleted ? (
-                            <button onClick={() => handleDelete(user.userId)}>Deactivate</button>
-                          ) : (
-                            <button onClick={() => handleReactivate(user.userId)}>Reactivate</button>
-                          )}
-                        </td>
+<td>
+  {!user.deleted ? (
+    <button className="button-deactivate" onClick={() => handleDelete(user.userId)}>Deactivate</button>
+  ) : (
+    <button className="button-deactivate" onClick={() => handleReactivate(user.userId)}>Reactivate</button>
+  )}
+</td>
+
                       </tr>
                     ))}
                   </tbody>
