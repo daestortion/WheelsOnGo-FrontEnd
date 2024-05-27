@@ -1,4 +1,3 @@
-// src/components/Login.js
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../AuthContext';
@@ -16,6 +15,19 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const clearLocalStorageIfEmpty = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/user/checkDatabaseEmpty");
+        if (response.data) {
+          localStorage.removeItem('user');
+        }
+      } catch (error) {
+        console.error("Error checking database status:", error);
+      }
+    };
+
+    clearLocalStorageIfEmpty();
+
     if (isAuthenticated) {
       navigate("/home", { replace: true });
     }
