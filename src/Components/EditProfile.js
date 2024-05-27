@@ -12,7 +12,6 @@ export const EditProfile = () => {
     const [email, setEmail] = useState(user.email || '');
     const [profilePic, setProfilePic] = useState(null);
     const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
-    const [errorMessage, setErrorMessage] = useState(''); // State for error message
 
     const navigate = useNavigate(); // Setup useNavigate
 
@@ -54,16 +53,6 @@ export const EditProfile = () => {
     };
 
     const handleUpdateProfile = async () => {
-        if (!phoneNumber && !email) {
-            setErrorMessage('Please enter new details.'); // Set error message if no details are entered
-            return;
-        }
-    
-        if (!phoneNumber || !email || !profilePic) {
-            setErrorMessage('All fields are required.'); // Set error message if any field is empty
-            return;
-        }
-    
         const formData = new FormData();
         formData.append('userId', user.userId); // Assuming `userId` is stored in your user object
         formData.append('pNum', phoneNumber);
@@ -84,10 +73,8 @@ export const EditProfile = () => {
             localStorage.setItem('user', JSON.stringify({ ...user, pNum: phoneNumber, email, profilePic: URL.createObjectURL(profilePic) }));
             
             setShowPopup(true); // Show the popup
-            setErrorMessage(''); // Clear error message after successful update
         } catch (error) {
             console.error('Failed to update profile:', error);
-            setErrorMessage('Failed to update profile. Please try again.'); // Set error message for failed update
         }
     };
     
@@ -135,7 +122,6 @@ export const EditProfile = () => {
                     </div>
                 </div>
             </div>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             {showPopup && <ProfileUpdatePopup />} {/* Conditionally render the popup */}
         </div>
     );
