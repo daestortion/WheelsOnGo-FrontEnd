@@ -1,9 +1,9 @@
 import React from "react";
-import "../Css/updatecar.css";
-import Dropdown from "./Dropdown.js";
-import sidelogo from "../Images/sidelogo.png";
-import profileIcon from "../Images/profile.png";
 import { useNavigate } from 'react-router-dom';
+import "../Css/Updatecar.css";
+import profileIcon from "../Images/profile.png";
+import sidelogo from "../Images/sidelogo.png";
+import Dropdown from "./Dropdown.js";
 
 export const UpdateCar = () => {
 
