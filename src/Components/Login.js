@@ -28,7 +28,7 @@ export const Login = () => {
     setIsLoading(true);
   
     try {
-      const response = await axios.post("https://extraordinary-abundance-production.up.railway.app/user/login", {
+      const response = await axios.post("http://localhost:8080/user/login", {
         identifier,
         password,
       });
@@ -39,12 +39,12 @@ export const Login = () => {
   
         // Fetch user profile including isRenting status
         try {
-          const userProfileResponse = await axios.get(`https://extraordinary-abundance-production.up.railway.app/user/getUserById/${userId}`);
+          const userProfileResponse = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
           const userProfile = userProfileResponse.data;
   
           // Fetch verification status
           try {
-            const verificationResponse = await axios.get(`https://extraordinary-abundance-production.up.railway.app/verification/getVerificationByUserId/${userId}`);
+            const verificationResponse = await axios.get(`http://localhost:8080/verification/getVerificationByUserId/${userId}`);
             const userWithVerification = {
               userId: userProfile.userId,
               userName: userProfile.userName,

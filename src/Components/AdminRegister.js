@@ -49,7 +49,7 @@ export const AdminRegister = () => {
     };
 
     try {
-      const response = await fetch("https://extraordinary-abundance-production.up.railway.app/admin/insertAdmin", {
+      const response = await fetch("http://localhost:8080/admin/insertAdmin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

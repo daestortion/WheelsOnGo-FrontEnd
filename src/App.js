@@ -21,7 +21,7 @@ import OrderHistory from './Components/OrderHistory.js';
 import ShowImage from './Components/ShowImage.js';
 import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
-import UpdateCar from './Components/updatecar.js';
+import UpdateCar from './Components/UpdateCar.js';
 import PrivateRoute from './PrivateRoute';
 import AdminPrivateRoute from './AdminPrivateRoute.js';
 import CheckoutPopup from './Components/CheckoutPopup.js';

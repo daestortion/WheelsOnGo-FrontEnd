@@ -76,7 +76,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   
   const insertOrder = async (order, userId, carId) => {
     try {
-        const response = await axios.post('https://extraordinary-abundance-production.up.railway.app/order/insertOrder', order, {
+        const response = await axios.post('http://localhost:8080/order/insertOrder', order, {
             params: { userId, carId },
             withCredentials: true
         });
