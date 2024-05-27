@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'; 
+import axios from "axios";
+import { debounce } from 'lodash';
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "../Css/CarManagement.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
-import axios from "axios";
-import { debounce } from 'lodash';
-import Dropdown from "./Dropdown";
 import AddCarPopup from './AddCarPopup'; // Import AddCarPopup
-
+import Dropdown from "./Dropdown";
 
 export const CarManagementOwner = () => {
   const [userId, setUserId] = useState(null);
@@ -19,16 +18,16 @@ export const CarManagementOwner = () => {
   const [carImage, setCarImage] = useState(null);
   const [carOR, setCarOR] = useState(null);
   const [carCR, setCarCR] = useState(null);
-  const [carORFileName, setCarORFileName] = useState('');  // New state variable for OR file name
-  const [carCRFileName, setCarCRFileName] = useState('');  // New state variable for CR file name
+  const [carORFileName, setCarORFileName] = useState('');  
+  const [carCRFileName, setCarCRFileName] = useState('');  
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showAddCarPopup, setShowAddCarPopup] = useState(false); // State for showing AddCarPopup
+  const [showAddCarPopup, setShowAddCarPopup] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState(''); // State variable for error message
   const carImageInputRef = useRef(null);
   const carORInputRef = useRef(null);
   const carCRInputRef = useRef(null);
   const navigate = useNavigate(); 
 
-  
   const handleHomeClick = () => {
     navigate('/home'); 
   };
@@ -40,7 +39,6 @@ export const CarManagementOwner = () => {
   };
 
   useEffect(() => {
-    // Fetch the user from local storage
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.userId) {
       setUserId(user.userId);
@@ -48,19 +46,17 @@ export const CarManagementOwner = () => {
   }, []);
 
   const handleFileChange = (file, setter, setFileName) => {
-    setter(file);  // Set the file
+    setter(file);
     if (setFileName) {
-      setFileName(file.name);  // Update the file name state only if setFileName function is provided
+      setFileName(file.name);
     }
   };
-  
 
   const handleSubmit = async () => {
-    if (isSubmitting) return;  // Prevent multiple submissions
+    if (isSubmitting) return;  
 
-    // Validation check
     if (!carBrand || !carModel || !carYear || !address || !carOR || !carCR || !rentPrice || !carImage) {
-      alert("Please fill in all required fields.");
+      setErrorMessage("Please fill in all required fields."); 
       return;
     }
 
@@ -83,7 +79,7 @@ export const CarManagementOwner = () => {
         },
       });
       console.log(response.data);
-      setShowAddCarPopup(true); // Show AddCarPopup on successful registration
+      setShowAddCarPopup(true); 
     } catch (error) {
       console.error('Error submitting form', error);
     } finally {
@@ -96,7 +92,6 @@ export const CarManagementOwner = () => {
   if (!userId) {
     return <div>Please log in to manage cars.</div>;
   }
-
 
   return (
     <div className="car-management-owner">
@@ -191,39 +186,43 @@ export const CarManagementOwner = () => {
                 placeholder="Rent Price"
                 value={rentPrice}
                 onChange={(e) => setRentPrice(e.target.value)}
-              />
+                />
+              </div>
+              <div className="group-8">
+                <button
+                  className="overlap-7"
+                  onClick={debouncedHandleSubmit}
+                  type="button"
+                  disabled={isSubmitting}
+                >
+                  <div className="text-wrapper-8">Register Car</div>
+                </button>
+              </div>
             </div>
-            <div className="group-8">
-              <button
-                className="overlap-7"
-                onClick={debouncedHandleSubmit}
-                type="button"
-                disabled={isSubmitting}
-              >
-                <div className="text-wrapper-8">Register Car</div>
+            <div className="text-wrapper-9">Car Registration</div>
+            {carImage && (
+              <div className="rectangle" style={{ backgroundImage: `url(${URL.createObjectURL(carImage)})`, backgroundSize: 'cover', position: 'relative'}} />
+            )}
+            <div className="group-9">
+                <input
+                  type="file"
+                  ref={carImageInputRef}
+                  style={{ display: 'none' }}
+                  onChange={(e) => handleFileChange(e.target.files[0], setCarImage)}
+                />
+              <button className="overlap-group-2" onClick={() => carImageInputRef.current.click()}>
+                <div className="text-wrapper-10">Upload Car Image</div>
               </button>
             </div>
           </div>
-          <div className="text-wrapper-9">Car Registration</div>
-          {carImage && (
-            <div className="rectangle" style={{ backgroundImage: `url(${URL.createObjectURL(carImage)})`, backgroundSize: 'cover', position: 'relative'}} />
-          )}
-          <div className="group-9">
-              <input
-                type="file"
-                ref={carImageInputRef}
-                style={{ display: 'none' }}
-                onChange={(e) => handleFileChange(e.target.files[0], setCarImage)}
-              />
-            <button className="overlap-group-2" onClick={() => carImageInputRef.current.click()}>
-              <div className="text-wrapper-10">Upload Car Image</div>
-            </button>
+          <div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            {showAddCarPopup && <AddCarPopup />}
           </div>
         </div>
       </div>
-      {showAddCarPopup && <AddCarPopup />} {/* Conditionally render AddCarPopup */}
-    </div>
-  );
-};
-
-export default CarManagementOwner;
+    );
+  };
+  
+  export default CarManagementOwner;
+  

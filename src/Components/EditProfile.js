@@ -58,12 +58,12 @@ export const EditProfile = () => {
             setErrorMessage('Please enter new details.'); // Set error message if no details are entered
             return;
         }
-
+    
         if (!phoneNumber || !email || !profilePic) {
             setErrorMessage('All fields are required.'); // Set error message if any field is empty
             return;
         }
-
+    
         const formData = new FormData();
         formData.append('userId', user.userId); // Assuming `userId` is stored in your user object
         formData.append('pNum', phoneNumber);
@@ -71,7 +71,7 @@ export const EditProfile = () => {
         if (profilePic) {
             formData.append('profilePic', profilePic);
         }
-
+    
         try {
             const response = await fetch('http://localhost:8080/user/updateUser', {
                 method: 'PUT',
@@ -79,7 +79,7 @@ export const EditProfile = () => {
             });
             const data = await response.json();
             console.log('Update successful:', data);
-
+    
             // Update user data in local storage
             localStorage.setItem('user', JSON.stringify({ ...user, pNum: phoneNumber, email, profilePic: URL.createObjectURL(profilePic) }));
             
@@ -87,12 +87,13 @@ export const EditProfile = () => {
             setErrorMessage(''); // Clear error message after successful update
         } catch (error) {
             console.error('Failed to update profile:', error);
+            setErrorMessage('Failed to update profile. Please try again.'); // Set error message for failed update
         }
     };
+    
 
     return (
         <div className="edit-profile">
-            <div className="error-message">{errorMessage}</div>
             <div className="overlap-wrapper">
                 <div className="overlap">
                     <div className="overlap-group">
@@ -134,6 +135,7 @@ export const EditProfile = () => {
                     </div>
                 </div>
             </div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
             {showPopup && <ProfileUpdatePopup />} {/* Conditionally render the popup */}
         </div>
     );
