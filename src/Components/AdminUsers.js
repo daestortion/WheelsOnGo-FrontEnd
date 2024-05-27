@@ -12,7 +12,7 @@ export const AdminPageUsers = () => {
   const [filter, setFilter] = useState('all'); // 'all', 'regular', 'owner'
 
   useEffect(() => {
-    axios.get('https://extraordinary-abundance-production.up.railway.app/user/getAllUsers')
+    axios.get('http://localhost:8080/user/getAllUsers')
       .then(response => {
         console.log('API response:', response.data); // Log the response to check its structure
         if (Array.isArray(response.data)) {
@@ -53,7 +53,7 @@ export const AdminPageUsers = () => {
   };
 
   const handleDelete = (userId) => {
-    axios.delete(`https://extraordinary-abundance-production.up.railway.app/user/deleteUser/${userId}`)
+    axios.delete(`http://localhost:8080/user/deleteUser/${userId}`)
       .then(response => {
         console.log(response.data);
         setUsers(users.map(user => user.userId === userId ? { ...user, isDeleted: true } : user));

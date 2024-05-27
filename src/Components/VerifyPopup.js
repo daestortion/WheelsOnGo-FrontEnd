@@ -48,7 +48,7 @@ export const VerifyPopup = ({ closePopup }) => {
 
             console.log('Form Data:', formData);
 
-            const response = await fetch('https://extraordinary-abundance-production.up.railway.app/verification/insertVerification', {
+            const response = await fetch('http://localhost:8080/verification/insertVerification', {
                 method: 'POST',
                 body: formData
             });

@@ -16,7 +16,7 @@ export const AdminPageOrder = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('https://extraordinary-abundance-production.up.railway.app/order/getAllOrders');
+      const response = await fetch('http://localhost:8080/order/getAllOrders');
       const data = await response.json();
       if (Array.isArray(data)) {
         setOrders(data);
