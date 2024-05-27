@@ -9,7 +9,7 @@ import AdminOrder from './Components/AdminOrder.js';
 import { AdminRegister } from './Components/AdminRegister.js';
 import AdminUsers from './Components/AdminUsers.js';
 import AdminVerify from './Components/AdminVerify.js';
-import CarManagement from './Components/CarManagement.js';
+import AddCar from './Components/AddCar.js';
 import Cars from './Components/Cars.js';
 import Dashboard from './Components/Dashboard.js';
 import EditProfile from './Components/EditProfile.js';
@@ -47,7 +47,7 @@ function AuthRoutes() {
             <Route path="/home" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
 
             <Route path="/cars" element={<PrivateRoute><Cars /></PrivateRoute>} />
-            <Route path="/carmanagement" element={<PrivateRoute><CarManagement /></PrivateRoute>} />
+            <Route path="/addcar" element={<PrivateRoute><AddCar /></PrivateRoute>} />
             <Route path="/updatecar" element={<PrivateRoute><UpdateCar /></PrivateRoute>} />
             
             <Route path="/adminusers" element={<AdminPrivateRoute><AdminUsers /></AdminPrivateRoute>} />
