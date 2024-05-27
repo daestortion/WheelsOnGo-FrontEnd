@@ -204,12 +204,14 @@ const UserProfile = () => {
                             )}
                         </div>
                     )}
-                </div>
-                <div className="group-2">
+
+                    <div className="group-22">
                     <button className="overlap-5" onClick={handleEditProfile}>
                         <div className="text-wrapper-5">Edit Profile</div>
                     </button>
                 </div>
+                </div>
+                
             </div>
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
             {showApplyOwnerPopup && <ApplyOwnerPopup closePopup={toggleApplyOwnerPopup} confirmRegister={handleConfirmRegisterAsOwner} />}

@@ -1,25 +1,25 @@
 .profile-not-verified {
-    background-color: #ffffff;
+    background-image: url(../Images/homebackground.png);
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
     overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Disable vertical scrolling */
+    overflow-y: auto; /* Disable vertical scrolling */
     height: 100vh; /* Limit the height to the viewport height */
   }
   
   .profile-not-verified .overlap-wrapper {
-    background-color: #ffffff;
+    background: none;
     height: 939px;
     width: 1920px;
     height: 100%; /* Adjust to 100% of parent's height */
   }
   
   .profile-not-verified .overlap {
-    background-image: url(../Images/homebackground.png);
-    background-position: 50% 50%;
-    background-size: cover;
+
+    background-position: 100% 100%;
+    background-size: contain;
     height: 939px;
     position: relative;
   }
@@ -271,16 +271,8 @@
     top: 440px;
     width: 50px;
   }
-  
-  .profile-not-verified .group-22 {
-    height: 50px;
-    left: 362px;
-    position: absolute;
-    top: 293px;
-    width: 150px;
-  }
 
-  .profile-not-verified .group-2 {
+  .profile-not-verified .group-22 {
     height: 50px;
     left: 362px;
     position: absolute;
@@ -292,7 +284,7 @@
     background-color: #e32128;
     border-radius: 9px;
     height: 50px;
-    position: relative;
+    position: absolute;
     width: 148px;
     border: none;
   }
@@ -408,8 +400,6 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
-  background-color: #d9d9d9;
-  border: 2px solid #000000;
   border-radius: 35px;
   position: absolute;
   top: 419px;
