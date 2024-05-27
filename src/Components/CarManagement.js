@@ -77,11 +77,7 @@ export const CarManagementOwner = () => {
     if (carCR) formData.append('carCR', carCR);
 
     try {
-<<<<<<< HEAD
-      const response = await axios.post(`http://localhost:8080/insertCar/${userId}`, formData, {
-=======
       const response = await axios.post(`http://localhost:8080/car/insertCar/${userId}`, formData, {
->>>>>>> 27edab2bb0609443876d94bcdbea8950cec7a054
         headers: {
           'Content-Type': 'multipart/form-data',
         },
