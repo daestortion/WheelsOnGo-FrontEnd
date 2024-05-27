@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'; 
-import "../Css/CarManagement.css";
+import "../Css/AddCar.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import axios from "axios";
