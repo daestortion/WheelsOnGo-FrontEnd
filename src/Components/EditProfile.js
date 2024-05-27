@@ -33,8 +33,8 @@ export const EditProfile = () => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         if (storedUser) {
             setUser(storedUser);
-            setPhoneNumber(storedUser.pNum);
-            setEmail(storedUser.email);
+            setPhoneNumber(storedUser.pNum || ''); // Ensure these are set to empty string if undefined
+            setEmail(storedUser.email || ''); // Ensure these are set to empty string if undefined
         }
     }, []);
 
@@ -95,9 +95,9 @@ export const EditProfile = () => {
                     </div>
                     <div className="overlap-2">
                         <input className="div-wrapper" type="number" placeholder="New Phone Number"
-                              value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                              value={phoneNumber} onChange={e => setPhoneNumber(e.target.value || '')} />
                         <input className="overlap-3" type="text" placeholder="New Email"
-                              value={email} onChange={e => setEmail(e.target.value)} />
+                              value={email} onChange={e => setEmail(e.target.value || '')} />
                         <div className="overlap-group-wrapper">
                             <button className="overlap-4" onClick={handleUpdateProfile}>
                                 <div className="text-wrapper-5">Update Profile</div>
