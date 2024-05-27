@@ -12,7 +12,7 @@ export const AddCarPopup = () => {
     };
   return (
     <div className="add-car-success">
-      <div className="overlap-wrapper">
+      <div className="overlap-wrapper11">
         <div className="overlap">
           <div className="ac-text-wrapper">Car successfully registered.</div>
           <div className="group">

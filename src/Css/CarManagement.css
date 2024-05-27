@@ -290,6 +290,8 @@
   top: 17px;
   white-space: nowrap;
   width: 116px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .group-6 {
@@ -345,6 +347,8 @@
   top: 17px;
   white-space: nowrap;
   width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .group-7 {
