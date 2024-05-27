@@ -15,12 +15,13 @@ export const AddCar = () => {
   const [carModel, setCarModel] = useState('');
   const [carYear, setCarYear] = useState('');
   const [address, setAddress] = useState('');
-  const [rentPrice, setRentPrice] = useState(0);
+  const [rentPrice, setRentPrice] = useState('');
   const [carImage, setCarImage] = useState(null);
   const [carOR, setCarOR] = useState(null);
   const [carCR, setCarCR] = useState(null);
   const [carORFileName, setCarORFileName] = useState('');  // New state variable for OR file name
   const [carCRFileName, setCarCRFileName] = useState('');  // New state variable for CR file name
+  const [carImageURL, setCarImageURL] = useState(''); // State for storing the object URL
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAddCarPopup, setShowAddCarPopup] = useState(false); // State for showing AddCarPopup
   const carImageInputRef = useRef(null);
@@ -51,6 +52,10 @@ export const AddCar = () => {
     setter(file);  // Set the file
     if (setFileName) {
       setFileName(file.name);  // Update the file name state only if setFileName function is provided
+    }
+    if (setter === setCarImage) {
+      // If the file is for the car image, create and store the object URL
+      setCarImageURL(URL.createObjectURL(file));
     }
   };
   
@@ -205,8 +210,8 @@ export const AddCar = () => {
             </div>
           </div>
           <div className="text-wrapper-9">Car Registration</div>
-          {carImage && (
-            <div className="rectangle" style={{ backgroundImage: `url(${URL.createObjectURL(carImage)})`, backgroundSize: 'cover', position: 'relative'}} />
+          {carImageURL && (
+            <div className="rectangle" style={{ backgroundImage: `url(${carImageURL})`, backgroundSize: 'cover', position: 'relative'}} />
           )}
           <div className="group-9">
               <input
