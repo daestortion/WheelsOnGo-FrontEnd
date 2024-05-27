@@ -9,7 +9,7 @@ import Dropdown from "./Dropdown";
 import AddCarPopup from './AddCarPopup'; // Import AddCarPopup
 
 
-export const CarManagementOwner = () => {
+export const AddCar = () => {
   const [userId, setUserId] = useState(null);
   const [carBrand, setCarBrand] = useState('');
   const [carModel, setCarModel] = useState('');
@@ -226,4 +226,4 @@ export const CarManagementOwner = () => {
   );
 };
 
-export default CarManagementOwner;
+export default AddCar;

@@ -9,7 +9,7 @@ import AdminOrder from './Components/AdminOrder.js';
 import { AdminRegister } from './Components/AdminRegister.js';
 import AdminUsers from './Components/AdminUsers.js';
 import AdminVerify from './Components/AdminVerify.js';
-import CarManagement from './Components/CarManagement.js';
+import CarManagement from './Components/AddCar.js';
 import Cars from './Components/Cars.js';
 import Dashboard from './Components/Dashboard.js';
 import EditProfile from './Components/EditProfile.js';
