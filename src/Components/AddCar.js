@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'; 
-import "../Css/CarManagement.css";
-import profile from "../Images/profile.png";
-import sidelogo from "../Images/sidelogo.png";
 import axios from "axios";
 import { debounce } from 'lodash';
-import Dropdown from "./Dropdown";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import "../Css/AddCar.css";
+import profile from "../Images/profile.png";
+import sidelogo from "../Images/sidelogo.png";
 import AddCarPopup from './AddCarPopup'; // Import AddCarPopup
+import Dropdown from "./Dropdown";
 
 
 export const AddCar = () => {

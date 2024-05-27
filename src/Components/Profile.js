@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Dropdown from "../Components/Dropdown.js";
+import "../Css/OwnerProfile.css";
 import "../Css/Profile.css";
 import "../Css/ProfileVerified.css";
-import "../Css/OwnerProfile.css";
-import Dropdown from "../Components/Dropdown.js";
-import sidelogo from "../Images/sidelogo.png";
 import profileIcon from "../Images/profile.png";
-import check from "../Images/verified.png";
+import sidelogo from "../Images/sidelogo.png";
 import trash from "../Images/trash.png";
-import VerifyPopup from './VerifyPopup';
+import check from "../Images/verified.png";
+import ApplyOwnerPopup from './ApplyOwnerPopup';
 import Loading from './Loading';
+import VerifyPopup from './VerifyPopup';
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -29,6 +30,7 @@ const UserProfile = () => {
     });
 
     const [showVerifyPopup, setShowVerifyPopup] = useState(false);
+    const [showApplyOwnerPopup, setShowApplyOwnerPopup] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -40,8 +42,12 @@ const UserProfile = () => {
         setShowVerifyPopup(!showVerifyPopup);
     };
 
+    const toggleApplyOwnerPopup = () => {
+        setShowApplyOwnerPopup(!showApplyOwnerPopup);
+    };
+
     const handleAddCar = () => {
-        navigate('/carmanagement');
+        navigate('/Addcar');
     };
 
     useEffect(() => {
@@ -99,27 +105,29 @@ const UserProfile = () => {
         navigate('/aboutus');
     };
 
-    const handleRegisterAsOwner = async () => {
-        const confirmProceed = window.confirm('Do you want to proceed to register as an owner?');
-        if (confirmProceed) {
-            try {
-                const response = await axios.put(`http://localhost:8080/user/updateIsOwner/${currentUser.userId}`, {
+    const handleRegisterAsOwner = () => {
+        setShowApplyOwnerPopup(true);
+    };
+
+    const handleConfirmRegisterAsOwner = async () => {
+        try {
+            const response = await axios.put(`http://localhost:8080/user/updateIsOwner/${currentUser.userId}`, {
+                isOwner: true
+            });
+            if (response.status === 200) {
+                const updatedUser = {
+                    ...currentUser,
                     isOwner: true
-                });
-                if (response.status === 200) {
-                    const updatedUser = {
-                        ...currentUser,
-                        isOwner: true
-                    };
-                    setCurrentUser(updatedUser);
-                    navigate('/userprofile');
-                } else {
-                    alert('Failed to update status. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error updating renting status:', error);
-                alert('An error occurred. Please try again.');
+                };
+                setCurrentUser(updatedUser);
+                setShowApplyOwnerPopup(false);
+                navigate('/userprofile');
+            } else {
+                alert('Failed to update status. Please try again.');
             }
+        } catch (error) {
+            console.error('Error updating renting status:', error);
+            alert('An error occurred. Please try again.');
         }
     };
 
@@ -204,6 +212,7 @@ const UserProfile = () => {
                 </div>
             </div>
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
+            {showApplyOwnerPopup && <ApplyOwnerPopup closePopup={toggleApplyOwnerPopup} confirmRegister={handleConfirmRegisterAsOwner} />}
         </div>
     );
 };

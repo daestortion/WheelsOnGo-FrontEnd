@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "../Css/AdminRegister.css";
 import wog from "../Images/adminlogoBLACK.png";
 import vector from "../Images/vectorBLACK.png";
+import AdminRegistered from './AdminRegistered';
 
 export const AdminRegister = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showAdminRegistered, setAdminRegistered] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -58,11 +60,10 @@ export const AdminRegister = () => {
       });
 
       if (response.ok) {
-        alert("Registration successful");
-        // Reset the form
         setUsername("");
         setPassword("");
         setConfirmPassword("");
+        setAdminRegistered(true);
       } else {
         const errorData = await response.json();
         alert(`Registration failed: ${errorData.message}`);
@@ -113,6 +114,7 @@ export const AdminRegister = () => {
           <img className="wogo" alt="Wogo" src={wog} />
         </form>
       </div>
+      {showAdminRegistered && <AdminRegistered />}
     </div>
   );
 };

@@ -180,12 +180,11 @@
     font-size: 20px;
     font-weight: 700;
     position: absolute;
-    top: 95px; /* Adjust top value to position it correctly */
-    left: 50%;
+    top: 675px; /* Adjust top value to position it correctly */
+    left: 3150px;
     transform: translateX(-50%);
-    text-align: center;
-    width: 100%;
   }
+
   
   .edit-profile .overlap-group-wrapper {
     height: 71px;
