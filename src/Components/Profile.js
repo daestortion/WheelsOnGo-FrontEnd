@@ -41,7 +41,7 @@ const UserProfile = () => {
     };
 
     const handleAddCar = () => {
-        navigate('/carmanagement');
+        navigate('/addcar');
     };
 
     useEffect(() => {
