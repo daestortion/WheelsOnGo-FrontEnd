@@ -20,17 +20,27 @@ export const AdminPageCars = () => {
       const response = await fetch('http://localhost:8080/car/getAllCars');
       const data = await response.json();
       if (Array.isArray(data)) {
-        setCars(data);
+        setCars(data); // Include all cars, both active and inactive
       } else {
         console.error('API response is not an array:', data);
-        setCars([]); // Set to an empty array to avoid map errors
+        setCars([]);
       }
     } catch (error) {
       console.error('Error fetching cars:', error);
-      setCars([]); // Set to an empty array to avoid map errors
+      setCars([]);
     }
   };
 
+  const handleDelete = async (carId) => {
+    try {
+      await fetch(`http://localhost:8080/car/deleteCar/${carId}`, {
+        method: 'DELETE',
+      });
+      fetchCars(); // Refresh the cars list after deletion
+    } catch (error) {
+      console.error('Error deleting car:', error);
+    }
+  };
 
   const handleAdminUsers = () => {
     navigate('/adminusers');
@@ -45,11 +55,7 @@ export const AdminPageCars = () => {
   };
 
   const handleAdminOrder = () => {
-    navigate('/adminorder'); 
-  };
-
-  const handleAdminDashboard = () => {
-    navigate('/admindashboard');
+    navigate('/adminorder');
   };
 
   const handleLogout = () => {
@@ -80,6 +86,8 @@ export const AdminPageCars = () => {
                   <th>Car OR</th>
                   <th>Car CR</th>
                   <th>Car Image</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,6 +104,10 @@ export const AdminPageCars = () => {
                     </td>
                     <td>
                       <button onClick={() => handleShowImage(car.carImage)}>Show Image</button>
+                    </td>
+                    <td>{car.deleted ? 'Inactive' : 'Active'}</td>
+                    <td>
+                      <button onClick={() => handleDelete(car.carId)}>Delete</button>
                     </td>
                   </tr>
                 ))}
@@ -121,8 +133,7 @@ export const AdminPageCars = () => {
           <button className="group-222" onClick={handleAdminOrder}>
             <div className="text-wrapper-34">Orders</div>
           </button>
-          <div className="table-container">
-          </div>
+          <div className="table-container"></div>
           <button className="logout-button" onClick={handleLogout}>
             Logout
           </button>
