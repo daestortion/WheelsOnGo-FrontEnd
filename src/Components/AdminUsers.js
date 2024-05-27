@@ -12,6 +12,10 @@ export const AdminPageUsers = () => {
   const [filter, setFilter] = useState('all'); // 'all', 'regular', 'owner'
 
   useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = () => {
     axios.get('http://localhost:8080/user/getAllUsers')
       .then(response => {
         console.log('API response:', response.data); // Log the response to check its structure
@@ -26,7 +30,7 @@ export const AdminPageUsers = () => {
         console.error('Error fetching users:', error);
         setUsers([]); // Set to an empty array to avoid filter errors
       });
-  }, []);
+  };
 
   const handleAdminCars = () => {
     navigate('/admincars');
@@ -52,17 +56,6 @@ export const AdminPageUsers = () => {
     navigate('/adminlogin');
   };
 
-  const handleDelete = (userId) => {
-    axios.delete(`http://localhost:8080/user/deleteUser/${userId}`)
-      .then(response => {
-        console.log(response.data);
-        setUsers(users.map(user => user.userId === userId ? { ...user, isDeleted: true } : user));
-      })
-      .catch(error => {
-        console.error('Error deleting user:', error);
-      });
-  };
-
   const filteredUsers = users.filter(user => {
     switch (filter) {
       case 'all':
@@ -75,6 +68,28 @@ export const AdminPageUsers = () => {
         return true; // Safe fallback, includes all users
     }
   });
+
+  const handleDelete = (userId) => {
+    axios.put(`http://localhost:8080/user/deleteUser/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        fetchUsers(); // Refresh the user list after deletion
+      })
+      .catch(error => {
+        console.error('Error deleting user:', error);
+      });
+  };
+
+  const handleReactivate = (userId) => {
+    axios.put(`http://localhost:8080/user/reactivateUser/${userId}`)
+      .then(response => {
+        console.log(response.data);
+        fetchUsers(); // Refresh the user list after reactivation
+      })
+      .catch(error => {
+        console.error('Error reactivating user:', error);
+      });
+  };
 
   return (
     <div className="admin-page-users">
@@ -136,10 +151,12 @@ export const AdminPageUsers = () => {
                             : 'No image'
                           }
                         </td>
-                        <td>{user.isDeleted ? 'True' : 'False'}</td>
+                        <td>{user.deleted ? 'True' : 'False'}</td>
                         <td>
-                          {!user.isDeleted && (
-                            <button onClick={() => handleDelete(user.userId)}>Deactive</button>
+                          {!user.deleted ? (
+                            <button onClick={() => handleDelete(user.userId)}>Deactivate</button>
+                          ) : (
+                            <button onClick={() => handleReactivate(user.userId)}>Reactivate</button>
                           )}
                         </td>
                       </tr>
