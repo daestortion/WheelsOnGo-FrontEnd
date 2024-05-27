@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Dropdown from "../Components/Dropdown.js";
+import "../Css/OwnerProfile.css";
 import "../Css/Profile.css";
 import "../Css/ProfileVerified.css";
-import "../Css/OwnerProfile.css";
-import Dropdown from "../Components/Dropdown.js";
-import sidelogo from "../Images/sidelogo.png";
 import profileIcon from "../Images/profile.png";
-import check from "../Images/verified.png";
+import sidelogo from "../Images/sidelogo.png";
 import trash from "../Images/trash.png";
-import VerifyPopup from './VerifyPopup';
+import check from "../Images/verified.png";
 import ApplyOwnerPopup from './ApplyOwnerPopup';
 import Loading from './Loading';
+import VerifyPopup from './VerifyPopup';
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -47,7 +47,7 @@ const UserProfile = () => {
     };
 
     const handleAddCar = () => {
-        navigate('/addcar');
+        navigate('/Addcar');
     };
 
     useEffect(() => {

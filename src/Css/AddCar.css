@@ -125,19 +125,6 @@
   width: 714px;
 }
 
-.car-management-owner .error-message {
-  color: red;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
-  font-weight: 700;
-  position: absolute;
-  left: 3150px;
-  top: 747px; /* Adjust top value to position it correctly */
-  transform: translateX(-50%);
-  text-align: center;
-  width: 100%;
-}
-
 .car-management-owner .div-wrapper {
   background-color: #ffffff;
   border-radius: 35px;
@@ -303,6 +290,8 @@
   top: 17px;
   white-space: nowrap;
   width: 116px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .group-6 {
@@ -358,6 +347,8 @@
   top: 17px;
   white-space: nowrap;
   width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .group-7 {
