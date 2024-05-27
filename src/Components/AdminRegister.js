@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "../Css/AdminRegister.css";
 import wog from "../Images/adminlogoBLACK.png";
 import vector from "../Images/vectorBLACK.png";
+import AdminRegistered from './AdminRegistered';
 
 export const AdminRegister = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showAdminRegistered, setShowAdminRegistered] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -58,7 +60,7 @@ export const AdminRegister = () => {
       });
 
       if (response.ok) {
-        alert("Registration successful");
+        setShowAdminRegistered(true);
         // Reset the form
         setUsername("");
         setPassword("");
@@ -75,43 +77,47 @@ export const AdminRegister = () => {
   return (
     <div className="admin-registration">
       <div className="overlap-wrapper">
-        <form onSubmit={handleSubmit} className="overlap">
-          <div className="text-wrapper">Admin Registration</div>
-          <div className="password">
-            <input
-              className="overlap-group"
-              placeholder="Username"
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </div>
-          <div className="overlap-group-wrapper">
-            <input
-              className="overlap-group"
-              placeholder="Password"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <div className="password-2">
-            <input
-              className="overlap-group"
-              placeholder="Confirm Password"
-              type="password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
-          </div>
-          <button className="register-btn" type="submit">
-            <div className="overlap-2">
-              <div className="text-wrapper-2">Register</div>
+        {!showAdminRegistered ? (
+          <form onSubmit={handleSubmit} className="overlap">
+            <div className="text-wrapper">Admin Registration</div>
+            <div className="password">
+              <input
+                className="overlap-group"
+                placeholder="Username"
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+              />
             </div>
-          </button>
-          <img className="vector" alt="Vector" src={vector} />
-          <img className="wogo" alt="Wogo" src={wog} />
-        </form>
+            <div className="overlap-group-wrapper">
+              <input
+                className="overlap-group"
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <div className="password-2">
+              <input
+                className="overlap-group"
+                placeholder="Confirm Password"
+                type="password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+            </div>
+            <button className="register-btn" type="submit">
+              <div className="overlap-2">
+                <div className="text-wrapper-2">Register</div>
+              </div>
+            </button>
+            <img className="vector" alt="Vector" src={vector} />
+            <img className="wogo" alt="Wogo" src={wog} />
+          </form>
+        ) : (
+          <AdminRegistered />
+        )}
       </div>
     </div>
   );

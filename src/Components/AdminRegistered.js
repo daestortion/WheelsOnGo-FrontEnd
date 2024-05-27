@@ -15,7 +15,7 @@ export const AdminRegistered = () => {
     <div className="successful-register">
       <div className="overlap-wrapper">
         <div className="overlap">
-          <div className="ok-text-wrapper">You have successfully registered.</div>
+          <div className="ok-text-wrapper">You have successfully created an admin account.</div>
           <div className="group">
             <div className="overlap-group" onClick={handleOkClick}>
               <div className="ok-div">OK</div>
