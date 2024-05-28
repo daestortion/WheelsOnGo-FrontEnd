@@ -105,11 +105,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="rectangle">
             <img src={car.carImage} alt="Car" className="car-image" />
           </div>
-          <div className="text-wrapper-2">
+          <div className="text-wrapper-234">
             {car.carBrand} {car.carModel} {car.carYear}
           </div>
           <div className="cp-overlap-group">
-            <div className="text-wrapper-3">₱{car.rentPrice}</div>
+            <div className="text-wrapper-345">₱{car.rentPrice}</div>
             <div className="text-wrapper-4">{car.owner.pNum}</div>
             <img className="vector" alt="Vector" src={vector7} />
           </div>

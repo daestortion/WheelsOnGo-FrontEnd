@@ -78,12 +78,12 @@
   background-color: #000;
 }
 
-.checkout-popup .text-wrapper-2 { 
+.checkout-popup .text-wrapper-234 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 40px; 
   font-weight: 600; 
-  left: 309px; 
+  left: 345px; 
   letter-spacing: 0.5px; 
   line-height: normal; 
   position: absolute; 
@@ -99,7 +99,7 @@
   width: 590px; 
 }
 
-.checkout-popup .text-wrapper-3 { 
+.checkout-popup .text-wrapper-345 { 
   color: #e32128; 
   font-family: "Inter-Medium", Helvetica; 
   font-size: 30px; 
