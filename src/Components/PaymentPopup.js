@@ -50,7 +50,7 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <div className="rectangle-2">
             <img src={car.carImage} alt="Car" className="car-image" />
           </div>
-          <div className="text-wrapper-3">{car.carBrand} {car.carModel} {car.carYear}</div>
+          <div className="text-wrapper-33">{car.carBrand} {car.carModel} {car.carYear}</div>
           <div className="overlap-groupp">
             <div className="text-wrapper-444">₱{car.rentPrice}</div>
             <div className="text-wrapper-55">{car.owner.pNum}</div>

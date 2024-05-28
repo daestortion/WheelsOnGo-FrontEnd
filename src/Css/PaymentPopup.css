@@ -140,12 +140,12 @@
     overflow: hidden;       /* Hide overflow to maintain border radius */
   }
   
-  .payment-popup .text-wrapper-3 {
+  .payment-popup .text-wrapper-33 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 40px;
     font-weight: 600;
-    left: 297px;
+    left: 335px;
     letter-spacing: 0.5px;
     line-height: normal;
     position: absolute;
@@ -167,7 +167,7 @@
     font-size: 30px;
     font-weight: 500;
     height: 34px;
-    left: 0;
+    left: 40px;
     letter-spacing: 0.38px;
     line-height: 140px;
     position: absolute;
