@@ -57,7 +57,7 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
             <img className="img" alt="Vector" src={line1} />
           </div>
           <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-7">Total: ₱{totalPrice.toFixed(2)}</div>
+          <div className="text-wrapper-77">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
           <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
