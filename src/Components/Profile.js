@@ -103,6 +103,10 @@ const UserProfile = () => {
         navigate('/home');
     };
 
+    const handleOrderHistory = () => {
+        navigate('/orderhistory');
+    };
+
     const handleCarsClick = () => {
         navigate('/cars');
     };
@@ -176,6 +180,7 @@ const UserProfile = () => {
                         </div>
                         <p className="p">{currentUser.pNum} | {currentUser.email}</p>
                     </div>
+                    <div className="text-wrapper-55" onClick={handleOrderHistory}>Order History</div>
                     {currentUser.verificationStatus === 1 && currentUser.isOwner ? (
                         <div className="owner-section">
                             <div className="overlap-group-wrapper6">
@@ -183,7 +188,7 @@ const UserProfile = () => {
                                     <div className="text-wrapper-44">Register a Car</div>
                                 </button>
                             </div>
-                            <div className="text-wrapper-55">Order History</div>
+                            
                             <div className="overlap-33">
                                 {currentUser.cars.length > 0 ? (
                                     currentUser.cars.map(car => (
