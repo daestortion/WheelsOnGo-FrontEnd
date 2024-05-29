@@ -353,6 +353,7 @@
     position: absolute;
     top: 274px;
     width: 450px;
+    border: 2px solid black;
   }
 
   .update-car-owner .rectangle12 {
