@@ -37,29 +37,33 @@ export const UpdateCar = () => {
             </Dropdown>
         </div>
         <div className="overlap-group">
-          <div className="div-wrapper">
-            <div className="text-wrapper-4">Renter Address</div>
-          </div>
+
+          <input className="div-wrapper" type="text" placeholder="Renter Address">
+          </input>
+          
+          <input className="div-wrapper123" type="text" placeholder="Rent Price">
+          </input>
+
           <div className="overlap-2">
             <div className="overlap-wrapper">
-              <div className="overlap-3">
+              <button className="overlap-333">
                 <div className="text-wrapper-5">Upload</div>
-              </div>
+              </button>
             </div>
-            <div className="text-wrapper-6">Upload Car (OR/CR)</div>
+            <div className="text-wrapper-6">Upload Car OR</div>
           </div>
           <div className="overlap-4">
             <div className="overlap-group-wrapper">
-              <div className="overlap-3">
+              <button className="overlap-3">
                 <div className="text-wrapper-5">Upload</div>
-              </div>
+              </button>
             </div>
             <div className="text-wrapper-7">Upload Valid Government ID</div>
           </div>
-          <div className="group-2">
-            <div className="overlap-5">
+          <div className="group-22">
+            <button className="overlap-55">
               <div className="text-wrapper-8">Register Car</div>
-            </div>
+            </button>
           </div>
           <div className="new-car-details"> New Car Details</div>
           <p className="p">Please enter your new car details. Upon confirming, your car details will be updated.</p>
@@ -67,9 +71,9 @@ export const UpdateCar = () => {
         <div className="text-wrapper-9">Car Registration</div>
         <div className="rectangle" />
         <div className="group-3">
-          <div className="overlap-group-2">
+          <button className="overlap-group-2">
             <div className="text-wrapper-10">Upload</div>
-          </div>
+          </button>
         </div>
       </div>
     </div>

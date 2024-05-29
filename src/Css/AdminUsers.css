@@ -25,17 +25,16 @@
 }
 
 .admin-page-users .rectangle {
-  height: 100%;
+  height: 830px;
   left: 0;
   object-fit: cover;
   position: absolute;
-  top: 0;
   width: 1920px;
 }
 
 .admin-page-users .rectangle-2 {
   background-color: #840000;
-  height: 100%;
+  height: 830px;
   left: 0;
   position: absolute;
   top: 0;
