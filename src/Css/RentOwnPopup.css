@@ -1,0 +1,69 @@
+.cantrentown-popup {
+    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;  /* Center vertically */
+    justify-content: center;  /* Center horizontally */
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
+    z-index: 1050;  /* Ensure it's above all other content */
+  }
+  
+  .cantrentown-popup .overlap-wrapper {
+    height: 410px;
+    width: 907px;
+  }
+  
+  .cantrentown-popup .ro-overlap {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 410px;
+    position: relative;
+  }
+  
+  .cantrentown-popup .you-cannot-rent-your {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 142px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 94px;
+    width: 623px;
+  }
+  
+  .cantrentown-popup .group {
+    height: 71px;
+    left: 376px;
+    position: absolute;
+    top: 296px;
+    width: 170px;
+  }
+  
+  .cantrentown-popup .overlap-group {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 168px;
+  }
+  
+  .cantrentown-popup .text-wrapper {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 92px;
+  }
+  

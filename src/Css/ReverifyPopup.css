@@ -1,0 +1,212 @@
+.vap-popup {
+    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;  /* Center vertically */
+    justify-content: center;  /* Center horizontally */
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
+    z-index: 1050;  /* Ensure it's above all other content */
+}
+
+.vap-popup .vap-wrapper {
+    background-color: #d7d1d1;
+    border-radius: 50px;  /* Optional: adds rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: drop shadow for better focus */
+    width: 90%;  /* Responsive width up to a max */
+    max-width: 907px;  /* Max width as before */
+    height: 560px;  /* As before */
+}
+
+.vap-popup .vap-overlap {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 560px;
+    position: relative;
+}
+
+.vap-popup .vap-text-wrapper {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 257px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 71px;
+    width: 393px;
+}
+
+.vap-popup .vap-group-wrapper {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 98px;
+    position: absolute;
+    top: 197px;
+    width: 712px;
+}
+
+.vap-popup .vap-group {
+    height: 50px;
+    left: 485px;
+    position: absolute;
+    top: 10px;
+    width: 212px;
+}
+
+.vap-popup .vap-div-wrapper {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 50px;
+    position: relative;
+    width: 210px;
+    cursor: pointer;
+}
+
+.vap-div-wrapper:hover{
+    background-color: #800000;
+}
+
+.vap-popup .vap-div {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 57px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    white-space: nowrap;
+    width: 93px;
+}
+
+.vap-popup .vap-text-2 {
+    color: #848484;
+    font-size: 30px;
+    left: 36px;
+    line-height: normal;
+    position: absolute;
+    top: 16px;
+    white-space: nowrap;
+    width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vap-popup .vap-overlap-2 {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 98px;
+    position: absolute;
+    top: 282px;
+    width: 712px;
+}
+
+.vap-popup .vap-group-wrapper-2 {
+    height: 50px;
+    left: 485px;
+    position: absolute;
+    top: 11px;
+    width: 212px;
+}
+
+.vap-popup .vap-text-3 {
+    color: #848484;
+    font-size: 30px;
+    left: 35px;
+    line-height: normal;
+    position: absolute;
+    top: 17px;
+    white-space: nowrap;
+    width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vap-popup .vap-group-2 {
+    height: 71px;
+    left: 99px;
+    position: absolute;
+    top: 417px;
+    width: 714px;
+}
+
+.vap-popup .vap-overlap-3 {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 712px;
+    cursor: pointer;
+}
+.vap-overlap-3:hover{
+    background-color: #800000;
+}
+
+.vap-popup .vap-text-4 {
+    color: #ffffff;
+    font-size: 20px;
+    left: 258px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 200px;
+}
+
+.vap-popup .close{
+    border-radius: 9px;
+    height: 50px;
+    left: 790px;
+    position: absolute;
+    top: 29px;
+    width: 50px;
+}
+
+.vap-popup .vap-text-info{
+    font-size: 0.9rem; /* Sets the font size */
+    color: #000000; /* Sets the text color */
+    position: fixed;
+    top: 575px;
+    left: 770px;
+
+}
+
+.vap-popup .vap-p{
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    height: 34px;
+    left: 121px;
+    letter-spacing: 0.25px;
+    line-height: 140px;
+    position: absolute;
+    text-align: center;
+    top: 283px;
+    white-space: nowrap;
+    width: 672px;
+}
+
+.vap-popup .text-wrapper-pp{
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    height: 34px;
+    left: 146px;
+    letter-spacing: 0.25px;
+    line-height: 140px;
+    position: absolute;
+    text-align: center;
+    top: 308px;
+    white-space: nowrap;
+    width: 616px;
+}
