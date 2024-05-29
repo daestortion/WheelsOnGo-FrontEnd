@@ -51,7 +51,11 @@ export const Cars = () => {
   const handleRentClick = (car) => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.verificationStatus === 1) {
-      setSelectedCar(car);
+      if (car.owner.userId === user.userId) {
+        alert("You cannot rent your own car.");
+      } else {
+        setSelectedCar(car);
+      }
     } else {
       alert("Verify your account first");
     }
