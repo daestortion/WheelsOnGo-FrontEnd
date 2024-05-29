@@ -8,7 +8,6 @@ import sidelogo from "../Images/sidelogo.png";
 import AddCarPopup from './AddCarPopup'; // Import AddCarPopup
 import Dropdown from "./Dropdown";
 
-
 export const AddCar = () => {
   const [userId, setUserId] = useState(null);
   const [carBrand, setCarBrand] = useState('');
@@ -30,7 +29,6 @@ export const AddCar = () => {
   const carCRInputRef = useRef(null);
   const navigate = useNavigate(); 
 
-  
   const handleHomeClick = () => {
     navigate('/home'); 
   };
@@ -60,7 +58,6 @@ export const AddCar = () => {
     }
   };
   
-
   const handleSubmit = async () => {
     if (isSubmitting) return;  // Prevent multiple submissions
 

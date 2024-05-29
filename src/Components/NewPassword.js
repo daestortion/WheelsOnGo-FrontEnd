@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Css/NewPassword.css";
 import logo from "../Images/wheelsongo.png";
 
@@ -7,13 +7,15 @@ const NewPassword = () => {
     newPassword: "",
     confirmPassword: ""
   });
+  const [userId, setUserId] = useState(null);
 
-  // Fetch the user and userID from localStorage only once
-  const user = JSON.parse(localStorage.getItem('user'));
-  const userId = user ? user.userId : null;
-  console.log(userId);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const userIdParam = params.get('userId');
+    setUserId(userIdParam);
+    console.log(userIdParam);
+  }, []);
 
-  // Function to validate password
   const validatePassword = (password) => {
     const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(password);
@@ -30,39 +32,31 @@ const NewPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate userId is available
-    if (!userId) {
-      alert("User not found. Please log in again.");
-      return;
-    }
-
-    // Check if new passwords match
     if (userInput.newPassword !== userInput.confirmPassword) {
       alert("New password and confirm password do not match!");
       return;
     }
 
-    // Validate the new password strength
     if (!validatePassword(userInput.newPassword)) {
       alert("Password must be at least 8 characters long, include at least one uppercase letter, one number, and one special character.");
       return;
     }
 
-    // API call to reset the password
     try {
       const response = await fetch('http://localhost:8080/user/reset-password', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: `userId=${userId}&newPassword=${encodeURIComponent(userInput.newPassword)}`
+        body: JSON.stringify({ userId, newPassword: userInput.newPassword })
       });
 
       if (response.ok) {
-        const data = await response.json();
-        alert(`Password reset successfully: ${data}`);
+        alert("Password reset successfully.");
+        // Redirect to login page programmatically after successful password reset
+        window.location.href = "/login";
       } else {
-        const errorText = await response.text(); // Handle non-JSON responses
+        const errorText = await response.text();
         throw new Error(errorText);
       }
     } catch (error) {

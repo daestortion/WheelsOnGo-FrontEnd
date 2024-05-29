@@ -4,18 +4,20 @@ import logo from "../Images/wheelsongo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export const ForgotPassword = () => {
+const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState(false);
 
     const handleResetPassword = async () => {
         try {
-            await axios.get(`http://localhost:8080/user/forgot-password`, {
+            const response = await axios.get(`http://localhost:8080/user/forgot-password`, {
                 params: { identifier: email }
             });
-            setMessage('If the email is associated with an account, a reset link has been sent.');
-            setError(false);
+            if (response.status === 200) {
+                setMessage('If the email is associated with an account, a reset link has been sent.');
+                setError(false);
+            }
         } catch (err) {
             setError(true);
             setMessage('There was an error processing your request.');

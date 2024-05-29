@@ -169,8 +169,9 @@ const UserProfile = () => {
     };
 
     const handleUpdateCar = (carId) => {
-        navigate(`/updatecar`);
+        navigate(`/updatecar/${carId}`);
     };
+    
 
     console.log(currentUser);
     return (
@@ -223,22 +224,22 @@ const UserProfile = () => {
                             </div>
                             
                             <div className="overlap-33">
-                                {currentUser.cars.length > 0 ? (
-                                    currentUser.cars.filter(car => !car.deleted).map(car => (
-                                        <div key={car.carId} className="car-frame">
-                                            <button onClick={() => handleUpdateCar(car.carId)}>
-                                                <img
-                                                    className="car-imagee"
-                                                    alt="Car"
-                                                    src={`data:image/jpeg;base64,${car.carImage}`}
-                                                />
-                                            </button>
-                                            <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={handleUpdateCar} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No cars registered</p>
-                                )}
+                            {currentUser.cars.length > 0 ? (
+                                currentUser.cars.filter(car => !car.deleted).map(car => (
+                                    <div key={car.carId} className="car-frame">
+                                        <button onClick={() => handleUpdateCar(car.carId)}>
+                                            <img
+                                                className="car-imagee"
+                                                alt="Car"
+                                                src={`data:image/jpeg;base64,${car.carImage}`}
+                                            />
+                                        </button>
+                                        <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={() => handleDeleteCar(car.carId)} />
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No cars registered</p>
+                            )}
                             </div>
                         </div>
                     ) : (

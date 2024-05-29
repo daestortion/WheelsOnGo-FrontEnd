@@ -13,6 +13,7 @@ export const Registration = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +26,7 @@ export const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
+    if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
       setError("All fields are required.");
       return;
     }
@@ -34,6 +36,10 @@ export const Registration = () => {
     }
     if (!password.match(passwordRegex)) {
       setError("Password must be 8 characters long with at least 1 capital letter, 1 small letter, 1 number, and 1 symbol.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
     if (password !== confirmPassword) {
@@ -62,6 +68,7 @@ export const Registration = () => {
       setPhoneNumber("");
       setPassword("");
       setConfirmPassword("");
+      setConfirmPassword(""); // Reset confirm password
       setError("");
       setIsPopupVisible(true);
     } catch (error) {
@@ -125,6 +132,20 @@ export const Registration = () => {
               placeholder="Phone Number"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <input
+              className="overlap-5"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              className="overlap-6"
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <div className="password-input-wrapper">
               <input
