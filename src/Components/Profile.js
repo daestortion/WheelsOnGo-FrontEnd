@@ -168,6 +168,10 @@ const UserProfile = () => {
         }
     };
 
+    const handleUpdateCar = (carId) => {
+        navigate(`/updatecar/${carId}`);
+    };
+
     console.log(currentUser);
     return (
         <div className="profile-not-verified">
@@ -220,11 +224,13 @@ const UserProfile = () => {
                                 {currentUser.cars.length > 0 ? (
                                     currentUser.cars.filter(car => !car.deleted).map(car => (
                                         <div key={car.carId} className="car-frame">
-                                            <img
-                                                className="car-imagee"
-                                                alt="Car"
-                                                src={`data:image/jpeg;base64,${car.carImage}`}
-                                            />
+                                            <button onClick={() => handleUpdateCar(car.carId)}>
+                                                <img
+                                                    className="car-imagee"
+                                                    alt="Car"
+                                                    src={`data:image/jpeg;base64,${car.carImage}`}
+                                                />
+                                            </button>
                                             <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={() => handleDeleteCar(car.carId)} />
                                         </div>
                                     ))
