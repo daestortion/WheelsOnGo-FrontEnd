@@ -1,4 +1,3 @@
-// src/components/Registration.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Css/Register.css";
@@ -14,6 +13,7 @@ export const Registration = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for confirm password
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
@@ -23,7 +23,7 @@ export const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !phoneNumber || !password) {
+    if (!firstName || !lastName || !email || !phoneNumber || !password || !confirmPassword) {
       setError("All fields are required.");
       return;
     }
@@ -33,6 +33,10 @@ export const Registration = () => {
     }
     if (!password.match(passwordRegex)) {
       setError("Password must be 8 characters long with at least 1 capital letter, 1 small letter, 1 number, and 1 symbol.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -56,6 +60,7 @@ export const Registration = () => {
       setEmail("");
       setPhoneNumber("");
       setPassword("");
+      setConfirmPassword(""); // Reset confirm password
       setError("");
       setIsPopupVisible(true); // Show the popup upon successful registration
     } catch (error) {
@@ -123,11 +128,12 @@ export const Registration = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             <input
               className="overlap-6"
               type="password"
               placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </form>
           <p className="already-have-an">
