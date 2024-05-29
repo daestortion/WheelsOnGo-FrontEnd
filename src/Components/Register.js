@@ -123,6 +123,12 @@ export const Registration = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+
+            <input
+              className="overlap-6"
+              type="password"
+              placeholder="Confirm Password"
+            />
           </form>
           <p className="already-have-an">
             <span className="span">Already have an Account? </span>
