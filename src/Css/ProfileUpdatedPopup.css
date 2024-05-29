@@ -1,67 +1,69 @@
-.profile-uploaded {
-    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;  /* Center vertically */
-    justify-content: center;  /* Center horizontally */
-    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
-    z-index: 1050;  /* Ensure it's above all other content */
-  }
-  
-  .profile-uploaded .overlap-wrapper {
-    height: 410px;
-    width: 907px;
-  }
-  
-  .profile-uploaded .overlap {
-    border-radius: 40px;
-    height: 410px;
-  }
-  
-  .profile-uploaded .ok-text-wrapper {
-    color: #000000;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
-    font-weight: 600;
-    left: 142px;
-    letter-spacing: 0.62px;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 94px;
-    width: 623px;
-  }
-  
-  .profile-uploaded .group {
-    height: 71px;
-    left: 376px;
-    position: absolute;
-    top: 296px;
-    width: 170px;
-  }
-  
-  .profile-uploaded .overlap-group {
-    background-color: #e80029;
-    border-radius: 35px;
-    height: 71px;
-    position: relative;
-    width: 168px;
-  }
-  
-  .profile-uploaded .div {
-    color: #ffffff;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    left: 40px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 22px;
-    width: 92px;
-  }
-  
+.profile-updated {
+  position: fixed;  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;  
+  justify-content: center;  
+  background-color: rgba(0, 0, 0, 0.5);  
+  z-index: 1050; 
+}
+
+.profile-updated .overlap-wrapper123 {
+  height: 410px;
+  width: 907px;
+}
+
+.profile-updated .overlappp {
+  background-color: #d7d1d1;
+  border-radius: 40px;
+  height: 410px;
+  position: relative;
+}
+
+.profile-updated .text-wrapper234 {
+  color: #000000;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 50px;
+  font-weight: 600;
+  left: 142px;
+  letter-spacing: 0.62px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 94px;
+  width: 623px;
+}
+
+.profile-updated .group111 {
+  height: 71px;
+  left: 376px;
+  position: absolute;
+  top: 296px;
+  width: 170px;
+}
+
+.profile-updated .overlap-grouppp {
+  background-color: #e80029;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 168px;
+  border: none;
+}
+
+.profile-updated .diver {
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 40px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 22px;
+  width: 92px;
+}
