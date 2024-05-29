@@ -59,15 +59,17 @@ export const AdminVerify = () => {
   };
 
   const handleDeny = (vId) => {
-    axios.delete(`http://localhost:8080/verification/deleteVerification/${vId}`)
+    axios.put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=2`)
       .then(response => {
-        setVerifications(prevVerifications => prevVerifications.filter(verification => verification.vId !== vId));
+        setVerifications(prevVerifications => prevVerifications.map(verification =>
+          verification.vId === vId ? { ...verification, status: 2 } : verification
+        ));
         window.location.reload(); // Refresh the page
       })
       .catch(error => {
         console.error(`Error denying verification ${vId}:`, error);
       });
-  };
+  };  
 
   const handleAdminVerify = () => {
     navigate('/adminverify'); 

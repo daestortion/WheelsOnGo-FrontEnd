@@ -12,6 +12,7 @@ import check from "../Images/verified.png";
 import ApplyOwnerPopup from './ApplyOwnerPopup';
 import Loading from './Loading';
 import VerifyPopup from './VerifyPopup';
+import ReverifyPopup from './ReverifyPopup';
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -31,6 +32,7 @@ const UserProfile = () => {
 
     const [showVerifyPopup, setShowVerifyPopup] = useState(false);
     const [showApplyOwnerPopup, setShowApplyOwnerPopup] = useState(false);
+    const [showReverifyPopup, setShowReverifyPopup] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -44,6 +46,10 @@ const UserProfile = () => {
 
     const toggleApplyOwnerPopup = () => {
         setShowApplyOwnerPopup(!showApplyOwnerPopup);
+    };
+
+    const toggleReverify = () => {
+        setShowReverifyPopup(!showReverifyPopup);
     };
 
     const handleAddCar = () => {
@@ -157,6 +163,10 @@ const UserProfile = () => {
                                     <img className="vector" alt="Vector" src={check} />
                                 ) : currentUser.verificationStatus === 0 ? (
                                     <div className="text-wrapper-69">Pending Verification</div>
+                                ) : currentUser.verificationStatus === 2 ? (
+                                    <div className="reverify">
+                                        Verification denied, please <span className="reverify-link" onClick={toggleReverify}>reverify.</span>
+                                    </div>
                                 ) : (
                                     <button className="div-wrapper" onClick={toggleVerifyPopup}>
                                         <div className="text-wrapper-4">Verify Account</div>
