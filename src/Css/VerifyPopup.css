@@ -95,6 +95,8 @@
     top: 16px;
     white-space: nowrap;
     width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vap-popup .vap-overlap-2 {
@@ -124,6 +126,8 @@
     top: 17px;
     white-space: nowrap;
     width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vap-popup .vap-group-2 {
