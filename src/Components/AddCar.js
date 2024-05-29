@@ -22,6 +22,7 @@ export const AddCar = () => {
   const [carORFileName, setCarORFileName] = useState('');  // New state variable for OR file name
   const [carCRFileName, setCarCRFileName] = useState('');  // New state variable for CR file name
   const [carImageURL, setCarImageURL] = useState(''); // State for storing the object URL
+  const [carDescription, setCarDescription] = useState(''); // New state variable for car description
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAddCarPopup, setShowAddCarPopup] = useState(false); // State for showing AddCarPopup
   const carImageInputRef = useRef(null);
@@ -64,7 +65,7 @@ export const AddCar = () => {
     if (isSubmitting) return;  // Prevent multiple submissions
 
     // Validation check
-    if (!carBrand || !carModel || !carYear || !address || !carOR || !carCR || !rentPrice || !carImage) {
+    if (!carBrand || !carModel || !carYear || !address || !carOR || !carCR || !rentPrice || !carImage || !carDescription) {
       alert("Please fill in all required fields.");
       return;
     }
@@ -77,6 +78,7 @@ export const AddCar = () => {
     formData.append('carYear', carYear);
     formData.append('address', address);
     formData.append('rentPrice', parseFloat(rentPrice));
+    formData.append('carDescription', carDescription); // Add carDescription to form data
     if (carImage) formData.append('carImage', carImage);
     if (carOR) formData.append('carOR', carOR);
     if (carCR) formData.append('carCR', carCR);
@@ -101,7 +103,6 @@ export const AddCar = () => {
   if (!userId) {
     return <div>Please log in to manage cars.</div>;
   }
-
 
   return (
     <div className="car-management-owner">
@@ -151,6 +152,14 @@ export const AddCar = () => {
                 placeholder="Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
+            <div className="description-textarea">
+              <textarea
+                className="description-wrapper"
+                placeholder="Car Description"
+                value={carDescription}
+                onChange={(e) => setCarDescription(e.target.value)}
               />
             </div>
             <div className="overlap-3">
