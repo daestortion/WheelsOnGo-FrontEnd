@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import "../Css/UpdateCar.css";
+import "../Css/updatecar.css";
 import profileIcon from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import Dropdown from "./Dropdown.js";
