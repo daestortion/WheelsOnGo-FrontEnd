@@ -36,7 +36,7 @@
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
-    top: 55px;
+    top: 30px;
     white-space: nowrap;
   }
   
@@ -115,7 +115,7 @@
     height: 71px;
     left: 98px;
     position: absolute;
-    top: 152px;
+    top: 105px;
     width: 648px;
     border: none;
     padding-left: 35px;
@@ -148,7 +148,7 @@
     height: 71px;
     left: 98px;
     position: absolute;
-    top: 237px;
+    top: 190px;
     width: 285px;
     border: none;
     padding-left: 35px;
@@ -167,7 +167,7 @@
     height: 71px;
     left: 460px;
     position: absolute;
-    top: 237px;
+    top: 190px;
     width: 285px;
     border: none;
     padding-left: 35px;
@@ -187,7 +187,7 @@
     height: 71px;
     left: 98px;
     position: absolute;
-    top: 322px;
+    top: 275px;
     width: 648px;
     border: none;
     padding-left: 35px;
@@ -206,7 +206,7 @@
     height: 71px;
     left: 98px;
     position: absolute;
-    top: 407px;
+    top: 360px;
     width: 648px;
     border: none;
     padding-left: 35px;
@@ -225,7 +225,26 @@
     height: 71px;
     left: 98px;
     position: absolute;
-    top: 492px;
+    top: 445px;
+    width: 648px;
+    border: none;
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+
+  .registration .overlap-6 {
+    background-color: #ffffff;
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    border-radius: 35px;
+    height: 71px;
+    left: 98px;
+    position: absolute;
+    top: 530px;
     width: 648px;
     border: none;
     padding-left: 35px;
