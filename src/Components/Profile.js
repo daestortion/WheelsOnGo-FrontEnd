@@ -169,7 +169,7 @@ const UserProfile = () => {
     };
 
     const handleUpdateCar = (carId) => {
-        navigate(`/updatecar/${carId}`);
+        navigate(`/updatecar`);
     };
 
     console.log(currentUser);
@@ -211,7 +211,9 @@ const UserProfile = () => {
                         </div>
                         <p className="p">{currentUser.pNum} | {currentUser.email}</p>
                     </div>
-                    <div className="text-wrapper-55" onClick={handleOrderHistory}>Order History</div>
+                    {currentUser.verificationStatus === 1 && (
+                        <div className="text-wrapper-55" onClick={handleOrderHistory}>Order History</div>
+                    )}
                     {currentUser.verificationStatus === 1 && currentUser.isOwner ? (
                         <div className="owner-section">
                             <div className="overlap-group-wrapper6">
@@ -231,7 +233,7 @@ const UserProfile = () => {
                                                     src={`data:image/jpeg;base64,${car.carImage}`}
                                                 />
                                             </button>
-                                            <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={() => handleDeleteCar(car.carId)} />
+                                            <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={handleUpdateCar} />
                                         </div>
                                     ))
                                 ) : (
