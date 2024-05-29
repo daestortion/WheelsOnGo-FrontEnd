@@ -334,6 +334,13 @@
     top: 274px;
     width: 450px;
   }
+
+  .update-car-owner .rectangle12 {
+    border-radius: 40px;
+    height: 450px;
+    position: absolute;
+    width: 450px;
+  }
   
   .update-car-owner .group-3 {
     height: 71px;

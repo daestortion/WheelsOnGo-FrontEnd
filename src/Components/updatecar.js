@@ -10,6 +10,7 @@ export const UpdateCar = () => {
 
   const [carFileName, setCarFileName] = useState("Upload Car OR");
   const [govIdFileName, setGovIdFileName] = useState("Upload Valid Government ID");
+  const [imageSrc, setImageSrc] = useState(null);
 
   const handleHomeClick = () => {
     navigate('/home'); // Navigate to dashboard page which is at '/home'
@@ -34,6 +35,17 @@ export const UpdateCar = () => {
     const file = event.target.files[0];
     if (file) {
       setGovIdFileName(file.name);
+    }
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -94,11 +106,19 @@ export const UpdateCar = () => {
           <p className="p">Please enter your new car details. Upon confirming, your car details will be updated.</p>
         </div>
         <div className="text-wrapper-9">Car Registration</div>
-        <div className="rectangle" />
+        <div className="rectangle">
+          {imageSrc && <img src={imageSrc} alt="Uploaded" className="rectangle12" />}
+        </div>
         <div className="group-3">
-          <button className="overlap-group-2">
+          <button className="overlap-group-2" onClick={() => document.getElementById('image-upload-input').click()}>
             <div className="text-wrapper-10">Upload</div>
           </button>
+          <input
+            id="image-upload-input"
+            type="file"
+            style={{ display: 'none' }}
+            onChange={handleImageUpload}
+          />
         </div>
       </div>
     </div>
