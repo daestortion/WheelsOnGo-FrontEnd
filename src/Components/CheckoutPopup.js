@@ -73,24 +73,23 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       insertOrder(order, storedUserId, car.carId);
     }
   };
-  
+
   const insertOrder = async (order, userId, carId) => {
     try {
-        const response = await axios.post('http://localhost:8080/order/insertOrder', order, {
-            params: { userId, carId },
-            withCredentials: true
-        });
-        if (response.status === 200) {
-            setShowPaymentPopup(true);
-        } else {
-            throw new Error('Server responded with non-200 status');
-        }
+      const response = await axios.post('http://localhost:8080/order/insertOrder', order, {
+        params: { userId, carId },
+        withCredentials: true
+      });
+      if (response.status === 200) {
+        setShowPaymentPopup(true);
+      } else {
+        throw new Error('Server responded with non-200 status');
+      }
     } catch (error) {
-        console.error(error);
-        setErrorMessage(error.response?.data?.message || "An error occurred while placing the order. Please try again.");
+      console.error(error);
+      setErrorMessage(error.response?.data?.message || "An error occurred while placing the order. Please try again.");
     }
-};
-
+  };
 
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);
@@ -125,6 +124,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 onChange={handleStartDateChange}
                 inline
                 shouldCloseOnSelect
+                minDate={new Date()} // Disable dates before the current date
               />
             )}
           </div>
@@ -138,7 +138,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 onChange={handleEndDateChange}
                 inline
                 shouldCloseOnSelect
-                minDate={startDate}  // Disable dates before the start date
+                minDate={startDate || new Date()} // Disable dates before the start date
               />
             )}
           </div>
