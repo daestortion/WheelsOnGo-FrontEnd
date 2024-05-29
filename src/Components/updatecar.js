@@ -1,26 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import "../Css/UpdateCar.css";
 import profileIcon from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import Dropdown from "./Dropdown.js";
 
-export const UpdateCar = () => {
-  const navigate = useNavigate(); // Setup useNavigate
+const UpdateCar = () => {
+  const navigate = useNavigate();
+  const { carId } = useParams();
+  console.log(carId);
 
   const [carFileName, setCarFileName] = useState("Upload Car OR");
   const [imageSrc, setImageSrc] = useState(null);
 
   const handleHomeClick = () => {
-    navigate('/home'); // Navigate to dashboard page which is at '/home'
+    navigate('/home');
   };
 
   const handleCarsClick = () => {
-    navigate('/cars'); // Navigate to cars page
+    navigate('/cars');
   };
 
   const handleAboutClick = () => {
-    navigate('/aboutus'); // Navigate to about-us page
+    navigate('/aboutus');
   };
 
   const handleCarFileChange = (event) => {
