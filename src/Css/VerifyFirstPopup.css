@@ -1,25 +1,29 @@
 .verify-first-popup {
-    background-color: #ffffff;
+    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+    align-items: center;  /* Center vertically */
+    justify-content: center;  /* Center horizontally */
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
+    z-index: 1050;  /* Ensure it's above all other content */
   }
   
-  .verify-first-popup .overlap-wrapper {
-    background-color: #ffffff;
+  .verify-first-popup .overlap-wrappera {
     height: 410px;
     width: 907px;
   }
   
-  .verify-first-popup .overlap {
+  .verify-first-popup .overlaps {
     background-color: #d7d1d1;
     border-radius: 40px;
     height: 410px;
     position: relative;
   }
   
-  .verify-first-popup .text-wrapper {
+  .verify-first-popup .text-wrapperd {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 50px;
@@ -29,27 +33,28 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 94px;
+    top: 50px;
     width: 623px;
   }
   
-  .verify-first-popup .group {
+  .verify-first-popup .groupq {
     height: 71px;
     left: 376px;
     position: absolute;
-    top: 296px;
+    top: 280px;
     width: 170px;
   }
   
-  .verify-first-popup .overlap-group {
+  .verify-first-popup .overlap-groupt {
     background-color: #e80029;
     border-radius: 35px;
     height: 71px;
     position: relative;
     width: 168px;
+    border: none;
   }
   
-  .verify-first-popup .div {
+  .verify-first-popup .div12 {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 20px;
