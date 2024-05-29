@@ -99,6 +99,22 @@ const UserProfile = () => {
         }
     }, [navigate]);
 
+    const fetchCars = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/user/getCars/${currentUser.userId}`);
+            if (response.status === 200) {
+                setCurrentUser(prevState => ({
+                    ...prevState,
+                    cars: response.data
+                }));
+            } else {
+                console.error('Error fetching cars:', response.status);
+            }
+        } catch (error) {
+            console.error('Error fetching cars:', error);
+        }
+    };
+
     const handleHomeClick = () => {
         navigate('/home');
     };
@@ -117,6 +133,17 @@ const UserProfile = () => {
 
     const handleRegisterAsOwner = () => {
         setShowApplyOwnerPopup(true);
+    };
+
+    const handleDeleteCar = (carId) => {
+        axios.put(`http://localhost:8080/car/deleteCar/${carId}`)
+          .then(response => {
+            console.log(response.data);
+            fetchCars();
+          })
+          .catch(error => {
+            console.error('Error deleting car:', error);
+          });
     };
 
     const handleConfirmRegisterAsOwner = async () => {
@@ -139,6 +166,10 @@ const UserProfile = () => {
             console.error('Error updating renting status:', error);
             alert('An error occurred. Please try again.');
         }
+    };
+
+    const handleUpdateCar = (carId) => {
+        navigate(`/updatecar/${carId}`);
     };
 
     console.log(currentUser);
@@ -191,14 +222,16 @@ const UserProfile = () => {
                             
                             <div className="overlap-33">
                                 {currentUser.cars.length > 0 ? (
-                                    currentUser.cars.map(car => (
+                                    currentUser.cars.filter(car => !car.deleted).map(car => (
                                         <div key={car.carId} className="car-frame">
-                                            <img
-                                                className="car-imagee"
-                                                alt="Car"
-                                                src={`data:image/jpeg;base64,${car.carImage}`}
-                                            />
-                                            <img className="icon-trashhh" alt="Icon trash" src={trash} />
+                                            <button onClick={() => handleUpdateCar(car.carId)}>
+                                                <img
+                                                    className="car-imagee"
+                                                    alt="Car"
+                                                    src={`data:image/jpeg;base64,${car.carImage}`}
+                                                />
+                                            </button>
+                                            <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={() => handleDeleteCar(car.carId)} />
                                         </div>
                                     ))
                                 ) : (
