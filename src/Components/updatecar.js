@@ -69,6 +69,8 @@ export const UpdateCar = () => {
 
           <input className="div-wrapper123" type="text" placeholder="Rent Price" />
 
+          <input className="div-wrapper12345" type="text" placeholder="Location" />
+
           <div className="overlap-2">
             <div className="overlap-wrapper">
               <button className="overlap-333" onClick={() => document.getElementById('car-upload-input').click()}>
@@ -82,20 +84,6 @@ export const UpdateCar = () => {
               />
             </div>
             <div className="text-wrapper-6">{carFileName}</div>
-          </div>
-          <div className="overlap-4">
-            <div className="overlap-group-wrapper">
-              <button className="overlap-3" onClick={() => document.getElementById('gov-id-upload-input').click()}>
-                <div className="text-wrapper-5">Upload</div>
-              </button>
-              <input
-                id="gov-id-upload-input"
-                type="file"
-                style={{ display: 'none' }}
-                onChange={handleGovIdFileChange}
-              />
-            </div>
-            <div className="text-wrapper-7">{govIdFileName}</div>
           </div>
           <div className="group-22">
             <button className="overlap-55">

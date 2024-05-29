@@ -135,6 +135,26 @@
     padding-right: 35px;
     border: none;
   }
+
+  .update-car-owner .div-wrapper12345 {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 99px;
+    position: absolute;
+    top: 360px;
+    width: 640px;
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding-left: 35px;
+    padding-right: 35px;
+    border: none;
+  }
   
   .update-car-owner .overlap-2 {
     background-color: #ffffff;
@@ -142,7 +162,7 @@
     height: 71px;
     left: 99px;
     position: absolute;
-    top: 355px;
+    top: 450px;
     width: 712px;
   }
   
