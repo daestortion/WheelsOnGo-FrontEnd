@@ -9,7 +9,6 @@ export const UpdateCar = () => {
   const navigate = useNavigate(); // Setup useNavigate
 
   const [carFileName, setCarFileName] = useState("Upload Car OR");
-  const [govIdFileName, setGovIdFileName] = useState("Upload Valid Government ID");
   const [imageSrc, setImageSrc] = useState(null);
 
   const handleHomeClick = () => {
@@ -28,13 +27,6 @@ export const UpdateCar = () => {
     const file = event.target.files[0];
     if (file) {
       setCarFileName(file.name);
-    }
-  };
-
-  const handleGovIdFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setGovIdFileName(file.name);
     }
   };
 
@@ -65,11 +57,11 @@ export const UpdateCar = () => {
         </div>
         <div className="overlap-group">
 
-          <input className="div-wrapper" type="text" placeholder="Renter Address" />
+          <input className="div-wrapper" type="text" placeholder="New Description" />
 
-          <input className="div-wrapper123" type="text" placeholder="Rent Price" />
+          <input className="div-wrapper123" type="text" placeholder="New Price" />
 
-          <input className="div-wrapper12345" type="text" placeholder="Location" />
+          <input className="div-wrapper12345" type="text" placeholder="New Location" />
 
           <div className="overlap-2">
             <div className="overlap-wrapper">
@@ -87,13 +79,13 @@ export const UpdateCar = () => {
           </div>
           <div className="group-22">
             <button className="overlap-55">
-              <div className="text-wrapper-8">Register Car</div>
+              <div className="text-wrapper-8">Update Car</div>
             </button>
           </div>
           <div className="new-car-details"> New Car Details</div>
           <p className="p">Please enter your new car details. Upon confirming, your car details will be updated.</p>
         </div>
-        <div className="text-wrapper-9">Car Registration</div>
+        <div className="text-wrapper-9">Update Car</div>
         <div className="rectangle">
           {imageSrc && <img src={imageSrc} alt="Uploaded" className="rectangle12" />}
         </div>
