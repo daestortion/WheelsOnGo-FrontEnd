@@ -78,24 +78,25 @@ const UpdateCar = () => {
 
   const handleUpdateCar = async () => {
     try {
-      const response = await axios.put(`http://localhost:8080/car/updateCar`, {
-        carId: carId,
-        carDescription: carDetails.description,
-        rentPrice: carDetails.price,
-        address: carDetails.location,
-        carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null
-      });
-      if (response.status === 200) {
-        alert('Car updated successfully');
-        navigate('/profile');
-      } else {
-        alert('Failed to update car');
-      }
+        const response = await axios.put(`http://localhost:8080/car/updateCar`, {
+            carId: carId,
+            carDescription: carDetails.description,
+            rentPrice: carDetails.price,
+            address: carDetails.location,
+            carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null
+        });
+        if (response.status === 200) {
+            alert('Car updated successfully');
+            navigate('/userprofile');
+        } else {
+            alert('Failed to update car');
+        }
     } catch (error) {
-      console.error('Error updating car:', error);
-      alert('An error occurred. Please try again.');
+        console.error('Error updating car:', error);
+        alert('An error occurred. Please try again.');
     }
-  };
+};
+
 
   return (
     <div className="update-car-owner">
