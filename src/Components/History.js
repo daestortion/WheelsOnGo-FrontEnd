@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../Css/OngoingRent.css";
+import "../Css/History.css";
 import Dropdown from "./Dropdown.js";
 import sidelogo from "../Images/sidelogo.png";
 import vector from "../Images/adminvector.png";
