@@ -11,6 +11,7 @@ export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOngoingFilter, setIsOngoingFilter] = useState(false);
+  const [isRentHistoryFilter, setIsRentHistoryFilter] = useState(false);
   const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState({
@@ -52,7 +53,6 @@ export const OrderHistoryPage = () => {
               orders: userData.orders,
               isOwner: userData.owner
             });
-            // Update local storage with the latest verification status
             localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), verificationStatus: userData.verification ? userData.verification.status : null }));
           } else {
             navigate('/login');
@@ -71,21 +71,9 @@ export const OrderHistoryPage = () => {
     }
   }, [navigate]);
 
-  const handleHomeClick = () => {
-    navigate('/home');
-  };
-
-  const handleCarsClick = () => {
-    navigate('/cars');
-  };
-
-  const handleAboutClick = () => {
-    navigate('/aboutus');
-  };
-
   useEffect(() => {
     fetchOrders();
-  }, [isOngoingFilter]);
+  }, [isOngoingFilter, isRentHistoryFilter]);
 
   const fetchOrders = async () => {
     try {
@@ -96,8 +84,11 @@ export const OrderHistoryPage = () => {
         if (isOngoingFilter) {
           url += '?active=true'; // Assuming your backend supports filtering by active status
         }
-        const response = await fetch(url);
-        const data = await response.json();
+        if (isRentHistoryFilter) {
+          url = `http://localhost:8080/order/getOrdersByCarOwnerId/${userId}`;
+        }
+        const response = await axios.get(url);
+        const data = response.data;
         if (Array.isArray(data)) {
           const ordersWithAdditionalData = await Promise.all(data.map(async (order) => {
             const carResponse = await axios.get(`http://localhost:8080/car/getCarById/${order.car.carId}`);
@@ -128,6 +119,10 @@ export const OrderHistoryPage = () => {
     setIsOngoingFilter(!isOngoingFilter);
   };
 
+  const handleRentHistoryFilterClick = () => {
+    setIsRentHistoryFilter(!isRentHistoryFilter);
+  };
+
   const getStatusText = (status) => {
     switch (status) {
       case 0:
@@ -141,7 +136,17 @@ export const OrderHistoryPage = () => {
     }
   };
 
-  console.log(currentUser);
+  const handleHomeClick = () => {
+    navigate('/home');
+  };
+
+  const handleCarsClick = () => {
+    navigate('/cars');
+  };
+
+  const handleAboutClick = () => {
+    navigate('/aboutus');
+  };
 
   return (
     <div className="order-history-page">
@@ -150,9 +155,7 @@ export const OrderHistoryPage = () => {
           <div className="overlap-group">
             <div className="text-wrapper" onClick={handleCarsClick}>Cars</div>
             <div className="div" onClick={handleAboutClick}>About</div>
-
             <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
-
             <div className="text-wrapper-2" onClick={handleHomeClick}>Home</div>
             <Dropdown>
               <img className="group" alt="Group" src={profile} />
@@ -166,31 +169,30 @@ export const OrderHistoryPage = () => {
                 <button onClick={handleOngoingFilterClick}>
                   {isOngoingFilter ? 'Show All Orders' : 'Show Ongoing Rents'}
                 </button>
+                {currentUser.verificationStatus === 1 && currentUser.isOwner && (
+                  <button onClick={handleRentHistoryFilterClick}>
+                    {isRentHistoryFilter ? 'Show All Orders' : 'Show Rent History'}
+                  </button>
+                )}
                 <table className="order-table">
                   <thead>
                     <tr>
-                      <th>Car</th>
+                      <th>User Name</th>
                       <th>Start Date</th>
                       <th>End Date</th>
-                      <th>Total Price</th>
+                      <th>Car</th>
                       <th>Reference Number</th>
-                      <th>Car Address</th>
-                      <th>Car Owner Name</th>
-                      <th>Car Owner Phone</th>
                       <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {orders.map(order => (
                       <tr key={order.orderId}>
-                        <td>{order.car.carModel}</td>
+                        <td>{order.user.fName} {order.user.lName}</td>
                         <td>{order.startDate}</td>
                         <td>{order.endDate}</td>
-                        <td>{order.totalPrice}</td>
+                        <td>{order.car.carModel}</td>
                         <td>{order.referenceNumber}</td>
-                        <td>{order.carAddress}</td>
-                        <td>{order.carOwnerName}</td>
-                        <td>{order.carOwnerPhone}</td>
                         <td>{getStatusText(order.status)}</td>
                       </tr>
                     ))}
