@@ -24,7 +24,9 @@ import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
 import ShowImage from './Components/ShowImage.js';
 import OrderPage from './Components/OrderHistoryPage.js';
-import UpdateCar from './Components/updatecar.js';
+import UpdateCar from './Components/UpdateCar.js';
+import RentHistory from './Components/RentHistory.js';
+import OngoingRent from './Components/OngoingRent.js';
 import PrivateRoute from './PrivateRoute';
 
 
@@ -67,6 +69,8 @@ function AuthRoutes() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
             <Route path="/orderhistoryy" element={<OrderPage />} />
+            <Route path="/renthistory" element={<RentHistory />} />
+            <Route path="/ongoingrent" element={<OngoingRent />} />
 
         </Routes>
     );
