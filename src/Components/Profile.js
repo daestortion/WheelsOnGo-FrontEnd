@@ -122,8 +122,8 @@ const UserProfile = () => {
         navigate('/home');
     };
 
-    const handleOrderHistory = () => {
-        navigate('/orderhistory');
+    const handleRentHistory = () => {
+        navigate('/ongoingrent');
     };
 
     const handleCarsClick = () => {
@@ -233,7 +233,7 @@ const UserProfile = () => {
                         <p className="p">{currentUser.pNum} | {currentUser.email}</p>
                     </div>
                     {currentUser.verificationStatus === 1 && (
-                        <div className="text-wrapper-55" onClick={handleOrderHistory}>Order History</div>
+                        <div className="text-wrapper-55" onClick={handleRentHistory}>Order History</div>
                     )}
                     {currentUser.verificationStatus === 1 && currentUser.isOwner ? (
                         <div className="owner-section">
