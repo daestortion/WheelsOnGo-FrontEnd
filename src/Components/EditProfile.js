@@ -11,6 +11,7 @@ export const EditProfile = () => {
     const [phoneNumber, setPhoneNumber] = useState(user.pNum || '');
     const [email, setEmail] = useState(user.email || '');
     const [profilePic, setProfilePic] = useState(null);
+    const [profilePicUrl, setProfilePicUrl] = useState(user.profilePic || 'path_to_default_image.png');
     const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
 
     const navigate = useNavigate(); // Setup useNavigate
@@ -35,6 +36,7 @@ export const EditProfile = () => {
             setUser(storedUser);
             setPhoneNumber(storedUser.pNum || ''); // Ensure these are set to empty string if undefined
             setEmail(storedUser.email || ''); // Ensure these are set to empty string if undefined
+            setProfilePicUrl(storedUser.profilePic || 'path_to_default_image.png'); // Set initial profile pic URL
         }
     }, []);
 
@@ -42,6 +44,8 @@ export const EditProfile = () => {
         const file = event.target.files[0];
         if (file) {
             setProfilePic(file); // Store the file directly
+            const newProfilePicUrl = URL.createObjectURL(file); // Create object URL
+            setProfilePicUrl(newProfilePicUrl); // Update state with new object URL
         }
     };
 
@@ -70,14 +74,13 @@ export const EditProfile = () => {
             console.log('Update successful:', data);
     
             // Update user data in local storage
-            localStorage.setItem('user', JSON.stringify({ ...user, pNum: phoneNumber, email, profilePic: URL.createObjectURL(profilePic) }));
+            localStorage.setItem('user', JSON.stringify({ ...user, pNum: phoneNumber, email, profilePic: profilePicUrl }));
             
             setShowPopup(true); // Show the popup
         } catch (error) {
             console.error('Failed to update profile:', error);
         }
     };
-    
 
     return (
         <div className="edit-profile">
@@ -111,10 +114,10 @@ export const EditProfile = () => {
                         </p>
                     </div>
                     <div className="text-wrapper-6">Update Profile</div>
-                    <div className="rectangle" style={{ backgroundImage: `url(${profilePic ? URL.createObjectURL(profilePic) : user.profilePic || 'path_to_default_image.png'})`, backgroundSize: 'cover', position: 'relative' }}>
+                    <div className="rectangle1" style={{ backgroundImage: `url(${profilePicUrl})`, backgroundSize: 'cover', position: 'relative' }}>
                         {!profilePic && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>Upload Profile Image</div>}
                     </div>
-                    <div className="group-2">
+                    <div className="group-222">
                         <button className="overlap-group-2" onClick={handleClickUpload}>
                             <div className="text-wrapper-7">Upload</div>
                         </button>

@@ -74,22 +74,22 @@ export const Cars = () => {
         <div className="overlap">
           <img className="vector" alt="Vector" src={design} />
           <div className="frame">
-            {cars.length > 0 ? cars.map((car, index) => (
-              <div key={index} className={`overlap-group overlap-${index + 1}`}>
-                {car.carImage && (
-                  <img src={car.carImage} alt="Car" style={{ position: 'absolute', width: '100%', height: 'auto' }} />
-                )}
-                <div className="overlap-group-wrapper">
-                  <div className="div-wrapper" onClick={() => handleRentClick(car)}>
-                    <div className="text-wrapper">Rent</div>
+            <div className="cars-grid">
+              {cars.length > 0 ? cars.map((car, index) => (
+                <div key={index} className="overlap-group">
+                  {car.carImage && (
+                    <img src={car.carImage} alt="Car" className="car-image" />
+                  )}
+                  <div className="overlap-group-wrapper">
+                    <div className="div-wrapper" onClick={() => handleRentClick(car)}>
+                      <div className="text-wrapper">Rent</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )) : 
-            
-            <p className="unavailable">No cars available for rent.</p>
-            
-            }
+              )) :
+              <p className="unavailable">No cars available for rent.</p>
+              }
+            </div>
           </div>
         </div>
         <Dropdown>
