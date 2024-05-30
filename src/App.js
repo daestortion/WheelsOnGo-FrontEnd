@@ -22,10 +22,8 @@ import NewPassword from './Components/NewPassword.js';
 import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
 import ShowImage from './Components/ShowImage.js';
-import OrderPage from './Components/OrderHistoryPage.js';
+import OrderPage from './Components/OngoingRent.js';
 import UpdateCar from './Components/UpdateCar.js';
-import RentHistory from './Components/RentHistory.js';
-import OngoingRent from './Components/OngoingRent.js';
 import PrivateRoute from './PrivateRoute';
 
 
