@@ -19,12 +19,12 @@ import ForgotPassword from './Components/Forgetpassword.js';
 import Home from './Components/LandingPage.js';
 import Login from './Components/Login.js';
 import NewPassword from './Components/NewPassword.js';
-import OrderHistory from './Components/OrderHistoryPage.js';
+import OrderHistory from './Components/OrderHistory.js';
 import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
 import ShowImage from './Components/ShowImage.js';
 import OrderPage from './Components/OrderHistoryPage.js';
-import UpdateCar from './Components/updatecar.js';
+import UpdateCar from './Components/UpdateCar.js';
 import PrivateRoute from './PrivateRoute';
 
 
