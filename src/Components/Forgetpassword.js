@@ -3,13 +3,16 @@ import "../Css/Forgetpassword.css";
 import logo from "../Images/wheelsongo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loading from "../Components/Loading.js";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleResetPassword = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/user/forgot-password`, {
                 params: { identifier: email }
@@ -21,12 +24,14 @@ const ForgotPassword = () => {
         } catch (err) {
             setError(true);
             setMessage('There was an error processing your request.');
+        } finally {
+            setIsLoading(false);
         }
     };
-    
 
     return (
         <div className="forgot-password">
+            {isLoading && <Loading />}
             <div className="div11">
                 <div className="overlap">
                     <p className="text-wrapper">
