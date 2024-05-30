@@ -308,6 +308,8 @@
     top: 17px;
     white-space: nowrap;
     width: 345px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .payment-popup .overlap-group-wrapper {
