@@ -62,10 +62,9 @@ function AuthRoutes() {
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             
             <Route path="/adminorder" element={<AdminOrder />} />
-            <Route path="/orderhistory" element={<OrderHistory />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
-            <Route path="/orderhistoryy" element={<OrderPage />} />
+            <Route path="/orderhistory" element={<OrderPage />} />
 
         </Routes>
     );
