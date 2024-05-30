@@ -68,8 +68,6 @@ function AuthRoutes() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
             <Route path="/orderhistoryy" element={<OrderPage />} />
-            <Route path="/renthistory" element={<RentHistory />} />
-            <Route path="/ongoingrent" element={<OngoingRent />} />
 
         </Routes>
     );
