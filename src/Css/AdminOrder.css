@@ -181,7 +181,6 @@
   top: 100px;
   width: 1370px;
   padding: 20px; /* Added padding */
-  overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 
 
@@ -190,12 +189,12 @@
   font-family: "Inter-Bold", Helvetica;
   font-size: 35px;
   font-weight: 700;
-  left: 483px;
+  left: 488px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   text-align: center;
-  top: 30px;
+  top: 29px;
   white-space: nowrap;
 }
 
@@ -218,7 +217,7 @@
   width: 291px;
 }
 
-.table-container {
+.table-container112 {
   padding: 20px;
   overflow-x: auto;
   width: 1350px;

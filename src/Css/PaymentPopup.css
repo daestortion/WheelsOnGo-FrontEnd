@@ -14,7 +14,6 @@
 
 .payment-popup .overlap-wrapper {
   height: 724px;
-  overflow: hidden; /* Prevent scrolling */
   width: 1502px;
 }
 
@@ -23,8 +22,8 @@
   border-radius: 50px;
   height: 724px;
   position: relative;
-  width: 1508px;
-  overflow: hidden; /* Prevent scrolling */
+  width: 1698px;
+  left: -100px;
 }
 
   
@@ -82,7 +81,7 @@
     font-size: 18px;
     font-weight: 500;
     height: 34px;
-    left: 861px;
+    left: 961px;
     letter-spacing: 0.23px;
     line-height: 140px;
     position: absolute;
@@ -255,7 +254,7 @@
     background-color: #ffffff;
     border-radius: 35px;
     height: 71px;
-    left: 873px;
+    left: 973px;
     position: absolute;
     top: 465px;
     width: 569px;
@@ -327,6 +326,7 @@
     position: relative;
     width: 571px;
     border: none;
+    left: 100px;
   }
   
   .payment-popup .text-wrapper-11 {
@@ -347,7 +347,7 @@
     background-color: #e32128;
     border-radius: 9px;
     height: 50px;
-    left: 1403px;
+    left: 1580px;
     position: absolute;
     top: 34px;
     width: 50px;
@@ -364,7 +364,7 @@
   
   .payment-popup .image {
     height: 300px;
-    left: 1008px;
+    left: 1108px;
     object-fit: cover;
     position: absolute;
     top: 89px;
