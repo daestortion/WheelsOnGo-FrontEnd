@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../Css/PaymentPopup.css";
 import qrcode from "../Images/qrcode.png";
 import line1 from "../Images/line11.png";
@@ -6,17 +6,28 @@ import close from "../Images/close.png";
 import back from "../Images/back.png";
 import BookedPopup from './BookedPopup'; // Import BookedPopup component
 import TAC from "../Images/WheelsOnGoTAC.pdf";
+import axios from 'axios';
 
-export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack }) => {
+const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [uploadedFileName, setUploadedFileName] = useState(""); // State to store the uploaded file name
+  const [uploadedFile, setUploadedFile] = useState(null);  // Store the file Blob
+  const [order, setOrder] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState("");
 
-  const handleClick = () => {
-    if (isChecked) {
-      setShowBookedPopup(true); // Show BookedPopup when Book button is clicked
-    }
-  };
+  useEffect(() => {
+    const newOrder = {
+      startDate,
+      endDate,
+      totalPrice,
+      isDeleted: false,
+      referenceNumber: '',
+      payment: uploadedFile ? { method: 'image', screenshot: uploadedFile } : null  // Use Blob directly
+    };
+    setOrder(newOrder);
+  }, [startDate, endDate, totalPrice, uploadedFile]);
+
+  console.log(order);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -24,15 +35,50 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
 
   const handleBookedPopupClose = () => {
     setShowBookedPopup(false);
-    onClose(); // Close the PaymentPopup when BookedPopup is closed
+    onClose();
   };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setUploadedFileName(file.name); // Update the state with the uploaded file name
+      setUploadedFile(file);  // Store the Blob directly
     }
   };
+
+  const handleClick = async () => {
+    if (order && isChecked) {
+      try {
+        const formData = new FormData();
+        formData.append('file', uploadedFile);
+        formData.append('order', new Blob([JSON.stringify({
+          startDate: order.startDate,
+          endDate: order.endDate,
+          totalPrice: order.totalPrice,
+          isDeleted: order.isDeleted,
+          referenceNumber: order.referenceNumber,
+          // Do not include the file data here
+        })], { type: 'application/json' }));
+  
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+  
+        console.log(response.data);
+        if (response.data) {
+          setOrder(response.data); // Update the order with the response
+          setShowBookedPopup(true); // Show the booked popup
+        }
+      } catch (error) {
+        console.error('Error submitting order:', error);
+      }
+    }
+  };
+  
+
+
+
 
   return (
     <div className="payment-popup">
@@ -102,7 +148,7 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <img className="image" alt="Image" src={qrcode} />
         </div>
       </div>
-      {showBookedPopup && <BookedPopup onClose={handleBookedPopupClose} />}
+      {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
     </div>
   );
 };
