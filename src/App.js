@@ -19,11 +19,9 @@ import ForgotPassword from './Components/Forgetpassword.js';
 import Home from './Components/LandingPage.js';
 import Login from './Components/Login.js';
 import NewPassword from './Components/NewPassword.js';
-import OrderHistory from './Components/OrderHistory.js';
 import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
 import ShowImage from './Components/ShowImage.js';
-import UpdateCar from './Components/UpdateCar.js';
 import OrderPage from './Components/OrderHistoryPage.js';
 import PrivateRoute from './PrivateRoute';
 
@@ -63,10 +61,9 @@ function AuthRoutes() {
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             
             <Route path="/adminorder" element={<AdminOrder />} />
-            <Route path="/orderhistory" element={<OrderHistory />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
-            <Route path="/orderhistoryy" element={<OrderPage />} />
+            <Route path="/orderhistory" element={<OrderPage />} />
 
         </Routes>
     );

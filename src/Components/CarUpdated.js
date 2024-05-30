@@ -2,29 +2,29 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../Css/CarUpdated.css";
 
-export const CarUpdated = () => {
+export const UpdateCarPopup = () => {
+
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    // Close the popup (this could be a state change in the parent component)
-    // Navigate to login page
     navigate('/userprofile');
   };
-
-  return (
-    <div className="successful-register">
-      <div className="overlap-wrapper">
-        <div className="overlap">
-          <div className="ok-text-wrapper">Car updated successfully.</div>
-          <div className="group">
-            <div className="overlap-group" onClick={handleOkClick}>
-              <div className="ok-div">OK</div>
+  
+    return (
+      <div className="update-car-popup">
+        <div className="overlap-wrapper12">
+          <div className="overlap1">
+            <div className="text-wrapper2">Car updated successfully.</div>
+            <div className="group3">
+              <button className="overlap-group4" onClick={handleOkClick}>
+                <div className="div5">OK</div>
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
+  
 
-export default CarUpdated;
+export default UpdateCarPopup;
