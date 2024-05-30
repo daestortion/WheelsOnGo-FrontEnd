@@ -1,0 +1,73 @@
+.delete-car-yesor-no {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .delete-car-yesor-no .overlap-wrapper {
+    background-color: #ffffff;
+    height: 410px;
+    width: 907px;
+  }
+  
+  .delete-car-yesor-no .overlap {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 410px;
+    position: relative;
+  }
+  
+  .delete-car-yesor-no .text-wrapper {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 142px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 94px;
+    width: 623px;
+  }
+  
+  .delete-car-yesor-no .group {
+    height: 71px;
+    left: 226px;
+    position: absolute;
+    top: 296px;
+    width: 157px;
+  }
+  
+  .delete-car-yesor-no .overlap-group {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 155px;
+  }
+  
+  .delete-car-yesor-no .div {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 35px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 85px;
+  }
+  
+  .delete-car-yesor-no .overlap-group-wrapper {
+    height: 71px;
+    left: 527px;
+    position: absolute;
+    top: 296px;
+    width: 157px;
+  }
+  
