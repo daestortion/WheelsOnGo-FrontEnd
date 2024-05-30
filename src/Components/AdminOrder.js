@@ -57,8 +57,19 @@ export const AdminPageOrder = () => {
     }
   };
 
-  const handleDeny = () => {
-    // Implement the deny logic if needed
+  const handleDeny = async (orderId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/order/denyOrder/${orderId}`, {
+        method: 'PUT',
+      });
+      if (response.ok) {
+        fetchOrders(); // Refresh the list of orders after denying
+      } else {
+        console.error('Error denying order:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error denying order:', error);
+    }
   };
 
   return (
@@ -116,10 +127,10 @@ export const AdminPageOrder = () => {
                       <td>{order.totalPrice}</td>
                       <td>{order.referenceNumber}</td>
                       <td>{order.active ? 'True' : 'False'}</td>
-                      <td>{order.status === 1 ? 'Approved' : 'Pending'}</td>
+                      <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : 'Pending'}</td>
                       <td>
                         <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
-                        <button className="button-deny" onClick={() => handleDeny()}>Deny</button>
+                        <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
                       </td>
                     </tr>
                   ))}
