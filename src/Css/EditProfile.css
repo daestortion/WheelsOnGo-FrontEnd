@@ -120,9 +120,9 @@
     letter-spacing: 0;
     line-height: normal;
     white-space: nowrap;
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 675px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 650px;
     border: none;
   }
   
@@ -154,9 +154,9 @@
     letter-spacing: 0;
     line-height: normal;
     white-space: nowrap;
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 675px;
+    padding-left: 40px;
+    padding-right: 40px;
+    width: 630px;
     border: none;
   }
   
@@ -247,7 +247,7 @@
     width: 575px;
   }
   
-  .edit-profile .rectangle {
+  .edit-profile .rectangle1 {
     background-color: #d7d1d1;
     border-radius: 40px;
     height: 450px;
@@ -256,8 +256,17 @@
     top: 274px;
     width: 450px;
   }
+
+  .edit-profile .rectangle1 {
+    border-radius: 40px;
+    height: 450px;
+    left: 196px;
+    position: absolute;
+    top: 274px;
+    width: 450px;
+  }
   
-  .edit-profile .group-2 {
+  .edit-profile .group-222 {
     height: 71px;
     left: 196px;
     position: absolute;
