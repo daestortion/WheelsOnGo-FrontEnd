@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import "../Css/UpdateCar.css";
 import profileIcon from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
@@ -8,10 +9,42 @@ import Dropdown from "./Dropdown.js";
 const UpdateCar = () => {
   const navigate = useNavigate();
   const { carId } = useParams();
-  console.log(carId);
 
-  const [carFileName, setCarFileName] = useState("Upload Car OR");
-  const [imageSrc, setImageSrc] = useState(null);
+  const [carDetails, setCarDetails] = useState({
+    description: '',
+    price: '',
+    location: '',
+    carFileName: 'Upload Car OR',
+    imageSrc: null
+  });
+
+  useEffect(() => {
+    // Fetch car details based on carId
+    const fetchCarDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/car/getCarById/${carId}`);
+        if (response.status === 200) {
+          const carData = response.data;
+          setCarDetails({
+            description: carData.carDescription,
+            price: carData.rentPrice,
+            location: carData.address,
+            carFileName: 'Upload Car OR',
+            imageSrc: carData.carImage ? `data:image/jpeg;base64,${carData.carImage}` : null
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching car details:', error);
+      }
+    };
+
+    fetchCarDetails();
+  }, [carId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCarDetails({ ...carDetails, [name]: value });
+  };
 
   const handleHomeClick = () => {
     navigate('/home');
@@ -28,7 +61,7 @@ const UpdateCar = () => {
   const handleCarFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setCarFileName(file.name);
+      setCarDetails({ ...carDetails, carFileName: file.name });
     }
   };
 
@@ -37,9 +70,30 @@ const UpdateCar = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImageSrc(reader.result);
+        setCarDetails({ ...carDetails, imageSrc: reader.result });
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUpdateCar = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8080/car/updateCar`, {
+        carId: carId,
+        carDescription: carDetails.description,
+        rentPrice: carDetails.price,
+        address: carDetails.location,
+        carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null
+      });
+      if (response.status === 200) {
+        alert('Car updated successfully');
+        navigate('/profile');
+      } else {
+        alert('Failed to update car');
+      }
+    } catch (error) {
+      console.error('Error updating car:', error);
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -59,11 +113,32 @@ const UpdateCar = () => {
         </div>
         <div className="overlap-group">
 
-          <input className="div-wrapper" type="text" placeholder="New Description" />
+          <input
+            className="div-wrapper"
+            type="text"
+            name="description"
+            placeholder="New Description"
+            value={carDetails.description}
+            onChange={handleInputChange}
+          />
 
-          <input className="div-wrapper123" type="text" placeholder="New Price" />
+          <input
+            className="div-wrapper123"
+            type="text"
+            name="price"
+            placeholder="New Price"
+            value={carDetails.price}
+            onChange={handleInputChange}
+          />
 
-          <input className="div-wrapper12345" type="text" placeholder="New Location" />
+          <input
+            className="div-wrapper12345"
+            type="text"
+            name="location"
+            placeholder="New Location"
+            value={carDetails.location}
+            onChange={handleInputChange}
+          />
 
           <div className="overlap-2">
             <div className="overlap-wrapper">
@@ -77,19 +152,19 @@ const UpdateCar = () => {
                 onChange={handleCarFileChange}
               />
             </div>
-            <div className="text-wrapper-6">{carFileName}</div>
+            <div className="text-wrapper-6">{carDetails.carFileName}</div>
           </div>
           <div className="group-22">
-            <button className="overlap-55">
+            <button className="overlap-55" onClick={handleUpdateCar}>
               <div className="text-wrapper-8">Update Car</div>
             </button>
           </div>
-          <div className="new-car-details"> New Car Details</div>
+          <div className="new-car-details">New Car Details</div>
           <p className="p">Please enter your new car details. Upon confirming, your car details will be updated.</p>
         </div>
         <div className="text-wrapper-9">Update Car</div>
         <div className="rectangle">
-          {imageSrc && <img src={imageSrc} alt="Uploaded" className="rectangle12" />}
+          {carDetails.imageSrc && <img src={carDetails.imageSrc} alt="Uploaded" className="rectangle12" />}
         </div>
         <div className="group-3">
           <button className="overlap-group-2" onClick={() => document.getElementById('image-upload-input').click()}>
