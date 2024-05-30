@@ -19,3 +19,5 @@ export const RentOwnPopup = () => {
     </div>
   );
 };
+
+export default RentOwnPopup;

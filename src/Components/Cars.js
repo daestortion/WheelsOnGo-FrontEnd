@@ -9,14 +9,14 @@ import Dropdown from "../Components/Dropdown.js";
 import CheckoutPopup from "../Components/CheckoutPopup.js";
 import Loading from "../Components/Loading.js";
 import VerifyFirstPopup from './VerifyFirstPopup.js';
-import CantRentOwnPopup from './AdminRegistered';
+import RentOwnPopup from './RentOwnPopup.js';
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
   const [selectedCar, setSelectedCar] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showVerifyFirst, setShowVerifyFirst] = useState(false);
-  const [showCantRentOwn, setShowCantRentOwn] = useState(false);
+  const [showRentOwnPopup, setShowRentOwnPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export const Cars = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.verificationStatus === 1) {
       if (car.owner.userId === user.userId) {
-        setShowCantRentOwn(true);
+        setShowRentOwnPopup(true);
         
       } else {
         setSelectedCar(car);
@@ -102,7 +102,7 @@ export const Cars = () => {
 
       {selectedCar && <CheckoutPopup car={selectedCar} closePopup={() => setSelectedCar(null)} />}
       {showVerifyFirst && <VerifyFirstPopup />}
-      {showCantRentOwn && <CantRentOwnPopup />}
+      {showRentOwnPopup && <RentOwnPopup />}
     </div>
   );
 };
