@@ -42,6 +42,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     const file = event.target.files[0];
     if (file) {
       setUploadedFile(file);  // Store the Blob directly
+      setUploadedFileName(file.name);  // Set the file name
     }
   };
 
@@ -76,10 +77,6 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     }
   };
   
-
-
-
-
   return (
     <div className="payment-popup">
       <div className="overlap-wrapper">
