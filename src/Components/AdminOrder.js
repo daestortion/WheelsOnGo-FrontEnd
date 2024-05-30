@@ -100,6 +100,7 @@ export const AdminPageOrder = () => {
                     <th>End Date</th>
                     <th>Total Price</th>
                     <th>Reference Number</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -113,6 +114,7 @@ export const AdminPageOrder = () => {
                       <td>{order.endDate}</td>
                       <td>{order.totalPrice}</td>
                       <td>{order.referenceNumber}</td>
+                      <td>{order.status ? 'Approved' : 'Pending'}</td>
                       <td>
                         <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
                         <button className="button-deny" onClick={() => handleDeny()}>Deny</button>

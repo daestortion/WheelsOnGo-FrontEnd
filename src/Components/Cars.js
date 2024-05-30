@@ -24,7 +24,8 @@ export const Cars = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
-        const activeCars = response.data.filter(car => !car.deleted);
+        // Filter out cars that are deleted or have an order status of 1
+        const activeCars = response.data.filter(car => !car.deleted && car.orders.every(order => order.status !== 1));
         setCars(activeCars.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null
