@@ -24,8 +24,8 @@ export const Cars = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
-        const availableCars = response.data.filter(car => !car.deleted && car.rented === false);
-        setCars(availableCars.map(car => ({
+        const activeCars = response.data.filter(car => !car.deleted);
+        setCars(activeCars.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null
         })));
