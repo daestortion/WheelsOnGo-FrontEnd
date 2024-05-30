@@ -10,6 +10,7 @@ import TAC from "../Images/WheelsOnGoTAC.pdf";
 export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState(""); // State to store the uploaded file name
 
   const handleClick = () => {
     if (isChecked) {
@@ -24,6 +25,13 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
   const handleBookedPopupClose = () => {
     setShowBookedPopup(false);
     onClose(); // Close the PaymentPopup when BookedPopup is closed
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFileName(file.name); // Update the state with the uploaded file name
+    }
   };
 
   return (
@@ -62,11 +70,22 @@ export const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onB
           <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
             <div className="group11">
-              <button className="div-wrapper111">
+              <input
+                type="file"
+                id="file-upload"
+                style={{ display: 'none' }}
+                onChange={handleFileUpload}
+              />
+              <button
+                className="div-wrapper111"
+                onClick={() => document.getElementById('file-upload').click()}
+              >
                 <div className="text-wrapper-101">Upload</div>
               </button>
             </div>
-            <div className="payment-screenshot">Payment&nbsp;&nbsp;Screenshot</div>
+            <div className="payment-screenshot">
+              {uploadedFileName || "Payment Screenshot"}
+            </div>
           </div>
           <div className="overlap-group-wrapper">
             <button
