@@ -24,6 +24,7 @@ import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
 import ShowImage from './Components/ShowImage.js';
 import UpdateCar from './Components/updatecar.js';
+import OrderPage from './Components/OrderHistoryPage.js';
 import PrivateRoute from './PrivateRoute';
 
 
@@ -65,6 +66,7 @@ function AuthRoutes() {
             <Route path="/orderhistory" element={<OrderHistory />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
+            <Route path="/orderhistoryy" element={<OrderPage />} />
 
         </Routes>
     );
