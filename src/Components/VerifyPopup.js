@@ -108,7 +108,7 @@ export const VerifyPopup = ({ closePopup }) => {
                         </div>
                         <div className="vap-text-3">{govIdFileName}</div>
                     </div>
-                    <div className="vap-text-info">Valid Government ID does not include the Driver's License</div>
+                    <div className="vap-text-info211">Valid Government ID does not include the Driver's License</div>
                     <div className="vap-group-2">
                         <div className="vap-overlap-3" onClick={handleVerify}>
                             <div className="vap-text-4" >Verify</div>

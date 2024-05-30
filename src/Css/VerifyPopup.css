@@ -170,11 +170,11 @@
     width: 50px;
 }
 
-.vap-popup .vap-text-info{
+.vap-popup .vap-text-info211{
     font-size: 0.9rem; /* Sets the font size */
     color: #000000; /* Sets the text color */
     position: fixed;
-    top: 575px;
+    top: 555px;
     left: 770px;
 
 }
