@@ -42,6 +42,25 @@ export const AdminPageOrder = () => {
     navigate('/adminusers');
   };
 
+  const handleApprove = async (orderId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, {
+        method: 'PUT',
+      });
+      if (response.ok) {
+        fetchOrders(); // Refresh the list of orders after approving
+      } else {
+        console.error('Error approving order:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error approving order:', error);
+    }
+  };
+
+  const handleDeny = () => {
+    // Implement the deny logic if needed
+  };
+
   return (
     <div className="admin-page-order">
       <div className="div">
@@ -81,6 +100,7 @@ export const AdminPageOrder = () => {
                     <th>End Date</th>
                     <th>Total Price</th>
                     <th>Reference Number</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -93,6 +113,10 @@ export const AdminPageOrder = () => {
                       <td>{order.endDate}</td>
                       <td>{order.totalPrice}</td>
                       <td>{order.referenceNumber}</td>
+                      <td>
+                        <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
+                        <button className="button-deny" onClick={() => handleDeny()}>Deny</button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
