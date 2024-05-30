@@ -13,6 +13,7 @@ import ApplyOwnerPopup from './ApplyOwnerPopup';
 import Loading from './Loading';
 import VerifyPopup from './VerifyPopup';
 import ReverifyPopup from './ReverifyPopup';
+import DeleteCarPopup from './DeleteCar';
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -33,6 +34,8 @@ const UserProfile = () => {
     const [showVerifyPopup, setShowVerifyPopup] = useState(false);
     const [showApplyOwnerPopup, setShowApplyOwnerPopup] = useState(false);
     const [showReverifyPopup, setShowReverifyPopup] = useState(false);
+    const [showDeleteCarPopup, setShowDeleteCarPopup] = useState(false);
+    const [carToDelete, setCarToDelete] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -136,17 +139,32 @@ const UserProfile = () => {
     };
 
     const handleDeleteCar = (carId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this car?");
-        if (confirmDelete) {
-            axios.put(`http://localhost:8080/car/deleteCar/${carId}`)
-                .then(response => {
+        setCarToDelete(carId);
+        setShowDeleteCarPopup(true);
+    };
+
+    const confirmDeleteCar = async () => {
+        if (carToDelete) {
+            try {
+                const response = await axios.put(`http://localhost:8080/car/deleteCar/${carToDelete}`);
+                if (response.status === 200) {
                     console.log(response.data);
                     fetchCars();
-                })
-                .catch(error => {
-                    console.error('Error deleting car:', error);
-                });
+                } else {
+                    console.error('Error deleting car:', response.status);
+                }
+            } catch (error) {
+                console.error('Error deleting car:', error);
+            } finally {
+                setShowDeleteCarPopup(false);
+                setCarToDelete(null);
+            }
         }
+    };
+
+    const cancelDeleteCar = () => {
+        setShowDeleteCarPopup(false);
+        setCarToDelete(null);
     };
 
     const handleConfirmRegisterAsOwner = async () => {
@@ -269,6 +287,12 @@ const UserProfile = () => {
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
             {showReverifyPopup && <ReverifyPopup closePopup={toggleReverifyPopup} />}
             {showApplyOwnerPopup && <ApplyOwnerPopup closePopup={toggleApplyOwnerPopup} confirmRegister={handleConfirmRegisterAsOwner} />}
+            {showDeleteCarPopup && (
+                <DeleteCarPopup
+                    confirmDelete={confirmDeleteCar}
+                    cancelDelete={cancelDeleteCar}
+                />
+            )}
         </div>
     );
 };
