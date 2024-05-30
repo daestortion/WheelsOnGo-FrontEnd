@@ -136,14 +136,17 @@ const UserProfile = () => {
     };
 
     const handleDeleteCar = (carId) => {
-        axios.put(`http://localhost:8080/car/deleteCar/${carId}`)
-          .then(response => {
-            console.log(response.data);
-            fetchCars();
-          })
-          .catch(error => {
-            console.error('Error deleting car:', error);
-          });
+        const confirmDelete = window.confirm("Are you sure you want to delete this car?");
+        if (confirmDelete) {
+            axios.put(`http://localhost:8080/car/deleteCar/${carId}`)
+                .then(response => {
+                    console.log(response.data);
+                    fetchCars();
+                })
+                .catch(error => {
+                    console.error('Error deleting car:', error);
+                });
+        }
     };
 
     const handleConfirmRegisterAsOwner = async () => {
@@ -172,7 +175,6 @@ const UserProfile = () => {
         navigate(`/updatecar/${carId}`);
     };
     
-
     console.log(currentUser);
     return (
         <div className="profile-not-verified">
