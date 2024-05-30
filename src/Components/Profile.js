@@ -123,7 +123,7 @@ const UserProfile = () => {
     };
 
     const handleRentHistory = () => {
-        navigate('/orderhistoryy');
+        navigate('/history');
     };
 
     const handleCarsClick = () => {
