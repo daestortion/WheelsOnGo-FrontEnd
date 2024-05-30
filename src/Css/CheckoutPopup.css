@@ -29,7 +29,7 @@
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 50px; 
   font-weight: 600; 
-  left: 265px; 
+  left: 25px;
   letter-spacing: 0.62px; 
   line-height: normal; 
   position: absolute; 
@@ -223,25 +223,40 @@
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 309px; 
+  left: 130px; 
   letter-spacing: 0; 
   line-height: normal; 
   position: absolute; 
-  top: 384px; 
+  top: 550px; 
   white-space: nowrap; 
   width: 257px; 
 }
 
-.checkout-popup .text-wrapper-11 { 
+.checkout-popup .text-wrapper-101 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 355px; 
+  left: 130px; 
   letter-spacing: 0; 
   line-height: normal; 
   position: absolute; 
-  top: 445px; 
+  top: 380px; 
+  white-space: nowrap; 
+  width: 700px; 
+  height: 150px;
+}
+
+.checkout-popup .text-wrapper-11 { 
+  color: #e32128; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 130px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 600px; 
   white-space: nowrap; 
   width: 712px; 
 }
