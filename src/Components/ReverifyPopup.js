@@ -41,15 +41,14 @@ export const ReverifyPopup = ({ closePopup }) => {
 
         try {
             const formData = new FormData();
-            formData.append('userId', userId);
             formData.append('status', 0);
             formData.append('govId', fileInputRefGovId.current.files[0]);
             formData.append('driversLicense', fileInputRefDriverLicense.current.files[0]);
 
             console.log('Form Data:', formData);
 
-            const response = await fetch('http://localhost:8080/verification/insertVerification', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:8080/verification/updateVerification/${userId}`, {
+                method: 'PUT',
                 body: formData
             });
 
@@ -59,7 +58,6 @@ export const ReverifyPopup = ({ closePopup }) => {
 
             const data = await response.json();
             console.log('Response data:', data);
-            
 
             // Optionally, handle response data or close the popup
         } catch (error) {
@@ -108,15 +106,15 @@ export const ReverifyPopup = ({ closePopup }) => {
                         </div>
                         <div className="vap-text-3">{govIdFileName}</div>
                     </div>
-                     <p className="vap-p">
-                            Your verification has been denied. Please upload valid identification
-                        </p>
-                        <p className="text-wrapper-pp">
-                            documents, ensuring that they are clear and legible.
-                        </p>
+                    <p className="vap-p">
+                        Your verification has been denied. Please upload valid identification
+                    </p>
+                    <p className="text-wrapper-pp">
+                        documents, ensuring that they are clear and legible.
+                    </p>
                     <div className="vap-group-2">
                         <div className="vap-overlap-3" onClick={handleVerify}>
-                            <div className="vap-text-4" >Verify</div>
+                            <div className="vap-text-4">Verify</div>
                         </div>
                     </div>
                     <div className="close" onClick={closePopup}>

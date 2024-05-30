@@ -48,7 +48,7 @@ const UserProfile = () => {
         setShowApplyOwnerPopup(!showApplyOwnerPopup);
     };
 
-    const toggleReverify = () => {
+    const toggleReverifyPopup = () => {
         setShowReverifyPopup(!showReverifyPopup);
     };
 
@@ -201,7 +201,7 @@ const UserProfile = () => {
                                     <div className="text-wrapper-69">Pending Verification</div>
                                 ) : currentUser.verificationStatus === 2 ? (
                                     <div className="reverify">
-                                        Verification denied, please <span className="reverify-link" onClick={toggleReverify}>reverify.</span>
+                                        Verification denied, please <span className="reverify-link" onClick={toggleReverifyPopup}>reverify.</span>
                                     </div>
                                 ) : (
                                     <button className="div-wrapper" onClick={toggleVerifyPopup}>
@@ -265,6 +265,7 @@ const UserProfile = () => {
                 
             </div>
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
+            {showReverifyPopup && <ReverifyPopup closePopup={toggleReverifyPopup} />}
             {showApplyOwnerPopup && <ApplyOwnerPopup closePopup={toggleApplyOwnerPopup} confirmRegister={handleConfirmRegisterAsOwner} />}
         </div>
     );
