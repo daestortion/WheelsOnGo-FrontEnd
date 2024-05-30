@@ -67,9 +67,9 @@ export const AdminPageOrder = () => {
 
           <div className="text-wrapper-3">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
-          
+          <div className="text-wrapper-4444">Order History</div>
           <div className="rectangle-3">
-            <div className="text-wrapper-4444">Order History</div>
+            
             <div className="table-container">
               <table className="order-table">
                 <thead>
