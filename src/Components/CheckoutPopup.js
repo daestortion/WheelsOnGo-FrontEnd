@@ -62,7 +62,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     if (!startDate || !endDate) {
       setErrorMessage("Please complete pick-up date and return date.");
     } else {
-      const order = {
+      const newOrder = {
         startDate,
         endDate,
         totalPrice,
@@ -70,26 +70,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         referenceNumber: '', // Leave it empty as it will be generated on the server side
         payment: null // Handle payment later
       };
-      insertOrder(order, storedUserId, car.carId);
+      setOrder(newOrder); // Set the order state
+      setShowPaymentPopup(true); // Show the PaymentPopup
     }
   };
 
-  const insertOrder = async (order, userId, carId) => {
-    try {
-      const response = await axios.post('http://localhost:8080/order/insertOrder', order, {
-        params: { userId, carId },
-        withCredentials: true
-      });
-      if (response.status === 200) {
-        setShowPaymentPopup(true);
-      } else {
-        throw new Error('Server responded with non-200 status');
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMessage(error.response?.data?.message || "An error occurred while placing the order. Please try again.");
-    }
-  };
+
+
+  const [order, setOrder] = useState(null);
+
 
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);
@@ -162,6 +151,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           startDate={startDate}
           endDate={endDate}
           totalPrice={totalPrice}
+          order={order}
+          userId={storedUserId}
+          carId={car.carId}
           onClose={handlePaymentPopupClose}
           onBack={() => setShowPaymentPopup(false)}
         />

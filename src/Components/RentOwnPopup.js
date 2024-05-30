@@ -7,7 +7,7 @@ export const CantrentownPopup = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    navigate('/userprofile');
+    navigate('/cars');
   };
 
   return (
