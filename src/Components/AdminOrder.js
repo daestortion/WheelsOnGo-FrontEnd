@@ -89,7 +89,7 @@ export const AdminPageOrder = () => {
           <div className="text-wrapper-4444">Order History</div>
           <div className="rectangle-3">
             
-            <div className="table-container">
+            <div className="table-container112">
               <table className="order-table">
                 <thead>
                   <tr>
