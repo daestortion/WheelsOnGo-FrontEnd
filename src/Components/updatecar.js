@@ -5,6 +5,7 @@ import "../Css/UpdateCar.css";
 import profileIcon from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import Dropdown from "./Dropdown.js";
+import CarUpdated from "./CarUpdated.js";
 
 const UpdateCar = () => {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ const UpdateCar = () => {
     carFileName: 'Upload Car OR',
     imageSrc: null
   });
+
+  const [showCarUpdatedPopup, setShowCarUpdatedPopup] = useState(false);
 
   useEffect(() => {
     // Fetch car details based on carId
@@ -86,8 +89,7 @@ const UpdateCar = () => {
             carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null
         });
         if (response.status === 200) {
-            alert('Car updated successfully');
-            navigate('/userprofile');
+            setShowCarUpdatedPopup(true);
         } else {
             alert('Failed to update car');
         }
@@ -96,7 +98,6 @@ const UpdateCar = () => {
         alert('An error occurred. Please try again.');
     }
 };
-
 
   return (
     <div className="update-car-owner">
@@ -179,6 +180,7 @@ const UpdateCar = () => {
           />
         </div>
       </div>
+      {showCarUpdatedPopup && <CarUpdated />}
     </div>
   );
 };
