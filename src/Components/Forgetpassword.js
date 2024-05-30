@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
     return (
         <div className="forgot-password">
-            <div className="div">
+            <div className="div11">
                 <div className="overlap">
                     <p className="text-wrapper">
                         Please enter your email address or username. You will receive a link to create a new password via email.
