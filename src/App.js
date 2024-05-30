@@ -23,7 +23,9 @@ import Profile from './Components/Profile.js';
 import Register from './Components/Register.js';
 import ShowImage from './Components/ShowImage.js';
 import OrderPage from './Components/OrderHistoryPage.js';
+import UpdateCar from './Components/UpdateCar.js';
 import PrivateRoute from './PrivateRoute';
+
 
 
 function DebugRoutes() {
