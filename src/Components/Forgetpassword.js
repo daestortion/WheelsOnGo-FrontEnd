@@ -15,7 +15,7 @@ const ForgotPassword = () => {
                 params: { identifier: email }
             });
             if (response.status === 200) {
-                setMessage('If the email is associated with an account, a reset link has been sent.');
+                setMessage('An email with a password reset link has been sent to your email address.');
                 setError(false);
             }
         } catch (err) {
