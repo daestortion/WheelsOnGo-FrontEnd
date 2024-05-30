@@ -7,19 +7,26 @@ import profile from "../Images/profile.png";
 
 export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
-  
+
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:8080/order/getOrdersByUserId'); // Assuming the API endpoint
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        setOrders(data);
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const userId = JSON.parse(storedUser).userId;
+        const response = await fetch(`http://localhost:8080/order/getOrdersByUserId/${userId}`);
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setOrders(data);
+        } else {
+          console.error('API response is not an array:', data);
+          setOrders([]); // Set to an empty array to avoid map errors
+        }
       } else {
-        console.error('API response is not an array:', data);
+        console.error('No user found in local storage');
         setOrders([]); // Set to an empty array to avoid map errors
       }
     } catch (error) {
