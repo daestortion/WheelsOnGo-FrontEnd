@@ -10,8 +10,8 @@ import profile from "../Images/profile.png";
 export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isOngoingFilter, setIsOngoingFilter] = useState(false);
   const navigate = useNavigate();
+  const [allOrders, setAllOrders] = useState([]);
 
   const [currentUser, setCurrentUser] = useState({
     userId: null,
@@ -28,105 +28,90 @@ export const OrderHistoryPage = () => {
     isOwner: false
   });
 
+  const fetchOrders = async (userId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8080/user/getAllOrdersFromUser/${userId}`);
+      if (response.status === 200) {
+        setAllOrders(response.data);
+        setOrders(response.data); // Initially set all orders
+      } else {
+        setAllOrders([]);
+        setOrders([]);
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      setAllOrders([]);
+      setOrders([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  console.log(currentUser);
+
+  const fetchCarOrdersByUserId = async (userId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8080/user/${userId}/carOrders`);
+      if (response.status === 200) {
+        setOrders(response.data);
+      } else {
+        console.error('No orders found for owned cars');
+        setOrders([]);
+      }
+    } catch (error) {
+      console.error('Error fetching car orders:', error);
+      setOrders([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOwnedCarsClick = () => {
+    fetchCarOrdersByUserId(currentUser.userId); // Fetch orders for owned cars
+  };
+
+  const handleRentHistoryClick = () => {
+    setOrders(allOrders); // Reset to show all orders
+  };
+
+  const handleOngoingRentClick = () => {
+    console.log("Ongoing clicked");
+    setOrders(allOrders.filter(order => order.active)); // Filter orders by active status
+  };
+
+  const fetchUserData = async (userId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
+      if (response.status === 200) {
+        setCurrentUser(response.data);
+        fetchOrders(response.data.userId);  // Fetch orders when the component mounts
+      } else {
+        // Handle user not found or other non-success cases
+        console.error('User not found or error fetching user data');
+        navigate('/login'); // Redirect or handle as needed
+      }
+    } catch (error) {
+      console.error('Server error when fetching user:', error);
+      navigate('/login'); // Redirect or handle as needed
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const userId = JSON.parse(storedUser).userId;
-      const fetchUserData = async () => {
-        setIsLoading(true);
-        try {
-          const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
-          if (response.status === 200) {
-            const userData = response.data;
-            setCurrentUser({
-              userId: userData.userId,
-              username: userData.username,
-              fName: userData.fName,
-              lName: userData.lName,
-              email: userData.email,
-              pNum: userData.pNum,
-              profilePic: userData.profilePic ? `data:image/jpeg;base64,${userData.profilePic}` : 'path_to_default_image.png',
-              verificationStatus: userData.verification ? userData.verification.status : null,
-              isRenting: userData.renting,
-              cars: userData.cars,
-              orders: userData.orders,
-              isOwner: userData.owner
-            });
-            // Update local storage with the latest verification status
-            localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), verificationStatus: userData.verification ? userData.verification.status : null }));
-          } else {
-            navigate('/login');
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-          navigate('/login');
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchUserData();
+      fetchUserData(userId);
     } else {
       navigate('/login');
     }
   }, [navigate]);
 
-  const handleHomeClick = () => {
-    navigate('/home');
-  };
-
-  const handleCarsClick = () => {
-    navigate('/cars');
-  };
-
-  const handleAboutClick = () => {
-    navigate('/aboutus');
-  };
-
-  useEffect(() => {
-    fetchOrders();
-  }, [isOngoingFilter]);
-
-  const fetchOrders = async () => {
-    try {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const userId = JSON.parse(storedUser).userId;
-        let url = `http://localhost:8080/order/getOrdersByUserId/${userId}`;
-        if (isOngoingFilter) {
-          url += '?active=true'; // Assuming your backend supports filtering by active status
-        }
-        const response = await fetch(url);
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          const ordersWithAdditionalData = await Promise.all(data.map(async (order) => {
-            const carResponse = await axios.get(`http://localhost:8080/car/getCarById/${order.car.carId}`);
-            const carOwnerResponse = await axios.get(`http://localhost:8080/user/getUserById/${carResponse.data.owner.userId}`);
-            return {
-              ...order,
-              carAddress: carResponse.data.address,
-              carOwnerName: `${carOwnerResponse.data.fName} ${carOwnerResponse.data.lName}`,
-              carOwnerPhone: carOwnerResponse.data.pNum
-            };
-          }));
-          setOrders(ordersWithAdditionalData);
-        } else {
-          console.error('API response is not an array:', data);
-          setOrders([]); // Set to an empty array to avoid map errors
-        }
-      } else {
-        console.error('No user found in local storage');
-        setOrders([]); // Set to an empty array to avoid map errors
-      }
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-      setOrders([]); // Set to an empty array to avoid map errors
-    }
-  };
-
-  const handleOngoingFilterClick = () => {
-    setIsOngoingFilter(!isOngoingFilter);
-  };
+  console.log(orders);
 
   const getStatusText = (status) => {
     switch (status) {
@@ -141,7 +126,29 @@ export const OrderHistoryPage = () => {
     }
   };
 
-  console.log(currentUser);
+  const getActivity = (activity) => {
+    switch (activity) {
+      case true:
+        return "Active";
+      case false:
+        return "Inactive";
+      default:
+        return "Unknown";
+    }
+  };
+
+
+  const handleHomeClick = () => {
+    navigate('/home');
+  };
+
+  const handleCarsClick = () => {
+    navigate('/cars');
+  };
+
+  const handleAboutClick = () => {
+    navigate('/aboutus');
+  };
 
   return (
     <div className="order-history-page">
@@ -163,9 +170,6 @@ export const OrderHistoryPage = () => {
             <div className="jkl" />
             <div className="rectangle">
               <div className="table-container">
-                <button onClick={handleOngoingFilterClick}>
-                  {isOngoingFilter ? 'Show All Orders' : 'Show Ongoing Rents'}
-                </button>
                 <table className="order-table">
                   <thead>
                     <tr>
@@ -178,6 +182,7 @@ export const OrderHistoryPage = () => {
                       <th>Car Owner Name</th>
                       <th>Car Owner Phone</th>
                       <th>Status</th>
+                      <th>Activity</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -192,31 +197,33 @@ export const OrderHistoryPage = () => {
                         <td>{order.carOwnerName}</td>
                         <td>{order.carOwnerPhone}</td>
                         <td>{getStatusText(order.status)}</td>
+                        <td>{getActivity(order.active)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <img className="vector" alt="Vector" src={vector}/>
+            <img className="vector" alt="Vector" src={vector} />
           </div>
           <div className="overlap-group-wrapper">
-            <div className="div-wrapper">
+            <button className="div-wrapper" onClick={handleOngoingRentClick}>
               <div className="text-wrapper-3">Ongoing Rent</div>
-            </div>
+            </button>
           </div>
-          {currentUser.verificationStatus === 1 && currentUser.isOwner ? (
+          {currentUser.owner ? (
             <div className="group-2">
-              <div className="div-wrapper">
-                <div className="text-wrapper-4">Order History</div>
-              </div>
+              <button className="div-wrapper" onClick={handleOwnedCarsClick}>
+                <div className="text-wrapper-4">Owned Cars</div>
+              </button>
             </div>
           ) : null}
 
+
           <div className="group-3">
-            <div className="div-wrapper">
+            <button className="div-wrapper" onClick={handleRentHistoryClick}>
               <div className="text-wrapper-4">Rent History</div>
-            </div>
+            </button>
           </div>
           <div className="text-wrapper-5">Order History</div>
         </div>

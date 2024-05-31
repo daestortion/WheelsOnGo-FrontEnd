@@ -141,9 +141,6 @@ export const AdminPageOrder = () => {
         </div>
       </div>
 
-      <button className="img">
-        <img alt="Group" src={profile} />
-      </button>
       <img className="sideview" alt="Sideview" src={sidelogo} />
     </div>
   );

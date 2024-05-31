@@ -18,6 +18,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
   console.log(storedUserId);
+  console.log(car);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -132,7 +133,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             )}
           </div>
           <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
-          <div className="text-wrapper-101">Description:</div>
+          <div className="text-wrapper-101">Description: {car.carDescription} </div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
