@@ -1,0 +1,65 @@
+.pending-rent {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .pending-rent .overlap-wrapper {
+    background-color: #ffffff;
+    height: 410px;
+    width: 907px;
+  }
+  
+  .pending-rent .overlap {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 410px;
+    position: relative;
+  }
+  
+  .pending-rent .text-wrapper {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 142px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 94px;
+    width: 623px;
+  }
+  
+  .pending-rent .group {
+    height: 71px;
+    left: 376px;
+    position: absolute;
+    top: 296px;
+    width: 170px;
+  }
+  
+  .pending-rent .overlap-group {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 168px;
+  }
+  
+  .pending-rent .div {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 92px;
+  }
+  
