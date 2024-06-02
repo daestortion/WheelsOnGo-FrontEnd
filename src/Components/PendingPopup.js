@@ -8,7 +8,7 @@ export const PendingRent = ({ closePopup }) => {
         <div className="overlap1212">
           <p className="text-wrapperr3">You already have a pending/active rent.</p>
           <div className="group121a">
-            <button className="overlap-groupdfas">
+            <button className="overlap-groupdfas" onClick={closePopup}>
               <div className="div1aa">OK</div>
             </button>
           </div>
