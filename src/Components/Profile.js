@@ -247,7 +247,7 @@ const UserProfile = () => {
                             {currentUser.cars.length > 0 ? (
                                 currentUser.cars.filter(car => !car.deleted).map(car => (
                                     <div key={car.carId} className="car-frame">
-                                        <button onClick={() => handleUpdateCar(car.carId)}>
+                                        <button className="carbutton" onClick={() => handleUpdateCar(car.carId)}>
                                             <img
                                                 className="car-imagee"
                                                 alt="Car"

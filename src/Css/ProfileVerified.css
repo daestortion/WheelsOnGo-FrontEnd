@@ -467,6 +467,7 @@
   width: 100%;
   height: auto;
   border-radius: 8px;
+  border: none;
 }
 
 .profile-not-verified .icon-trashhh {
@@ -476,4 +477,9 @@
   width: 25px;
   height: 25px;
   cursor: pointer;
+}
+
+.profile-not-verified .carbutton {
+  background: none;
+  border: none;
 }
