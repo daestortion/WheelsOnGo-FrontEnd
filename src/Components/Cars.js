@@ -66,7 +66,9 @@ export const Cars = () => {
       setShowVerifyFirst(true);
     }
   };
-
+  
+  console.log(cars);
+  
   return (
     <div className="cars">
       {isLoading && <Loading />}

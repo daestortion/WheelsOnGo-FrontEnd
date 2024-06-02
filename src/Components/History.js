@@ -193,9 +193,9 @@ export const OrderHistoryPage = () => {
                         <td>{order.endDate}</td>
                         <td>{order.totalPrice}</td>
                         <td>{order.referenceNumber}</td>
-                        <td>{order.carAddress}</td>
-                        <td>{order.carOwnerName}</td>
-                        <td>{order.carOwnerPhone}</td>
+                        <td>{order.car.address}</td>
+                        <td>{order.car.owner.username}</td>
+                        <td>{order.car.owner.pNum}</td>
                         <td>{getStatusText(order.status)}</td>
                         <td>{getActivity(order.active)}</td>
                       </tr>
