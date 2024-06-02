@@ -1,7 +1,7 @@
 import React from "react";
 import "../Css/PendingPopup.css";
 
-export const PendingRent = () => {
+export const PendingRent = ({ closePopup }) => {
   return (
     <div className="pending-rent">
       <div className="overlap-wrapper343">
