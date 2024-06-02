@@ -93,7 +93,7 @@
 
 .checkout-popup .cp-overlap-group { 
   height: 43px; 
-  left: 309px; 
+  left: 350px; 
   position: absolute; 
   top: 248px; 
   width: 590px; 
@@ -105,7 +105,7 @@
   font-size: 30px; 
   font-weight: 500; 
   height: 34px; 
-  left: 40px; 
+  left: -5px; 
   letter-spacing: 0.38px; 
   line-height: 140px; 
   position: absolute; 
@@ -120,7 +120,7 @@
   font-size: 30px; 
   font-weight: 500; 
   height: 34px; 
-  left: 172px; 
+  left: 180px; 
   letter-spacing: 0.38px; 
   line-height: 140px; 
   position: absolute; 
