@@ -98,7 +98,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             {car.carBrand} {car.carModel} {car.carYear}
           </div>
           <div className="cp-overlap-group">
-            <div className="text-wrapper-345">₱{car.rentPrice}</div>
+            <div className="text-wrapper-345">₱{car.rentPrice.toFixed(2)}</div>
             <div className="text-wrapper-4">{car.owner.pNum}</div>
             <img className="vector" alt="Vector" src={vector7} />
           </div>
