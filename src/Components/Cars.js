@@ -19,21 +19,8 @@ export const Cars = () => {
   const [showVerifyFirst, setShowVerifyFirst] = useState(false);
   const [showRentOwnPopup, setShowRentOwnPopup] = useState(false);
   const [showPendingRentPopup, setShowPendingRentPopup] = useState(false);
+  const [isRenting, setIsRenting] = useState(false);
   const navigate = useNavigate();
-    const [currentUser, setCurrentUser] = useState({
-      userId: null,
-      username: 'username',
-      fName: 'FirstName',
-      lName: 'LastName',
-      email: 'youremail@email.org',
-      pNum: '+63 123 456 7890',
-      profilePic: 'path_to_default_image.png',
-      verificationStatus: null,
-      isRenting: false,
-      cars: [],
-      orders: [],
-      isOwner: false
-  });
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -54,7 +41,31 @@ export const Cars = () => {
     };
 
     fetchCars();
-  }, []);
+
+    const fetchUserRentingStatus = async () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const userId = JSON.parse(storedUser).userId;
+        try {
+          const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
+          if (response.status === 200) {
+            setIsRenting(response.data.renting);
+            // Update local storage with the latest isRenting status
+            localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), isRenting: response.data.renting }));
+          } else {
+            navigate('/login');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          navigate('/login');
+        }
+      } else {
+        navigate('/login');
+      }
+    };
+
+    fetchUserRentingStatus();
+  }, [navigate]);
 
   const handleHomeClick = () => {
     navigate('/home');
@@ -68,58 +79,15 @@ export const Cars = () => {
     navigate('/aboutus');
   };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-        const userId = JSON.parse(storedUser).userId;
-        const fetchUserData = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
-                if (response.status === 200) {
-                    const userData = response.data;
-                    setCurrentUser({
-                        userId: userData.userId,
-                        username: userData.username,
-                        fName: userData.fName,
-                        lName: userData.lName,
-                        email: userData.email,
-                        pNum: userData.pNum,
-                        profilePic: userData.profilePic ? `data:image/jpeg;base64,${userData.profilePic}` : 'path_to_default_image.png',
-                        verificationStatus: userData.verification ? userData.verification.status : null,
-                        isRenting: userData.renting,
-                        cars: userData.cars,
-                        orders: userData.orders,
-                        isOwner: userData.owner
-                    });
-                    // Update local storage with the latest verification status
-                    localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), verificationStatus: userData.verification ? userData.verification.status : null }));
-                } else {
-                    navigate('/login');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                navigate('/login');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchUserData();
-    } else {
-        navigate('/login');
-    }
-}, [navigate]);
-  
   const handleRentClick = (car) => {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('User Data:', user);
     if (user && user.verificationStatus === 1) {
-      console.log('User isRenting:', user.isRenting);
-      if (currentUser.isRenting === true) {
-        setShowPendingRentPopup(true);
-      } else if (car.owner.userId === user.userId) {
+      console.log('User isRenting:', isRenting);
+      if (car.owner.userId === user.userId) {
         setShowRentOwnPopup(true);
+      } else if (isRenting === true) {
+        setShowPendingRentPopup(true);
       } else {
         setSelectedCar(car);
       }
