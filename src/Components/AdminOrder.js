@@ -127,7 +127,7 @@ export const AdminPageOrder = () => {
                       <td>{order.totalPrice}</td>
                       <td>{order.referenceNumber}</td>
                       <td>{order.active ? 'True' : 'False'}</td>
-                      <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : 'Pending'}</td>
+                      <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : order.status === 3 ? 'Finished' : 'Pending'}</td>
                       <td>
                         <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
                         <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>

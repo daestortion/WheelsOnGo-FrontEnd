@@ -121,6 +121,8 @@ export const OrderHistoryPage = () => {
         return "Approved";
       case 2:
         return "Denied";
+      case 3:
+        return "Finished";
       default:
         return "Unknown";
     }
