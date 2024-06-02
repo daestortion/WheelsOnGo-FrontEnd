@@ -10,7 +10,7 @@ export const PendingRent = ({ closePopup }) => {
           <div className="group121a">
             <button className="overlap-groupdfas">
               <div className="div1aa">OK</div>
-            </buttona>
+            </button>
           </div>
         </div>
       </div>
