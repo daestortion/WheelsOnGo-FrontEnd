@@ -45,7 +45,6 @@ export const AdminLogin = () => {
       if (response.ok && responseData.status === "success") {
         console.log("Login successful");
         adminLogin(); // Set admin as authenticated
-        alert("Login successful");
         navigate("/adminusers");
       } else {
         console.log("Login failed:", responseData);

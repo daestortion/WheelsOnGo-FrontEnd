@@ -97,7 +97,13 @@ export const Login = () => {
     } finally {
       setIsLoading(false);
     }
-  };  
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleLogin(event);
+    }
+  };
 
   return (
     <div className="login">
@@ -114,6 +120,7 @@ export const Login = () => {
               setIdentifier(e.target.value);
               setErrorMessage(""); // Clear error message on input change
             }}
+            onKeyPress={handleKeyPress}
             name="identifier"
             autoComplete="username"
           />
@@ -126,6 +133,7 @@ export const Login = () => {
               setPassword(e.target.value);
               setErrorMessage(""); // Clear error message on input change
             }}
+            onKeyPress={handleKeyPress}
             name="password"
             autoComplete="current-password"
           />

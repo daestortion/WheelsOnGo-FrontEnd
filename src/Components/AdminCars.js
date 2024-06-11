@@ -70,6 +70,14 @@ export const AdminPageCars = () => {
     setSelectedImage(null);
   };
 
+  const handleApprove = (vId) => {
+    
+  };
+
+  const handleDeny = (vId) => {
+    
+  };
+
   return (
     <div className="admin-page-cars">
       <div className="overlap-wrapper">
@@ -86,8 +94,10 @@ export const AdminPageCars = () => {
                   <th>Car OR</th>
                   <th>Car CR</th>
                   <th>Car Image</th>
+                  <th>Price</th>
                   <th>Status</th>
-                  <th>Actions</th>
+                  <th>Delete</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -105,9 +115,14 @@ export const AdminPageCars = () => {
                     <td>
                       <button onClick={() => handleShowImage(car.carImage)}>Show Image</button>
                     </td>
+                    <td>{car.rentPrice}</td>
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
                     <td>
                       <button onClick={() => handleDelete(car.carId)}>Delete</button>
+                    </td>
+                    <td>
+                      <button className="button-approve" onClick={() => handleApprove()}>Approve</button>
+                      <button className="button-deny" onClick={() => handleDeny()}>Deny</button>
                     </td>
                   </tr>
                 ))}
