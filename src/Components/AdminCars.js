@@ -70,11 +70,18 @@ export const AdminPageCars = () => {
     setSelectedImage(null);
   };
 
-  const handleApprove = (vId) => {
-    
+  const handleApprove = async (carId) => {
+    try {
+      await fetch(`http://localhost:8080/car/approveCar/${carId}`, {
+        method: 'PUT',
+      });
+      fetchCars(); // Refresh the cars list after approving
+    } catch (error) {
+      console.error('Error approving car:', error);
+    }
   };
 
-  const handleDeny = (vId) => {
+  const handleDeny = () => {
     
   };
 
@@ -95,8 +102,9 @@ export const AdminPageCars = () => {
                   <th>Car CR</th>
                   <th>Car Image</th>
                   <th>Price</th>
+                  <th>Approved</th>
                   <th>Status</th>
-                  <th>Delete</th>
+                  <th>Action</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -116,13 +124,14 @@ export const AdminPageCars = () => {
                       <button onClick={() => handleShowImage(car.carImage)}>Show Image</button>
                     </td>
                     <td>{car.rentPrice}</td>
+                    <td>{car.approved ? 'Yes' : 'No'}</td>
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
                     <td>
-                      <button onClick={() => handleDelete(car.carId)}>Delete</button>
+                    <button className="button-approve" onClick={() => handleApprove(car.carId)}>Approve</button>
+                    <button className="button-deny" onClick={() => handleDeny(car.carId)}>Deny</button>
                     </td>
                     <td>
-                      <button className="button-approve" onClick={() => handleApprove()}>Approve</button>
-                      <button className="button-deny" onClick={() => handleDeny()}>Deny</button>
+                      <button onClick={() => handleDelete(car.carId)}>Delete</button>
                     </td>
                   </tr>
                 ))}
