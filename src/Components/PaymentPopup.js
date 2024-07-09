@@ -7,6 +7,7 @@ import back from "../Images/back.png";
 import BookedPopup from './BookedPopup'; // Import BookedPopup component
 import TAC from "../Images/WheelsOnGoTAC.pdf";
 import axios from 'axios';
+import PayPal from "../Components/PayPal";
 
 const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
@@ -79,13 +80,15 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   
   return (
     <div className="payment-popup">
-      <div className="overlap-wrapper">
+      <div className="overlap-wrapperpopup">
         <div className="overlap11">
           <div className="text-wrapper">Payment</div>
           <button className="back" onClick={onBack}>
             <img className="vector" alt="Vector" src={back} />
           </button>
-          <p className="pp">Scan the QR code to pay, then upload a screenshot of the receipt.</p>
+          <p className="pp">Scan the QR code to pay via GCASH, then upload a screenshot of the receipt.</p>
+          <p className="pppp">Or</p>
+          <p className="ppp">____________________________________________________</p>
           <p className="divv">by clicking, you are confirming that you have read,</p>
           <p className="understood-and-agree">
             <span className="span">understood and agree to the </span>
@@ -130,6 +133,9 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
               {uploadedFileName || "Payment Screenshot"}
             </div>
           </div>
+
+          <PayPal totalPrice={totalPrice} /> {/* Pass totalPrice as a prop to PayPal component */}
+          
           <div className="overlap-group-wrapper">
             <button
               className="overlap-33"

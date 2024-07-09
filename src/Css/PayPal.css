@@ -1,0 +1,17 @@
+.paypal-button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 50px; /* Adjust height as needed */
+    width: 300px; /* Adjust width as needed */
+    margin: 20px auto; /* Center the container with margin */
+  }
+  
+  .paypal-button-container > div {
+    height: 71px;
+    position: absolute;
+    width: 571px;
+    left: 970px;
+    top: 527px;
+  }
+  

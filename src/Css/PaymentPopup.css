@@ -12,8 +12,7 @@
   overflow: hidden; /* Prevent scrolling */
 }
 
-.payment-popup .overlap-wrapper {
-  height: 724px;
+.payment-popup .overlap-wrapperpopup {
   width: 1502px;
 }
 
@@ -23,7 +22,7 @@
   height: 724px;
   position: relative;
   width: 1698px;
-  left: -100px;
+  left: -75px;
 }
 
   
@@ -81,16 +80,48 @@
     font-size: 18px;
     font-weight: 500;
     height: 34px;
+    left: 940px;
+    letter-spacing: 0.23px;
+    line-height: 140px;
+    position: absolute;
+    text-align: center;
+    top: 290px;
+    white-space: nowrap;
+    width: 592px;
+  }
+  
+  .payment-popup .pppp {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 500;
+    height: 34px;
     left: 961px;
     letter-spacing: 0.23px;
     line-height: 140px;
     position: absolute;
     text-align: center;
-    top: 339px;
+    top: 415px;
     white-space: nowrap;
     width: 592px;
   }
-  
+
+  .payment-popup .ppp {
+    color: #e32128;
+    font-family: "Inter-Medium", Helvetica;
+    font-size: 18px;
+    font-weight: 700;
+    height: 34px;
+    left: 961px;
+    letter-spacing: 0.23px;
+    line-height: 140px;
+    position: absolute;
+    text-align: center;
+    top: 503px;
+    white-space: nowrap;
+    width: 592px;
+  }
+
   .payment-popup .understood-and-agree {
     color: #e32128;
     font-family: "Inter-Medium", Helvetica;
@@ -256,7 +287,7 @@
     height: 71px;
     left: 973px;
     position: absolute;
-    top: 465px;
+    top: 406px;
     width: 569px;
   }
   
@@ -322,11 +353,12 @@
   .payment-popup .overlap-33 {
     background-color: #e80029;
     border-radius: 35px;
-    height: 71px;
+    height: 60px;
     position: relative;
     width: 571px;
     border: none;
     left: 100px;
+    top: 50px;
   }
   
   .payment-popup .text-wrapper-11 {
@@ -339,7 +371,7 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 22px;
+    top: 18px;
     width: 160px;
   }
   
@@ -367,7 +399,7 @@
     left: 1108px;
     object-fit: cover;
     position: absolute;
-    top: 89px;
+    top: 50px;
     width: 300px;
   }
   
