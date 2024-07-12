@@ -5,8 +5,52 @@ import { useNavigate } from 'react-router-dom';
 import "../Css/AddCar.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
-import AddCarPopup from './AddCarPopup'; // Import AddCarPopup
+import AddCarPopup from './AddCarPopup';
 import Dropdown from "./Dropdown";
+
+
+const carData = {
+  Toyota: [
+    'Toyota Vios', 'Toyota Hilux', 'Toyota Fortuner', 'Toyota Innova', 'Toyota Wigo', 'Toyota Avanza', 'Toyota Rush', 'Toyota Hiace', 'Toyota Camry', 'Toyota Corolla Altis', 'Toyota Land Cruiser', 'Toyota Prado', 'Toyota RAV4', 'Toyota Yaris', 'Toyota Alphard'
+  ],
+  Honda: [
+    'Honda City', 'Honda Civic', 'Honda CR-V', 'Honda Jazz', 'Honda BR-V', 'Honda Mobilio', 'Honda HR-V', 'Honda Brio', 'Honda Accord', 'Honda Odyssey'
+  ],
+  Mitsubishi: [
+    'Mitsubishi Mirage', 'Mitsubishi Mirage G4', 'Mitsubishi Xpander', 'Mitsubishi Montero Sport', 'Mitsubishi Strada', 'Mitsubishi Pajero', 'Mitsubishi L300', 'Mitsubishi Outlander PHEV'
+  ],
+  Nissan: [
+    'Nissan Navara', 'Nissan Terra', 'Nissan Almera', 'Nissan Patrol', 'Nissan Juke', 'Nissan X-Trail', 'Nissan Urvan', 'Nissan GT-R', 'Nissan Leaf'
+  ],
+  Hyundai: [
+    'Hyundai Accent', 'Hyundai Tucson', 'Hyundai Kona', 'Hyundai H-100', 'Hyundai Santa Fe', 'Hyundai Starex', 'Hyundai Elantra', 'Hyundai Reina', 'Hyundai Palisade'
+  ],
+  Ford: [
+    'Ford Ranger', 'Ford Everest', 'Ford EcoSport', 'Ford Territory', 'Ford Explorer', 'Ford Mustang', 'Ford Expedition', 'Ford Transit'
+  ],
+  Mazda: [
+    'Mazda 3', 'Mazda 2', 'Mazda CX-5', 'Mazda CX-3', 'Mazda CX-9', 'Mazda MX-5', 'Mazda 6'
+  ],
+  Suzuki: [
+    'Suzuki Ertiga', 'Suzuki Vitara', 'Suzuki Celerio', 'Suzuki Swift', 'Suzuki Dzire', 'Suzuki Jimny', 'Suzuki S-Presso', 'Suzuki APV'
+  ],
+  Kia: [
+    'Kia Picanto', 'Kia Soluto', 'Kia Seltos', 'Kia Sportage', 'Kia Stonic', 'Kia Sorento', 'Kia Carnival'
+  ],
+  Chevrolet: [
+    'Chevrolet Trailblazer', 'Chevrolet Colorado', 'Chevrolet Spark', 'Chevrolet Tracker', 'Chevrolet Malibu', 'Chevrolet Suburban', 'Chevrolet Camaro'
+  ],
+  Subaru: [
+    'Subaru Forester', 'Subaru XV', 'Subaru Outback', 'Subaru WRX', 'Subaru Levorg', 'Subaru BRZ'
+  ],
+  Isuzu: [
+    'Isuzu D-Max', 'Isuzu mu-X', 'Isuzu Traviz', 'Isuzu Crosswind'
+  ],
+  'Other Brands': [
+    'Volkswagen Santana', 'Volkswagen Lavida', 'Volkswagen Lamando', 'Volkswagen Tiguan', 'Volkswagen Touareg'
+  ]
+};
+
 
 export const AddCar = () => {
   const [userId, setUserId] = useState(null);
@@ -18,19 +62,19 @@ export const AddCar = () => {
   const [carImage, setCarImage] = useState(null);
   const [carOR, setCarOR] = useState(null);
   const [carCR, setCarCR] = useState(null);
-  const [carORFileName, setCarORFileName] = useState('');  // New state variable for OR file name
-  const [carCRFileName, setCarCRFileName] = useState('');  // New state variable for CR file name
-  const [carImageURL, setCarImageURL] = useState(''); // State for storing the object URL
-  const [carDescription, setCarDescription] = useState(''); // New state variable for car description
+  const [carORFileName, setCarORFileName] = useState('');
+  const [carCRFileName, setCarCRFileName] = useState('');
+  const [carImageURL, setCarImageURL] = useState('');
+  const [carDescription, setCarDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showAddCarPopup, setShowAddCarPopup] = useState(false); // State for showing AddCarPopup
+  const [showAddCarPopup, setShowAddCarPopup] = useState(false);
   const carImageInputRef = useRef(null);
   const carORInputRef = useRef(null);
   const carCRInputRef = useRef(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate('/home'); 
+    navigate('/home');
   };
   const handleCarsClick = () => {
     navigate('/cars');
@@ -40,7 +84,6 @@ export const AddCar = () => {
   };
 
   useEffect(() => {
-    // Fetch the user from local storage
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.userId) {
       setUserId(user.userId);
@@ -48,20 +91,18 @@ export const AddCar = () => {
   }, []);
 
   const handleFileChange = (file, setter, setFileName) => {
-    setter(file);  // Set the file
+    setter(file);
     if (setFileName) {
-      setFileName(file.name);  // Update the file name state only if setFileName function is provided
+      setFileName(file.name);
     }
     if (setter === setCarImage) {
-      // If the file is for the car image, create and store the object URL
       setCarImageURL(URL.createObjectURL(file));
     }
   };
-  
-  const handleSubmit = async () => {
-    if (isSubmitting) return;  // Prevent multiple submissions
 
-    // Validation check
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+
     if (!carBrand || !carModel || !carYear || !address || !carOR || !carCR || !rentPrice || !carImage || !carDescription) {
       alert("Please fill in all required fields.");
       return;
@@ -75,7 +116,7 @@ export const AddCar = () => {
     formData.append('carYear', carYear);
     formData.append('address', address);
     formData.append('rentPrice', parseFloat(rentPrice));
-    formData.append('carDescription', carDescription); // Add carDescription to form data
+    formData.append('carDescription', carDescription);
     if (carImage) formData.append('carImage', carImage);
     if (carOR) formData.append('carOR', carOR);
     if (carCR) formData.append('carCR', carCR);
@@ -87,7 +128,7 @@ export const AddCar = () => {
         },
       });
       console.log(response.data);
-      setShowAddCarPopup(true); // Show AddCarPopup on successful registration
+      setShowAddCarPopup(true);
     } catch (error) {
       console.error('Error submitting form', error);
     } finally {
@@ -116,22 +157,29 @@ export const AddCar = () => {
           </div>
           <div className="overlap-2">
             <div className="overlap-group-wrapper">
-              <input
+              <select
                 className="div-wrapper"
-                type="text"
-                placeholder="Car Brand"
                 value={carBrand}
                 onChange={(e) => setCarBrand(e.target.value)}
-              />
+              >
+                <option value="">Car Brand</option>
+                {Object.keys(carData).map((brand) => (
+                  <option key={brand} value={brand}>{brand}</option>
+                ))}
+              </select>
             </div>
             <div className="group-22">
-              <input
+              <select
                 className="div-wrapper1"
-                type="text"
-                placeholder="Car Model"
                 value={carModel}
                 onChange={(e) => setCarModel(e.target.value)}
-              />
+                disabled={!carBrand}
+              >
+                <option value="">Car Model</option>
+                {carBrand && carData[carBrand].map((model) => (
+                  <option key={model} value={model}>{model}</option>
+                ))}
+              </select>
             </div>
             <div className="group-3">
               <input
@@ -184,12 +232,12 @@ export const AddCar = () => {
                 </div>
               </div>
               <div className="group-6">
-                  <input
-                    type="file"
-                    ref={carCRInputRef}
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleFileChange(e.target.files[0], setCarCR, setCarCRFileName)}
-                  />
+                <input
+                  type="file"
+                  ref={carCRInputRef}
+                  style={{ display: 'none' }}
+                  onChange={(e) => handleFileChange(e.target.files[0], setCarCR, setCarCRFileName)}
+                />
                 <button className="overlap-5" onClick={() => carCRInputRef.current.click()}>
                   <div className="text-wrapper-5">Upload</div>
                 </button>
@@ -232,7 +280,7 @@ export const AddCar = () => {
           </div>
         </div>
       </div>
-      {showAddCarPopup && <AddCarPopup />} {/* Conditionally render AddCarPopup */}
+      {showAddCarPopup && <AddCarPopup />}
     </div>
   );
 };

@@ -48,7 +48,7 @@ function AuthRoutes() {
             <Route path="/home" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
 
             <Route path="/cars" element={<PrivateRoute><Cars /></PrivateRoute>} />
-            <Route path="/addcar" element={<PrivateRoute><AddCar /></PrivateRoute>} />
+            <Route path="/addcar" element={<AddCar />} />
             <Route path="/updatecar/:carId" element={<PrivateRoute><UpdateCar /></PrivateRoute>} />
             
             <Route path="/adminusers" element={<AdminPrivateRoute><AdminUsers /></AdminPrivateRoute>} />
