@@ -141,16 +141,16 @@ export const AdminVerify = () => {
           </button>
           
           <button className="group" onClick={handleAdminCars}>
-            <div className="text-wrapper-2">Cars</div>
+            <div className="text-wrapper-22">Cars</div>
           </button>
           <button className="overlap-wrapper" onClick={handleAdminUser}>
-            <div className="text-wrapper-2">Users</div>
+            <div className="text-wrapper-22">Users</div>
           </button>
           <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
-            <div className="text-wrapper-3">Verifications</div>
+            <div className="text-wrapper-33">Verifications</div>
           </button>
           <div className="rectangle-4" />
-          <div className="text-wrapper-4">Dashboard</div>
+          <div className="text-wrapper-44">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
         </div>
         <button className="logout-button" onClick={handleLogout}>

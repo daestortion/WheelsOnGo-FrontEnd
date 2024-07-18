@@ -140,19 +140,19 @@ export const AdminPageCars = () => {
           </div>
           <div className="rectangle-2" />
           <div className="rectangle-3" />
-          <div className="text-wrapper-4">Dashboard</div>
+          <div className="text-wrapper-44">Dashboard</div>
           <img className="sideview" alt="Sideview" src={sidelogo} />
           <div className="overlap-group-wrapper" onClick={handleAdminCars}>
             <div className="overlap-group">
-              <div className="text-wrapper-5">Cars</div>
+              <div className="text-wrapper-55">Cars</div>
             </div>
           </div>
           <button className="div-wrapper" onClick={handleAdminUsers}>
-            <div className="text-wrapper-5">Users</div>
+            <div className="text-wrapper-55">Users</div>
           </button>
           <img className="vector" alt="Vector" src={vector} />
           <button className="group-2" onClick={handleAdminVerify}>
-            <div className="text-wrapper-6">Verifications</div>
+            <div className="text-wrapper-66">Verifications</div>
           </button>
           <button className="group-222" onClick={handleAdminOrder}>
             <div className="text-wrapper-34">Orders</div>

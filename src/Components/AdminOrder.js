@@ -88,14 +88,14 @@ export const AdminPageOrder = () => {
           </button>
 
           <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
-            <div className="text-wrapper-2">Verifications</div>
+            <div className="text-wrapper-22">Verifications</div>
           </button>
 
-          <button className="group-2">
+          <div className="group-2">
             <div className="text-wrapper">Orders</div>
-          </button>
+          </div>
 
-          <div className="text-wrapper-3">Dashboard</div>
+          <div className="text-wrapper-33">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
           <div className="text-wrapper-4444">Order History</div>
           <div className="rectangle-3">

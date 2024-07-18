@@ -120,7 +120,7 @@
   width: 456px;
 }
 
-.admin-page-order .text-wrapper-2 {
+.admin-page-order .text-wrapper-22 {
   color: #ffffff;
   font-family: "Inter-SemiBold", Helvetica;
   font-size: 32px;
@@ -141,16 +141,12 @@
   top: 426px;
   width: 456px;
   border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-order .group-2:hover {
   background-color: #e32128; /* Change to desired hover background color */
   border-radius: 40px;
 }
 
-.admin-page-order .text-wrapper-3 {
+
+.admin-page-order .text-wrapper-33 {
   color: #ffffff;
   font-family: "Inter-SemiBold", Helvetica;
   font-size: 32px;

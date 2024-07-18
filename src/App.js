@@ -25,6 +25,7 @@ import ShowImage from './Components/ShowImage.js';
 import History from './Components/History.js';
 import UpdateCar from './Components/UpdateCar.js';
 import PrivateRoute from './PrivateRoute';
+import AdminReport from './Components/AdminReport.js';
 
 
 
@@ -66,6 +67,7 @@ function AuthRoutes() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
             <Route path="/history" element={<History />} />
+            <Route path="/adminreport" element={<AdminReport />} />
 
         </Routes>
     );

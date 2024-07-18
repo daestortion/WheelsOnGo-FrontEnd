@@ -104,12 +104,12 @@ export const AdminPageUsers = () => {
             <div className="text-wrapper">Users</div>
           </button>
           <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
-            <div className="text-wrapper-2">Verifications</div>
+            <div className="text-wrapper-22">Verifications</div>
           </button>
           <button className="group-2" onClick={handleOrder}>
             <div className="text-wrapper">Orders</div>
           </button>
-          <div className="text-wrapper-3">Dashboard</div>
+          <div className="text-wrapper-33">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
           <div className="text-wrapper-4">Manage Users</div>
           <div className="rectangle-3">
