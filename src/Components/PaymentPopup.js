@@ -4,17 +4,21 @@ import qrcode from "../Images/qrcode.png";
 import line1 from "../Images/line11.png";
 import close from "../Images/close.png";
 import back from "../Images/back.png";
-import BookedPopup from './BookedPopup'; // Import BookedPopup component
+import BookedPopup from './BookedPopup';
 import TAC from "../Images/WheelsOnGoTAC.pdf";
 import axios from 'axios';
 import PayPal from "../Components/PayPal";
+import PayPalError from "../Components/PaypalError";
+import PayPalSuccessful from "../Components/PaypalSuccessful";
 
 const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState(null);  // Store the file Blob
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [order, setOrder] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
+  const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
+  const [showPayPalError, setShowPayPalError] = useState(false);
 
   useEffect(() => {
     const newOrder = {
@@ -23,12 +27,10 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
       totalPrice,
       isDeleted: false,
       referenceNumber: '',
-      payment: uploadedFile ? { method: 'image', screenshot: uploadedFile } : null  // Use Blob directly
+      payment: uploadedFile ? { method: 'image', screenshot: uploadedFile } : null
     };
     setOrder(newOrder);
   }, [startDate, endDate, totalPrice, uploadedFile]);
-
-  console.log(order);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -42,8 +44,8 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setUploadedFile(file);  // Store the Blob directly
-      setUploadedFileName(file.name);  // Set the file name
+      setUploadedFile(file);
+      setUploadedFileName(file.name);
     }
   };
 
@@ -58,7 +60,6 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
           totalPrice: order.totalPrice,
           isDeleted: order.isDeleted,
           referenceNumber: order.referenceNumber,
-          // Do not include the file data here
         })], { type: 'application/json' }));
   
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
@@ -67,17 +68,30 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
           }
         });
   
-        console.log(response.data);
         if (response.data) {
-          setOrder(response.data); // Update the order with the response
-          setShowBookedPopup(true); // Show the booked popup
+          setOrder(response.data);
+          setShowBookedPopup(true);
         }
       } catch (error) {
         console.error('Error submitting order:', error);
       }
     }
   };
-  
+
+  const handlePayPalSuccess = () => {
+    setShowPayPalSuccess(true);
+  };
+
+  const handlePayPalError = (error) => {
+    console.error("Handling PayPal error:", error); // Ensure error handling is logged
+    setShowPayPalError(true);
+  };
+
+  const handleClosePayPalPopup = () => {
+    setShowPayPalSuccess(false);
+    setShowPayPalError(false);
+  };
+
   return (
     <div className="payment-popup">
       <div className="overlap-wrapperpopup">
@@ -125,6 +139,10 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
               <button
                 className="div-wrapper111"
                 onClick={() => document.getElementById('file-upload').click()}
+                style={{
+                  pointerEvents: isChecked ? 'auto' : 'none',
+                  opacity: isChecked ? 1 : 0.5
+                }}
               >
                 <div className="text-wrapper-101">Upload</div>
               </button>
@@ -134,13 +152,24 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
             </div>
           </div>
 
-          <PayPal totalPrice={totalPrice} /> {/* Pass totalPrice as a prop to PayPal component */}
-          
+          <div
+            style={{
+              pointerEvents: isChecked ? 'auto' : 'none',
+              opacity: isChecked ? 1 : 0.5
+            }}
+          >
+            <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+          </div>
+
           <div className="overlap-group-wrapper">
             <button
               className="overlap-33"
               onClick={handleClick}
-              disabled={!isChecked} // Disable the button if the checkbox is not checked
+              disabled={!isChecked}
+              style={{
+                pointerEvents: isChecked ? 'auto' : 'none',
+                opacity: isChecked ? 1 : 0.5
+              }}
             >
               <div className="text-wrapper-11">Book</div>
             </button>
@@ -152,6 +181,8 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
         </div>
       </div>
       {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
+      {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
+      {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
     </div>
   );
 };

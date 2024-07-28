@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import "../Css/PayPal.css"; // Import the CSS file
 
-export default function PayPal({ totalPrice }) {
+export default function PayPal({ totalPrice, onSuccess, onError }) {
   const paypal = useRef();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function PayPal({ totalPrice }) {
                 description: "Car rental payment",
                 amount: {
                   currency_code: "USD",
-                  value: totalPrice.toFixed(2), // Ensure totalPrice is used here
+                  value: totalPrice.toFixed(2),
                 },
               },
             ],
@@ -33,13 +33,15 @@ export default function PayPal({ totalPrice }) {
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           console.log(order);
+          onSuccess(order);
         },
         onError: (err) => {
-          console.log(err);
+          console.error("PayPal Error:", err); // Ensure error is logged
+          onError(err);
         },
       })
       .render(paypal.current);
-  }, [totalPrice]);
+  }, [totalPrice, onSuccess, onError]);
 
   return (
     <div className="paypal-button-container">
