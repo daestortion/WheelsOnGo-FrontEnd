@@ -1,5 +1,6 @@
 import React from "react";
 import "../Css/Report.css";
+import close from "../Images/close.png";
 
 export const Report = () => {
   return (
@@ -13,7 +14,7 @@ export const Report = () => {
             </button>
           </div>
           <div className="close">
-            <img className="vector" alt="Vector" src="vector.svg" />
+            <img className="vector" alt="Vector" src={close} />
           </div>
           <div className="rectangle" />
           <div className="text-wrapper-2">Subject:</div>
