@@ -1,9 +1,14 @@
 .report {
-    background-color: #ffffff;
+    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+    align-items: center;  /* Center vertically */
+    justify-content: center;  /* Center horizontally */
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
+    z-index: 1050;  /* Ensure it's above all other content */
   }
   
   .report .overlap-wrapper456 {
