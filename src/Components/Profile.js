@@ -14,6 +14,7 @@ import Loading from './Loading';
 import VerifyPopup from './VerifyPopup';
 import ReverifyPopup from './ReverifyPopup';
 import DeleteCarPopup from './DeleteCar';
+import { Report } from './Report'; // Import the named export
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -37,6 +38,7 @@ const UserProfile = () => {
     const [showDeleteCarPopup, setShowDeleteCarPopup] = useState(false);
     const [carToDelete, setCarToDelete] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showReportPopup, setShowReportPopup] = useState(false); // State for report popup
     const navigate = useNavigate();
 
     const handleEditProfile = () => {
@@ -53,6 +55,10 @@ const UserProfile = () => {
 
     const toggleReverifyPopup = () => {
         setShowReverifyPopup(!showReverifyPopup);
+    };
+
+    const toggleReportPopup = () => {
+        setShowReportPopup(!showReportPopup); // Toggle the report popup
     };
 
     const handleAddCar = () => {
@@ -83,7 +89,6 @@ const UserProfile = () => {
                             orders: userData.orders,
                             isOwner: userData.owner
                         });
-                        // Update local storage with the latest verification status
                         localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), verificationStatus: userData.verification ? userData.verification.status : null }));
                     } else {
                         navigate('/login');
@@ -95,7 +100,6 @@ const UserProfile = () => {
                     setIsLoading(false);
                 }
             };
-
             fetchUserData();
         } else {
             navigate('/login');
@@ -192,7 +196,7 @@ const UserProfile = () => {
     const handleUpdateCar = (carId) => {
         navigate(`/updatecar/${carId}`);
     };
-    
+
     console.log(currentUser);
     return (
         <div className="profile-not-verified">
@@ -277,12 +281,14 @@ const UserProfile = () => {
                     )}
 
                     <div className="group-22">
-                    <button className="overlap-5" onClick={handleEditProfile}>
-                        <div className="text-wrapper-5">Edit Profile</div>
-                    </button>
+                        <button className="overlap-5" onClick={handleEditProfile}>
+                            <div className="text-wrapper-5">Edit Profile</div>
+                        </button>
+                    </div>
                 </div>
-                </div>
-                
+                <a href="#" onClick={toggleReportPopup} className="submit-report-link">
+                            Submit a Report
+                </a>
             </div>
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
             {showReverifyPopup && <ReverifyPopup closePopup={toggleReverifyPopup} />}
@@ -293,6 +299,7 @@ const UserProfile = () => {
                     cancelDelete={cancelDeleteCar}
                 />
             )}
+            {showReportPopup && <Report />} {/* Render the Report popup */}
         </div>
     );
 };

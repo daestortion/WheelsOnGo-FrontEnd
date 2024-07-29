@@ -237,11 +237,16 @@
   width: 150px;
 }
 
+.profile-verified .group-22 {
+  display: flex;
+  align-items: center; /* Ensure items are vertically aligned */
+  gap: 10px; /* Adjust gap between buttons if needed */
+}
+
 .profile-verified .overlap-5 {
   background-color: #e32128;
   border-radius: 9px;
   height: 50px;
-  position: relative;
   width: 148px;
   border: none;
 }
@@ -251,13 +256,12 @@
   font-family: "Inter-Bold", Helvetica;
   font-size: 16px;
   font-weight: 700;
-  left: 23px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   text-align: center;
   top: 15px;
-  width: 103px;
+  width: 100%;
 }
 
 .profile-verified .group-3 {
@@ -310,4 +314,13 @@
   color: #e80029;
   text-decoration: underline;
   cursor: pointer; /* Optional: to show a pointer cursor on hover */
+}
+
+.submit-report-link {
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  color: #e32128;
+  text-decoration: underline;
+  cursor: pointer;
 }

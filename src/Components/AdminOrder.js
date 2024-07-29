@@ -9,6 +9,8 @@ import sidelogo from "../Images/sidelogo.png";
 export const AdminPageOrder = () => {
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState({});
+  const [proofImage, setProofImage] = useState(null);
+  const [showImagePopup, setShowImagePopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +47,21 @@ export const AdminPageOrder = () => {
       setUsers(prevUsers => ({ ...prevUsers, [userId]: data }));
     } catch (error) {
       console.error(`Error fetching user data for userId ${userId}:`, error);
+    }
+  };
+
+  const fetchProofOfPayment = async (orderId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/order/getProofOfPayment/${orderId}`);
+      if (response.ok) {
+        const imageBlob = await response.blob();
+        setProofImage(URL.createObjectURL(imageBlob));
+        setShowImagePopup(true);
+      } else {
+        console.error('Error fetching proof of payment image:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching proof of payment image:', error);
     }
   };
 
@@ -132,6 +149,7 @@ export const AdminPageOrder = () => {
                     <th>Reference Number</th>
                     <th>isActive</th>
                     <th>Status</th>
+                    <th>Proof of Payment</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -149,6 +167,9 @@ export const AdminPageOrder = () => {
                       <td>{order.active ? 'True' : 'False'}</td>
                       <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : order.status === 3 ? 'Finished' : 'Pending'}</td>
                       <td>
+                        <button onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
+                      </td>
+                      <td>
                         <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
                         <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
                       </td>
@@ -162,6 +183,15 @@ export const AdminPageOrder = () => {
       </div>
 
       <img className="sideview" alt="Sideview" src={sidelogo} />
+
+      {showImagePopup && (
+        <div className="image-popup">
+          <div className="popup-content">
+            <img src={proofImage} alt="Proof of Payment" />
+            <button onClick={() => setShowImagePopup(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
