@@ -110,6 +110,7 @@ export const AdminPageOrder = () => {
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Total Price</th>
+                    <th>Payment Option</th>
                     <th>Reference Number</th>
                     <th>isActive</th>
                     <th>Status</th>
@@ -125,6 +126,7 @@ export const AdminPageOrder = () => {
                       <td>{order.startDate}</td>
                       <td>{order.endDate}</td>
                       <td>{order.totalPrice}</td>
+                      <td>{order.paymentOption ? 'Gcash' : 'Cash'}</td>
                       <td>{order.referenceNumber}</td>
                       <td>{order.active ? 'True' : 'False'}</td>
                       <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : order.status === 3 ? 'Finished' : 'Pending'}</td>
