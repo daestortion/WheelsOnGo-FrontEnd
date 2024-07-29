@@ -24,7 +24,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     setStartDate(date);
     setStartDateOpen(false); // Close the date picker
     // Reset endDate if it is before the new startDate
-    if (endDate && date && endDate < date) {
+    if (endDate && date && endDate <= date) {
       setEndDate(null);
     }
   };
@@ -76,10 +76,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     }
   };
 
-
-
   const [order, setOrder] = useState(null);
-
 
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);
@@ -128,7 +125,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 onChange={handleEndDateChange}
                 inline
                 shouldCloseOnSelect
-                minDate={startDate || new Date()} // Disable dates before the start date
+                minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()} // Disable dates before the next day of the start date
               />
             )}
           </div>

@@ -1,0 +1,135 @@
+.report {
+    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;  /* Center vertically */
+    justify-content: center;  /* Center horizontally */
+    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
+    z-index: 1050;  /* Ensure it's above all other content */
+  }
+  
+  .report .overlap-wrapper456 {
+    background-color: #ffffff;
+    height: 724px;
+    width: 1510px;
+  }
+  
+  .report .overlap456 {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 724px;
+    position: relative;
+  }
+  
+  .report .text-wrapper456 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 545px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 66px;
+    width: 419px;
+  }
+  
+  .report .group456 {
+    height: 71px;
+    left: 469px;
+    position: absolute;
+    top: 563px;
+    width: 573px;
+  }
+  
+  .report .overlap-group456 {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 571px;
+  }
+  
+  .report .div456 {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 207px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 160px;
+  }
+  
+  .report .close {
+    background-color: #e32128;
+    border-radius: 9px;
+    height: 50px;
+    left: 1421px;
+    position: absolute;
+    top: 33px;
+    width: 50px;
+  }
+  
+  .report .vector {
+    height: 30px;
+    left: 10px;
+    position: absolute;
+    top: 10px;
+    width: 30px;
+  }
+  
+  .report .rectangle {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 71px;
+    left: 301px;
+    position: absolute;
+    top: 157px;
+    width: 1094px;
+  }
+  
+  .report .text-wrapper-2 {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 40px;
+    font-weight: 600;
+    left: 114px;
+    letter-spacing: 0.5px;
+    line-height: normal;
+    position: absolute;
+    top: 167px;
+    width: 169px;
+  }
+  
+  .report .div-wrapper {
+    background-color: #ffffff;
+    border-radius: 35px;
+    height: 261px;
+    left: 114px;
+    position: absolute;
+    top: 257px;
+    width: 1281px;
+  }
+  
+  .report .text-wrapper-3 {
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    left: 26px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 10px;
+    white-space: nowrap;
+    width: 641px;
+  }
+  
