@@ -341,6 +341,22 @@
   border-radius: 40px;
 }
 
+.group-233 {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 522px;
+  width: 456px;
+  border: none;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.group-233:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
+
 .text-wrapper-34 {
   color: #ffffff;
   font-family: "Inter-SemiBold", Helvetica;

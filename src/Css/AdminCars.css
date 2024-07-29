@@ -262,6 +262,22 @@
   border-radius: 40px;
 }
 
+.admin-page-cars .group-2123 {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 630px;
+  width: 456px;
+  border: none;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.admin-page-cars .group-2123:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
+
 .admin-page-cars .text-wrapper-34 {
   color: #ffffff;
   font-family: "Inter-SemiBold", Helvetica;

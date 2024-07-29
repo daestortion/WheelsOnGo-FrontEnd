@@ -91,6 +91,10 @@ export const AdminVerify = () => {
     navigate('/adminorder'); 
   };
 
+  const handleReport = () => {
+    navigate('/adminreport'); 
+  };
+
   return (
     <div className="admin-page">
       <div className="div">
@@ -138,6 +142,10 @@ export const AdminVerify = () => {
 
           <button className="group-2"onClick={handleOrder}>
             <div className="text-wrapper-34">Orders</div>
+          </button>
+
+          <button className="group-233" onClick={handleReport}>
+            <div className="text-wrapper-34">Reports</div>
           </button>
           
           <button className="group" onClick={handleAdminCars}>
