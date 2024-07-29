@@ -12,7 +12,6 @@
   }
   
   .report .overlap-wrapper456 {
-    background-color: #ffffff;
     height: 724px;
     width: 1510px;
   }
@@ -52,6 +51,7 @@
     height: 71px;
     position: relative;
     width: 571px;
+    border: none;
   }
   
   .report .div456 {
@@ -76,6 +76,7 @@
     position: absolute;
     top: 33px;
     width: 50px;
+    border: none;
   }
   
   .report .vector {
@@ -93,7 +94,17 @@
     left: 301px;
     position: absolute;
     top: 157px;
-    width: 1094px;
+    width: 1055px;
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: none;
   }
   
   .report .text-wrapper-2 {
@@ -112,11 +123,22 @@
   .report .div-wrapper {
     background-color: #ffffff;
     border-radius: 35px;
-    height: 261px;
+    height: 230px;
     left: 114px;
     position: absolute;
     top: 257px;
-    width: 1281px;
+    width: 1250px;
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   
   .report .text-wrapper-3 {

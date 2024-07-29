@@ -13,14 +13,13 @@ export const Report = () => {
               <div className="div456">Submit</div>
             </button>
           </div>
-          <div className="close">
+          <button className="close">
             <img className="vector" alt="Vector" src={close} />
-          </div>
-          <div className="rectangle" />
+          </button>
+          <input className="rectangle" placeholder="Title" />
           <div className="text-wrapper-2">Subject:</div>
-          <div className="div-wrapper">
-            <div className="text-wrapper-3">Write here</div>
-          </div>
+          <textarea className="div-wrapper" placeholder="Write here"/>
+            
         </div>
       </div>
     </div>
