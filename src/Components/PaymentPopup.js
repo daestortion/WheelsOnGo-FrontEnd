@@ -151,7 +151,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
               </button>
             </div>
             <div className="payment-screenshot">
-              {uploadedFileName || "Payment Screenshot"}
+              {uploadedFileName || "Gcash Screenshot"}
             </div>
           </div>
 
@@ -176,6 +176,17 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
             >
               <div className="text-wrapper-11">Book</div>
             </button>
+
+            <button
+              className='cashbackground'
+              style={{
+                pointerEvents: isChecked ? 'auto' : 'none',
+                opacity: isChecked ? 1 : 0.5
+              }}
+            >
+              <div className="text-wrapper-321">Cash</div>
+            </button>
+            
           </div>
           <button className="close" onClick={onClose}>
             <img className="vector-2" alt="Vector" src={close} />
