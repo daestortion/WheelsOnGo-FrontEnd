@@ -58,6 +58,10 @@ export const AdminPageCars = () => {
     navigate('/adminorder');
   };
 
+  const handleReport = () => {
+    navigate('/adminreport');
+  };
+
   const handleLogout = () => {
     navigate('/adminlogin');
   };
@@ -154,9 +158,15 @@ export const AdminPageCars = () => {
           <button className="group-2" onClick={handleAdminVerify}>
             <div className="text-wrapper-66">Verifications</div>
           </button>
+
           <button className="group-222" onClick={handleAdminOrder}>
             <div className="text-wrapper-34">Orders</div>
           </button>
+
+          <button className="group-2123" onClick={handleReport}>
+            <div className="text-wrapper-34">Reports</div>
+          </button>
+
           <div className="table-container"></div>
           <button className="logout-button" onClick={handleLogout}>
             Logout

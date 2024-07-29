@@ -145,6 +145,22 @@
   border-radius: 40px;
 }
 
+.admin-page-order .group-34 {
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 522px;
+  width: 456px;
+  border: none;
+  border-radius: 40px;
+  background: none;
+  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+}
+
+.admin-page-order .group-34:hover {
+  background-color: #e32128; /* Change to desired hover background color */
+  border-radius: 40px;
+}
 
 .admin-page-order .text-wrapper-33 {
   color: #ffffff;

@@ -48,6 +48,10 @@ export const AdminPageUsers = () => {
     navigate('/adminorder'); 
   };
 
+  const handleReport = () => {
+    navigate('/adminreport'); 
+  };
+
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
@@ -106,9 +110,15 @@ export const AdminPageUsers = () => {
           <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
             <div className="text-wrapper-22">Verifications</div>
           </button>
+
           <button className="group-2" onClick={handleOrder}>
             <div className="text-wrapper">Orders</div>
           </button>
+
+          <button className="group-234" onClick={handleReport}>
+            <div className="text-wrapper">Reports</div>
+          </button>
+
           <div className="text-wrapper-33">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
           <div className="text-wrapper-4">Manage Users</div>

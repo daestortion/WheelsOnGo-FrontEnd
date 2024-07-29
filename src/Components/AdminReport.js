@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../Css/AdminReport.css';
 import adminbg from '../Images/adminbackground.png';
@@ -8,6 +9,7 @@ import sidelogo from '../Images/sidelogo.png';
 export const AdminPageReports = () => {
     const [reports, setReports] = useState([]);
     const [selectedReport, setSelectedReport] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchReports();
@@ -49,6 +51,22 @@ export const AdminPageReports = () => {
         }
     };
 
+    const handleAdminCars = () => {
+        navigate('/admincars');
+      };
+    
+      const handleAdminVerify = () => {
+        navigate('/adminverify');
+      };
+    
+      const handleAdminUsers = () => {
+        navigate('/adminusers');
+      };
+    
+      const handleOrder = () => {
+        navigate('/adminorder');
+      };
+
     return (
         <div className="admin-page-reports">
             <div className="div">
@@ -56,22 +74,22 @@ export const AdminPageReports = () => {
                     <img className="rectangle" alt="Rectangle" src={adminbg} />
                     <div className="rectangle-2" />
                     <div className="group">
-                        <button className="overlap-group">
+                        <button className="overlap-group" onClick={handleAdminCars}>
                             <div className="text-wrapper">Cars</div>
                         </button>
                     </div>
                     <div className="overlap-wrapper">
-                        <button className="overlap-group">
+                        <button className="overlap-group" onClick={handleAdminUsers}>
                             <div className="text-wrapper">Users</div>
                         </button>
                     </div>
                     <div className="overlap-group-wrapper">
-                        <button className="overlap-group">
+                        <button className="overlap-group" onClick={handleAdminVerify}>
                             <div className="text-wrapper-2">Verifications</div>
                         </button>
                     </div>
                     <div className="group-2">
-                        <button className="overlap-group">
+                        <button className="overlap-group" onClick={handleOrder}>
                             <div className="text-wrapper">Orders</div>
                         </button>
                     </div>

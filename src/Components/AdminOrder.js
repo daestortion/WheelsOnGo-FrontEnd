@@ -77,6 +77,10 @@ export const AdminPageOrder = () => {
     navigate('/adminusers');
   };
 
+  const handleReport = () => {
+    navigate('/adminreport');
+  };
+
   const handleApprove = async (orderId) => {
     try {
       const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, {
@@ -129,6 +133,10 @@ export const AdminPageOrder = () => {
           <div className="group-2">
             <div className="text-wrapper">Orders</div>
           </div>
+
+          <button className="group-34" onClick={handleReport}>
+            <div className="text-wrapper">Reports</div>
+          </button>
 
           <div className="text-wrapper-33">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
