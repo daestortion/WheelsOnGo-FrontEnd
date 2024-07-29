@@ -91,6 +91,10 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     setBookingPopup(true);
   };
 
+  const handleCloseCash = () => {
+    setBookingPopup(false);
+  };
+
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error); // Ensure error handling is logged
     setShowPayPalError(true);
@@ -204,7 +208,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
       {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
-      {showBookingPopup && <CashOptionPopup onClose={handleCash} />}
+      {showBookingPopup && <CashOptionPopup onClose={handleCloseCash} />}
     </div>
   );
 };
