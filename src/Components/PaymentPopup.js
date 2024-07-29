@@ -83,8 +83,10 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     }
   };
 
-  const handlePayPalSuccess = () => {
+  const handlePayPalSuccess = (newOrder) => {
+    setOrder(newOrder);
     setShowPayPalSuccess(true);
+    setShowBookedPopup(true);
   };
 
   const handleCash = () => {
@@ -171,7 +173,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
               opacity: isChecked ? 1 : 0.5
             }}
           >
-            <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+            <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} order={order} userId={userId} carId={carId} />
           </div>
 
           <div className="overlap-group-wrapper">

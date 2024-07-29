@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from "react";
+import axios from 'axios';
 import "../Css/PayPal.css"; // Import the CSS file
 
-export default function PayPal({ totalPrice, onSuccess, onError }) {
+export default function PayPal({ totalPrice, onSuccess, onError, order, userId, carId }) {
   const paypal = useRef();
 
   useEffect(() => {
@@ -31,9 +32,33 @@ export default function PayPal({ totalPrice, onSuccess, onError }) {
           });
         },
         onApprove: async (data, actions) => {
-          const order = await actions.order.capture();
-          console.log(order);
-          onSuccess(order);
+          const paypalOrder = await actions.order.capture();
+          console.log(paypalOrder);
+
+          try {
+            const formData = new FormData();
+            const updatedOrder = {
+              ...order,
+              referenceNumber: paypalOrder.id,
+              payment: { method: 'PayPal', details: paypalOrder }
+            };
+            formData.append('order', new Blob([JSON.stringify(updatedOrder)], { type: 'application/json' }));
+            
+            console.log(updatedOrder.status);
+
+            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+            
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+
+            if (response.data) {
+              onSuccess(response.data);
+            }
+          } catch (error) {
+            onError(error);
+          }
         },
         onError: (err) => {
           console.error("PayPal Error:", err); // Ensure error is logged
@@ -41,7 +66,7 @@ export default function PayPal({ totalPrice, onSuccess, onError }) {
         },
       })
       .render(paypal.current);
-  }, [totalPrice, onSuccess, onError]);
+  }, [totalPrice, onSuccess, onError, order, userId, carId]);
 
   return (
     <div className="paypal-button-container">
