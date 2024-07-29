@@ -21,10 +21,12 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const [showPayPalError, setShowPayPalError] = useState(false);
 
   useEffect(() => {
+    const paymentOption = uploadedFile ? "Gcash" : "Cash";
     const newOrder = {
       startDate,
       endDate,
       totalPrice,
+      paymentOption,
       isDeleted: false,
       referenceNumber: '',
       payment: uploadedFile ? { method: 'image', screenshot: uploadedFile } : null
@@ -58,6 +60,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
           startDate: order.startDate,
           endDate: order.endDate,
           totalPrice: order.totalPrice,
+          paymentOption: order.paymentOption,
           isDeleted: order.isDeleted,
           referenceNumber: order.referenceNumber,
         })], { type: 'application/json' }));
