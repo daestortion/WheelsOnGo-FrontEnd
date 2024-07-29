@@ -1,29 +1,29 @@
 .report-success {
-    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     display: flex;
-    align-items: center;  /* Center vertically */
-    justify-content: center;  /* Center horizontally */
-    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
-    z-index: 1050;  /* Ensure it's above all other content */
-}
-
-.report-success .overlap-wrapperjkl {
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+  
+  .report-success .overlap-wrapperjkl {
     height: 410px;
     width: 907px;
-}
-
-.report-success .overlapjkl {
+  }
+  
+  .report-success .overlapjkl {
     background-color: #d7d1d1;
     border-radius: 40px;
     height: 410px;
     position: relative;
-}
-
-.report-success .text-wrapperjkl {
+  }
+  
+  .report-success .text-wrapperjkl {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 50px;
@@ -35,35 +35,38 @@
     text-align: center;
     top: 94px;
     width: 623px;
-}
-
-.report-success .groupjkl {
+  }
+  
+  .report-success .groupjkl {
     height: 71px;
     left: 376px;
     position: absolute;
     top: 296px;
     width: 170px;
-}
-
-.report-success .overlap-groupjkl {
+  }
+  
+  .report-success .overlap-groupjkl {
     background-color: #e80029;
     border-radius: 35px;
     height: 71px;
-    position: relative;
     width: 168px;
     border: none;
-}
-
-.report-success .divjkl {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .report-success .overlap-groupjkl:hover {
+    background-color: #d70026;
+  }
+  
+  .report-success .divjkl {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 20px;
     font-weight: 700;
-    left: 40px;
     letter-spacing: 0;
     line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 22px;
-    width: 92px;
-}
+  }
+  
