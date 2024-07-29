@@ -9,9 +9,9 @@ export const ReportSuccess = () => {
                 <div className="overlapjkl">
                     <div className="text-wrapperjkl">Report submitted successfully.</div>
                     <div className="groupjkl">
-                        <div className="overlap-groupjkl">
+                        <button className="overlap-groupjkl">
                             <div className="divjkl">OK</div>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
