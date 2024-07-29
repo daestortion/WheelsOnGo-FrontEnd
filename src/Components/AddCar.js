@@ -12,40 +12,40 @@ import WheelsOnGoPriceList from '../Images/WheelsOnGoPriceList.png';
 
 const carData = {
   Toyota: [
-    'Toyota Vios', 'Toyota Hilux', 'Toyota Fortuner', 'Toyota Innova', 'Toyota Wigo', 'Toyota Avanza', 'Toyota Rush', 'Toyota Hiace', 'Toyota Camry', 'Toyota Corolla Altis', 'Toyota Land Cruiser', 'Toyota Prado', 'Toyota RAV4', 'Toyota Yaris', 'Toyota Alphard'
+    'Vios', 'Hilux', 'Fortuner', 'Innova', 'Wigo', 'Avanza', 'Rush', 'Hiace', 'Camry', 'Corolla Altis', 'Land Cruiser', 'Prado', 'RAV4', 'Yaris', 'Alphard'
   ],
   Honda: [
-    'Honda City', 'Honda Civic', 'Honda CR-V', 'Honda Jazz', 'Honda BR-V', 'Honda Mobilio', 'Honda HR-V', 'Honda Brio', 'Honda Accord', 'Honda Odyssey'
+    'City', 'Civic', 'CR-V', 'Jazz', 'BR-V', 'Mobilio', 'HR-V', 'Brio', 'Accord', 'Odyssey'
   ],
   Mitsubishi: [
-    'Mitsubishi Mirage', 'Mitsubishi Mirage G4', 'Mitsubishi Xpander', 'Mitsubishi Montero Sport', 'Mitsubishi Strada', 'Mitsubishi Pajero', 'Mitsubishi L300', 'Mitsubishi Outlander PHEV'
+    'Mirage', 'Mirage G4', 'Xpander', 'Montero Sport', 'Strada', 'Pajero', 'L300', 'Outlander PHEV'
   ],
   Nissan: [
-    'Nissan Navara', 'Nissan Terra', 'Nissan Almera', 'Nissan Patrol', 'Nissan Juke', 'Nissan X-Trail', 'Nissan Urvan', 'Nissan GT-R', 'Nissan Leaf'
+    'Navara', 'Terra', 'Almera', 'Patrol', 'Juke', 'X-Trail', 'Urvan', 'GT-R', 'Leaf'
   ],
   Hyundai: [
-    'Hyundai Accent', 'Hyundai Tucson', 'Hyundai Kona', 'Hyundai H-100', 'Hyundai Santa Fe', 'Hyundai Starex', 'Hyundai Elantra', 'Hyundai Reina', 'Hyundai Palisade'
+    'Accent', 'Tucson', 'Kona', 'H-100', 'Santa Fe', 'Starex', 'Elantra', 'Reina', 'Palisade', 'Creta'
   ],
   Ford: [
-    'Ford Ranger', 'Ford Everest', 'Ford EcoSport', 'Ford Territory', 'Ford Explorer', 'Ford Mustang', 'Ford Expedition', 'Ford Transit'
+    'Ranger', 'Everest', 'EcoSport', 'Territory', 'Explorer', 'Mustang', 'Expedition', 'Transit'
   ],
   Mazda: [
-    'Mazda 3', 'Mazda 2', 'Mazda CX-5', 'Mazda CX-3', 'Mazda CX-9', 'Mazda MX-5', 'Mazda 6'
+    '3', '2', 'CX-5', 'CX-3', 'CX-9', 'MX-5', '6'
   ],
   Suzuki: [
-    'Suzuki Ertiga', 'Suzuki Vitara', 'Suzuki Celerio', 'Suzuki Swift', 'Suzuki Dzire', 'Suzuki Jimny', 'Suzuki S-Presso', 'Suzuki APV'
+    'Ertiga', 'Vitara', 'Celerio', 'Swift', 'Dzire', 'Jimny', 'S-Presso', 'APV'
   ],
   Kia: [
-    'Kia Picanto', 'Kia Soluto', 'Kia Seltos', 'Kia Sportage', 'Kia Stonic', 'Kia Sorento', 'Kia Carnival'
+    'Picanto', 'Soluto', 'Seltos', 'Sportage', 'Stonic', 'Sorento', 'Carnival'
   ],
   Chevrolet: [
-    'Chevrolet Trailblazer', 'Chevrolet Colorado', 'Chevrolet Spark', 'Chevrolet Tracker', 'Chevrolet Malibu', 'Chevrolet Suburban', 'Chevrolet Camaro'
+    'Trailblazer', 'Colorado', 'Spark', 'Tracker', 'Malibu', 'Suburban', 'Camaro'
   ],
   Subaru: [
-    'Subaru Forester', 'Subaru XV', 'Subaru Outback', 'Subaru WRX', 'Subaru Levorg', 'Subaru BRZ'
+    'Forester', 'XV', 'Outback', 'WRX', 'Levorg', 'BRZ'
   ],
   Isuzu: [
-    'Isuzu D-Max', 'Isuzu mu-X', 'Isuzu Traviz', 'Isuzu Crosswind'
+    'D-Max', 'mu-X', 'Traviz', 'Crosswind'
   ],
   'Other Brands': [
     'Volkswagen Santana', 'Volkswagen Lavida', 'Volkswagen Lamando', 'Volkswagen Tiguan', 'Volkswagen Touareg'
