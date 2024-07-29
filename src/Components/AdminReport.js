@@ -1,10 +1,54 @@
-import React from "react";
-import "../Css/AdminReport.css";
-import adminbg from "../Images/adminbackground.png";
-import vector from "../Images/adminvector.png";
-import sidelogo from "../Images/sidelogo.png";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../Css/AdminReport.css';
+import adminbg from '../Images/adminbackground.png';
+import vector from '../Images/adminvector.png';
+import sidelogo from '../Images/sidelogo.png';
 
 export const AdminPageReports = () => {
+    const [reports, setReports] = useState([]);
+    const [selectedReport, setSelectedReport] = useState(null);
+
+    useEffect(() => {
+        fetchReports();
+    }, []);
+
+    const fetchReports = () => {
+        axios.get('http://localhost:8080/report')
+            .then(response => {
+                console.log('API response:', response.data); // Log the response to check its structure
+                if (Array.isArray(response.data)) {
+                    setReports(response.data);
+                } else {
+                    console.error('API response is not an array:', response.data);
+                    setReports([]); // Set to an empty array to avoid errors
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching reports:', error);
+                setReports([]); // Set to an empty array to avoid errors
+            });
+    };
+
+    const handleReportClick = (report) => {
+        if (report.status === 0) {
+            axios.patch(`http://localhost:8080/report/${report.reportId}/status`, { status: 1 })
+                .then(response => {
+                    // Update the report status locally to avoid another fetch
+                    const updatedReports = reports.map(r =>
+                        r.reportId === report.reportId ? { ...r, status: 1 } : r
+                    );
+                    setReports(updatedReports);
+                    setSelectedReport({ ...report, status: 1 });
+                })
+                .catch(error => {
+                    console.error('Error updating report status:', error);
+                });
+        } else {
+            setSelectedReport(report);
+        }
+    };
+
     return (
         <div className="admin-page-reports">
             <div className="div">
@@ -33,8 +77,53 @@ export const AdminPageReports = () => {
                     </div>
                     <div className="text-wrapper-3">Dashboard</div>
                     <img className="vector" alt="Vector" src={vector} />
-                    <div className="rectangle-3" />
-                    <div className="text-wrapper-4">Reports</div>
+                    <div className="rectangle-3">
+                        <div className="content">
+                            <div className="reports-list">
+                                {reports.map((report) => (
+                                    <div
+                                        key={report.reportId}
+                                        className={`report-item ${report.status === 0 ? 'unread' : 'read'}`}
+                                        onClick={() => handleReportClick(report)}
+                                    >
+                                        <div className={`report-title ${report.status === 0 ? 'bold' : ''}`}>{report.title}</div>
+                                        <div className={`report-user ${report.status === 0 ? 'bold' : ''}`}>
+                                            {report.user ? (
+                                                <>
+                                                    {report.user.profilePic ? (
+                                                        <img
+                                                            className="user-profile-pic"
+                                                            src={`data:image/jpeg;base64,${report.user.profilePic}`}
+                                                            alt={`${report.user.fName} ${report.user.lName}`}
+                                                        />
+                                                    ) : (
+                                                        <div className="user-profile-pic-placeholder">
+                                                            {report.user.fName.charAt(0)}{report.user.lName.charAt(0)}
+                                                        </div>
+                                                    )}
+                                                    {report.user.fName} {report.user.lName}
+                                                </>
+                                            ) : (
+                                                'Unknown User'
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="report-details">
+                                {selectedReport ? (
+                                    <>
+                                        <h2 className="report-title-black">{selectedReport.title}</h2>
+                                        <p className="report-description-black">{selectedReport.description}</p>
+                                        <p className="report-status-black">Status: {selectedReport.status}</p>
+                                        <p className="report-submitted-by-black">Submitted by: {selectedReport.user ? `${selectedReport.user.fName} ${selectedReport.user.lName}` : 'Unknown User'}</p>
+                                    </>
+                                ) : (
+                                    <p>Select a report to view details</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                     <div className="rectangle-4" />
                     <div className="text-wrapper-5">Reports</div>
                 </div>
