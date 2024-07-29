@@ -10,6 +10,7 @@ import axios from 'axios';
 import PayPal from "../Components/PayPal";
 import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
+import { CashOptionPopup } from "../Components/BookingPopup";
 
 const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
@@ -19,6 +20,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
+  const [showBookingPopup, setBookingPopup] = useState(false);
 
   useEffect(() => {
     const paymentOption = uploadedFile ? "Online" : "Cash";
@@ -83,6 +85,10 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
 
   const handlePayPalSuccess = () => {
     setShowPayPalSuccess(true);
+  };
+
+  const handleCash = () => {
+    setBookingPopup(true);
   };
 
   const handlePayPalError = (error) => {
@@ -151,7 +157,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
               </button>
             </div>
             <div className="payment-screenshot">
-              {uploadedFileName || "Payment Screenshot"}
+              {uploadedFileName || "Gcash Screenshot"}
             </div>
           </div>
 
@@ -176,6 +182,18 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
             >
               <div className="text-wrapper-11">Book</div>
             </button>
+
+            <button
+              className='cashbackground'
+              onClick={handleCash}
+              style={{
+                pointerEvents: isChecked ? 'auto' : 'none',
+                opacity: isChecked ? 1 : 0.5
+              }}
+            >
+              <div className="text-wrapper-321">Cash</div>
+            </button>
+            
           </div>
           <button className="close" onClick={onClose}>
             <img className="vector-2" alt="Vector" src={close} />
@@ -186,6 +204,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
       {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
+      {showBookingPopup && <CashOptionPopup onClose={handleCash} />}
     </div>
   );
 };

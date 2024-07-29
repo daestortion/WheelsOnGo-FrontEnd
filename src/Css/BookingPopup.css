@@ -1,0 +1,65 @@
+.cash-option-popup {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .cash-option-popup .overlap-wrapperfgh {
+    background-color: #ffffff;
+    height: 410px;
+    width: 907px;
+  }
+  
+  .cash-option-popup .overlapfgh {
+    background-color: #d7d1d1;
+    border-radius: 40px;
+    height: 410px;
+    position: relative;
+  }
+  
+  .cash-option-popup .text-wrapperfgh {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 77px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 76px;
+    width: 765px;
+  }
+  
+  .cash-option-popup .groupfgh {
+    height: 71px;
+    left: 376px;
+    position: absolute;
+    top: 296px;
+    width: 170px;
+  }
+  
+  .cash-option-popup .overlap-groupfgh {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 71px;
+    position: relative;
+    width: 168px;
+  }
+  
+  .cash-option-popup .divfgh {
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    left: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 22px;
+    width: 92px;
+  }
+  
