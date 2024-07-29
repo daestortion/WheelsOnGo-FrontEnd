@@ -8,6 +8,7 @@ import sidelogo from "../Images/sidelogo.png";
 
 export const AdminPageOrder = () => {
   const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,13 +21,30 @@ export const AdminPageOrder = () => {
       const data = await response.json();
       if (Array.isArray(data)) {
         setOrders(data);
+
+        // Fetch user data for each order
+        const userIds = data.map(order => order.user.userId);
+        const uniqueUserIds = [...new Set(userIds)];
+        uniqueUserIds.forEach(userId => {
+          fetchUser(userId);
+        });
       } else {
         console.error('API response is not an array:', data);
-        setOrders([]); // Set to an empty array to avoid map errors
+        setOrders([]);
       }
     } catch (error) {
       console.error('Error fetching orders:', error);
-      setOrders([]); // Set to an empty array to avoid map errors
+      setOrders([]);
+    }
+  };
+
+  const fetchUser = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/user/getUserById/${userId}`);
+      const data = await response.json();
+      setUsers(prevUsers => ({ ...prevUsers, [userId]: data }));
+    } catch (error) {
+      console.error(`Error fetching user data for userId ${userId}:`, error);
     }
   };
 
