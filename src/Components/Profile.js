@@ -286,9 +286,11 @@ const UserProfile = () => {
                         </button>
                     </div>
                 </div>
-                <a href="#" onClick={toggleReportPopup} className="submit-report-link">
+                <div onClick={toggleReportPopup} className="submitbackground">
+                <div className="submit-report-link">
                             Submit a Report
-                </a>
+                </div>
+                </div>
             </div>
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
             {showReverifyPopup && <ReverifyPopup closePopup={toggleReverifyPopup} />}

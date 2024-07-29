@@ -316,11 +316,4 @@
   cursor: pointer; /* Optional: to show a pointer cursor on hover */
 }
 
-.submit-report-link {
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 16px;
-  font-weight: 700;
-  color: #e32128;
-  text-decoration: underline;
-  cursor: pointer;
-}
+

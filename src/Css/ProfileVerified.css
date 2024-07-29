@@ -483,3 +483,25 @@
   background: none;
   border: none;
 }
+
+.profile-not-verified .submit-report-link {
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  left: 15px;
+  top: 15px;
+  position: relative;
+}
+
+.profile-not-verified .submitbackground {
+  background-color: #e32128;
+  border-radius: 9px;
+  height: 50px;
+  position: relative;
+  width: 157px;
+  border: none;
+  left: 1570px;
+  top: -560px;
+}
