@@ -1,12 +1,10 @@
 import React from "react";
 import "../Css/ReportPopup.css";
-import { useNavigate } from 'react-router-dom';
 
-export const ReportSuccess = () => {
-  const navigate = useNavigate();
+export const ReportSuccess = ({ onClose }) => {
 
   const handleOkClick = () => {
-    navigate('/userprofile');
+    onClose();
   };
 
   return (
