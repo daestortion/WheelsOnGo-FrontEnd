@@ -21,7 +21,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const [showPayPalError, setShowPayPalError] = useState(false);
 
   useEffect(() => {
-    const paymentOption = uploadedFile ? "Gcash" : "Cash";
+    const paymentOption = uploadedFile ? "Online" : "Cash";
     const newOrder = {
       startDate,
       endDate,
