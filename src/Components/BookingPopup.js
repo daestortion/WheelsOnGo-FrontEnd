@@ -8,9 +8,9 @@ export const CashOptionPopup = () => {
         <div className="overlapfgh">
           <p className="text-wrapperfgh">To approve your booking, please complete the payment to the car owner first.</p>
           <div className="groupfgh">
-            <div className="overlap-groupfgh">
+            <button className="overlap-groupfgh">
               <div className="divfgh">OK</div>
-            </div>
+            </button>
           </div>
         </div>
       </div>

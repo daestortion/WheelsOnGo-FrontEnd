@@ -1,13 +1,17 @@
 .cash-option-popup {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+  position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;  /* Center vertically */
+  justify-content: center;  /* Center horizontally */
+  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
+  z-index: 1050;  /* Ensure it's above all other content */
   }
   
   .cash-option-popup .overlap-wrapperfgh {
-    background-color: #ffffff;
     height: 410px;
     width: 907px;
   }
@@ -29,7 +33,7 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 76px;
+    top: 15px;
     width: 765px;
   }
   
@@ -47,6 +51,7 @@
     height: 71px;
     position: relative;
     width: 168px;
+    border: none;
   }
   
   .cash-option-popup .divfgh {
