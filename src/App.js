@@ -71,7 +71,7 @@ function AuthRoutes() {
 
         </Routes>
     );
-}
+}  
 
 function App() {
     return (

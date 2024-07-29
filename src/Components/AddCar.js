@@ -7,6 +7,7 @@ import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import AddCarPopup from './AddCarPopup';
 import Dropdown from "./Dropdown";
+import WheelsOnGoPriceList from '../Images/WheelsOnGoPriceList.png';
 
 
 const carData = {
@@ -68,6 +69,7 @@ export const AddCar = () => {
   const [carDescription, setCarDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAddCarPopup, setShowAddCarPopup] = useState(false);
+  const [showPriceList, setShowPriceList] = useState(false); // New state for pricelist popup
   const carImageInputRef = useRef(null);
   const carORInputRef = useRef(null);
   const carCRInputRef = useRef(null);
@@ -277,10 +279,20 @@ export const AddCar = () => {
             <button className="overlap-group-2" onClick={() => carImageInputRef.current.click()}>
               <div className="text-wrapper-10">Upload Car Image</div>
             </button>
+            {/* Add View Pricelist hyperlink */}
+            <a href="#" className="view-pricelist-link" onClick={(e) => { e.preventDefault(); setShowPriceList(true); }}>
+              View Pricelist
+            </a>
           </div>
+          {showAddCarPopup && <AddCarPopup />}
+          {/* Pricelist Popup */}
+          {showPriceList && (
+            <div className="pricelist-popup" onClick={() => setShowPriceList(false)}>
+              <img src={WheelsOnGoPriceList} alt="Pricelist" className="pricelist-image" />
+            </div>
+          )}
         </div>
       </div>
-      {showAddCarPopup && <AddCarPopup />}
     </div>
   );
 };

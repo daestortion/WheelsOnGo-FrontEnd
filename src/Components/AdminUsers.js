@@ -63,7 +63,7 @@ export const AdminPageUsers = () => {
       case 'regular':
         return !user.cars.length; // Only include regular users
       case 'owner':
-        return user.cars.length > 0; // Only include users with cars
+        return user.cars.length > 0;  // Only include users with cars
       default:
         return true; // Safe fallback, includes all users
     }

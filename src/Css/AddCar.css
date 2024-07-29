@@ -495,3 +495,38 @@
   top: 24px;
   width: 180px;
 }
+
+.view-pricelist-link {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  color: #e80029;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.view-pricelist-link:hover {
+  text-decoration: underline;
+}
+
+.pricelist-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.pricelist-image {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
