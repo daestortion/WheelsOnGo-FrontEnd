@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../Css/Report.css";
 import close from "../Images/close.png";
+import { ReportSuccess } from './ReportPopup';
 
 export const Report = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [showReportPopup, setShowReportPopup] = useState(false);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -17,8 +19,8 @@ export const Report = () => {
     const report = { title, description, user: { userId: 1 } }; // Adjust the user object according to your backend requirements
     try {
       await axios.post("http://localhost:8080/report", report); // Adjust the URL according to your backend setup
-      alert("Report submitted successfully!");
-      setIsVisible(false);
+      setShowReportPopup(true);
+      setIsVisible(true);
     } catch (error) {
       console.error("There was an error submitting the report!", error);
     }
@@ -60,6 +62,7 @@ export const Report = () => {
           </form>
         </div>
       </div>
+      {showReportPopup && <ReportSuccess />}
     </div>
   );
 };

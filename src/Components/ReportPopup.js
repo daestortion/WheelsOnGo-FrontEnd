@@ -1,17 +1,23 @@
 import React from "react";
 import "../Css/ReportPopup.css";
+import { useNavigate } from 'react-router-dom';
 
+export const ReportSuccess = () => {
+  const navigate = useNavigate();
 
-export const ReportSuccess = ({ onClose }) => {
+  const handleOkClick = () => {
+    navigate('/userprofile');
+  };
+
     return (
         <div className="report-success">
             <div className="overlap-wrapperjkl">
                 <div className="overlapjkl">
                     <div className="text-wrapperjkl">Report submitted successfully.</div>
                     <div className="groupjkl">
-                        <div className="overlap-groupjkl" onClick={onClose}>
-                            <div className="divjkl">OK</div>
-                        </div>
+                        <button className="overlap-groupjkl" onClick={handleOkClick}>
+                            <div className="divjkl" >OK</div>
+                        </button>
                     </div>
                 </div>
             </div>
