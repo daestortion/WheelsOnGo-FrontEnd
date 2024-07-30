@@ -105,7 +105,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
       }
     }
   };
-  
+
   const handleCloseCash = () => {
     setBookingPopup(false);
   };
