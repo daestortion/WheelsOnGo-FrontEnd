@@ -66,13 +66,13 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
           isDeleted: order.isDeleted,
           referenceNumber: order.referenceNumber,
         })], { type: 'application/json' }));
-  
+
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-  
+
         if (response.data) {
           setOrder(response.data);
           setShowBookedPopup(true);
@@ -90,12 +90,12 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const handleCash = async () => {
     if (order && isChecked) {
       try {
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, order, {
+        const response = await axios.post(`http://localhost:8080/order/insertCashOrder?userId=${userId}&carId=${carId}`, order, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
-  
+
         if (response.data) {
           setOrder(response.data);
           setShowBookedPopup(true);
