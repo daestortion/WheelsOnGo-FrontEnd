@@ -53,19 +53,19 @@ export const AdminPageReports = () => {
 
     const handleAdminCars = () => {
         navigate('/admincars');
-      };
-    
-      const handleAdminVerify = () => {
+    };
+
+    const handleAdminVerify = () => {
         navigate('/adminverify');
-      };
-    
-      const handleAdminUsers = () => {
+    };
+
+    const handleAdminUsers = () => {
         navigate('/adminusers');
-      };
-    
-      const handleOrder = () => {
+    };
+
+    const handleOrder = () => {
         navigate('/adminorder');
-      };
+    };
 
     return (
         <div className="admin-page-reports">
@@ -97,11 +97,14 @@ export const AdminPageReports = () => {
                     <img className="vector" alt="Vector" src={vector} />
                     <div className="rectangle-3">
                         <div className="content">
+                            <div className="reports-list-header">
+                                <h2>Reports</h2>
+                            </div>
                             <div className="reports-list">
                                 {reports.map((report) => (
                                     <div
                                         key={report.reportId}
-                                        className={`report-item ${report.status === 0 ? 'unread' : 'read'}`}
+                                        className={`report-item ${report.status === 0 ? 'unread' : 'read'} ${selectedReport && selectedReport.reportId === report.reportId ? 'selected' : ''}`}
                                         onClick={() => handleReportClick(report)}
                                     >
                                         <div className={`report-title ${report.status === 0 ? 'bold' : ''}`}>{report.title}</div>
@@ -130,14 +133,13 @@ export const AdminPageReports = () => {
                             </div>
                             <div className="report-details">
                                 {selectedReport ? (
-                                    <>
+                                    <div className="report-details-card">
                                         <h2 className="report-title-black">{selectedReport.title}</h2>
                                         <p className="report-description-black">{selectedReport.description}</p>
-                                        <p className="report-status-black">Status: {selectedReport.status}</p>
                                         <p className="report-submitted-by-black">Submitted by: {selectedReport.user ? `${selectedReport.user.fName} ${selectedReport.user.lName}` : 'Unknown User'}</p>
-                                    </>
+                                    </div>
                                 ) : (
-                                    <p>Select a report to view details</p>
+                                    <p className="select-report">Select a report to view details</p>
                                 )}
                             </div>
                         </div>

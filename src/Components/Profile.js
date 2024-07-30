@@ -85,7 +85,7 @@ const UserProfile = () => {
                             profilePic: userData.profilePic ? `data:image/jpeg;base64,${userData.profilePic}` : 'path_to_default_image.png',
                             verificationStatus: userData.verification ? userData.verification.status : null,
                             isRenting: userData.renting,
-                            cars: userData.cars,
+                            cars: userData.cars.filter(car => car.approved && !car.deleted),
                             orders: userData.orders,
                             isOwner: userData.owner
                         });
@@ -112,7 +112,7 @@ const UserProfile = () => {
             if (response.status === 200) {
                 setCurrentUser(prevState => ({
                     ...prevState,
-                    cars: response.data
+                    cars: response.data.filter(car => car.approved && !car.deleted)
                 }));
             } else {
                 console.error('Error fetching cars:', response.status);
@@ -249,7 +249,7 @@ const UserProfile = () => {
                             
                             <div className="overlap-33">
                             {currentUser.cars.length > 0 ? (
-                                currentUser.cars.filter(car => !car.deleted).map(car => (
+                                currentUser.cars.filter(car => car.approved).map(car => (
                                     <div key={car.carId} className="car-frame">
                                         <button className="carbutton" onClick={() => handleUpdateCar(car.carId)}>
                                             <img
