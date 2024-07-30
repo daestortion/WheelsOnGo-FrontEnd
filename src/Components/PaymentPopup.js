@@ -91,8 +91,23 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     generateReceipt();
   };
 
-  const handleCash = () => {
-    setBookingPopup(true);
+  const handleCash = async () => {
+    if (order && isChecked) {
+      try {
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, order, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+  
+        if (response.data) {
+          setOrder(response.data);
+          setShowBookedPopup(true);
+        }
+      } catch (error) {
+        console.error('Error submitting cash order:', error);
+      }
+    }
   };
 
   const handleCloseCash = () => {
