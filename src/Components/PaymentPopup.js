@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { jsPDF } from "jspdf";
 import "../Css/PaymentPopup.css";
 import qrcode from "../Images/qrcode.png";
 import line1 from "../Images/line11.png";
@@ -21,6 +22,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
   const [showBookingPopup, setBookingPopup] = useState(false);
+  const [paypalPaid, setPaypalPaid] = useState(false);
 
   useEffect(() => {
     const paymentOption = uploadedFile ? "Online" : "Cash";
@@ -85,6 +87,8 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
 
   const handlePayPalSuccess = () => {
     setShowPayPalSuccess(true);
+    setPaypalPaid(true);
+    generateReceipt();
   };
 
   const handleCash = async () => {
@@ -118,6 +122,19 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const handleClosePayPalPopup = () => {
     setShowPayPalSuccess(false);
     setShowPayPalError(false);
+  };
+
+  const generateReceipt = () => {
+    const doc = new jsPDF();
+    doc.text("Receipt", 20, 20);
+    doc.text(`Car: ${car.carBrand} ${car.carModel} ${car.carYear}`, 20, 30);
+    doc.text(`Pick-up Date: ${startDate ? startDate.toLocaleDateString() : "N/A"}`, 20, 40);
+    doc.text(`Return Date: ${endDate ? endDate.toLocaleDateString() : "N/A"}`, 20, 50);
+    doc.text(`Total: ₱${totalPrice.toFixed(2)}`, 20, 60);
+    if (order && order.referenceNumber) {
+      doc.text(`Reference Number: ${order.referenceNumber}`, 20, 70);
+    }
+    doc.save("receipt.pdf");
   };
 
   return (
@@ -182,11 +199,26 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
 
           <div
             style={{
-              pointerEvents: isChecked ? 'auto' : 'none',
-              opacity: isChecked ? 1 : 0.5
+              pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
+              opacity: isChecked && !paypalPaid ? 1 : 0.5,
+              position: 'relative'
             }}
           >
             <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+            {paypalPaid && (
+              <div style={{
+                position: 'absolute',
+                top: '530px',
+                left: '85px',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <span style={{ color: 'green', fontSize: '2rem' }}>✔</span>
+              </div>
+            )}
           </div>
 
           <div className="overlap-group-wrapper">
