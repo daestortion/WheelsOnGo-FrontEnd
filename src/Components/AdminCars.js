@@ -85,10 +85,6 @@ export const AdminPageCars = () => {
     }
   };
 
-  const handleDeny = () => {
-    
-  };
-
   return (
     <div className="admin-page-cars">
       <div className="overlap-wrapper">
@@ -132,7 +128,6 @@ export const AdminPageCars = () => {
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
                     <td>
                     <button className="button-approve" onClick={() => handleApprove(car.carId)}>Approve</button>
-                    <button className="button-deny" onClick={() => handleDeny(car.carId)}>Deny</button>
                     </td>
                     <td>
                       <button onClick={() => handleDelete(car.carId)}>Delete</button>
