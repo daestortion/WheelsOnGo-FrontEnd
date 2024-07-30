@@ -42,7 +42,6 @@ export default function PayPal({ totalPrice, onSuccess, onError }) {
       })
       .render(paypal.current);
   }, [totalPrice, onSuccess, onError]);
-
   return (
     <div className="paypal-button-container">
       <div ref={paypal}></div>
