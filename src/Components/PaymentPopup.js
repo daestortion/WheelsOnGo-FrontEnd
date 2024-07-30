@@ -86,7 +86,6 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
   const handlePayPalSuccess = () => {
     setShowPayPalSuccess(true);
   };
-
   const handleCash = () => {
     setBookingPopup(true);
   };
