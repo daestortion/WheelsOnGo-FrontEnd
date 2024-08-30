@@ -29,6 +29,7 @@ import AdminReport from './Components/AdminReport.js';
 
 
 
+
 function DebugRoutes() {
     const location = useLocation();
     console.log('Current route:', location.pathname);

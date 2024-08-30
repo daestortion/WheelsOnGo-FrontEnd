@@ -108,7 +108,6 @@ export const Login = () => {
   return (
     <div className="login">
       {isLoading && <Loading />}
-      <div className="div">
         <div className="overlap">
           <div className="text-wrapper">LOGIN</div>
           <input
@@ -147,24 +146,26 @@ export const Login = () => {
                 <p className="error-message">Placeholder for error</p>
               </div>
             )}
-
-          <p className="not-registered">
+          
+          
+          <div className="not-registered">
             <span className="span">Not Registered? </span>
-            <Link to="/register" className="text-wrapper-3">
+            <Link to="/register" className="text-wrapper-323">
               Create an Account
             </Link>
-          </p>
-          <p className="forgot-password">
-            <Link to="/forgotpassword" className="text-wrapper-3">
+          </div>
+          
+          <div className="forgot-passwords">
+            <Link to="/forgotpassword" className="text-wrapper-323">
               Forgot Password?
             </Link>
-          </p>
+          </div>
+          
           <button className="overlap-group-2" onClick={handleLogin}>
             Login
           </button>
         </div>
         <img className="wheels-on-go" alt="Wheels on go" src={logo} />
-      </div>
     </div>
   );
 };
