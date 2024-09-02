@@ -319,7 +319,7 @@ export const AddCar = () => {
           </div>
           <div className="text-wrapper-9">Car Registration</div>
           {carImageURL && (
-            <div className="rectangle12" style={{ backgroundImage: `url(${carImageURL})`, backgroundSize: 'cover', position: 'absolute'}} />
+            <div className="rectangle12" style={{ backgroundImage: `url(${carImageURL})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', position: 'absolute'}} />
           )}
           <div className="group-9">
               <input
