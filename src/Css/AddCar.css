@@ -110,9 +110,9 @@
   background-color: #d7d1d1;
   border-radius: 40px;
   height: 711px;
-  left: 917px;
+  left: 900px;
   position: absolute;
-  top: 174px;
+  top: 160px;
   width: 907px;
   padding-left: 15px;
 }
@@ -141,6 +141,7 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
 }
 
 .car-management-owner .div-wrapper1 {
@@ -159,6 +160,7 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
 }
 
 
@@ -178,6 +180,7 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
 }
 
 .car-management-owner .description-wrapper {
@@ -185,7 +188,7 @@
   border-radius: 35px;
   height: 217px;
   position: relative;
-  width: 380px;
+  width: 460px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -194,7 +197,7 @@
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 30px;
-  left: 360px;
+  left: 320px;
   top: 57px;
 }
 
@@ -214,7 +217,7 @@
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 650px;
+  width: 265px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -225,6 +228,48 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper31 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 265px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: 225px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper32 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 265px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: 500px;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .div-wrapper4 {
@@ -232,7 +277,7 @@
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 650px;
+  width: 200px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -243,6 +288,27 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: 500px;
+}
+
+.car-management-owner .div-wrapper41 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 480px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: -50px;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .text-wrapper-3 {
@@ -280,7 +346,8 @@
   left: 99px;
   position: absolute;
   top: 320px;
-  width: 714px;
+  width: 0px;
+
 }
 
 .car-management-owner .overlap-3 {
@@ -295,7 +362,7 @@
   height: 71px;
   left: 0;
   position: absolute;
-  top: 0;
+  top: 90px;
   width: 351px;
 }
 
@@ -337,8 +404,9 @@
   height: 50px;
   position: relative;
   width: 130px;
-  left: 30px;
+  left: 34px;
   border: none;
+  top: 90px;
 }
 
 .car-management-owner .text-wrapper-5 {
@@ -384,8 +452,8 @@
   height: 71px;
   left: 98px;
   position: absolute;
-  top: 494px;
-  width: 714px;
+  top: 408px;
+  width: 0px;
 }
 
 .car-management-owner .text-wrapper-7 {
