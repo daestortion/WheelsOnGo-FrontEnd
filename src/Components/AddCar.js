@@ -266,7 +266,7 @@ export const AddCar = () => {
                   onChange={(e) => handleFileChange(e.target.files[0], setCarOR, setCarORFileName)}
                 />
                 <button className="overlap-5" onClick={() => carORInputRef.current.click()}>
-                  <div className="text-wrapper-5">Upload</div>
+                  <div className="text-wrapper-555">Upload</div>
                 </button>
               </div>
             </div>
@@ -284,7 +284,7 @@ export const AddCar = () => {
                   onChange={(e) => handleFileChange(e.target.files[0], setCarCR, setCarCRFileName)}
                 />
                 <button className="overlap-5" onClick={() => carCRInputRef.current.click()}>
-                  <div className="text-wrapper-5">Upload</div>
+                  <div className="text-wrapper-555">Upload</div>
                 </button>
               </div>
             </div>
