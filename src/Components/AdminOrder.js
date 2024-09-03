@@ -131,7 +131,7 @@ export const AdminPageOrder = () => {
           </button>
 
           <div className="group-2">
-            <div className="text-wrapper">Orders</div>
+            <div className="text-wrapper">Transactions</div>
           </div>
 
           <button className="group-34" onClick={handleReport}>
@@ -140,7 +140,7 @@ export const AdminPageOrder = () => {
 
           <div className="text-wrapper-33">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
-          <div className="text-wrapper-4444">Order History</div>
+          <div className="text-wrapper-4444">Transaction History</div>
           <div className="rectangle-3">
             
             <div className="table-container112">
@@ -165,7 +165,7 @@ export const AdminPageOrder = () => {
                   {orders.map(order => (
                     <tr key={order.orderId}>
                       <td>{order.orderId}</td>
-                      <td>{order.user.username}</td>
+                      <td>{order.user ? `${order.user.fName} ${order.user.lName}` : 'Name not available'}</td>
                       <td>{order.car.carModel}</td>
                       <td>{order.startDate}</td>
                       <td>{order.endDate}</td>
@@ -175,7 +175,7 @@ export const AdminPageOrder = () => {
                       <td>{order.active ? 'True' : 'False'}</td>
                       <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : order.status === 3 ? 'Finished' : 'Pending'}</td>
                       <td>
-                        <button onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
+                        <button className="button-show-image" onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
                       </td>
                       <td>
                         <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>

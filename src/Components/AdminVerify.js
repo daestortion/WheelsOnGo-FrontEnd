@@ -107,6 +107,7 @@ export const AdminVerify = () => {
                 <tr>
                   <th>ID</th>
                   <th>User</th>
+                  <th>Name</th>
                   <th>Status</th>
                   <th>Gov ID</th>
                   <th>Driver's License</th>
@@ -118,6 +119,7 @@ export const AdminVerify = () => {
                   <tr key={verification.vid}>
                     <td>{verification.vid}</td>
                     <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
+                    <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
                     <td>{verification.status === 1 ? 'Verified' : 'Pending'}</td>
                     <td>
                       {verification.govId ? (
@@ -141,7 +143,7 @@ export const AdminVerify = () => {
           <div className="rectangle-3" />
 
           <button className="group-2"onClick={handleOrder}>
-            <div className="text-wrapper-34">Orders</div>
+            <div className="text-wrapper-34">Transactions</div>
           </button>
 
           <button className="group-233" onClick={handleReport}>
