@@ -80,6 +80,8 @@ export const AddCar = () => {
   const carORInputRef = useRef(null);
   const carCRInputRef = useRef(null);
   const navigate = useNavigate();
+  const [capacity, setCapacity] = useState('');
+
 
   const handleHomeClick = () => {
     navigate('/home');
@@ -291,8 +293,8 @@ export const AddCar = () => {
             <div className="group-7">
               <input
                 className="div-wrapper4"
-                type="number"
-                placeholder="Rent Price"
+                type="number" inputmode="numeric"
+                placeholder="Price"
                 value={rentPrice}
                 onChange={(e) => setRentPrice(e.target.value)}
               />
@@ -304,6 +306,27 @@ export const AddCar = () => {
                 placeholder="House/Lot no./Street"
 
               />
+
+              <input
+                className="div-wrapper42"
+                type="text"
+                placeholder="Color"
+
+              />
+
+              <select
+                  className="div-wrapper43"
+                  value={capacity}
+                  onChange={(e) => setCapacity(e.target.value)}
+                >
+                  <option value="">Capacity</option>
+                  <option value="4">4 Seat</option>
+                  <option value="5">5 Seat</option>
+                  <option value="7">7 Seat</option>
+                  <option value="8">8 Seat</option>
+                  <option value="12">12 Seat</option>
+                  <option value="15">15 Seat</option>
+                </select>
             </div>
 
             <div className="group-8">
