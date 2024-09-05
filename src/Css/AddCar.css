@@ -71,9 +71,6 @@ input[type="number"]::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-.div:hover{
-  color: #e80029;
-}
 
 .car-management-owner .text-wrapper-2 {
   color: #000000;

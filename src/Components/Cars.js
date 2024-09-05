@@ -11,6 +11,7 @@ import Loading from "../Components/Loading.js";
 import VerifyFirstPopup from './VerifyFirstPopup.js';
 import RentOwnPopup from './RentOwnPopup.js';
 import { PendingRent } from './PendingPopup.js';
+import CarDetailsPopup from '../Components/CarDetailsPopup.js'; // Import the CarDetailsPopup
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
@@ -20,6 +21,7 @@ export const Cars = () => {
   const [showRentOwnPopup, setShowRentOwnPopup] = useState(false);
   const [showPendingRentPopup, setShowPendingRentPopup] = useState(false);
   const [isRenting, setIsRenting] = useState(false);
+  const [showDetailsPopup, setShowDetailsPopup] = useState(null); // Track which car details popup is open
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export const Cars = () => {
       try {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
         
-        // Remove the order status check, only filter approved and non-deleted cars
+        // Filter approved and non-deleted cars
         const approvedCars = response.data.filter(car => car.approved && !car.deleted);
         
         setCars(approvedCars.map(car => ({
@@ -92,9 +94,8 @@ export const Cars = () => {
       // If the car belongs to the user, show the RentOwnPopup
       if (car.owner.userId === user.userId) {
         setShowRentOwnPopup(true);
-      
-      // Otherwise, allow the user to rent the car
       } else {
+        // Otherwise, allow the user to rent the car
         setSelectedCar(car);
       }
       
@@ -103,14 +104,18 @@ export const Cars = () => {
       setShowVerifyFirst(true);
     }
   };
-  
-  
+
+  const handleViewDetailsClick = (carId) => {
+    setShowDetailsPopup(carId); // Show the details popup for the specific car
+  };
+
+  const closeDetailsPopup = () => {
+    setShowDetailsPopup(null); // Close the details popup
+  };
 
   const closePendingRentPopup = () => {
     setShowPendingRentPopup(false);
   };
-
-  console.log(cars);
 
   return (
     <div className="cars">
@@ -121,18 +126,23 @@ export const Cars = () => {
           <div className="frame">
             <div className="cars-grid">
               {cars.length > 0 ? cars.map((car, index) => (
-                <div key={index} className="overlap-group">
+                <div key={index} className="overlap-group" style={{ position: 'relative' }}> {/* Set position to relative */}
                   {car.carImage && (
                     <img src={car.carImage} alt="Car" className="car-image" />
                   )}
                   <div className="overlap-group-wrapper">
                     <button className="div-wrapper" onClick={() => handleRentClick(car)}>
                       <div className="text-wrapper">Rent</div>
-                     
                     </button>
-                    <button className="div-wrapper11">
-                    <div className="text-wrapperr">View Details</div>
+                    <button className="div-wrapper11" onClick={() => handleViewDetailsClick(car.id)}>
+                      <div className="text-wrapperr">View Details</div>
                     </button>
+                    {/* Show the details popup within the car container if the car ID matches */}
+                    {showDetailsPopup === car.id && (
+                      <div className="car-details-popup-container">
+                        <CarDetailsPopup car={car} closePopup={closeDetailsPopup} />
+                      </div>
+                    )}
                   </div>
                 </div>
               )) :
@@ -150,7 +160,7 @@ export const Cars = () => {
         <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
       </div>
 
-      {selectedCar && <CheckoutPopup car={selectedCar} closePopup={() => setSelectedCar(null)} />}
+      {selectedCar && !showDetailsPopup && <CheckoutPopup car={selectedCar} closePopup={() => setSelectedCar(null)} />}
       {showVerifyFirst && <VerifyFirstPopup />}
       {showRentOwnPopup && <RentOwnPopup />}
       {showPendingRentPopup && <PendingRent closePopup={closePendingRentPopup} />}
