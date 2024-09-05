@@ -95,9 +95,9 @@ export const AdminPageCars = () => {
             <table className="car-table">
               <thead>
                 <tr>
+                  <th>Owner</th>
                   <th>Car Brand</th>
                   <th>Car Model</th>
-                  <th>Owner</th>
                   <th>Car OR</th>
                   <th>Car CR</th>
                   <th>Car Image</th>
@@ -111,9 +111,9 @@ export const AdminPageCars = () => {
               <tbody>
                 {Array.isArray(cars) && cars.map(car => (
                   <tr key={car.carId}>
+                    <td>{car.owner ? `${car.owner.fName} ${car.owner.lName}` : 'No owner'}</td>
                     <td>{car.carBrand}</td>
                     <td>{car.carModel}</td>
-                    <td>{car.owner ? car.owner.username : 'No owner'}</td>
                     <td>
                       <button onClick={() => handleShowImage(car.carOR)}>Show Image</button>
                     </td>
@@ -155,7 +155,7 @@ export const AdminPageCars = () => {
           </button>
 
           <button className="group-222" onClick={handleAdminOrder}>
-            <div className="text-wrapper-34">Orders</div>
+            <div className="text-wrapper-34">Transactions</div>
           </button>
 
           <button className="group-2123" onClick={handleReport}>

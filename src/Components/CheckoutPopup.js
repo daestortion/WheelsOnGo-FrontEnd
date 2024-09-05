@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../Css/CheckoutPopup.css";
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
-import PaymentPopup from "./PaymentPopup"; // Import PaymentPopup component
+import PaymentPopup from "./PaymentPopup";
 import axios from 'axios';
 
 export const CheckoutPopup = ({ car, closePopup }) => {
@@ -13,17 +13,39 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to manage PaymentPopup visibility
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [bookedDates, setBookedDates] = useState([]); // For disabling booked dates
+  const [deliveryOption, setDeliveryOption] = useState("Pickup");
+
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
-  console.log(storedUserId);
-  console.log(car);
+
+  // Fetch booked dates for the car
+  useEffect(() => {
+    const fetchBookedDates = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
+        const orders = response.data;
+
+        // Convert dates to JavaScript Date objects
+        const bookedRanges = orders.map(order => ({
+          start: new Date(order.startDate),  // Convert to Date object
+          end: new Date(order.endDate)       // Convert to Date object
+        }));
+
+        setBookedDates(bookedRanges);
+      } catch (error) {
+        console.error("Error fetching booked dates:", error);
+      }
+    };
+
+    fetchBookedDates();
+  }, [car.carId]);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    setStartDateOpen(false); // Close the date picker
-    // Reset endDate if it is before the new startDate
+    setStartDateOpen(false);
     if (endDate && date && endDate <= date) {
       setEndDate(null);
     }
@@ -31,7 +53,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
-    setEndDateOpen(false); // Close the date picker
+    setEndDateOpen(false);
   };
 
   const toggleStartDatePicker = () => {
@@ -44,6 +66,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
   const clearErrorMessage = () => {
     setErrorMessage(null);
+  };
+
+  const handleDeliveryOptionChange = (event) => {
+    setDeliveryOption(event.target.value);
   };
 
   useEffect(() => {
@@ -67,12 +93,13 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         startDate,
         endDate,
         totalPrice,
+        deliveryOption,
         isDeleted: false,
-        referenceNumber: '', // Leave it empty as it will be generated on the server side
-        payment: null // Handle payment later
+        referenceNumber: '',
+        payment: null
       };
-      setOrder(newOrder); // Set the order state
-      setShowPaymentPopup(true); // Show the PaymentPopup
+      setOrder(newOrder);
+      setShowPaymentPopup(true);
     }
   };
 
@@ -80,7 +107,14 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);
-    closePopup(); // Close the CheckoutPopup when PaymentPopup is closed
+    closePopup();
+  };
+
+  // Helper function to check if a date is within any booked date range
+  const isDateBooked = (date) => {
+    return bookedDates.some(({ start, end }) => {
+      return date >= start && date <= end;  // Check if the date is within any booked range
+    });
   };
 
   return (
@@ -101,6 +135,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           </div>
           <div className="text-wrapper-5">Return Date</div>
           <div className="text-wrapper-6">Pick-up Date</div>
+
           <div className="div-wrapper" onMouseEnter={clearErrorMessage}>
             <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
               {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
@@ -111,10 +146,12 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 onChange={handleStartDateChange}
                 inline
                 shouldCloseOnSelect
-                minDate={new Date()} // Disable dates before the current date
+                minDate={new Date()}
+                filterDate={(date) => !isDateBooked(date)} // Disable booked dates
               />
             )}
           </div>
+
           <div className="overlap-2" onMouseEnter={clearErrorMessage}>
             <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
               {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
@@ -125,12 +162,49 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 onChange={handleEndDateChange}
                 inline
                 shouldCloseOnSelect
-                minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()} // Disable dates before the next day of the start date
+                minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                filterDate={(date) => !isDateBooked(date)} // Disable booked dates
               />
             )}
           </div>
+
+          {/* Conditionally hide delivery options when either calendar is open */}
+          {!startDateOpen && !endDateOpen && (
+            <div className="delivery-options">
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  value="Pickup"
+                  checked={deliveryOption === "Pickup"}
+                  onChange={handleDeliveryOptionChange}
+                />
+                Pickup
+              </label>
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  value="Delivery"
+                  checked={deliveryOption === "Delivery"}
+                  onChange={handleDeliveryOptionChange}
+                />
+                Delivery
+              </label>
+            </div>
+          )}
+
           <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
-          <div className="text-wrapper-101">Description: {car.carDescription} </div>
+          <div className="text-wrapper-101">
+            Description: <span className="normal-text">{car.carDescription}</span>{" "}
+          </div>
+          <div className="text-wrapper-102">
+            Color: <span className="normal-text">{car.color}</span>
+          </div>
+          <div className="text-wrapper-103">
+            Seat Capacity: <span className="normal-text">{car.maxSeatingCapacity}</span>
+          </div>
+          <div className="text-wrapper-104">
+            Plate Number: <span className="normal-text">{car.plateNumber}</span>
+          </div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}

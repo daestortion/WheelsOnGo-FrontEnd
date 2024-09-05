@@ -60,6 +60,7 @@
   top: 0px;
 }
 
+
 .checkout-popup .div-checkbox {
   background-color: #ffffff;
   height: 35px;
@@ -232,6 +233,48 @@
   width: 257px; 
 }
 
+.checkout-popup .text-wrapper-102 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 130px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 508px; 
+  white-space: nowrap; 
+  width: 257px; 
+}
+
+.checkout-popup .text-wrapper-103 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 130px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 465px; 
+  white-space: nowrap; 
+  width: 257px; 
+}
+
+.checkout-popup .text-wrapper-104 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 30px; 
+  font-weight: 600; 
+  left: 130px; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: absolute; 
+  top: 423px; 
+  white-space: nowrap; 
+  width: 257px; 
+}
+
 .checkout-popup .text-wrapper-101 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
@@ -243,14 +286,14 @@
   position: absolute; 
   top: 380px; 
   white-space: nowrap; 
-  width: 700px; 
-  height: 150px;
+  width:800px; 
+  height: 40px;
 }
 
 .checkout-popup .text-wrapper-11 { 
   color: #e32128; 
   font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
+  font-size: 15px; 
   font-weight: 600; 
   left: 130px; 
   letter-spacing: 0; 
@@ -412,3 +455,23 @@
   width: 100%;
 }
 
+.normal-text {
+  font-weight: normal;
+} 
+
+.checkout-popup .delivery-options {
+  position: absolute;
+  top: 450px; /* Adjust the position to fit above the total */
+  left: 960px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* Add space between options */
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 10px; /* Add space between radio button and label */
+  transform: scale(1.2); /* Increase the size of radio buttons */
+}

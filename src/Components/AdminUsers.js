@@ -112,7 +112,7 @@ export const AdminPageUsers = () => {
           </button>
 
           <button className="group-2" onClick={handleOrder}>
-            <div className="text-wrapper">Orders</div>
+            <div className="text-wrapper">Transactions</div>
           </button>
 
           <button className="group-234" onClick={handleReport}>

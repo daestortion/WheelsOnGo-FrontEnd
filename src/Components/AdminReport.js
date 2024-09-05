@@ -90,7 +90,7 @@ export const AdminPageReports = () => {
                     </div>
                     <div className="group-2">
                         <button className="overlap-group" onClick={handleOrder}>
-                            <div className="text-wrapper">Orders</div>
+                            <div className="text-wrapper">Transactions</div>
                         </button>
                     </div>
                     <div className="text-wrapper-3">Dashboard</div>

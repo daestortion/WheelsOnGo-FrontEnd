@@ -9,6 +9,12 @@
   height: 100vh; /* Limit the height to the viewport height */
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .car-management-owner .overlap-wrapper {
   background-color: #ffffff;
   height: 100%; /* Adjust to 100% of parent's height */
@@ -65,9 +71,6 @@
   cursor: pointer;
 }
 
-.div:hover{
-  color: #e80029;
-}
 
 .car-management-owner .text-wrapper-2 {
   color: #000000;
@@ -110,9 +113,9 @@
   background-color: #d7d1d1;
   border-radius: 40px;
   height: 711px;
-  left: 917px;
+  left: 900px;
   position: absolute;
-  top: 174px;
+  top: 160px;
   width: 907px;
   padding-left: 15px;
 }
@@ -141,6 +144,7 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
 }
 
 .car-management-owner .div-wrapper1 {
@@ -159,6 +163,7 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
 }
 
 
@@ -178,6 +183,7 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
 }
 
 .car-management-owner .description-wrapper {
@@ -185,7 +191,7 @@
   border-radius: 35px;
   height: 217px;
   position: relative;
-  width: 380px;
+  width: 460px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -194,7 +200,7 @@
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 30px;
-  left: 360px;
+  left: 320px;
   top: 57px;
 }
 
@@ -214,7 +220,7 @@
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 650px;
+  width: 265px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -225,6 +231,48 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper31 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 265px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: 225px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper32 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 265px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: 500px;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .div-wrapper4 {
@@ -232,7 +280,26 @@
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 650px;
+  width: 90px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  left: 630px;
+}
+
+.car-management-owner .div-wrapper41 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 280px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -243,6 +310,71 @@
   border: none;
   padding-left: 30px;
   padding-right: 30px;
+  left: -50px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper42 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 100px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: 295px;
+  top: -72px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper412 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 140px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: -410px;
+  top: -72px;
+  text-overflow: ellipsis;
+}
+
+.car-management-owner .div-wrapper43 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 160px;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  border: none;
+  padding-left: 18px;
+  padding-right: 18px;
+  left: 462px;
+  top: -145px;
+  text-overflow: ellipsis;
 }
 
 .car-management-owner .text-wrapper-3 {
@@ -280,7 +412,8 @@
   left: 99px;
   position: absolute;
   top: 320px;
-  width: 714px;
+  width: 0px;
+
 }
 
 .car-management-owner .overlap-3 {
@@ -295,8 +428,8 @@
   height: 71px;
   left: 0;
   position: absolute;
-  top: 0;
-  width: 351px;
+  top: 90px;
+  width: 0px;
 }
 
 .car-management-owner .overlap-4 {
@@ -304,7 +437,17 @@
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 349px;
+  width: 290px;
+  left: 164px;
+}
+
+.car-management-owner .overlap-442 {
+  background-color: #ffffff;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
+  width: 290px;
+  left: 100px;
 }
 
 .car-management-owner .text-wrapper-44 {
@@ -318,7 +461,7 @@
   position: absolute;
   top: 17px;
   white-space: nowrap;
-  width: 116px;
+  width: 135px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -336,17 +479,29 @@
   border-radius: 35px;
   height: 50px;
   position: relative;
-  width: 130px;
-  left: 30px;
+  width: 100px;
+  left: 172px;
   border: none;
+  top: 90px;
 }
 
-.car-management-owner .text-wrapper-5 {
+.car-management-owner .overlap-521 {
+  background-color: #e80029;
+  border-radius: 35px;
+  height: 50px;
+  position: relative;
+  width: 100px;
+  left: 108px;
+  border: none;
+  top: 90px;
+}
+
+.car-management-owner .text-wrapper-555 {
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  left: 28px;
+  left: 15px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
@@ -375,7 +530,7 @@
   position: absolute;
   top: 17px;
   white-space: nowrap;
-  width: 120px;
+  width: 135px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -384,8 +539,8 @@
   height: 71px;
   left: 98px;
   position: absolute;
-  top: 494px;
-  width: 714px;
+  top: 408px;
+  width: 0px;
 }
 
 .car-management-owner .text-wrapper-7 {

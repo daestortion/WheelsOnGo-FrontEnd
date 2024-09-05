@@ -11,11 +11,14 @@ export const AdminPageOrder = () => {
   const [users, setUsers] = useState({});
   const [proofImage, setProofImage] = useState(null);
   const [showImagePopup, setShowImagePopup] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(''); // Search term state
+  const [searchQuery, setSearchQuery] = useState(''); // To store the search on submit
+
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [searchQuery]); // Trigger fetchOrders when searchQuery changes
 
   const fetchOrders = async () => {
     try {
@@ -23,7 +26,7 @@ export const AdminPageOrder = () => {
       const data = await response.json();
       if (Array.isArray(data)) {
         setOrders(data);
-
+        
         // Fetch user data for each order
         const userIds = data.map(order => order.user.userId);
         const uniqueUserIds = [...new Set(userIds)];
@@ -111,6 +114,23 @@ export const AdminPageOrder = () => {
     }
   };
 
+  const handleSearch = () => {
+    setSearchQuery(searchTerm); // Set search query to the value in the search bar
+  };
+
+  // Filter the orders based on the search query
+  const filteredOrders = orders.filter(order => {
+    const orderIdStr = String(order.orderId); // Convert orderId to string
+    const userName = order.user ? `${order.user.fName} ${order.user.lName}` : '';
+    const carModel = order.car ? order.car.carModel : '';
+
+    return (
+      orderIdStr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      carModel.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   return (
     <div className="admin-page-order">
       <div className="div">
@@ -131,7 +151,7 @@ export const AdminPageOrder = () => {
           </button>
 
           <div className="group-2">
-            <div className="text-wrapper">Orders</div>
+            <div className="text-wrapper">Transactions</div>
           </div>
 
           <button className="group-34" onClick={handleReport}>
@@ -140,9 +160,21 @@ export const AdminPageOrder = () => {
 
           <div className="text-wrapper-33">Dashboard</div>
           <img className="vector" alt="Vector" src={vector} />
-          <div className="text-wrapper-4444">Order History</div>
+          <div className="text-wrapper-4444">Transaction History</div>
           <div className="rectangle-3">
-            
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search orders..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="search-bar"
+              />
+              <button onClick={handleSearch} className="submit-button">
+                Submit
+              </button>
+            </div>
+
             <div className="table-container112">
               <table className="order-table">
                 <thead>
@@ -162,11 +194,11 @@ export const AdminPageOrder = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map(order => (
+                  {filteredOrders.map(order => (
                     <tr key={order.orderId}>
                       <td>{order.orderId}</td>
-                      <td>{order.user.username}</td>
-                      <td>{order.car.carModel}</td>
+                      <td>{order.user ? `${order.user.fName} ${order.user.lName}` : 'Name not available'}</td>
+                      <td>{order.car ? order.car.carModel : 'Car not available'}</td>
                       <td>{order.startDate}</td>
                       <td>{order.endDate}</td>
                       <td>{order.totalPrice}</td>
@@ -175,7 +207,7 @@ export const AdminPageOrder = () => {
                       <td>{order.active ? 'True' : 'False'}</td>
                       <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : order.status === 3 ? 'Finished' : 'Pending'}</td>
                       <td>
-                        <button onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
+                        <button className="button-show-image" onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
                       </td>
                       <td>
                         <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
