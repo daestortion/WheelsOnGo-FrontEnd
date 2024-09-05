@@ -15,9 +15,33 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [deliveryOption, setDeliveryOption] = useState("Pickup"); // State for pickup or delivery
+  const [bookedDates, setBookedDates] = useState([]); // For disabling booked dates
+  const [deliveryOption, setDeliveryOption] = useState("Pickup");
+
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
+
+  // Fetch booked dates for the car
+  useEffect(() => {
+    const fetchBookedDates = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
+        const orders = response.data;
+
+        // Convert dates to JavaScript Date objects
+        const bookedRanges = orders.map(order => ({
+          start: new Date(order.startDate),  // Convert to Date object
+          end: new Date(order.endDate)       // Convert to Date object
+        }));
+
+        setBookedDates(bookedRanges);
+      } catch (error) {
+        console.error("Error fetching booked dates:", error);
+      }
+    };
+
+    fetchBookedDates();
+  }, [car.carId]);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -69,7 +93,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         startDate,
         endDate,
         totalPrice,
-        deliveryOption, // Add delivery option to the order
+        deliveryOption,
         isDeleted: false,
         referenceNumber: '',
         payment: null
@@ -84,6 +108,13 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);
     closePopup();
+  };
+
+  // Helper function to check if a date is within any booked date range
+  const isDateBooked = (date) => {
+    return bookedDates.some(({ start, end }) => {
+      return date >= start && date <= end;  // Check if the date is within any booked range
+    });
   };
 
   return (
@@ -115,6 +146,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 inline
                 shouldCloseOnSelect
                 minDate={new Date()}
+                filterDate={(date) => !isDateBooked(date)} // Disable booked dates
               />
             )}
           </div>
@@ -129,11 +161,12 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 inline
                 shouldCloseOnSelect
                 minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                filterDate={(date) => !isDateBooked(date)} // Disable booked dates
               />
             )}
           </div>
 
-          {/* New Delivery Option Section */}
+          {/* Delivery Options Section */}
           <div className="delivery-options">
             <label className="radio-option">
               <input

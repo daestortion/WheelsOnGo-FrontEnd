@@ -27,7 +27,10 @@ export const Cars = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
-        const approvedCars = response.data.filter(car => car.approved && !car.deleted && car.orders.every(order => order.status !== 1));
+        
+        // Remove the order status check, only filter approved and non-deleted cars
+        const approvedCars = response.data.filter(car => car.approved && !car.deleted);
+        
         setCars(approvedCars.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null
@@ -39,7 +42,7 @@ export const Cars = () => {
         setIsLoading(false);
       }
     };
-
+  
     fetchCars();
 
     const fetchUserRentingStatus = async () => {
@@ -82,19 +85,25 @@ export const Cars = () => {
   const handleRentClick = (car) => {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('User Data:', user);
+    
     if (user && user.verificationStatus === 1) {
       console.log('User isRenting:', isRenting);
+      
+      // If the car belongs to the user, show the RentOwnPopup
       if (car.owner.userId === user.userId) {
         setShowRentOwnPopup(true);
-      } else if (isRenting === true) {
-        setShowPendingRentPopup(true);
+      
+      // Otherwise, allow the user to rent the car
       } else {
         setSelectedCar(car);
       }
+      
     } else {
+      // If the user is not verified, show the VerifyFirstPopup
       setShowVerifyFirst(true);
     }
   };
+  
   
 
   const closePendingRentPopup = () => {
