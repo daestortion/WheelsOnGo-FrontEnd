@@ -135,6 +135,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           </div>
           <div className="text-wrapper-5">Return Date</div>
           <div className="text-wrapper-6">Pick-up Date</div>
+
           <div className="div-wrapper" onMouseEnter={clearErrorMessage}>
             <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
               {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
@@ -150,6 +151,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               />
             )}
           </div>
+
           <div className="overlap-2" onMouseEnter={clearErrorMessage}>
             <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
               {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
@@ -166,33 +168,43 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             )}
           </div>
 
-          {/* Delivery Options Section */}
-          <div className="delivery-options">
-            <label className="radio-option">
-              <input
-                type="radio"
-                value="Pickup"
-                checked={deliveryOption === "Pickup"}
-                onChange={handleDeliveryOptionChange}
-              />
-              Pickup
-            </label>
-            <label className="radio-option">
-              <input
-                type="radio"
-                value="Delivery"
-                checked={deliveryOption === "Delivery"}
-                onChange={handleDeliveryOptionChange}
-              />
-              Delivery
-            </label>
-          </div>
+          {/* Conditionally hide delivery options when either calendar is open */}
+          {!startDateOpen && !endDateOpen && (
+            <div className="delivery-options">
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  value="Pickup"
+                  checked={deliveryOption === "Pickup"}
+                  onChange={handleDeliveryOptionChange}
+                />
+                Pickup
+              </label>
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  value="Delivery"
+                  checked={deliveryOption === "Delivery"}
+                  onChange={handleDeliveryOptionChange}
+                />
+                Delivery
+              </label>
+            </div>
+          )}
 
           <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
-          <div className="text-wrapper-101">Description: <span className="normal-text">{car.carDescription}</span> </div>
-          <div className="text-wrapper-102">Color: <span className="normal-text">{car.color}</span></div>
-          <div className="text-wrapper-103">Seat Capacity: <span className="normal-text">{car.maxSeatingCapacity}</span></div>
-          <div className="text-wrapper-104">Plate Number: <span className="normal-text">{car.plateNumber}</span></div>
+          <div className="text-wrapper-101">
+            Description: <span className="normal-text">{car.carDescription}</span>{" "}
+          </div>
+          <div className="text-wrapper-102">
+            Color: <span className="normal-text">{car.color}</span>
+          </div>
+          <div className="text-wrapper-103">
+            Seat Capacity: <span className="normal-text">{car.maxSeatingCapacity}</span>
+          </div>
+          <div className="text-wrapper-104">
+            Plate Number: <span className="normal-text">{car.plateNumber}</span>
+          </div>
           <div className="text-wrapper-10">Pick-up Location:</div>
           <div className="text-wrapper-11">{car.address}</div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
