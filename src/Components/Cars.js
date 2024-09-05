@@ -126,7 +126,7 @@ export const Cars = () => {
           <div className="frame">
             <div className="cars-grid">
               {cars.length > 0 ? cars.map((car, index) => (
-                <div key={index} className="overlap-group" style={{ position: 'relative' }}> {/* Set position to relative */}
+                <div key={index} className="overlap-group">
                   {car.carImage && (
                     <img src={car.carImage} alt="Car" className="car-image" />
                   )}
