@@ -457,3 +457,20 @@
 .normal-text {
   font-weight: normal;
 } 
+
+.checkout-popup .delivery-options {
+  position: absolute;
+  top: 450px; /* Adjust the position to fit above the total */
+  left: 960px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* Add space between options */
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 10px; /* Add space between radio button and label */
+  transform: scale(1.2); /* Increase the size of radio buttons */
+}

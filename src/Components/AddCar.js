@@ -209,19 +209,21 @@ export const AddCar = () => {
                 ))}
               </select>
             </div>
+
             <div className="group-22">
-              <select
-                className="div-wrapper1"
-                value={carModel}
-                onChange={(e) => setCarModel(e.target.value)}
-                disabled={!carBrand}
-              >
-                <option value="">Car Model</option>
-                {carBrand && carData[carBrand].map((model, index) => (
-                  <option key={`${carBrand}-${model}-${index}`} value={model}>{model}</option>
-                ))}
-              </select>
+            <select
+              className="div-wrapper1"
+              value={carModel}
+              onChange={(e) => setCarModel(e.target.value)}
+              disabled={!carBrand}
+            >
+              <option value="">Car Model</option>
+              {carBrand && carData[carBrand].map((model, index) => (
+                <option key={`${carBrand}-${model}-${index}`} value={model}>{model}</option>
+              ))}
+            </select>
             </div>
+            
             <div className="group-3">
               <input
                 className="div-wrapper2"
