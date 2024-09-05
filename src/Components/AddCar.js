@@ -211,19 +211,19 @@ export const AddCar = () => {
             </div>
 
             <div className="group-22">
-            <select
-              className="div-wrapper1"
-              value={carModel}
-              onChange={(e) => setCarModel(e.target.value)}
-              disabled={!carBrand}
-            >
-              <option value="">Car Model</option>
-              {carBrand && carData[carBrand].map((model, index) => (
-                <option key={`${carBrand}-${model}-${index}`} value={model}>{model}</option>
-              ))}
-            </select>
+              <select
+                className="div-wrapper1"
+                value={carModel}
+                onChange={(e) => setCarModel(e.target.value)}
+                disabled={!carBrand}
+              >
+                <option value="">Car Model</option>
+                {carBrand && carData[carBrand].map((model, index) => (
+                  <option key={`${carBrand}-${model}-${index}`} value={model}>{model}</option>
+                ))}
+              </select>
             </div>
-            
+
             <div className="group-3">
               <input
                 className="div-wrapper2"
@@ -236,24 +236,24 @@ export const AddCar = () => {
             <div className="group-4">
               <select className="div-wrapper3" value={selectedProvince} onChange={handleProvinceChange}>
                 <option value="">Province</option>
-                {provincesData.RECORDS.map((province) => (
-                  <option key={province.provCode} value={province.provCode}>{province.provDesc}</option>
+                {provincesData.RECORDS.map((province, index) => (
+                  <option key={`${province.provCode}-${index}`} value={province.provCode}>{province.provDesc}</option>
                 ))}
               </select>
             </div>
             <div className="group-4">
               <select className="div-wrapper31" value={selectedCity} onChange={handleCityChange} disabled={!selectedProvince}>
                 <option value="">City/Municipality</option>
-                {filteredCities.map((city) => (
-                  <option key={city.citymunCode} value={city.citymunCode}>{city.citymunDesc}</option>
+                {filteredCities.map((city, index) => (
+                  <option key={`${city.citymunCode}-${index}`} value={city.citymunCode}>{city.citymunDesc}</option>
                 ))}
               </select>
             </div>
             <div className="group-4">
               <select className="div-wrapper32" value={selectedBarangay} onChange={handleBarangayChange} disabled={!selectedCity}>
                 <option value="">Barangay</option>
-                {filteredBarangays.map((barangay) => (
-                  <option key={barangay.brgyCode} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
+                {filteredBarangays.map((barangay, index) => (
+                  <option key={`${barangay.brgyCode}-${index}`} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
                 ))}
               </select>
             </div>
