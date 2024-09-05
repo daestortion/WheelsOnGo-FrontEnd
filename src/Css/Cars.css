@@ -50,10 +50,16 @@
 }
 
 .cars .cars-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(435px, 1fr));
-  gap: 20px;
+  display: grid; /* Switch to grid layout */
+  grid-template-columns: repeat(3, 1fr); /* Always 3 columns per row */
+  gap: 20px; /* Equal gap between the containers */
+  width: 100%; /* Full width to make use of available space */
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box; /* Include padding in the width calculation */
+  top: -100px;
 }
+
 
 .cars .overlap-group {
   position: relative; /* Important to position children absolutely within this container */
@@ -68,14 +74,13 @@
 
 .cars .overlap-group img {
   position: absolute;
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust to perfectly center the image */
-  width: auto; /* Maintain original image width unless specified */
-  max-width: 100%; /* Ensure the image does not exceed the container width */
-  height: auto; /* Adjust height automatically to maintain aspect ratio */
-  max-height: 100%; /* Ensure the image does not exceed the container height */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100%; /* Fill the entire width of the container */
+  height: 100%; /* Fill the entire height of the container */
+  object-fit: fill; /* Stretch the image to fit the container */
 }
+
 
 .cars .overlap-group-wrapper {
   height: 50px;
@@ -90,8 +95,20 @@
   border-radius: 25px;
   height: 50px;
   position: relative;
-  width: 387px;
-  left: 15px;
+  width: 260px;
+  left: 10px;
+  border: none;
+}
+
+.cars .div-wrapper11 {
+  background-color: #e80029;
+  border-radius: 25px;
+  height: 50px;
+  position: relative;
+  width: 260px;
+  left: 300px;
+  top: -50px;
+  border: none;
 }
 
 .cars .text-wrapper {
@@ -99,14 +116,29 @@
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  left: 83px;
+  left: 20px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   text-align: center;
   top: 13px;
   white-space: nowrap;
-  width: 222px;
+  width: 220px;
+}
+
+.cars .text-wrapperr {
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 13px;
+  white-space: nowrap;
+  width: 220px;
 }
 
 .cars .group-wrapper {

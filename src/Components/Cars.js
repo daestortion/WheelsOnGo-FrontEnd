@@ -117,9 +117,13 @@ export const Cars = () => {
                     <img src={car.carImage} alt="Car" className="car-image" />
                   )}
                   <div className="overlap-group-wrapper">
-                    <div className="div-wrapper" onClick={() => handleRentClick(car)}>
+                    <button className="div-wrapper" onClick={() => handleRentClick(car)}>
                       <div className="text-wrapper">Rent</div>
-                    </div>
+                     
+                    </button>
+                    <button className="div-wrapper11">
+                    <div className="text-wrapperr">View Details</div>
+                    </button>
                   </div>
                 </div>
               )) :
