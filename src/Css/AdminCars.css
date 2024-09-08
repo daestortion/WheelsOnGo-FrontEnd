@@ -361,10 +361,6 @@
   font-size: 14px;
 }
 
-.car-table button:hover {
-  background-color: #d11a24;
-}
-
 .admin-page-cars .logout-button {
   position: absolute;
   top: 128px;
