@@ -26,7 +26,7 @@ import History from './Components/History.js';
 import UpdateCar from './Components/UpdateCar.js';
 import PrivateRoute from './PrivateRoute';
 import AdminReport from './Components/AdminReport.js';
-
+import AdminDashboard from './Components/AdminDashboard.js';
 
 
 
@@ -60,6 +60,7 @@ function AuthRoutes() {
             <Route path="/AdminLogin" element={<AdminLogin />} />
             <Route path="/show-image/:id/:type" element={<ShowImage />} />
             <Route path="/adminorder" element={<AdminPrivateRoute><AdminOrder /></AdminPrivateRoute>} />
+            <Route path="/admin-dashboard" element={<AdminPrivateRoute><AdminDashboard /></AdminPrivateRoute>} />
 
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
