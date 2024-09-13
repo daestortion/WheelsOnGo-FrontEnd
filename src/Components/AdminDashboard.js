@@ -144,7 +144,7 @@ const AdminDashboard = () => {
         {/* Main Analytics Section */}
         <div className="admin-dashboard-content">
           {/* Summary Cards */}
-          <div className="summary-cards">
+          <div className="grid-container">
             <div className="card">
               <h3>Total Users</h3>
               <p>{userData.total}</p>
@@ -160,63 +160,67 @@ const AdminDashboard = () => {
           </div>
 
           {/* Pie Chart for User Breakdown */}
-          <div className="chart-section">
-            <h3>User Breakdown</h3>
-            <div className="chart-container">
-              <Pie
-                data={{
-                  labels: ["Car Owners", "Regular Users"],
-                  datasets: [
-                    {
-                      data: [userData.owners, userData.regular],
-                      backgroundColor: ["#FF6384", "#36A2EB"],
-                      hoverBackgroundColor: ["#FF6384", "#36A2EB"],
-                    },
-                  ],
-                }}
-              />
+          <div className="grid-container">
+            <div className="chart-section">
+              <h3>User Breakdown</h3>
+              <div className="chart-container">
+                <Pie
+                  data={{
+                    labels: ["Car Owners", "Regular Users"],
+                    datasets: [
+                      {
+                        data: [userData.owners, userData.regular],
+                        backgroundColor: ["#FF6384", "#36A2EB"],
+                        hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+                      },
+                    ],
+                  }}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Bar Chart for Car Breakdown */}
-          <div className="chart-section">
-            <h3>Cars Breakdown</h3>
-            <div className="chart-container">
-              <Bar
-                data={{
-                  labels: ["Rented Cars", "Available Cars"],
-                  datasets: [
-                    {
-                      label: "Cars",
-                      data: [carData.rented, carData.available],
-                      backgroundColor: ["#FF6384", "#36A2EB"],
-                      hoverBackgroundColor: ["#FF6384", "#36A2EB"],
-                    },
-                  ],
-                }}
-              />
+            {/* Bar Chart for Car Breakdown */}
+            <div className="chart-section">
+              <h3>Cars Breakdown</h3>
+              <div className="chart-container">
+                <Bar
+                  data={{
+                    labels: ["Rented Cars", "Available Cars"],
+                    datasets: [
+                      {
+                        label: "Cars",
+                        data: [carData.rented, carData.available],
+                        backgroundColor: ["#FF6384", "#36A2EB"],
+                        hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+                      },
+                    ],
+                  }}
+                />
+              </div>
             </div>
           </div>
 
           {/* Line Chart for Orders Over Time */}
-          <div className="chart-section">
-            <h3>Orders Over Time</h3>
-            <div className="chart-container">
-              <Line
-                data={{
-                  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],  // Static labels for months
-                  datasets: [
-                    {
-                      label: "Completed Orders",
-                      data: [12, 19, 3, 5, 2, 3],  // Sample data; replace with API data
-                      backgroundColor: "rgba(75,192,192,0.2)",
-                      borderColor: "rgba(75,192,192,1)",
-                      borderWidth: 1,
-                      fill: true,
-                    },
-                  ],
-                }}
-              />
+          <div className="grid-container">
+            <div className="chart-section">
+              <h3>Orders Over Time</h3>
+              <div className="chart-container">
+                <Line
+                  data={{
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],  // Static labels for months
+                    datasets: [
+                      {
+                        label: "Completed Orders",
+                        data: [12, 19, 3, 5, 2, 3],  // Sample data; replace with API data
+                        backgroundColor: "rgba(75,192,192,0.2)",
+                        borderColor: "rgba(75,192,192,1)",
+                        borderWidth: 1,
+                        fill: true,
+                      },
+                    ],
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
