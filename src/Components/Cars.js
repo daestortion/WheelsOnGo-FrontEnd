@@ -11,6 +11,7 @@ import Loading from "../Components/Loading.js";
 import VerifyFirstPopup from './VerifyFirstPopup.js';
 import RentOwnPopup from './RentOwnPopup.js';
 import { PendingRent } from './PendingPopup.js';
+import CarDetailsPopup from '../Components/CarDetailsPopup.js'; // Import the CarDetailsPopup
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
@@ -20,6 +21,7 @@ export const Cars = () => {
   const [showRentOwnPopup, setShowRentOwnPopup] = useState(false);
   const [showPendingRentPopup, setShowPendingRentPopup] = useState(false);
   const [isRenting, setIsRenting] = useState(false);
+  const [showDetailsPopup, setShowDetailsPopup] = useState(null); // Track which car details popup is open
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +29,10 @@ export const Cars = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
-        const approvedCars = response.data.filter(car => car.approved && !car.deleted && car.orders.every(order => order.status !== 1));
+        
+        // Filter approved and non-deleted cars
+        const approvedCars = response.data.filter(car => car.approved && !car.deleted);
+        
         setCars(approvedCars.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null
@@ -39,7 +44,7 @@ export const Cars = () => {
         setIsLoading(false);
       }
     };
-
+  
     fetchCars();
 
     const fetchUserRentingStatus = async () => {
@@ -82,26 +87,35 @@ export const Cars = () => {
   const handleRentClick = (car) => {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('User Data:', user);
+    
     if (user && user.verificationStatus === 1) {
       console.log('User isRenting:', isRenting);
+      
+      // If the car belongs to the user, show the RentOwnPopup
       if (car.owner.userId === user.userId) {
         setShowRentOwnPopup(true);
-      } else if (isRenting === true) {
-        setShowPendingRentPopup(true);
       } else {
+        // Otherwise, allow the user to rent the car
         setSelectedCar(car);
       }
+      
     } else {
+      // If the user is not verified, show the VerifyFirstPopup
       setShowVerifyFirst(true);
     }
   };
-  
+
+  const handleViewDetailsClick = (carId) => {
+    setShowDetailsPopup(carId); // Show the details popup for the specific car
+  };
+
+  const closeDetailsPopup = () => {
+    setShowDetailsPopup(null); // Close the details popup
+  };
 
   const closePendingRentPopup = () => {
     setShowPendingRentPopup(false);
   };
-
-  console.log(cars);
 
   return (
     <div className="cars">
@@ -117,9 +131,18 @@ export const Cars = () => {
                     <img src={car.carImage} alt="Car" className="car-image" />
                   )}
                   <div className="overlap-group-wrapper">
-                    <div className="div-wrapper" onClick={() => handleRentClick(car)}>
+                    <button className="div-wrapper" onClick={() => handleRentClick(car)}>
                       <div className="text-wrapper">Rent</div>
-                    </div>
+                    </button>
+                    <button className="div-wrapper11" onClick={() => handleViewDetailsClick(car.id)}>
+                      <div className="text-wrapperr">View Details</div>
+                    </button>
+                    {/* Show the details popup within the car container if the car ID matches */}
+                    {showDetailsPopup === car.id && (
+                      <div className="car-details-popup-container">
+                        <CarDetailsPopup car={car} closePopup={closeDetailsPopup} />
+                      </div>
+                    )}
                   </div>
                 </div>
               )) :
@@ -137,7 +160,7 @@ export const Cars = () => {
         <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
       </div>
 
-      {selectedCar && <CheckoutPopup car={selectedCar} closePopup={() => setSelectedCar(null)} />}
+      {selectedCar && !showDetailsPopup && <CheckoutPopup car={selectedCar} closePopup={() => setSelectedCar(null)} />}
       {showVerifyFirst && <VerifyFirstPopup />}
       {showRentOwnPopup && <RentOwnPopup />}
       {showPendingRentPopup && <PendingRent closePopup={closePendingRentPopup} />}

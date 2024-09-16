@@ -11,6 +11,9 @@ export const AdminPageCars = () => {
   const [cars, setCars] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
+  const [filter, setFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState(''); // Search term state
+  const [searchQuery, setSearchQuery] = useState(''); // To store the search on submit
 
   useEffect(() => {
     fetchCars();
@@ -87,8 +90,41 @@ export const AdminPageCars = () => {
     } catch (error) {
         console.error('Error deleting car:', error);
     }
-};
+  };
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const handleSearch = () => {
+    setSearchQuery(searchTerm); // Set search query to the value in the search bar
+  };
+  
+  const filteredCars = cars.filter(car => {
+    switch (filter) {
+      case 'all':
+        return true; // Include all cars
+      case 'approved':
+        return car.approved === true; // Only include approved cars
+      case 'active':
+        return car.deleted === false; // Only include active cars (not deleted)
+      default:
+        return true; // Safe fallback, includes all cars
+    }
+  })
+  .filter(car => {
+    // Search logic based on search query
+    const userName = car.owner ? `${car.owner.fName} ${car.owner.lName}` : ''; // Get owner's full name
+    const carBrand = car.carBrand ? car.carBrand : ''; // Get car brand
+    const carModel = car.carModel ? car.carModel : ''; // Get car model
+    const searchString = searchQuery.toLowerCase(); // Convert search query to lowercase for case-insensitive search
+
+    return (
+      userName.toLowerCase().includes(searchString) || // Check if owner's name matches search query
+      carBrand.toLowerCase().includes(searchString) || // Check if car brand matches search query
+      carModel.toLowerCase().includes(searchString)    // Check if car model matches search query
+    );
+  });
 
   return (
     <div className="admin-page-cars">
@@ -97,6 +133,23 @@ export const AdminPageCars = () => {
           <img className="img" alt="Rectangle" src={adminbg} />
           <div className="manage-cars">Manage&nbsp;&nbsp;Cars</div>
           <div className="div">
+          <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search orders..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="search-bar"
+              />
+              <button onClick={handleSearch} className="submit-button">
+                Submit
+              </button>
+          </div>
+          <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
+                <option value="all">All Cars</option>
+                <option value="approved">Approved Cars</option>
+                <option value="active">Active Cars</option>
+          </select>
             <table className="car-table">
               <thead>
                 <tr>

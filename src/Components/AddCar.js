@@ -13,7 +13,6 @@ import provincesData from '../Data/refprovince.json';
 import citiesData from '../Data/refcitymun.json';
 import barangaysData from '../Data/refbrgy.json';
 
-
 const carData = {
   Toyota: [
     'Vios', 'Hilux', 'Fortuner', 'Innova', 'Wigo', 'Avanza', 'Rush', 'Hiace', 'Camry', 'Corolla Altis', 'Land Cruiser', 'Prado', 'RAV4', 'Yaris', 'Alphard'
@@ -56,7 +55,6 @@ const carData = {
   ]
 };
 
-
 export const AddCar = () => {
   const [userId, setUserId] = useState(null);
   const [carBrand, setCarBrand] = useState('');
@@ -80,6 +78,10 @@ export const AddCar = () => {
   const carORInputRef = useRef(null);
   const carCRInputRef = useRef(null);
   const navigate = useNavigate();
+  const [capacity, setCapacity] = useState(''); // State for seating capacity
+  const [color, setColor] = useState(''); // State for color
+  const [plateNumber, setPlateNumber] = useState(''); // State for plate number
+  const [houseNumberStreet, setHouseNumberStreet] = useState(''); // State for house/lot number and street
 
   const handleHomeClick = () => {
     navigate('/home');
@@ -98,26 +100,26 @@ export const AddCar = () => {
     }
   }, []);
 
-   // Filter cities based on selected province
-   const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
-  
-   // Filter barangays based on selected city
-   const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
- 
-   const handleProvinceChange = (e) => {
-     setSelectedProvince(e.target.value);
-     setSelectedCity('');
-     setSelectedBarangay('');
-   };
- 
-   const handleCityChange = (e) => {
-     setSelectedCity(e.target.value);
-     setSelectedBarangay('');
-   };
- 
-   const handleBarangayChange = (e) => {
-     setSelectedBarangay(e.target.value);
-   };
+  // Filter cities based on selected province
+  const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
+
+  // Filter barangays based on selected city
+  const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
+
+  const handleProvinceChange = (e) => {
+    setSelectedProvince(e.target.value);
+    setSelectedCity('');
+    setSelectedBarangay('');
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+    setSelectedBarangay('');
+  };
+
+  const handleBarangayChange = (e) => {
+    setSelectedBarangay(e.target.value);
+  };
 
   const handleFileChange = (file, setter, setFileName) => {
     setter(file);
@@ -132,20 +134,30 @@ export const AddCar = () => {
   const handleSubmit = async () => {
     if (isSubmitting) return;
 
-    if (!carBrand || !carModel || !carYear || !selectedProvince || !selectedCity || !selectedBarangay || !carOR || !carCR || !rentPrice || !carImage || !carDescription) {
+    if (!carBrand || !carModel || !carYear || !selectedProvince || !selectedCity || !selectedBarangay || !carOR || !carCR || !rentPrice || !carImage || !carDescription || !color || !plateNumber || !capacity || !houseNumberStreet) {
       alert("Please fill in all required fields.");
       return;
     }
 
     setIsSubmitting(true);
 
+    // Find descriptions based on selected codes
+    const provinceDesc = provincesData.RECORDS.find(province => province.provCode === selectedProvince)?.provDesc || '';
+    const cityDesc = citiesData.RECORDS.find(city => city.citymunCode === selectedCity)?.citymunDesc || '';
+    const barangayDesc = barangaysData.RECORDS.find(barangay => barangay.brgyCode === selectedBarangay)?.brgyDesc || '';
+
+    // Construct full address with descriptions
+    const fullAddress = `${houseNumberStreet}, ${barangayDesc}, ${cityDesc}, ${provinceDesc}`;
     const formData = new FormData();
     formData.append('carBrand', carBrand);
     formData.append('carModel', carModel);
     formData.append('carYear', carYear);
-    formData.append('address', `${selectedBarangay}, ${selectedCity}, ${selectedProvince}`);
+    formData.append('address', fullAddress); // Use the full address
     formData.append('rentPrice', parseFloat(rentPrice));
     formData.append('carDescription', carDescription);
+    formData.append('color', color); // Include color in form data
+    formData.append('plateNumber', plateNumber); // Include plateNumber
+    formData.append('maxSeatingCapacity', parseInt(capacity)); // Include maxSeatingCapacity
     if (carImage) formData.append('carImage', carImage);
     if (carOR) formData.append('carOR', carOR);
     if (carCR) formData.append('carCR', carCR);
@@ -197,6 +209,7 @@ export const AddCar = () => {
                 ))}
               </select>
             </div>
+
             <div className="group-22">
               <select
                 className="div-wrapper1"
@@ -205,11 +218,12 @@ export const AddCar = () => {
                 disabled={!carBrand}
               >
                 <option value="">Car Model</option>
-                {carBrand && carData[carBrand].map((model) => (
-                  <option key={model} value={model}>{model}</option>
+                {carBrand && carData[carBrand].map((model, index) => (
+                  <option key={`${carBrand}-${model}-${index}`} value={model}>{model}</option>
                 ))}
               </select>
             </div>
+
             <div className="group-3">
               <input
                 className="div-wrapper2"
@@ -220,30 +234,29 @@ export const AddCar = () => {
               />
             </div>
             <div className="group-4">
-        <select className="div-wrapper3" value={selectedProvince} onChange={handleProvinceChange}>
-          <option value="">Province</option>
-          {provincesData.RECORDS.map((province) => (
-            <option key={province.provCode} value={province.provCode}>{province.provDesc}</option>
-          ))}
-        </select>
-      </div>
-      <div className="group-4">
-        <select className="div-wrapper31" value={selectedCity} onChange={handleCityChange} disabled={!selectedProvince}>
-          <option value="">City/Municipality</option>
-          {filteredCities.map((city) => (
-            <option key={city.citymunCode} value={city.citymunCode}>{city.citymunDesc}</option>
-          ))}
-        </select>
-      </div>
-      <div className="group-4">
-        <select className="div-wrapper32" value={selectedBarangay} onChange={handleBarangayChange} disabled={!selectedCity}>
-          <option value="">Barangay</option>
-          {filteredBarangays.map((barangay) => (
-            <option key={barangay.brgyCode} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
-          ))}
-        </select>
-      </div>
-
+              <select className="div-wrapper3" value={selectedProvince} onChange={handleProvinceChange}>
+                <option value="">Province</option>
+                {provincesData.RECORDS.map((province, index) => (
+                  <option key={`${province.provCode}-${index}`} value={province.provCode}>{province.provDesc}</option>
+                ))}
+              </select>
+            </div>
+            <div className="group-4">
+              <select className="div-wrapper31" value={selectedCity} onChange={handleCityChange} disabled={!selectedProvince}>
+                <option value="">City/Municipality</option>
+                {filteredCities.map((city, index) => (
+                  <option key={`${city.citymunCode}-${index}`} value={city.citymunCode}>{city.citymunDesc}</option>
+                ))}
+              </select>
+            </div>
+            <div className="group-4">
+              <select className="div-wrapper32" value={selectedBarangay} onChange={handleBarangayChange} disabled={!selectedCity}>
+                <option value="">Barangay</option>
+                {filteredBarangays.map((barangay, index) => (
+                  <option key={`${barangay.brgyCode}-${index}`} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
+                ))}
+              </select>
+            </div>
             <div className="description-textarea">
               <textarea
                 className="description-wrapper"
@@ -272,9 +285,16 @@ export const AddCar = () => {
             </div>
             <div className="overlap-6">
               <div className="group-5">
-                <div className="overlap-4">
+                <div className="overlap-442">
                   <div className="text-wrapper-66">{carCRFileName || 'Car CR'}</div>
                 </div>
+                <input
+                  className="div-wrapper412"
+                  type="text"
+                  placeholder="Plate #"
+                  value={plateNumber}
+                  onChange={(e) => setPlateNumber(e.target.value)}
+                />
               </div>
               <div className="group-6">
                 <input
@@ -283,7 +303,7 @@ export const AddCar = () => {
                   style={{ display: 'none' }}
                   onChange={(e) => handleFileChange(e.target.files[0], setCarCR, setCarCRFileName)}
                 />
-                <button className="overlap-5" onClick={() => carCRInputRef.current.click()}>
+                <button className="overlap-521" onClick={() => carCRInputRef.current.click()}>
                   <div className="text-wrapper-555">Upload</div>
                 </button>
               </div>
@@ -291,8 +311,8 @@ export const AddCar = () => {
             <div className="group-7">
               <input
                 className="div-wrapper4"
-                type="number"
-                placeholder="Rent Price"
+                type="number" inputMode="numeric"
+                placeholder="Price"
                 value={rentPrice}
                 onChange={(e) => setRentPrice(e.target.value)}
               />
@@ -302,10 +322,30 @@ export const AddCar = () => {
                 className="div-wrapper41"
                 type="text"
                 placeholder="House/Lot no./Street"
-
+                value={houseNumberStreet}
+                onChange={(e) => setHouseNumberStreet(e.target.value)}
               />
+              <input
+                className="div-wrapper42"
+                type="text"
+                placeholder="Color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+              <select
+                className="div-wrapper43"
+                value={capacity}
+                onChange={(e) => setCapacity(e.target.value)}
+              >
+                <option value="">Capacity</option>
+                <option value="4">4 Seat</option>
+                <option value="5">5 Seat</option>
+                <option value="7">7 Seat</option>
+                <option value="8">8 Seat</option>
+                <option value="12">12 Seat</option>
+                <option value="15">15 Seat</option>
+              </select>
             </div>
-
             <div className="group-8">
               <button
                 className="overlap-7"

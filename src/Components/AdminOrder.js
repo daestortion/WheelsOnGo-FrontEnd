@@ -13,6 +13,7 @@ export const AdminPageOrder = () => {
   const [showImagePopup, setShowImagePopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Search term state
   const [searchQuery, setSearchQuery] = useState(''); // To store the search on submit
+  const [filter, setFilter] = useState('all');
 
   const navigate = useNavigate();
 
@@ -119,7 +120,22 @@ export const AdminPageOrder = () => {
   };
 
   // Filter the orders based on the search query
-  const filteredOrders = orders.filter(order => {
+  const filteredOrders = orders
+  .filter(order => {
+    // Filtering logic based on the dropdown filter
+    switch (filter) {
+      case 'all':
+        return true; // Show all orders
+      case 'approved':
+        return order.status === 1; // Show only approved orders (order.active = 1)
+      case 'active':
+        return order.isActive === true; // Show only pending orders (isActive = true)
+      default:
+        return true; // Safe fallback to include all orders
+    }
+  })
+  .filter(order => {
+    // Search logic based on search query
     const orderIdStr = String(order.orderId); // Convert orderId to string
     const userName = order.user ? `${order.user.fName} ${order.user.lName}` : '';
     const carModel = order.car ? order.car.carModel : '';
@@ -130,6 +146,10 @@ export const AdminPageOrder = () => {
       carModel.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
 
   return (
     <div className="admin-page-order">
@@ -174,7 +194,11 @@ export const AdminPageOrder = () => {
                 Submit
               </button>
             </div>
-
+            <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
+                <option value="all">All Orders</option>
+                <option value="approved">Approved</option>
+                <option value="active">Pending</option>
+            </select>
             <div className="table-container112">
               <table className="order-table">
                 <thead>

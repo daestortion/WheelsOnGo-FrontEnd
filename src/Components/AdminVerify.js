@@ -11,6 +11,7 @@ export const AdminVerify = () => {
   const [verifications, setVerifications] = useState([]);
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     axios.get('http://localhost:8080/verification/getAllVerification')
@@ -95,6 +96,24 @@ export const AdminVerify = () => {
     navigate('/adminreport'); 
   };
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+  
+  const filteredVerifications = verifications.filter(verification => {
+    switch (filter) {
+      case 'all':
+        return true; // Include all verifications
+      case 'verified':
+        return verification.status === 1; // Only include verified verifications (status = 1)
+      case 'pending':
+        return verification.status === 0; // Only include pending verifications (status = 0)
+      default:
+        return true; // Safe fallback, includes all verifications
+    }
+  });
+  
+
   return (
     <div className="admin-page">
       <div className="div">
@@ -102,6 +121,11 @@ export const AdminVerify = () => {
           <img className="rectangle" alt="Rectangle" src={adminbg} />
           <div className="text-wrapper">Pending Verifications</div>
           <div className="rectangle-2">
+          <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
+                <option value="all">All Verications</option>
+                <option value="verified">Verified</option>
+                <option value="pending">Pending</option>
+          </select>
             <table className="verifications-table">
               <thead>
                 <tr>
@@ -115,29 +139,29 @@ export const AdminVerify = () => {
                 </tr>
               </thead>
               <tbody>
-                {verifications.map((verification) => (
-                  <tr key={verification.vid}>
-                    <td>{verification.vid}</td>
-                    <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
-                    <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
-                    <td>{verification.status === 1 ? 'Verified' : 'Pending'}</td>
-                    <td>
-                      {verification.govId ? (
-                        <button className="button-show-image" onClick={() => handleShowImage(verification.govId)}>Show Image</button>
-                      ) : 'Not Uploaded'}
-                    </td>
-                    <td>
-                      {verification.driversLicense ? (
-                        <button className="button-show-image" onClick={() => handleShowImage(verification.driversLicense)}>Show Image</button>
-                      ) : 'Not Uploaded'}
-                    </td>
-                    <td>
-                      <button className="button-approve" onClick={() => handleApprove(verification.vid)}>Approve</button>
-                      <button className="button-deny" onClick={() => handleDeny(verification.vid)}>Deny</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+              {filteredVerifications.map((verification) => (
+                <tr key={verification.vid}>
+                  <td>{verification.vid}</td>
+                  <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
+                  <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
+                  <td>{verification.status ? 'Verified' : 'Pending'}</td>
+                  <td>
+                    {verification.govId ? (
+                      <button className="button-show-image" onClick={() => handleShowImage(verification.govId)}>Show Image</button>
+                    ) : 'Not Uploaded'}
+                  </td>
+                  <td>
+                    {verification.driversLicense ? (
+                      <button className="button-show-image" onClick={() => handleShowImage(verification.driversLicense)}>Show Image</button>
+                    ) : 'Not Uploaded'}
+                  </td>
+                  <td>
+                    <button className="button-approve" onClick={() => handleApprove(verification.vid)}>Approve</button>
+                    <button className="button-deny" onClick={() => handleDeny(verification.vid)}>Deny</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
             </table>
           </div>
           <div className="rectangle-3" />
