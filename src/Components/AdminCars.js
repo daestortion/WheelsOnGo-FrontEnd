@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import "../Css/AdminCars.css";
@@ -28,17 +29,6 @@ export const AdminPageCars = () => {
     } catch (error) {
       console.error('Error fetching cars:', error);
       setCars([]);
-    }
-  };
-
-  const handleDelete = async (carId) => {
-    try {
-      await fetch(`http://localhost:8080/car/deleteCar/${carId}`, {
-        method: 'DELETE',
-      });
-      fetchCars(); // Refresh the cars list after deletion
-    } catch (error) {
-      console.error('Error deleting car:', error);
     }
   };
 
@@ -85,6 +75,21 @@ export const AdminPageCars = () => {
     }
   };
 
+  const handleDeleteCar = async (carId) => {
+    try {
+        const response = await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
+        if (response.status === 200) {
+            console.log(response.data);
+            fetchCars(); // Update the car list after deletion
+        } else {
+            console.error('Error deleting car:', response.status);
+        }
+    } catch (error) {
+        console.error('Error deleting car:', error);
+    }
+};
+
+
   return (
     <div className="admin-page-cars">
       <div className="overlap-wrapper">
@@ -130,7 +135,7 @@ export const AdminPageCars = () => {
                     <button className="button-approve" onClick={() => handleApprove(car.carId)}>Approve</button>
                     </td>
                     <td>
-                      <button onClick={() => handleDelete(car.carId)}>Delete</button>
+                      <button onClick={() => handleDeleteCar(car.carId)}>Delete</button>
                     </td>
                   </tr>
                 ))}
