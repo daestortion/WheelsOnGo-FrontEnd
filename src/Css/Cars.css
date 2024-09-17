@@ -16,6 +16,7 @@
   overflow: hidden;
   position: relative;
   width: 1920px;
+  flex-grow: 1; 
 }
 
 .cars .overlap {
@@ -40,25 +41,27 @@
   overflow: hidden;
   overflow-y: scroll;
   position: absolute;
-  top: 30px;
   width: 1920px;
+  padding-top: 20px;
+  top: 1px; 
   
 }
 
 .cars .frame::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
+  width: 10px; /* Width of the scrollbar */
 }
 
 .cars .cars-grid {
   display: grid; /* Switch to grid layout */
   grid-template-columns: repeat(3, 1fr); /* Always 3 columns per row */
-  gap: 20px; /* Equal gap between the containers */
+  gap: 50px; /* Equal gap between the containers */
   width: 100%; /* Full width to make use of available space */
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box; /* Include padding in the width calculation */
-  top: -100px;
-}
+  top: 1px;
+  }
 
 
 .cars .overlap-group {
@@ -70,6 +73,24 @@
   height: 467px;
   width: 100%;
   overflow: hidden; /* Ensures no content spills out */
+}
+
+.car-info-outside {
+  text-align: center;
+  margin-top: 10px; /* Space between car container and details */
+}
+
+.car-details {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.car-price {
+  font-size: 16px;
+  color: #f60; /* Price color */
+  font-weight: bold;
 }
 
 .cars .overlap-group img {
@@ -95,8 +116,8 @@
   border-radius: 25px;
   height: 50px;
   position: relative;
-  width: 260px;
-  left: 10px;
+  width: 400px;
+  left: 80px;
   border: none;
 }
 
@@ -123,22 +144,7 @@
   text-align: center;
   top: 13px;
   white-space: nowrap;
-  width: 220px;
-}
-
-.cars .text-wrapperr {
-  color: #ffffff;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
-  font-weight: 700;
-  left: 20px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 13px;
-  white-space: nowrap;
-  width: 220px;
+  width: 360px;
 }
 
 .cars .group-wrapper {
@@ -272,4 +278,3 @@
   text-align: center;
   width: 100%;
 }
-
