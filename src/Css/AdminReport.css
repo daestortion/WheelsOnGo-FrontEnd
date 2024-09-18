@@ -301,7 +301,7 @@
 }
 
 .admin-page-reports .reports-list {
-    width: 300px;
+    width: 500px;
     border-right: 1px solid #cccccc;
     overflow-y: auto;
     padding-right: 10px; /* Spacing between scrollbar and content */

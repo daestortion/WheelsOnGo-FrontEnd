@@ -134,6 +134,7 @@ export const AdminPageUsers = () => {
                   <thead>
                     <tr>
                       <th>ID</th>
+                      <th>Created</th>
                       <th>Username</th>
                       <th>Email</th>
                       <th>First Name</th>
@@ -149,6 +150,17 @@ export const AdminPageUsers = () => {
                     {filteredUsers.map(user => (
                       <tr key={user.userId}>
                         <td>{user.userId}</td>
+                        <td>
+                          {new Date(user.timeStamp).toLocaleString('en-US', {
+                          timeZone: 'Asia/Manila',
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false
+                          })}
+                        </td>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td>{user.fName}</td>

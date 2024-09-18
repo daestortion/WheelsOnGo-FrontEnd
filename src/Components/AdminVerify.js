@@ -130,6 +130,7 @@ export const AdminVerify = () => {
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Submitted</th>
                   <th>User</th>
                   <th>Name</th>
                   <th>Status</th>
@@ -142,6 +143,17 @@ export const AdminVerify = () => {
               {filteredVerifications.map((verification) => (
                 <tr key={verification.vid}>
                   <td>{verification.vid}</td>
+                  <td>
+                      {new Date(verification.timeStamp).toLocaleString('en-US', {
+                      timeZone: 'Asia/Manila',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                    })}
+                  </td>
                   <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
                   <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
                   <td>{verification.status ? 'Verified' : 'Pending'}</td>

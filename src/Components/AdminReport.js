@@ -122,7 +122,22 @@ export const AdminPageReports = () => {
                                                             {report.user.fName.charAt(0)}{report.user.lName.charAt(0)}
                                                         </div>
                                                     )}
-                                                    {report.user.fName} {report.user.lName}
+                                                    {report.user.fName} {report.user.lName}{' '}
+                                                    {report.timeStamp ? (
+                                                        <span>
+                                                            on {new Date(report.timeStamp).toLocaleString('en-US', {
+                                                                timeZone: 'Asia/Manila',
+                                                                year: 'numeric',
+                                                                month: '2-digit',
+                                                                day: '2-digit',
+                                                                hour: '2-digit',
+                                                                minute: '2-digit',
+                                                                hour12: false
+                                                            })}
+                                                        </span>
+                                                    ) : (
+                                                        <span> on Unknown Date</span>
+                                                    )}
                                                 </>
                                             ) : (
                                                 'Unknown User'
@@ -136,7 +151,24 @@ export const AdminPageReports = () => {
                                     <div className="report-details-card">
                                         <h2 className="report-title-black">{selectedReport.title}</h2>
                                         <p className="report-description-black">{selectedReport.description}</p>
-                                        <p className="report-submitted-by-black">Submitted by: {selectedReport.user ? `${selectedReport.user.fName} ${selectedReport.user.lName}` : 'Unknown User'}</p>
+                                        <p className="report-submitted-by-black">
+                                            Submitted by: {selectedReport.user ? `${selectedReport.user.fName} ${selectedReport.user.lName}` : 'Unknown User'}{' '}
+                                            {selectedReport.timeStamp ? (
+                                                <>
+                                                    on {new Date(selectedReport.timeStamp).toLocaleString('en-US', {
+                                                        timeZone: 'Asia/Manila',
+                                                        year: 'numeric',
+                                                        month: '2-digit',
+                                                        day: '2-digit',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                        hour12: false
+                                                    })}
+                                                </>
+                                            ) : (
+                                                'on Unknown Date'
+                                            )}
+                                        </p>
                                     </div>
                                 ) : (
                                     <p className="select-report">Select a report to view details</p>

@@ -12,19 +12,20 @@ export const AdminPageCars = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
   const [filter, setFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState(''); // Search term state
-  const [searchQuery, setSearchQuery] = useState(''); // To store the search on submit
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchCars();
   }, []);
-
+  
   const fetchCars = async () => {
     try {
       const response = await fetch('http://localhost:8080/car/getAllCars');
       const data = await response.json();
+      console.log("API Data (with timestamp): ", data);  // Log to check the timeStamp field
       if (Array.isArray(data)) {
-        setCars(data); // Include all cars, both active and inactive
+        setCars(data);
       } else {
         console.error('API response is not an array:', data);
         setCars([]);
@@ -33,7 +34,7 @@ export const AdminPageCars = () => {
       console.error('Error fetching cars:', error);
       setCars([]);
     }
-  };
+  };  
 
   const handleAdminUsers = () => {
     navigate('/adminusers');
@@ -72,7 +73,7 @@ export const AdminPageCars = () => {
       await fetch(`http://localhost:8080/car/approveCar/${carId}`, {
         method: 'PUT',
       });
-      fetchCars(); // Refresh the cars list after approving
+      fetchCars();
     } catch (error) {
       console.error('Error approving car:', error);
     }
@@ -80,15 +81,15 @@ export const AdminPageCars = () => {
 
   const handleDeleteCar = async (carId) => {
     try {
-        const response = await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
-        if (response.status === 200) {
-            console.log(response.data);
-            fetchCars(); // Update the car list after deletion
-        } else {
-            console.error('Error deleting car:', response.status);
-        }
+      const response = await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
+      if (response.status === 200) {
+        console.log(response.data);
+        fetchCars();
+      } else {
+        console.error('Error deleting car:', response.status);
+      }
     } catch (error) {
-        console.error('Error deleting car:', error);
+      console.error('Error deleting car:', error);
     }
   };
 
@@ -97,32 +98,31 @@ export const AdminPageCars = () => {
   };
 
   const handleSearch = () => {
-    setSearchQuery(searchTerm); // Set search query to the value in the search bar
+    setSearchQuery(searchTerm);
   };
   
   const filteredCars = cars.filter(car => {
     switch (filter) {
       case 'all':
-        return true; // Include all cars
+        return true;
       case 'approved':
-        return car.approved === true; // Only include approved cars
+        return car.approved === true;
       case 'active':
-        return car.deleted === false; // Only include active cars (not deleted)
+        return car.deleted === false;
       default:
-        return true; // Safe fallback, includes all cars
+        return true;
     }
   })
   .filter(car => {
-    // Search logic based on search query
-    const userName = car.owner ? `${car.owner.fName} ${car.owner.lName}` : ''; // Get owner's full name
-    const carBrand = car.carBrand ? car.carBrand : ''; // Get car brand
-    const carModel = car.carModel ? car.carModel : ''; // Get car model
-    const searchString = searchQuery.toLowerCase(); // Convert search query to lowercase for case-insensitive search
+    const userName = car.owner ? `${car.owner.fName} ${car.owner.lName}` : '';
+    const carBrand = car.carBrand ? car.carBrand : '';
+    const carModel = car.carModel ? car.carModel : '';
+    const searchString = searchQuery.toLowerCase();
 
     return (
-      userName.toLowerCase().includes(searchString) || // Check if owner's name matches search query
-      carBrand.toLowerCase().includes(searchString) || // Check if car brand matches search query
-      carModel.toLowerCase().includes(searchString)    // Check if car model matches search query
+      userName.toLowerCase().includes(searchString) ||
+      carBrand.toLowerCase().includes(searchString) ||
+      carModel.toLowerCase().includes(searchString)
     );
   });
 
@@ -133,7 +133,7 @@ export const AdminPageCars = () => {
           <img className="img" alt="Rectangle" src={adminbg} />
           <div className="manage-cars">Manage&nbsp;&nbsp;Cars</div>
           <div className="div">
-          <div className="search-container">
+            <div className="search-container">
               <input
                 type="text"
                 placeholder="Search orders..."
@@ -144,15 +144,16 @@ export const AdminPageCars = () => {
               <button onClick={handleSearch} className="submit-button">
                 Submit
               </button>
-          </div>
-          <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
-                <option value="all">All Cars</option>
-                <option value="approved">Approved Cars</option>
-                <option value="active">Active Cars</option>
-          </select>
+            </div>
+            <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
+              <option value="all">All Cars</option>
+              <option value="approved">Approved Cars</option>
+              <option value="active">Active Cars</option>
+            </select>
             <table className="car-table">
               <thead>
                 <tr>
+                  <th>Registered</th>
                   <th>Owner</th>
                   <th>Car Brand</th>
                   <th>Car Model</th>
@@ -169,6 +170,17 @@ export const AdminPageCars = () => {
               <tbody>
                 {Array.isArray(cars) && cars.map(car => (
                   <tr key={car.carId}>
+                    <td>
+                      {new Date(car.timeStamp).toLocaleString('en-US', {
+                      timeZone: 'Asia/Manila',
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: false
+                      })}
+                    </td>
                     <td>{car.owner ? `${car.owner.fName} ${car.owner.lName}` : 'No owner'}</td>
                     <td>{car.carBrand}</td>
                     <td>{car.carModel}</td>
@@ -185,7 +197,7 @@ export const AdminPageCars = () => {
                     <td>{car.approved ? 'Yes' : 'No'}</td>
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
                     <td>
-                    <button className="button-approve" onClick={() => handleApprove(car.carId)}>Approve</button>
+                      <button className="button-approve" onClick={() => handleApprove(car.carId)}>Approve</button>
                     </td>
                     <td>
                       <button onClick={() => handleDeleteCar(car.carId)}>Delete</button>
@@ -227,19 +239,18 @@ export const AdminPageCars = () => {
         </div>
       </div>
       {selectedImage && (
-  <Modal
-    isOpen={true}
-    onRequestClose={handleCloseModal}
-    contentLabel="Image Modal"
-    className="image-modal"
-    overlayClassName="image-modal-overlay"
-  >
-    <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Car Document" />
-    <button onClick={handleCloseModal} className="close-button">Close</button>
-  </Modal>
-)}
-</div>
-
+        <Modal
+          isOpen={true}
+          onRequestClose={handleCloseModal}
+          contentLabel="Image Modal"
+          className="image-modal"
+          overlayClassName="image-modal-overlay"
+        >
+          <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Car Document" />
+          <button onClick={handleCloseModal} className="close-button">Close</button>
+        </Modal>
+      )}
+    </div>
   );
 };
 

@@ -13,6 +13,8 @@
     "babel-loader": "^9.1.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
+    "dayjs": "^1.11.13",
+    "dayjs-plugin-utc": "^0.1.2",
     "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

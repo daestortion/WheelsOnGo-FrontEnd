@@ -204,6 +204,7 @@ export const AdminPageOrder = () => {
                 <thead>
                   <tr>
                     <th>Order ID</th>
+                    <th>Created</th>
                     <th>User</th>
                     <th>Car</th>
                     <th>Start Date</th>
@@ -221,6 +222,17 @@ export const AdminPageOrder = () => {
                   {filteredOrders.map(order => (
                     <tr key={order.orderId}>
                       <td>{order.orderId}</td>
+                      <td>
+                        {new Date(order.timeStamp).toLocaleString('en-US', {
+                        timeZone: 'Asia/Manila',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                        })}
+                      </td>
                       <td>{order.user ? `${order.user.fName} ${order.user.lName}` : 'Name not available'}</td>
                       <td>{order.car ? order.car.carModel : 'Car not available'}</td>
                       <td>{order.startDate}</td>
