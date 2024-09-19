@@ -166,7 +166,7 @@ const AdminDashboard = () => {
           <button className="admin-dashboard-menu-item" onClick={handleAdminUsers}>Users</button>
           <button className="admin-dashboard-menu-item" onClick={handleAdminCars}>Cars</button>
           <button className="admin-dashboard-menu-item" onClick={handleAdminVerify}>Verifications</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminOrder}>Orders</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminOrder}>Transactions</button>
           <button className="admin-dashboard-menu-item" onClick={handleAdminReport}>Reports</button>
         </div>
 

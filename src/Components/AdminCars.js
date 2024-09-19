@@ -1,82 +1,34 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
-import "../Css/AdminCars.css";
-import adminbg from "../Images/adminbackground.png";
-import vector from "../Images/adminvector.png";
-import sidelogo from "../Images/sidelogo.png";
+import Modal from 'react-modal';
+import "../Css/AdminCars.css"; // Matching AdminDashboard CSS
+import sidelogo from "../Images/sidelogo.png"; // Logo image
 
-export const AdminPageCars = () => {
+const AdminPageCars = () => {
   const [cars, setCars] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const navigate = useNavigate();
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCars();
   }, []);
-  
+
   const fetchCars = async () => {
     try {
-      const response = await fetch('http://localhost:8080/car/getAllCars');
-      const data = await response.json();
-      console.log("API Data (with timestamp): ", data);  // Log to check the timeStamp field
-      if (Array.isArray(data)) {
-        setCars(data);
-      } else {
-        console.error('API response is not an array:', data);
-        setCars([]);
-      }
+      const response = await axios.get('http://localhost:8080/car/getAllCars');
+      setCars(response.data);
     } catch (error) {
       console.error('Error fetching cars:', error);
-      setCars([]);
     }
-  };  
-
-  const handleAdminUsers = () => {
-    navigate('/adminusers');
-  };
-
-  const handleAdminCars = () => {
-    navigate('/admincars');
-  };
-
-  const handleAdminVerify = () => {
-    navigate('/adminverify');
-  };
-
-  const handleAdminOrder = () => {
-    navigate('/adminorder');
-  };
-
-  const handleReport = () => {
-    navigate('/adminreport');
-  };
-
-  const handleLogout = () => {
-    navigate('/adminlogin');
-  };
-
-  const handleAdminDashboard = () => {
-    navigate('/admin-dashboard'); 
-  };
-
-  const handleShowImage = (imageData) => {
-    setSelectedImage(imageData);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedImage(null);
   };
 
   const handleApprove = async (carId) => {
     try {
-      await fetch(`http://localhost:8080/car/approveCar/${carId}`, {
-        method: 'PUT',
-      });
+      await axios.put(`http://localhost:8080/car/approveCar/${carId}`);
       fetchCars();
     } catch (error) {
       console.error('Error approving car:', error);
@@ -85,13 +37,8 @@ export const AdminPageCars = () => {
 
   const handleDeleteCar = async (carId) => {
     try {
-      const response = await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
-      if (response.status === 200) {
-        console.log(response.data);
-        fetchCars();
-      } else {
-        console.error('Error deleting car:', response.status);
-      }
+      await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
+      fetchCars();
     } catch (error) {
       console.error('Error deleting car:', error);
     }
@@ -104,57 +51,88 @@ export const AdminPageCars = () => {
   const handleSearch = () => {
     setSearchQuery(searchTerm);
   };
-  
-  const filteredCars = cars.filter(car => {
-    switch (filter) {
-      case 'all':
-        return true;
-      case 'approved':
-        return car.approved === true;
-      case 'active':
-        return car.deleted === false;
-      default:
-        return true;
-    }
-  })
-  .filter(car => {
-    const userName = car.owner ? `${car.owner.fName} ${car.owner.lName}` : '';
-    const carBrand = car.carBrand ? car.carBrand : '';
-    const carModel = car.carModel ? car.carModel : '';
-    const searchString = searchQuery.toLowerCase();
 
-    return (
-      userName.toLowerCase().includes(searchString) ||
-      carBrand.toLowerCase().includes(searchString) ||
-      carModel.toLowerCase().includes(searchString)
-    );
-  });
+  const filteredCars = cars
+    .filter(car => {
+      switch (filter) {
+        case 'approved':
+          return car.approved === true;
+        case 'active':
+          return car.deleted === false;
+        default:
+          return true;
+      }
+    })
+    .filter(car => {
+      const searchString = searchQuery.toLowerCase();
+      const userName = car.owner ? `${car.owner.fName} ${car.owner.lName}` : '';
+      const carBrand = car.carBrand ? car.carBrand : '';
+      const carModel = car.carModel ? car.carModel : '';
+
+      return (
+        userName.toLowerCase().includes(searchString) ||
+        carBrand.toLowerCase().includes(searchString) ||
+        carModel.toLowerCase().includes(searchString)
+      );
+    });
+
+  const handleShowImage = (imageData) => {
+    setSelectedImage(imageData);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
+  };
+
+  const handleLogout = () => {
+    navigate('/adminlogin');
+  };
 
   return (
-    <div className="admin-page-cars">
-      <div className="overlap-wrapper">
-        <div className="overlap">
-          <img className="img" alt="Rectangle" src={adminbg} />
-          <div className="manage-cars">Manage&nbsp;&nbsp;Cars</div>
-          <div className="div">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search orders..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className="search-bar"
-              />
-              <button onClick={handleSearch} className="submit-button">
-                Submit
-              </button>
-            </div>
-            <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
+    <div className="admin-cars-page">
+      {/* Topbar */}
+      <div className="admin-dashboard-topbar">
+        <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
+        <button className="admin-dashboard-logout" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+
+      {/* Sidebar */}
+      <div className="admin-dashboard-wrapper">
+        <div className="admin-dashboard-sidebar">
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/admin-dashboard')}>Dashboard</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminusers')}>Users</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/admincars')}>Cars</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminverify')}>Verifications</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminreport')}>Reports</button>
+        </div>
+
+        {/* Main Content */}
+        <div className="admin-dashboard-content">
+          <h2 className="content-title">Manage Cars</h2>
+
+          {/* Search and Filter */}
+          <div className="filter-container">
+            <input
+              type="text"
+              placeholder="Search cars..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="search-bar"
+            />
+            <button onClick={handleSearch} className="submit-button">Search</button>
+            <select onChange={handleFilterChange} value={filter} className="user-filter">
               <option value="all">All Cars</option>
               <option value="approved">Approved Cars</option>
               <option value="active">Active Cars</option>
             </select>
-            <table className="car-table">
+          </div>
+
+          {/* Cars Table */}
+          <div className="cars-table-container">
+            <table className="cars-table">
               <thead>
                 <tr>
                   <th>Registered</th>
@@ -168,23 +146,12 @@ export const AdminPageCars = () => {
                   <th>Approved</th>
                   <th>Status</th>
                   <th>Action</th>
-                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(cars) && cars.map(car => (
+                {filteredCars.map(car => (
                   <tr key={car.carId}>
-                    <td>
-                      {new Date(car.timeStamp).toLocaleString('en-US', {
-                      timeZone: 'Asia/Manila',
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hour12: false
-                      })}
-                    </td>
+                    <td>{new Date(car.timeStamp).toLocaleString()}</td>
                     <td>{car.owner ? `${car.owner.fName} ${car.owner.lName}` : 'No owner'}</td>
                     <td>{car.carBrand}</td>
                     <td>{car.carModel}</td>
@@ -202,50 +169,17 @@ export const AdminPageCars = () => {
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
                     <td>
                       <button className="button-approve" onClick={() => handleApprove(car.carId)}>Approve</button>
-                    </td>
-                    <td>
-                      <button onClick={() => handleDeleteCar(car.carId)}>Delete</button>
+                      <button className="button-delete" onClick={() => handleDeleteCar(car.carId)}>Delete</button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <div className="rectangle-2" />
-          <div className="rectangle-3" />
-
-          <button onClick={handleAdminDashboard}>
-          <div className="text-wrapper-44">Dashboard</div>
-          </button>
-          
-          <img className="sideview" alt="Sideview" src={sidelogo} />
-          <div className="overlap-group-wrapper" onClick={handleAdminCars}>
-            <div className="overlap-group">
-              <div className="text-wrapper-55">Cars</div>
-            </div>
-          </div>
-          <button className="div-wrapper" onClick={handleAdminUsers}>
-            <div className="text-wrapper-55">Users</div>
-          </button>
-          <img className="vector" alt="Vector" src={vector} />
-          <button className="group-2" onClick={handleAdminVerify}>
-            <div className="text-wrapper-66">Verifications</div>
-          </button>
-
-          <button className="group-222" onClick={handleAdminOrder}>
-            <div className="text-wrapper-34">Transactions</div>
-          </button>
-
-          <button className="group-2123" onClick={handleReport}>
-            <div className="text-wrapper-34">Reports</div>
-          </button>
-
-          <div className="table-container"></div>
-          <button className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
         </div>
       </div>
+
+      {/* Image Modal */}
       {selectedImage && (
         <Modal
           isOpen={true}

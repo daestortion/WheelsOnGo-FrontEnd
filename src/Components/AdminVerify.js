@@ -1,17 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import "../Css/AdminVerify.css";
-import adminbg from "../Images/adminbackground.png";
-import vector from "../Images/adminvector.png";
-import sidelogo from "../Images/sidelogo.png";
+import Modal from 'react-modal';
+import "../Css/AdminVerify.css"; // Matching AdminDashboard CSS
+import sidelogo from "../Images/sidelogo.png"; // Logo image
 
-export const AdminVerify = () => {
-  const navigate = useNavigate();
+const AdminVerify = () => {
   const [verifications, setVerifications] = useState([]);
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:8080/verification/getAllVerification')
@@ -22,6 +21,7 @@ export const AdminVerify = () => {
         const userIds = verificationsData
           .filter(verification => verification.user)
           .map(verification => verification.user.userId);
+
         const uniqueUserIds = [...new Set(userIds)];
         uniqueUserIds.forEach(userId => {
           axios.get(`http://localhost:8080/user/getUserById/${userId}`)
@@ -52,7 +52,6 @@ export const AdminVerify = () => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
           verification.vId === vId ? { ...verification, status: 1 } : verification
         ));
-        window.location.reload(); // Refresh the page
       })
       .catch(error => {
         console.error(`Error approving verification ${vId}:`, error);
@@ -65,15 +64,18 @@ export const AdminVerify = () => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
           verification.vId === vId ? { ...verification, status: 2 } : verification
         ));
-        window.location.reload(); // Refresh the page
       })
       .catch(error => {
         console.error(`Error denying verification ${vId}:`, error);
       });
-  };  
+  };
 
-  const handleAdminVerify = () => {
-    navigate('/adminverify'); 
+  const handleLogout = () => {
+    navigate('/adminlogin');
+  };
+
+  const handleAdminDashboard = () => {
+    navigate('/admin-dashboard');
   };
 
   const handleAdminUser = () => {
@@ -84,52 +86,69 @@ export const AdminVerify = () => {
     navigate('/admincars');
   };
 
-  const handleLogout = () => {
-    navigate('/adminlogin');
+  const handleAdminVerify = () => {
+    navigate('/adminverify');
   };
 
   const handleOrder = () => {
-    navigate('/adminorder'); 
+    navigate('/adminorder');
   };
 
   const handleReport = () => {
-    navigate('/adminreport'); 
-  };
-
-  const handleAdminDashboard = () => {
-    navigate('/admin-dashboard'); 
+    navigate('/adminreport');
   };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
-  
+
   const filteredVerifications = verifications.filter(verification => {
     switch (filter) {
-      case 'all':
-        return true; // Include all verifications
       case 'verified':
-        return verification.status === 1; // Only include verified verifications (status = 1)
+        return verification.status === 1;
       case 'pending':
-        return verification.status === 0; // Only include pending verifications (status = 0)
+        return verification.status === 0;
       default:
-        return true; // Safe fallback, includes all verifications
+        return true;
     }
   });
-  
 
   return (
-    <div className="admin-page">
-      <div className="div">
-        <div className="overlap">
-          <img className="rectangle" alt="Rectangle" src={adminbg} />
-          <div className="text-wrapper">Pending Verifications</div>
-          <div className="rectangle-2">
-          <select onChange={handleFilterChange} value={filter} className="user-filter-dropdown">
-                <option value="all">All Verications</option>
-                <option value="verified">Verified</option>
-                <option value="pending">Pending</option>
-          </select>
+    <div className="admin-verify-page">
+      {/* Topbar */}
+      <div className="admin-dashboard-topbar">
+        <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
+        <button className="admin-dashboard-logout" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+
+      {/* Sidebar */}
+      <div className="admin-dashboard-wrapper">
+        <div className="admin-dashboard-sidebar">
+          <button className="admin-dashboard-menu-item" onClick={handleAdminDashboard}>Dashboard</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminUser}>Users</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminCars}>Cars</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminVerify}>Verifications</button>
+          <button className="admin-dashboard-menu-item" onClick={handleOrder}>Transactions</button>
+          <button className="admin-dashboard-menu-item" onClick={handleReport}>Reports</button>
+        </div>
+
+        {/* Main Content */}
+        <div className="admin-dashboard-content">
+          <h2 className="content-title">Pending Verifications</h2>
+
+          {/* Filter */}
+          <div className="filter-container">
+            <select onChange={handleFilterChange} value={filter} className="user-filter">
+              <option value="all">All Verifications</option>
+              <option value="verified">Verified</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+
+          {/* Verifications Table */}
+          <div className="verifications-table-container">
             <table className="verifications-table">
               <thead>
                 <tr>
@@ -144,85 +163,40 @@ export const AdminVerify = () => {
                 </tr>
               </thead>
               <tbody>
-              {filteredVerifications.map((verification) => (
-                <tr key={verification.vid}>
-                  <td>{verification.vid}</td>
-                  <td>
-                      {new Date(verification.timeStamp).toLocaleString('en-US', {
-                      timeZone: 'Asia/Manila',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                    })}
-                  </td>
-                  <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
-                  <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
-                  <td>{verification.status ? 'Verified' : 'Pending'}</td>
-                  <td>
-                    {verification.govId ? (
-                      <button className="button-show-image" onClick={() => handleShowImage(verification.govId)}>Show Image</button>
-                    ) : 'Not Uploaded'}
-                  </td>
-                  <td>
-                    {verification.driversLicense ? (
-                      <button className="button-show-image" onClick={() => handleShowImage(verification.driversLicense)}>Show Image</button>
-                    ) : 'Not Uploaded'}
-                  </td>
-                  <td>
-                    <button className="button-approve" onClick={() => handleApprove(verification.vid)}>Approve</button>
-                    <button className="button-deny" onClick={() => handleDeny(verification.vid)}>Deny</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                {filteredVerifications.map(verification => (
+                  <tr key={verification.vId}>
+                    <td>{verification.vId}</td>
+                    <td>{new Date(verification.timeStamp).toLocaleString()}</td>
+                    <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
+                    <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
+                    <td>{verification.status === 1 ? 'Verified' : 'Pending'}</td>
+                    <td>{verification.govId ? <button onClick={() => handleShowImage(verification.govId)} className="button-show-image">Show Image</button> : 'Not Uploaded'}</td>
+                    <td>{verification.driversLicense ? <button onClick={() => handleShowImage(verification.driversLicense)} className="button-show-image">Show Image</button> : 'Not Uploaded'}</td>
+                    <td>
+                      <button className="button-approve" onClick={() => handleApprove(verification.vId)}>Approve</button>
+                      <button className="button-deny" onClick={() => handleDeny(verification.vId)}>Deny</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
-          <div className="rectangle-3" />
-
-          <button className="group-2"onClick={handleOrder}>
-            <div className="text-wrapper-34">Transactions</div>
-          </button>
-
-          <button className="group-233" onClick={handleReport}>
-            <div className="text-wrapper-34">Reports</div>
-          </button>
-          
-          <button className="group" onClick={handleAdminCars}>
-            <div className="text-wrapper-22">Cars</div>
-          </button>
-          <button className="overlap-wrapper" onClick={handleAdminUser}>
-            <div className="text-wrapper-22">Users</div>
-          </button>
-          <button className="overlap-group-wrapper" onClick={handleAdminVerify}>
-            <div className="text-wrapper-33">Verifications</div>
-          </button>
-          <div className="rectangle-4" />
-
-          <button onClick={handleAdminDashboard}>
-          <div className="text-wrapper-44">Dashboard</div>
-          </button>
-          <img className="vector" alt="Vector" src={vector} />
         </div>
-        <button className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
-        <img className="sideview" alt="Sideview" src={sidelogo} />
       </div>
 
-     {/* Verify Image Modal */}
-     {selectedImage && (
-        <div className="verify-image-modal">
-          <div className="modal-content">
-            <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Car Document" />
-            <button onClick={handleCloseModal}>Close</button>
-          </div>
-        </div>
+      {/* Image Modal */}
+      {selectedImage && (
+        <Modal
+          isOpen={true}
+          onRequestClose={handleCloseModal}
+          contentLabel="Image Modal"
+          className="image-modal"
+          overlayClassName="image-modal-overlay"
+        >
+          <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Verification Document" />
+          <button onClick={handleCloseModal} className="close-button">Close</button>
+        </Modal>
       )}
-
-      
     </div>
   );
 };

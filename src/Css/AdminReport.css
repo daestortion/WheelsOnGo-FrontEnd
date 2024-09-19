@@ -1,388 +1,173 @@
-.admin-page-reports {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    height: 100vh;
-}
-
-.admin-page-reports .div {
-    background-color: #ffffff;
-    position: relative;
-    width: 1920px;
-    height: 100%;
-}
-
-.admin-page-reports .overlap {
-    height: 831px;
-    left: 0;
-    position: absolute;
-    top: 108px;
-    width: 1920px;
-}
-
-.admin-page-reports .rectangle {
-    height: 827px;
-    left: 0;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    width: 1920px;
-}
-
-.admin-page-reports .rectangle-2 {
-    background-color: #840000;
-    height: 831px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 456px;
-}
-
-.admin-page-reports .group {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 234px;
-    width: 458px;
-}
-
-.admin-page-reports .overlap-group {
-    border-radius: 40px;
-    height: 92px;
-    position: relative;
-    width: 456px;
-    border: none;
-    background: none;
-    transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-reports .overlap-group:hover {
-    background-color: #e32128;
-    border-radius: 40px;
-}
-
-.admin-page-reports .text-wrapper {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 139px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 25px;
-    width: 171px;
-}
-
-.admin-page-reports .overlap-wrapper {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 138px;
-    width: 458px;
-}
-
-.admin-page-reports .overlap-group-wrapper {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 330px;
-    width: 458px;
-}
-
-.admin-page-reports .div-wrapper {
-    background-size: 100% 100%;
-    height: 92px;
-    position: relative;
-    width: 456px;
-}
-
-.admin-page-reports .text-wrapper-2 {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 35px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 25px;
-    width: 385px;
-}
-
-.admin-page-reports .group-2 {
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 426px;
-    width: 458px;
-}
-
-.admin-page-reports .text-wrapper-3 {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 109px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 46px;
-    width: 231px;
-}
-
-.admin-page-reports .vector {
-    height: 112px;
-    left: 0;
-    position: absolute;
-    top: 719px;
-    width: 1920px;
-}
-
-.admin-page-reports .rectangle-3 {
-    background-color: #ffffff;
-    border-radius: 10px;
-    height: 640px;
-    left: 484px;
-    position: absolute;
-    top: 98px;
-    width: 1408px;
-    display: flex;
-    flex-direction: row;
-}
-
-.admin-page-reports .text-wrapper-4 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 35px;
-    font-weight: 700;
-    left: 484px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 29px;
-    white-space: nowrap;
-}
-
-.admin-page-reports .rectangle-4 {
-    background-color: #e32128;
-    border-radius: 40px;
-    height: 92px;
-    left: 0;
-    position: absolute;
-    top: 522px;
-    width: 456px;
-}
-
-.admin-page-reports .text-wrapper-5 {
-    color: #ffffff;
-    font-family: "Inter-SemiBold", Helvetica;
-    font-size: 32px;
-    font-weight: 600;
-    left: 139px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 546px;
-    width: 171px;
-}
-
-.admin-page-reports .text-wrapper-6 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1327px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-}
-
-.admin-page-reports .text-wrapper-7 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1465px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-}
-
-.admin-page-reports .text-wrapper-8 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1589px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-}
-
-.admin-page-reports .img {
-    height: 50px;
-    left: 1779px;
-    position: absolute;
-    top: 31px;
-    width: 50px;
-}
-
-.admin-page-reports .sideview {
-    height: 75px;
-    left: 55px;
-    object-fit: cover;
-    position: absolute;
-    top: 19px;
-    width: 291px;
-}
-
-.admin-page-reports .div {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-}
-
-.admin-page-reports .overlap {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.admin-page-reports .sidebar {
-    background-color: #e80029;
-    width: 250px;
+/* Overall Page */
+.admin-report-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+    height: 100vh;
 }
 
-.admin-page-reports .sidebar-button {
-    width: 100%;
-    padding: 20px;
-    color: #ffffff;
-    background: none;
+/* Topbar */
+.admin-dashboard-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 15px 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dashboard-logo {
+    height: 50px;
+    width: auto;
+}
+
+.admin-dashboard-logout {
+    padding: 10px 20px;
+    background-color: #ff4b4b;
+    color: white;
     border: none;
-    text-align: left;
-    padding-left: 30px;
-    font-size: 18px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.admin-page-reports .sidebar-button.active {
-    background-color: #c7001a;
+/* Sidebar */
+.admin-dashboard-wrapper {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 80px); /* Adjust height to take the remaining space after top bar */
 }
 
-.admin-page-reports .content {
+.admin-dashboard-sidebar {
+    background-color: #840000;
+    width: 250px;
+    height: 100%;
     display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.admin-dashboard-menu-item {
+    padding: 15px;
+    background-color: #840000;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.admin-dashboard-menu-item:hover,
+.admin-dashboard-menu-item.active {
+    background-color: #e32128;
+}
+
+/* Main Content */
+.admin-dashboard-content {
     flex: 1;
     padding: 20px;
-    background-color: #f9f9f9; /* Background color for better contrast */
-    border-radius: 10px; /* Rounded corners for better aesthetics */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+    background-color: #f9f9f9;
+    overflow-y: auto;
 }
 
-.admin-page-reports .reports-list-header {
+.content-title {
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-.admin-page-reports .reports-list {
-    width: 500px;
-    border-right: 1px solid #cccccc;
+/* Reports Content */
+.reports-content {
+    display: flex;
+    gap: 20px;
+}
+
+.reports-list {
+    width: 35%;
+    border-right: 1px solid #ccc;
     overflow-y: auto;
-    padding-right: 10px; /* Spacing between scrollbar and content */
-    margin-right: 20px; /* Spacing between the list and details section */
 }
 
-.admin-page-reports .report-item {
-    padding: 15px;
-    border-bottom: 1px solid #cccccc;
+.report-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transition: background-color 0.2s;
 }
 
-.admin-page-reports .report-item:hover {
+.report-item:hover {
     background-color: #f0f0f0;
-    transform: scale(1.02); /* Slight scaling effect on hover */
 }
 
-.admin-page-reports .report-item.selected {
-    background-color: #d0eaff; /* Highlight selected item */
+.report-item.selected {
+    background-color: #d0eaff;
 }
 
-.admin-page-reports .report-title {
-    color: #000000;
-    margin-bottom: 5px;
+.report-title {
+    font-size: 16px;
+    font-weight: normal;
 }
 
-.admin-page-reports .report-user {
+.report-title.bold {
+    font-weight: bold;
+}
+
+.report-user {
     display: flex;
     align-items: center;
-    color: #666666; /* Slightly darker color for better readability */
+    font-size: 14px;
+    color: #666;
 }
 
-.admin-page-reports .user-profile-pic {
+.user-profile-pic {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-.admin-page-reports .report-details {
-    flex: 1;
-    padding: 20px;
-    background-color: #ffffff; /* White background for details card */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+.user-profile-pic-placeholder {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
 }
 
-.admin-page-reports .report-details-card {
+/* Report Details */
+.report-details {
+    width: 65%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.report-details-card {
     padding: 20px;
 }
 
 .report-title-black {
-    color: #000000;
-    margin-bottom: 10px; /* Spacing between title and description */
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .report-description-black {
-    color: #333333; /* Darker color for better readability */
-    margin-bottom: 10px; /* Spacing between description and status */
-}
-
-.report-status-black {
-    color: #666666;
-    margin-bottom: 10px; /* Spacing between status and submitted by */
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .report-submitted-by-black {
-    color: #999999; /* Lighter color for less important text */
+    font-size: 14px;
+    color: #666;
 }
 
 .select-report {
-    color: #999999; /* Lighter color for placeholder text */
-}
-
-.unread .report-title,
-.unread .report-user {
-    font-weight: bold;
-}
-
-.read .report-title,
-.read .report-user {
-    font-weight: normal;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
 }
