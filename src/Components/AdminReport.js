@@ -66,6 +66,10 @@ export const AdminPageReports = () => {
     const handleOrder = () => {
         navigate('/adminorder');
     };
+    
+  const handleAdminDashboard = () => {
+    navigate('/admin-dashboard'); 
+  };
 
     return (
         <div className="admin-page-reports">
@@ -93,7 +97,11 @@ export const AdminPageReports = () => {
                             <div className="text-wrapper">Transactions</div>
                         </button>
                     </div>
+
+                    <button onClick={handleAdminDashboard}>
                     <div className="text-wrapper-3">Dashboard</div>
+                    </button>
+                    
                     <img className="vector" alt="Vector" src={vector} />
                     <div className="rectangle-3">
                         <div className="content">

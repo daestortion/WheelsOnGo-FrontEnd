@@ -13,8 +13,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import "../Css/AdminDashboard.css";  // Custom CSS for styling the dashboard
-import sidelogo from "../Images/sidelogo.png";  // Import your logo
+import "../Css/AdminDashboard.css"; 
+import sidelogo from "../Images/sidelogo.png";  
+import { useNavigate } from "react-router-dom";
+
 
 // Register Chart.js components
 ChartJS.register(
@@ -33,6 +35,8 @@ const AdminDashboard = () => {
   const [userData, setUserData] = useState({ total: 0, owners: 0, regular: 0 });
   const [carData, setCarData] = useState({ total: 0, rented: 0, available: 0 });
   const [orderData, setOrderData] = useState({ total: 0, pending: 0, completed: 0 });
+
+  const navigate = useNavigate();
 
   // Fetch user data
   const fetchUserData = async () => {
@@ -121,6 +125,30 @@ const AdminDashboard = () => {
     fetchOrderData();
   }, []);
 
+  const handleAdminCars = () => {
+    navigate('/admincars');
+  };
+
+  const handleAdminUsers = () => {
+    navigate('/adminusers');
+  };
+
+  const handleAdminVerify = () => {
+    navigate('/adminverify');
+  };
+
+  const handleAdminOrder = () => {
+    navigate('/adminorder'); 
+  };
+
+  const handleAdminReport = () => {
+    navigate('/adminreport'); 
+  };
+
+  const handleAdminDashboard = () => {
+    navigate('/admin-dashboard'); 
+  };
+
   return (
     <div className="admin-dashboard-page">
       {/* Top navigation bar */}
@@ -134,11 +162,12 @@ const AdminDashboard = () => {
       <div className="admin-dashboard-wrapper">
         {/* Sidebar */}
         <div className="admin-dashboard-sidebar">
-          <button className="admin-dashboard-menu-item">Dashboard</button>
-          <button className="admin-dashboard-menu-item">Users</button>
-          <button className="admin-dashboard-menu-item">Cars</button>
-          <button className="admin-dashboard-menu-item">Orders</button>
-          <button className="admin-dashboard-menu-item">Reports</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminDashboard}>Dashboard</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminUsers}>Users</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminCars}>Cars</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminVerify}>Verifications</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminOrder}>Orders</button>
+          <button className="admin-dashboard-menu-item" onClick={handleAdminReport}>Reports</button>
         </div>
 
         {/* Main Analytics Section */}

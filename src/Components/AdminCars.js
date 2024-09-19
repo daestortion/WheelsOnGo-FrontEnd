@@ -60,6 +60,10 @@ export const AdminPageCars = () => {
     navigate('/adminlogin');
   };
 
+  const handleAdminDashboard = () => {
+    navigate('/admin-dashboard'); 
+  };
+
   const handleShowImage = (imageData) => {
     setSelectedImage(imageData);
   };
@@ -209,7 +213,11 @@ export const AdminPageCars = () => {
           </div>
           <div className="rectangle-2" />
           <div className="rectangle-3" />
+
+          <button onClick={handleAdminDashboard}>
           <div className="text-wrapper-44">Dashboard</div>
+          </button>
+          
           <img className="sideview" alt="Sideview" src={sidelogo} />
           <div className="overlap-group-wrapper" onClick={handleAdminCars}>
             <div className="overlap-group">

@@ -52,6 +52,10 @@ export const AdminPageUsers = () => {
     navigate('/adminreport'); 
   };
 
+  const handleAdminDashboard = () => {
+    navigate('/admin-dashboard'); 
+  };
+
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
@@ -119,7 +123,10 @@ export const AdminPageUsers = () => {
             <div className="text-wrapper">Reports</div>
           </button>
 
+          <button onClick={handleAdminDashboard}>
           <div className="text-wrapper-33">Dashboard</div>
+          </button>
+          
           <img className="vector" alt="Vector" src={vector} />
           <div className="text-wrapper-4">Manage Users</div>
           <div className="rectangle-3">

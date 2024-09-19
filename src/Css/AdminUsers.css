@@ -10,11 +10,11 @@
 }
 
 .admin-page-users .div {
-  background-color: #ffffff;
-  position: relative;
-  width: 1920px;
+  width: 100%; /* Takes full width of the screen */
+  max-width: 1920px; /* Maximum width constraint */
   height: 100%; /* Adjust to 100% of parent's height */
 }
+
 
 .admin-page-users .overlap {
   height: 100%;

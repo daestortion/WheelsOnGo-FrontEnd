@@ -96,6 +96,10 @@ export const AdminVerify = () => {
     navigate('/adminreport'); 
   };
 
+  const handleAdminDashboard = () => {
+    navigate('/admin-dashboard'); 
+  };
+
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
@@ -196,7 +200,10 @@ export const AdminVerify = () => {
             <div className="text-wrapper-33">Verifications</div>
           </button>
           <div className="rectangle-4" />
+
+          <button onClick={handleAdminDashboard}>
           <div className="text-wrapper-44">Dashboard</div>
+          </button>
           <img className="vector" alt="Vector" src={vector} />
         </div>
         <button className="logout-button" onClick={handleLogout}>
