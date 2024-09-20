@@ -1,307 +1,114 @@
-.admin-page-users {
-  background-color: #ffffff;
+/* Overall Page */
+.admin-users-page {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   width: 100%;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Disable vertical scrolling */
-  height: 100vh; /* Limit the height to the viewport height */
+  height: 100vh;
 }
 
-.admin-page-users .div {
-  background-color: #ffffff;
-  position: relative;
-  width: 1920px;
-  height: 100%; /* Adjust to 100% of parent's height */
+/* Topbar */
+.admin-dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.admin-page-users .overlap {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 108px;
-  width: 1920px;
-}
-
-.admin-page-users .rectangle {
-  height: 830px;
-  left: 0;
-  object-fit: cover;
-  position: absolute;
-  width: 1920px;
-}
-
-.admin-page-users .rectangle-2 {
-  background-color: #840000;
-  height: 830px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 456px;
-}
-
-.admin-page-users .group {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 234px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-users .group:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-users .overlap-group {
-  background-color: #e32128;
-  border-radius: 40px;
-  height: 92px;
-  position: relative;
-  width: 456px;
-}
-
-.admin-page-users .text-wrapper {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 139px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 25px;
-  width: 171px;
-}
-
-.admin-page-users .overlap-wrapper {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 138px;
-  width: 456px;
-  border: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-users .overlap-group-wrapper {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 330px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-users .overlap-group-wrapper:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-users .group-2 {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 426px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-users .group-2:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-users .group-234 {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 522px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-users .group-234:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-users .div-wrapper {
-  background-size: 100% 100%;
-  height: 92px;
-  position: relative;
-  width: 456px;
-}
-
-.admin-page-users .text-wrapper-22 {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 35px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 25px;
-  width: 385px;
-}
-
-.admin-page-users .text-wrapper-33 {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 109px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 46px;
-  width: 231px;
-}
-
-.admin-page-users .vector {
-  height: 112px;
-  left: 0;
-  position: absolute;
-  top: 719px;
-  width: 1920px;
-}
-
-.admin-page-users .rectangle-3 {
-  background-color: #ffffff;
-  border-radius: 10px;
-  height: 640px;
-  left: 484px;
-  position: absolute;
-  top: 98px;
-  width: 1408px;
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.admin-page-users .text-wrapper-4 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 35px;
-  font-weight: 700;
-  left: 484px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 29px;
-  white-space: nowrap;
-}
-
-.admin-page-users .text-wrapper-5 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1327px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-}
-
-.admin-page-users .text-wrapper-6 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1465px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-}
-
-.admin-page-users .text-wrapper-7 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1589px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-}
-
-.admin-page-users .img {
+.admin-dashboard-logo {
   height: 50px;
-  left: 1760px;
-  position: absolute;
-  top: 15px;
-  width: 50px;
+  width: auto;
+}
+
+.admin-dashboard-logout {
+  padding: 10px 20px;
+  background-color: #ff4b4b;
+  color: white;
   border: none;
-  background: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.admin-page-users .sideview {
-  height: 75px;
-  left: 55px;
-  object-fit: cover;
-  position: absolute;
-  top: 19px;
-  width: 291px;
-}
-
-/* Additional styles for the table */
-.table-wrapper {
+/* Sidebar */
+.admin-dashboard-wrapper {
+  display: flex;
   width: 100%;
-  overflow-x: auto; /* Enable horizontal scrolling */
+  height: calc(100vh - 80px); /* Adjust height to take the remaining space after top bar */
+}
+
+.admin-dashboard-sidebar {
+  background-color: #840000;
+  width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.admin-dashboard-menu-item {
+  padding: 15px;
+  background-color: #840000;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.admin-dashboard-menu-item:hover {
+  background-color: #e32128;
+}
+
+/* Main Content */
+.admin-dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.content-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Filter Section */
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.user-filter {
+  padding: 8px;
+  font-size: 16px;
+}
+
+/* Users Table */
+.users-table-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .users-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 18px;
-  text-align: left;
 }
 
 .users-table th, .users-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  border: 1px solid #ddd;
 }
 
 .users-table th {
   background-color: #e32128;
   color: white;
-  font-weight: bold;
 }
 
-
-.users-table tr {
-  border-bottom: 1px solid #ddd;
-}
-
-.users-table tr:nth-of-type(even) {
-  background-color: #f9f9f9;
-}
-
-.users-table tr:hover {
-  background-color: #f1f1f1;
+.users-table td {
+  text-align: center;
 }
 
 .profile-pic {
@@ -311,16 +118,9 @@
   object-fit: cover;
 }
 
-/* Change font color of table to black */
-.users-table td {
-  color: #000;
-}
-
-.admin-page-users .logout-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
+/* Button Deactivate */
+.button-deactivate {
+  padding: 8px 12px;
   background-color: #ff4b4b;
   color: white;
   border: none;
@@ -328,21 +128,6 @@
   cursor: pointer;
 }
 
-.admin-page-users .logout-button:hover {
+.button-deactivate:hover {
   background-color: #ff0000;
 }
-
-.admin-page-users .button-deactivate {
-  background-color: #e32128;
-  color: white;
-  border: none;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-

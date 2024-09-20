@@ -1,297 +1,159 @@
-.admin-page-cars {
-  background-color: #ffffff;
+/* Overall Page */
+.admin-cars-page {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   width: 100%;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Disable vertical scrolling */
-  height: 100vh; /* Limit the height to the viewport height */
+  height: 100vh;
 }
 
-.admin-page-cars .overlap-wrapper {
-  background-color: #ffffff;
-  height: 939px;
-  width: 1920px;
-  height: 100%; /* Adjust to 100% of parent's height */
+/* Topbar */
+.admin-dashboard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.admin-page-cars .overlap {
-  height: 939px;
-  position: relative;
-}
-
-.admin-page-cars .rectangle {
-  background-color: #ffffff;
-  box-shadow: 0px 4px 4px #00000040;
-  height: 112px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 1920px;
-}
-
-.admin-page-cars .img {
-  height: 827px;
-  left: 0;
-  object-fit: cover;
-  position: absolute;
-  top: 108px;
-  width: 1920px;
-}
-
-.admin-page-cars .manage-cars {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 35px;
-  font-weight: 700;
-  left: 490px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 137px;
-  white-space: nowrap;
-}
-
-.admin-page-cars .div {
-  background-color: #ffffff;
-  border-radius: 10px;
-  height: 640px;
-  left: 484px;
-  position: absolute;
-  top: 206px;
-  width: 1408px;
-}
-
-.admin-page-cars .text-wrapper {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1327px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-}
-
-.admin-page-cars .text-wrapper-2 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1465px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-}
-
-.admin-page-cars .text-wrapper-3 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1589px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-}
-
-.admin-page-cars .group {
+.admin-dashboard-logo {
   height: 50px;
-  left: 1760px;
-  position: absolute;
-  top: 15px;
-  width: 50px;
+  width: auto;
+}
+
+.admin-dashboard-logout {
+  padding: 10px 20px;
+  background-color: #ff4b4b;
+  color: white;
   border: none;
-  background: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.admin-page-cars .rectangle-2 {
+/* Sidebar */
+.admin-dashboard-wrapper {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 80px); /* Adjust height to take the remaining space after top bar */
+}
+
+.admin-dashboard-sidebar {
   background-color: #840000;
-  height: 827px;
-  left: 0;
-  position: absolute;
-  top: 108px;
-  width: 456px;
+  width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 }
 
-.admin-page-cars .rectangle-3 {
+.admin-dashboard-menu-item {
+  padding: 15px;
   background-color: #840000;
-  height: 122px;
-  left: 0;
-  position: absolute;
-  top: 112px;
-  width: 456px;
-}
-
-.admin-page-cars .text-wrapper-44 {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 109px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
+  color: white;
+  font-size: 16px;
   text-align: center;
-  top: 154px;
-  width: 231px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
 }
 
-.admin-page-cars .sideview {
-  height: 75px;
-  left: 55px;
-  object-fit: cover;
-  position: absolute;
-  top: 19px;
-  width: 291px;
-}
-
-.admin-page-cars .overlap-group-wrapper {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 342px;
-  width: 458px;
-}
-
-.admin-page-cars .overlap-group {
+.admin-dashboard-menu-item:hover {
   background-color: #e32128;
-  border-radius: 40px;
-  height: 92px;
-  position: relative;
-  width: 456px;
 }
 
-.admin-page-cars .text-wrapper-55 {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 139px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
+/* Main Content */
+.admin-dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.content-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Search and Filter */
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  padding: 8px;
+  width: 200px;
+  font-size: 16px;
+}
+
+.submit-button {
+  padding: 8px 12px;
+  background-color: #00c04b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.user-filter {
+  padding: 8px;
+  font-size: 16px;
+}
+
+/* Cars Table */
+.cars-table-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cars-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cars-table th, .cars-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.cars-table th {
+  background-color: #e32128;
+  color: white;
+}
+
+.cars-table td {
   text-align: center;
-  top: 25px;
-  width: 171px;
 }
 
-.admin-page-cars .div-wrapper {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 246px;
-  width: 456px;
+/* Button Approve and Delete */
+.button-approve, .button-delete {
+  padding: 8px 12px;
+  background-color: #00c04b;
+  color: white;
   border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 2px;
 }
 
-.admin-page-cars .div-wrapper:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
+.button-delete {
+  background-color: #ff4b4b;
 }
 
-.admin-page-cars .vector {
-  height: 112px;
-  left: 0;
-  position: absolute;
-  top: 827px;
-  width: 1920px;
+.button-approve:hover {
+  background-color: #009d40;
 }
 
-.admin-page-cars .group-2 {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 438px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+.button-delete:hover {
+  background-color: #ff0000;
 }
 
-.admin-page-cars .group-2:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-cars .overlap-2 {
-  background-image: url(../Images/adminbackground.png);
-  background-size: 100% 100%;
-  height: 92px;
-  position: relative;
-  width: 456px;
-}
-
-.admin-page-cars .text-wrapper-66 {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 103px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 25px;
-  width: 249px;
-}
-
-.admin-page-cars .group-222 {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 534px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-cars .group-222:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-cars .group-2123 {
-  height: 92px;
-  left: 0;
-  position: absolute;
-  top: 630px;
-  width: 456px;
-  border: none;
-  background: none;
-  transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
-}
-
-.admin-page-cars .group-2123:hover {
-  background-color: #e32128; /* Change to desired hover background color */
-  border-radius: 40px;
-}
-
-.admin-page-cars .text-wrapper-34 {
-  color: #ffffff;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 32px;
-  font-weight: 600;
-  left: 139px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 25px;
-  width: 171px;
-}
-
+/* Image Modal */
 .image-modal {
   position: fixed;
   top: 50%;
@@ -301,13 +163,12 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
 }
 
 .image-modal img {
-  width: 400px; /* Set desired width */
-  height: 400px; /* Set desired height */
-  object-fit: cover; /* Ensure images maintain aspect ratio */
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
 }
 
 .image-modal-overlay {
@@ -317,94 +178,14 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
 }
 
-.car-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  font-family: "Inter-Regular", Helvetica, Arial, sans-serif;
-}
-
-.car-table thead {
-  background-color: #f8f8f8;
-}
-
-.car-table th, .car-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.car-table th {
-  background-color: #e32128;
-  color: white;
-  font-weight: bold;
-}
-
-.car-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.car-table tr:hover {
-  background-color: #ddd;
-}
-
-.car-table button {
-  background-color: #e32128;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.car-table button:hover {
-  background-color: #d11a24;
-}
-
-.admin-page-cars .logout-button {
-  position: absolute;
-  top: 128px;
-  right: 20px;
-  padding: 10px 20px;
-  background-color: #ff4b4b;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.admin-page-cars .logout-button:hover {
-  background-color: #ff0000;
-}
-
-.image-modal .close-button:hover {
-  background-color: #007BFF; /* Change to desired hover background color */
-}
-
-.image-modal .close-button {
+.close-button {
+  margin-top: 10px;
   background-color: #007BFF;
   color: white;
   border: none;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.car-table .button-approve {
-  background-color: #00c04b;
-  color: white;
-  border: none;
   padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
 }

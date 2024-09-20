@@ -227,7 +227,7 @@ export const OrderHistoryPage = () => {
               <div className="text-wrapper-4">Rent History</div>
             </button>
           </div>
-          <div className="text-wrapper-5">Order History</div>
+          <div className="text-wrapper-5">Transaction History</div>
         </div>
       </div>
     </div>

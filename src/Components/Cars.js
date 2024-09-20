@@ -11,7 +11,6 @@ import Loading from "../Components/Loading.js";
 import VerifyFirstPopup from './VerifyFirstPopup.js';
 import RentOwnPopup from './RentOwnPopup.js';
 import { PendingRent } from './PendingPopup.js';
-import CarDetailsPopup from '../Components/CarDetailsPopup.js'; // Import the CarDetailsPopup
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
@@ -105,10 +104,6 @@ export const Cars = () => {
     }
   };
 
-  const handleViewDetailsClick = (carId) => {
-    setShowDetailsPopup(carId); // Show the details popup for the specific car
-  };
-
   const closeDetailsPopup = () => {
     setShowDetailsPopup(null); // Close the details popup
   };
@@ -124,25 +119,26 @@ export const Cars = () => {
         <div className="overlap">
           <img className="vector" alt="Vector" src={design} />
           <div className="frame">
+            
             <div className="cars-grid">
               {cars.length > 0 ? cars.map((car, index) => (
-                <div key={index} className="overlap-group">
-                  {car.carImage && (
-                    <img src={car.carImage} alt="Car" className="car-image" />
-                  )}
-                  <div className="overlap-group-wrapper">
-                    <button className="div-wrapper" onClick={() => handleRentClick(car)}>
-                      <div className="text-wrapper">Rent</div>
-                    </button>
-                    <button className="div-wrapper11" onClick={() => handleViewDetailsClick(car.id)}>
-                      <div className="text-wrapperr">View Details</div>
-                    </button>
-                    {/* Show the details popup within the car container if the car ID matches */}
-                    {showDetailsPopup === car.id && (
-                      <div className="car-details-popup-container">
-                        <CarDetailsPopup car={car} closePopup={closeDetailsPopup} />
-                      </div>
+                <div key={index}>
+                  <div className="overlap-group">
+                    {car.carImage && (
+                      <img src={car.carImage} alt="Car" className="car-image" />
                     )}
+                    <div className="overlap-group-wrapper">
+                      <button className="div-wrapper" onClick={() => handleRentClick(car)}>
+                        <div className="text-wrapper">Rent</div>
+                      </button>
+                    </div>
+                  </div>
+                  {/* Display car details outside of the car container */}
+                  <div className="car-info-outside">
+                    <div className="car-details">
+                      {car.carBrand} {car.carModel} ({car.carYear})
+                    </div>
+                    <div className="car-price">₱{car.rentPrice}/day</div>
                   </div>
                 </div>
               )) :
