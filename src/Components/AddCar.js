@@ -311,10 +311,11 @@ export const AddCar = () => {
             <div className="group-7">
               <input
                 className="div-wrapper4"
-                type="number" inputMode="numeric"
+                type="number"
+                inputMode="decimal"
                 placeholder="Price"
                 value={rentPrice}
-                onChange={(e) => setRentPrice(e.target.value)}
+                onChange={(e) => setRentPrice(parseFloat(e.target.value))} // Convert input to float
               />
             </div>
             <div className="group-7">

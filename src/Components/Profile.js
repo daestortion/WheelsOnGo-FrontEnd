@@ -218,20 +218,25 @@ const UserProfile = () => {
                     <div className="overlap-2">
                         <div className="overlap-3">
                             <div className="text-wrapper-3">{currentUser.fName} {currentUser.lName}</div>
-                            <div className="group-wrapper">
-                                {currentUser.verificationStatus === 1 ? (
+                            <div className="user-info">
+                                <div className="text-wrapper-3">
+                                    {currentUser.fName} {currentUser.lName}
+                                </div>
+                                <div className="group-wrapper">
+                                    {currentUser.verificationStatus === 1 ? (
                                     <img className="vector" alt="Vector" src={check} />
-                                ) : currentUser.verificationStatus === 0 ? (
+                                    ) : currentUser.verificationStatus === 0 ? (
                                     <div className="text-wrapper-69">Pending Verification</div>
-                                ) : currentUser.verificationStatus === 2 ? (
+                                    ) : currentUser.verificationStatus === 2 ? (
                                     <div className="reverify">
                                         Verification denied, please <span className="reverify-link" onClick={toggleReverifyPopup}>reverify.</span>
                                     </div>
-                                ) : (
+                                    ) : (
                                     <button className="div-wrapper" onClick={toggleVerifyPopup}>
                                         <div className="text-wrapper-4">Verify Account</div>
                                     </button>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <p className="p">{currentUser.pNum} | {currentUser.email}</p>
