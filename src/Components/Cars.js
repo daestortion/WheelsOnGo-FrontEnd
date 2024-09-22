@@ -138,7 +138,7 @@ export const Cars = () => {
                     <div className="car-details">
                       {car.carBrand} {car.carModel} ({car.carYear})
                     </div>
-                    <div className="car-price">₱{car.rentPrice}/day</div>
+                    <div className="car-price">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / day</div>
                   </div>
                 </div>
               )) :

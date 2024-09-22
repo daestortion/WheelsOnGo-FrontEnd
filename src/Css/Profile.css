@@ -119,33 +119,33 @@
 }
 
 .profile-verified .overlap-3 {
-  height: 63px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 832px;
+  display: flex;
+  align-items: center; /* Vertically align the items */
+  gap: 10px; /* Optional: Add space between the name and the verification icon */
+  width: 100%; /* Ensure it takes full width */
 }
 
 .profile-verified .text-wrapper-3 {
+  flex-grow: 1; /* Allow the name to grow and take available space */
+  white-space: nowrap; /* Prevent wrapping of the name */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis (...) if the text is too long */
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
   font-size: 50px;
   font-weight: 600;
-  left: 0;
   letter-spacing: 0.62px;
   line-height: normal;
-  position: absolute;
-  top: 0;
-  width: 575px;
 }
 
 .profile-verified .group-wrapper {
-  height: 62px;
-  left: 561px;
-  position: absolute;
-  top: 1px;
-  width: 271px;
+  flex-shrink: 0; /* Prevent shrinking of the verification group */
+  display: flex;
+  align-items: center;
+  margin-left: 10px; /* Optional: Add space between the text and the verification icon */
 }
+
+
 
 .profile-verified .overlap-group-wrapper {
   height: 62px;
@@ -315,5 +315,3 @@
   text-decoration: underline;
   cursor: pointer; /* Optional: to show a pointer cursor on hover */
 }
-
-
