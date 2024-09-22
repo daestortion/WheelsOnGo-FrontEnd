@@ -475,3 +475,40 @@
   margin-right: 10px; /* Add space between radio button and label */
   transform: scale(1.2); /* Increase the size of radio buttons */
 }
+
+.checkout-popup .delivery-options {
+  position: absolute;
+  top: 450px; /* Adjust the position to fit above the total */
+  left: 960px;
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 20px; /* Add space between options */
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 10px; /* Add space between radio button and label */
+  transform: scale(1.2); /* Increase the size of radio buttons */
+}
+
+.setup-delivery-address-btn {
+  margin-left: 15px; /* Space between Delivery option and button */
+  padding: 8px 16px; /* Button padding */
+  background-color: #007bff; /* Button color */
+  color: white; /* Text color */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.setup-delivery-address-btn:hover {
+  background-color: #0056b3; /* Button hover effect */
+}

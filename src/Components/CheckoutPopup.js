@@ -168,29 +168,37 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             )}
           </div>
 
-          {/* Conditionally hide delivery options when either calendar is open */}
-          {!startDateOpen && !endDateOpen && (
-            <div className="delivery-options">
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  value="Pickup"
-                  checked={deliveryOption === "Pickup"}
-                  onChange={handleDeliveryOptionChange}
-                />
-                Pickup
-              </label>
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  value="Delivery"
-                  checked={deliveryOption === "Delivery"}
-                  onChange={handleDeliveryOptionChange}
-                />
-                Delivery
-              </label>
-            </div>
-          )}
+            {/* Conditionally hide delivery options when either calendar is open */}
+            {!startDateOpen && !endDateOpen && (
+              <div className="delivery-options">
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    value="Pickup"
+                    checked={deliveryOption === "Pickup"}
+                    onChange={handleDeliveryOptionChange}
+                  />
+                  Pickup
+                </label>
+                <label className="radio-option">
+                  <input
+                    type="radio"
+                    value="Delivery"
+                    checked={deliveryOption === "Delivery"}
+                    onChange={handleDeliveryOptionChange}
+                  />
+                  Delivery
+                </label>
+
+                {/* Render the "Setup your delivery address" button beside the Delivery option */}
+                {deliveryOption === "Delivery" && (
+                  <button className="setup-delivery-address-btn" onClick={() => alert('Setup your delivery address')}>
+                    Setup your delivery address
+                  </button>
+                )}
+              </div>
+            )}
+
 
           <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-101">
