@@ -6,79 +6,37 @@ import Dropdown from "./Dropdown.js";
 import sidelogo from "../Images/sidelogo.png";
 import vector from "../Images/adminvector.png";
 import profile from "../Images/profile.png";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const [allOrders, setAllOrders] = useState([]);
-
-  const [currentUser, setCurrentUser] = useState({
-    userId: null,
-    username: 'username',
-    fName: 'FirstName',
-    lName: 'LastName',
-    email: 'youremail@email.org',
-    pNum: '+63 123 456 7890',
-    profilePic: 'path_to_default_image.png',
-    verificationStatus: null,
-    isRenting: false,
-    cars: [],
-    orders: [],
-    isOwner: false
+  const [currentUser, setCurrentUser] = useState({});
+  const [showDatePicker, setShowDatePicker] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [priceSummary, setPriceSummary] = useState({
+    days: 0,
+    pricePerDay: 0,
+    total: 0,
   });
+
+  const navigate = useNavigate();
 
   const fetchOrders = async (userId) => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:8080/user/getAllOrdersFromUser/${userId}`);
       if (response.status === 200) {
-        setAllOrders(response.data);
-        setOrders(response.data); // Initially set all orders
-      } else {
-        setAllOrders([]);
-        setOrders([]);
-      }
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-      setAllOrders([]);
-      setOrders([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  console.log(currentUser);
-
-  const fetchCarOrdersByUserId = async (userId) => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`http://localhost:8080/user/${userId}/carOrders`);
-      if (response.status === 200) {
         setOrders(response.data);
       } else {
-        console.error('No orders found for owned cars');
         setOrders([]);
       }
     } catch (error) {
-      console.error('Error fetching car orders:', error);
-      setOrders([]);
+      console.error("Error fetching orders:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleOwnedCarsClick = () => {
-    fetchCarOrdersByUserId(currentUser.userId); // Fetch orders for owned cars
-  };
-
-  const handleRentHistoryClick = () => {
-    setOrders(allOrders); // Reset to show all orders
-  };
-
-  const handleOngoingRentClick = () => {
-    console.log("Ongoing clicked");
-    setOrders(allOrders.filter(order => order.active)); // Filter orders by active status
   };
 
   const fetchUserData = async (userId) => {
@@ -87,89 +45,99 @@ export const OrderHistoryPage = () => {
       const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
       if (response.status === 200) {
         setCurrentUser(response.data);
-        fetchOrders(response.data.userId);  // Fetch orders when the component mounts
+        fetchOrders(response.data.userId);
       } else {
-        // Handle user not found or other non-success cases
-        console.error('User not found or error fetching user data');
-        navigate('/login'); // Redirect or handle as needed
+        navigate("/login");
       }
     } catch (error) {
-      console.error('Server error when fetching user:', error);
-      navigate('/login'); // Redirect or handle as needed
+      console.error("Server error when fetching user:", error);
+      navigate("/login");
     } finally {
       setIsLoading(false);
     }
   };
 
+  const fetchCarDetails = async (carId) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/car/getCarById/${carId}`);
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        console.error("Error fetching car details");
+      }
+    } catch (error) {
+      console.error("Error fetching car details:", error);
+    }
+    return null;
+  };
+
+  const handleExtendRent = async (orderId, endDate, carId) => {
+    if (!selectedDate || selectedDate <= new Date(endDate)) {
+      alert("Please select a valid date after the current end date.");
+      return;
+    }
+
+    try {
+      const newEndDate = selectedDate.toISOString().split("T")[0]; // Format date to 'YYYY-MM-DD'
+      const response = await axios.put(`http://localhost:8080/order/extendOrder/${orderId}`, null, {
+        params: {
+          newEndDate: newEndDate, // Add newEndDate as a query parameter
+        },
+      });
+
+      if (response.status === 200) {
+        alert("Rental extended successfully!");
+        setShowDatePicker(null);
+        fetchOrders(currentUser.userId); // Refresh orders after extension
+      } else {
+        alert("Error extending rent.");
+      }
+    } catch (error) {
+      console.error("Error extending rent:", error);
+    }
+  };
+
+  const handleDateChange = async (date, endDate, carId) => {
+    setSelectedDate(date);
+    const car = await fetchCarDetails(carId);
+    if (car && date > new Date(endDate)) {
+      const days = Math.ceil((date - new Date(endDate)) / (1000 * 60 * 60 * 24)); // Calculate days
+      const total = days * car.rentPrice;
+      setPriceSummary({
+        days,
+        pricePerDay: car.rentPrice,
+        total,
+      });
+    } else {
+      setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
+    }
+  };
+
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const userId = JSON.parse(storedUser).userId;
       fetchUserData(userId);
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   }, [navigate]);
-
-  console.log(orders);
-
-  const getStatusText = (status) => {
-    switch (status) {
-      case 0:
-        return "Pending";
-      case 1:
-        return "Approved";
-      case 2:
-        return "Denied";
-      case 3:
-        return "Finished";
-      default:
-        return "Unknown";
-    }
-  };
-
-  const getActivity = (activity) => {
-    switch (activity) {
-      case true:
-        return "Active";
-      case false:
-        return "Inactive";
-      default:
-        return "Unknown";
-    }
-  };
-
-
-  const handleHomeClick = () => {
-    navigate('/home');
-  };
-
-  const handleCarsClick = () => {
-    navigate('/cars');
-  };
-
-  const handleAboutClick = () => {
-    navigate('/aboutus');
-  };
 
   return (
     <div className="order-history-page">
       <div className="overlap-wrapper">
         <div className="overlap">
           <div className="overlap-group">
-            <div className="text-wrapper" onClick={handleCarsClick}>Cars</div>
-            <div className="div" onClick={handleAboutClick}>About</div>
-
-            <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
-
-            <div className="text-wrapper-2" onClick={handleHomeClick}>Home</div>
+            <div className="text-wrapper" onClick={() => navigate("/cars")}>Cars</div>
+            <div className="div" onClick={() => navigate("/aboutus")}>About</div>
+            <img className="sideview" alt="Sideview" onClick={() => navigate("/home")} src={sidelogo} />
+            <div className="text-wrapper-2" onClick={() => navigate("/home")}>Home</div>
             <Dropdown>
               <img className="group" alt="Group" src={profile} />
             </Dropdown>
           </div>
+
           <div className="overlap-2">
-            <div className="fgh" />
-            <div className="jkl" />
             <div className="rectangle">
               <div className="table-container">
                 <table className="order-table">
@@ -180,11 +148,9 @@ export const OrderHistoryPage = () => {
                       <th>End Date</th>
                       <th>Total Price</th>
                       <th>Reference Number</th>
-                      <th>Car Address</th>
-                      <th>Car Owner Name</th>
-                      <th>Car Owner Phone</th>
+                      <th>Car Owner</th>
                       <th>Status</th>
-                      <th>Activity</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -195,11 +161,28 @@ export const OrderHistoryPage = () => {
                         <td>{order.endDate}</td>
                         <td>{order.totalPrice}</td>
                         <td>{order.referenceNumber}</td>
-                        <td>{order.car.address}</td>
                         <td>{order.car.owner.username}</td>
-                        <td>{order.car.owner.pNum}</td>
-                        <td>{getStatusText(order.status)}</td>
-                        <td>{getActivity(order.active)}</td>
+                        <td>{order.status === 1 ? "Approved" : "Pending"}</td>
+                        <td>
+                          <button onClick={() => setShowDatePicker(order.orderId)}>Extend Rent</button>
+                          {showDatePicker === order.orderId && (
+                            <div>
+                              <DatePicker
+                                selected={selectedDate}
+                                onChange={(date) => handleDateChange(date, order.endDate, order.car.carId)}
+                                minDate={new Date(order.endDate)}
+                                placeholderText="Select new end date"
+                              />
+                              <button onClick={() => handleExtendRent(order.orderId, order.endDate, order.car.carId)}>Submit</button>
+                              <div className="summary">
+                              <h4>Summary of the Cost for Extension:</h4>
+                                <p>Days: {priceSummary.days}</p>
+                                <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p> {/* Format price per day as float */}
+                                <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p> {/* Format total as float */}
+                              </div>
+                            </div>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -208,26 +191,6 @@ export const OrderHistoryPage = () => {
             </div>
             <img className="vector" alt="Vector" src={vector} />
           </div>
-          <div className="overlap-group-wrapper">
-            <button className="div-wrapper" onClick={handleOngoingRentClick}>
-              <div className="text-wrapper-3">Ongoing Rent</div>
-            </button>
-          </div>
-          {currentUser.owner ? (
-            <div className="group-2">
-              <button className="div-wrapper" onClick={handleOwnedCarsClick}>
-                <div className="text-wrapper-4">Owned Cars</div>
-              </button>
-            </div>
-          ) : null}
-
-
-          <div className="group-3">
-            <button className="div-wrapper" onClick={handleRentHistoryClick}>
-              <div className="text-wrapper-4">Rent History</div>
-            </button>
-          </div>
-          <div className="text-wrapper-5">Transaction History</div>
         </div>
       </div>
     </div>

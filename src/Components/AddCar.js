@@ -50,7 +50,9 @@ export const AddCar = () => {
   const [showPriceList, setShowPriceList] = useState(false);
   const carImageInputRef = useRef(null);
   const carORInputRef = useRef(null);
-	@@ -82,6 +56,7 @@
+  const carCRInputRef = useRef(null);
+  const navigate = useNavigate();
+  const [capacity, setCapacity] = useState(''); // State for seating capacity
   const [color, setColor] = useState(''); // State for color
   const [plateNumber, setPlateNumber] = useState(''); // State for plate number
   const [houseNumberStreet, setHouseNumberStreet] = useState(''); // State for house/lot number and street
