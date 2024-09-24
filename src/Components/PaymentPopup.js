@@ -222,7 +222,7 @@ const PaymentPopup = ({
               </button>
             </div>
             <div className="payment-screenshot">
-              {uploadedFileName || "Gcash Screenshot"}
+              {uploadedFileName || " Proof Of Payment"}
             </div>
           </div>
 

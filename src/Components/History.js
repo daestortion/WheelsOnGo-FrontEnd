@@ -286,8 +286,8 @@ export const OrderHistoryPage = () => {
                       <th>Total Price</th>
                       <th>Reference Number</th>
                       <th>Car Address</th>
-                      <th>Car Owner Name</th>
-                      <th>Car Owner Phone</th>
+                      <th>Owner</th>
+                      <th>Owner Phone</th>
                       <th>Status</th>
                       <th>Activity</th>
                       <th>Actions</th> {/* New column for actions */}
