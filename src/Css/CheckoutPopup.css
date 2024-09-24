@@ -148,7 +148,7 @@
   line-height: normal; 
   position: absolute; 
   text-align: center; 
-  top: 187px; 
+  top: 100px; 
   white-space: nowrap; 
   width: 237px; 
 }
@@ -163,7 +163,7 @@
   line-height: normal; 
   position: absolute; 
   text-align: center; 
-  top: 187px; 
+  top: 100px; 
   white-space: nowrap; 
   width: 237px; 
 }
@@ -174,7 +174,7 @@
   height: 71px; 
   left: 960px; 
   position: absolute; 
-  top: 237px; 
+  top: 160px; 
   width: 284px; 
 }
 
@@ -188,7 +188,7 @@
   line-height: normal; 
   position: absolute; 
   top: 19px; 
-  width: 223px; 
+  width: 150px; 
 }
 
 .checkout-popup .text-wrapper-8 { 
@@ -196,11 +196,11 @@
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 1238px; 
+  left: 970px; 
   letter-spacing: 0; 
   line-height: normal; 
   position: absolute; 
-  top: 494px; 
+  top: 520px; 
   white-space: nowrap; 
   width: 87px; 
 }
@@ -293,7 +293,7 @@
 .checkout-popup .text-wrapper-11 { 
   color: #e32128; 
   font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 15px; 
+  font-size: 20px; 
   font-weight: 600; 
   left: 130px; 
   letter-spacing: 0; 
@@ -302,6 +302,7 @@
   top: 600px; 
   white-space: nowrap; 
   width: 712px; 
+  height: 80px;
 }
 
 .checkout-popup .overlap-2 { 
@@ -310,7 +311,7 @@
   height: 71px; 
   left: 1319px; 
   position: absolute; 
-  top: 237px; 
+  top: 160px; 
   width: 284px; 
   border: none;
   box-shadow: none;
@@ -326,7 +327,7 @@
   line-height: normal; 
   position: absolute; 
   top: 19px; 
-  width: 223px; 
+  width: 150px; 
 }
 
 .checkout-popup .group { 
@@ -342,7 +343,8 @@
   border-radius: 35px; 
   height: 71px; 
   position: relative; 
-  width: 643px; 
+  width: 643px;
+  top: 30px; 
 }
 
 .checkout-popup .text-wrapper-13 { 
@@ -461,8 +463,8 @@
 
 .checkout-popup .delivery-options {
   position: absolute;
-  top: 450px; /* Adjust the position to fit above the total */
-  left: 960px;
+  top: 520px; /* Adjust the position to fit above the total */
+  left: 1320px;
   display: flex;
   flex-direction: row;
   gap: 20px; /* Add space between options */
@@ -474,18 +476,6 @@
 .radio-option input[type="radio"] {
   margin-right: 10px; /* Add space between radio button and label */
   transform: scale(1.2); /* Increase the size of radio buttons */
-}
-
-.checkout-popup .delivery-options {
-  position: absolute;
-  top: 450px; /* Adjust the position to fit above the total */
-  left: 960px;
-  display: flex;
-  align-items: center; /* Align items vertically */
-  gap: 20px; /* Add space between options */
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 25px;
-  font-weight: 600;
 }
 
 .radio-option {
@@ -518,6 +508,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px; /* Space between form elements */
+  top: 260px;
+  position: absolute;
+  left: 950px;
+  width: 660px;
 }
 
 .address-dropdown, .address-input {
@@ -525,6 +519,10 @@
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  border-radius: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+
 }
 
 .address-dropdown {
