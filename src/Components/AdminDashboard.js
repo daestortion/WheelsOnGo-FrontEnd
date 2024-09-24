@@ -183,7 +183,7 @@ const AdminDashboard = () => {
               <p>{carData.total}</p>
             </div>
             <div className="card">
-              <h3>Total Orders</h3>
+              <h3>Total Rents</h3>
               <p>{orderData.total}</p>
             </div>
           </div>
@@ -232,7 +232,7 @@ const AdminDashboard = () => {
           {/* Line Chart for Orders Over Time */}
           <div className="grid-container">
             <div className="chart-section">
-              <h3>Orders Over Time</h3>
+              <h3>Rents Over Time</h3>
               <div className="chart-container">
                 <Line
                   data={{

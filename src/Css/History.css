@@ -238,4 +238,12 @@
     background-color: #ddd;
   }
   
+  .booked-date {
+    background-color: #ffcccc;
+    color: #000;
+  }
+  .penalty-text {
+    color: red;
+    font-weight: bold;
+  }
   

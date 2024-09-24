@@ -120,6 +120,17 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 15px;
 }
 
+.car-management-owner .overlap-1 {
+  background-color: #d7d1d1;
+  border-radius: 40px;
+  height: 711px;
+  left: 900px;
+  position: absolute;
+  top: 160px;
+  width: 907px;
+  padding-left: 15px;
+}
+
 .car-management-owner .overlap-group-wrapper {
   height: 71px;
   left: 99px;
@@ -144,7 +155,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: -50px;
+  left: -45px;
+  top: 80px;
 }
 
 .car-management-owner .div-wrapper1 {
@@ -163,7 +175,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: -50px;
+  left: -45px;
+  top: 83px;
 }
 
 
@@ -183,7 +196,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: -50px;
+  left: -45px;
+  top: 85px;
 }
 
 .car-management-owner .description-wrapper {
@@ -201,7 +215,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-right: 30px;
   padding-top: 30px;
   left: 320px;
-  top: 57px;
+  top: 138px;
 }
 
 .car-management-owner .description-textarea::placeholder {
@@ -220,7 +234,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 265px;
+  width: 690px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -231,8 +245,9 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: -50px;
+  left: 10px;
   text-overflow: ellipsis;
+  top: -190px;
 }
 
 .car-management-owner .div-wrapper31 {
@@ -240,7 +255,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 265px;
+  width: 690px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -251,8 +266,9 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: 225px;
+  left: 10px;
   text-overflow: ellipsis;
+  top: -95px;
 }
 
 .car-management-owner .div-wrapper32 {
@@ -260,7 +276,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 265px;
+  width: 690px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -271,7 +287,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: 500px;
+  left: 10px;
   text-overflow: ellipsis;
 }
 
@@ -280,7 +296,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 90px;
+  width: 630px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -289,9 +305,10 @@ input[type="number"]::-webkit-inner-spin-button {
   line-height: normal;
   white-space: nowrap;
   border: none;
-  padding-left: 20px;
-  padding-right: 20px;
-  left: 630px;
+  padding-left: 30px;
+  padding-right: 30px;
+  top: 100px;
+  left: 10px;
 }
 
 .car-management-owner .div-wrapper41 {
@@ -299,7 +316,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 280px;
+  width: 630px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -310,8 +327,9 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: -50px;
+  left: 10px;
   text-overflow: ellipsis;
+  top: 5px;
 }
 
 .car-management-owner .div-wrapper42 {
@@ -319,7 +337,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 100px;
+  width: 200px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -330,8 +348,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 30px;
   padding-right: 30px;
-  left: 295px;
-  top: -72px;
+  left: 315px;
+  top: 155px;
   text-overflow: ellipsis;
 }
 
@@ -340,7 +358,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 140px;
+  width: 200px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
@@ -352,7 +370,7 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-left: 30px;
   padding-right: 30px;
   left: -410px;
-  top: -72px;
+  top: -160px;
   text-overflow: ellipsis;
 }
 
@@ -361,10 +379,10 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 160px;
+  width: 240px;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -372,8 +390,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border: none;
   padding-left: 18px;
   padding-right: 18px;
-  left: 462px;
-  top: -145px;
+  left: 332px;
+  top: 155px;
   text-overflow: ellipsis;
 }
 
@@ -396,7 +414,7 @@ input[type="number"]::-webkit-inner-spin-button {
   left: 99px;
   position: absolute;
   top: 146px;
-  width: 714px;
+  width: 0px;
 }
 
 .car-management-owner .group-3 {
@@ -404,7 +422,7 @@ input[type="number"]::-webkit-inner-spin-button {
   left: 99px;
   position: absolute;
   top: 233px;
-  width: 714px;
+  width: 0px;
 }
 
 .car-management-owner .group-4 {
@@ -437,8 +455,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 290px;
-  left: 164px;
+  width: 380px;
+  left: -45px;
 }
 
 .car-management-owner .overlap-442 {
@@ -446,8 +464,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
-  width: 290px;
-  left: 100px;
+  width: 380px;
+  left: 6px;
 }
 
 .car-management-owner .text-wrapper-44 {
@@ -461,7 +479,7 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute;
   top: 17px;
   white-space: nowrap;
-  width: 135px;
+  width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -479,8 +497,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 50px;
   position: relative;
-  width: 100px;
-  left: 172px;
+  width: 110px;
+  left: 44px;
   border: none;
   top: 90px;
 }
@@ -490,8 +508,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 50px;
   position: relative;
-  width: 100px;
-  left: 108px;
+  width: 110px;
+  left: 96px;
   border: none;
   top: 90px;
 }
@@ -508,7 +526,7 @@ input[type="number"]::-webkit-inner-spin-button {
   text-align: center;
   top: 13px;
   white-space: nowrap;
-  width: 72px;
+  width: 80px;
 }
 
 .car-management-owner .overlap-6 {
@@ -530,7 +548,7 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute;
   top: 17px;
   white-space: nowrap;
-  width: 135px;
+  width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -570,8 +588,30 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 35px;
   height: 71px;
   position: relative;
+  width: 470px;
+  border: none;
+  left: 230px;
+}
+
+.car-management-owner .overlap-712 {
+  background-color: #e80029;
+  border-radius: 35px;
+  height: 71px;
+  position: absolute;
+  width: 200px;
+  border: none;
+  left: 10px;
+}
+
+.car-management-owner .overlap-777 {
+  background-color: #e80029;
+  border-radius: 35px;
+  height: 71px;
+  position: relative;
   width: 712px;
   border: none;
+  top: 280px;
+  left: 80px;
 }
 
 .car-management-owner .text-wrapper-8 {
@@ -588,6 +628,35 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 200px;
 }
 
+.car-management-owner .text-wrapper-8123 {
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  left: 258px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 22px;
+  width: 470px;
+  left: 0px;
+}
+
+.car-management-owner .text-wrapper-81 {
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  width: 200px;
+  top: 23px;
+  left: 0px;
+}
+
 .car-management-owner .text-wrapper-9 {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
@@ -599,6 +668,19 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute;
   top: 162px;
   width: 575px;
+}
+
+.car-management-owner .text-wrapper-912 {
+  color: #000000;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 50px;
+  font-weight: 600;
+  left: 60px;
+  letter-spacing: 0.62px;
+  line-height: normal;
+  position: absolute;
+  top: 35px;
+  width: 700px;
 }
 
 .car-management-owner .rectangle {
@@ -685,3 +767,4 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
