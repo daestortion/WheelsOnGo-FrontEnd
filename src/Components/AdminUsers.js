@@ -16,11 +16,12 @@ const AdminPageUsers = () => {
   const fetchUsers = () => {
     axios.get('http://localhost:8080/user/getAllUsers')
       .then(response => {
+        console.log("Fetched Users:", response.data); // Log fetched users
         setUsers(response.data);
       })
       .catch(error => {
-        console.error('Error fetching users:', error);
-        setUsers([]);
+        console.error('Error fetching users:', error); // Log errors
+        setUsers([]); // Clear users on error
       });
   };
 

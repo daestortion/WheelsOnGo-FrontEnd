@@ -14,44 +14,55 @@ const AdminPageCars = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchCars();
+    fetchCars(); // Fetch cars on component mount
   }, []);
 
+  // Fetch all cars
   const fetchCars = async () => {
     try {
       const response = await axios.get('http://localhost:8080/car/getAllCars');
-      setCars(response.data);
+      console.log("Fetched Cars:", response.data); // Log the fetched cars
+      setCars(response.data); // Set cars data
     } catch (error) {
-      console.error('Error fetching cars:', error);
+      console.error('Error fetching cars:', error); // Log error if fetch fails
     }
   };
 
+  // Approve a car
   const handleApprove = async (carId) => {
     try {
       await axios.put(`http://localhost:8080/car/approveCar/${carId}`);
-      fetchCars();
+      console.log(`Approved Car ID: ${carId}`); // Log approved car ID
+      fetchCars(); // Refresh the list of cars after approval
     } catch (error) {
-      console.error('Error approving car:', error);
+      console.error('Error approving car:', error); // Log error if approval fails
     }
   };
 
+  // Delete a car
   const handleDeleteCar = async (carId) => {
     try {
       await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
-      fetchCars();
+      console.log(`Deleted Car ID: ${carId}`); // Log deleted car ID
+      fetchCars(); // Refresh the list of cars after deletion
     } catch (error) {
-      console.error('Error deleting car:', error);
+      console.error('Error deleting car:', error); // Log error if deletion fails
     }
   };
 
+  // Handle filter change
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
+    console.log(`Filter applied: ${event.target.value}`); // Log the selected filter
   };
 
+  // Handle search
   const handleSearch = () => {
+    console.log("Search Term:", searchTerm); // Log search term
     setSearchQuery(searchTerm);
   };
 
+  // Filtered and searched cars
   const filteredCars = cars
     .filter(car => {
       switch (filter) {
@@ -69,22 +80,31 @@ const AdminPageCars = () => {
       const carBrand = car.carBrand ? car.carBrand : '';
       const carModel = car.carModel ? car.carModel : '';
 
-      return (
+      // Log the filtering process
+      const match = (
         userName.toLowerCase().includes(searchString) ||
         carBrand.toLowerCase().includes(searchString) ||
         carModel.toLowerCase().includes(searchString)
       );
+      console.log(`Matching Car: ${car.carBrand} ${car.carModel} Owner: ${userName} Match: ${match}`);
+      return match;
     });
 
+  // Show car image in a modal
   const handleShowImage = (imageData) => {
     setSelectedImage(imageData);
+    console.log("Showing Image Data:", imageData); // Log the image data being shown
   };
 
+  // Close image modal
   const handleCloseModal = () => {
     setSelectedImage(null);
+    console.log("Closed Image Modal"); // Log when the modal is closed
   };
 
+  // Handle logout
   const handleLogout = () => {
+    console.log("Logging out..."); // Log when logging out
     navigate('/adminlogin');
   };
 
@@ -163,7 +183,7 @@ const AdminPageCars = () => {
                     </td>
                     <td>
                       <button onClick={() => handleShowImage(car.carCR)} className="button-show-image">Show Image</button>
-                    </td>               
+                    </td>
                     <td>{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>{car.approved ? 'Yes' : 'No'}</td>
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
