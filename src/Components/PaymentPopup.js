@@ -193,7 +193,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
               </button>
             </div>
             <div className="payment-screenshot">
-              {uploadedFileName || "Gcash Screenshot"}
+              {uploadedFileName || " Proof Of Payment"}
             </div>
           </div>
 

@@ -21,8 +21,8 @@ const AdminPageCars = () => {
   const fetchCars = async () => {
     try {
       const response = await axios.get('http://localhost:8080/car/getAllCars');
-      console.log("Fetched Cars:", response.data); // Log the fetched cars
-      setCars(response.data); // Set cars data
+      setCars(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching cars:', error); // Log error if fetch fails
     }
