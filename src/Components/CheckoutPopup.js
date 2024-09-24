@@ -6,6 +6,9 @@ import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
 import PaymentPopup from "./PaymentPopup";
 import axios from 'axios';
+import provincesData from '../Data/refprovince.json';
+import citiesData from '../Data/refcitymun.json';
+import barangaysData from '../Data/refbrgy.json';
 
 export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDate, setStartDate] = useState(null);
@@ -17,6 +20,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [bookedDates, setBookedDates] = useState([]); // For disabling booked dates
   const [deliveryOption, setDeliveryOption] = useState("Pickup");
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedBarangay, setSelectedBarangay] = useState('');
+  const [houseNumberStreet, setHouseNumberStreet] = useState('');
 
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
@@ -88,6 +95,8 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const handleBook = () => {
     if (!startDate || !endDate) {
       setErrorMessage("Please complete pick-up date and return date.");
+    } else if (deliveryOption === "Delivery" && (!selectedProvince || !selectedCity || !selectedBarangay || !houseNumberStreet)) {
+      setErrorMessage("Please complete the delivery address.");
     } else {
       const newOrder = {
         startDate,
@@ -116,6 +125,12 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       return date >= start && date <= end;  // Check if the date is within any booked range
     });
   };
+
+  // Filter cities based on selected province
+  const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
+
+  // Filter barangays based on selected city
+  const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
 
   return (
     <div className="checkout-popup">
@@ -168,37 +183,75 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             )}
           </div>
 
-            {/* Conditionally hide delivery options when either calendar is open */}
-            {!startDateOpen && !endDateOpen && (
-              <div className="delivery-options">
-                <label className="radio-option">
-                  <input
-                    type="radio"
-                    value="Pickup"
-                    checked={deliveryOption === "Pickup"}
-                    onChange={handleDeliveryOptionChange}
-                  />
-                  Pickup
-                </label>
-                <label className="radio-option">
-                  <input
-                    type="radio"
-                    value="Delivery"
-                    checked={deliveryOption === "Delivery"}
-                    onChange={handleDeliveryOptionChange}
-                  />
-                  Delivery
-                </label>
+          {!startDateOpen && !endDateOpen && (
+            <div className="delivery-options">
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  value="Pickup"
+                  checked={deliveryOption === "Pickup"}
+                  onChange={handleDeliveryOptionChange}
+                />
+                Pickup
+              </label>
+              <label className="radio-option">
+                <input
+                  type="radio"
+                  value="Delivery"
+                  checked={deliveryOption === "Delivery"}
+                  onChange={handleDeliveryOptionChange}
+                />
+                Delivery
+              </label>
+            </div>
+          )}
 
-                {/* Render the "Setup your delivery address" button beside the Delivery option */}
-                {deliveryOption === "Delivery" && (
-                  <button className="setup-delivery-address-btn" onClick={() => alert('Setup your delivery address')}>
-                    Setup your delivery address
-                  </button>
-                )}
-              </div>
-            )}
+          {deliveryOption === "Delivery" && !startDateOpen && !endDateOpen && (
+            <div className="address-form">
+              <select
+                className="address-dropdown"
+                value={selectedProvince}
+                onChange={(e) => setSelectedProvince(e.target.value)}
+              >
+                <option value="">Select Province</option>
+                {provincesData.RECORDS.map((province, index) => (
+                  <option key={index} value={province.provCode}>{province.provDesc}</option>
+                ))}
+              </select>
 
+              <select
+                className="address-dropdown"
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                disabled={!selectedProvince}
+              >
+                <option value="">Select City/Municipality</option>
+                {filteredCities.map((city, index) => (
+                  <option key={index} value={city.citymunCode}>{city.citymunDesc}</option>
+                ))}
+              </select>
+
+              <select
+                className="address-dropdown"
+                value={selectedBarangay}
+                onChange={(e) => setSelectedBarangay(e.target.value)}
+                disabled={!selectedCity}
+              >
+                <option value="">Select Barangay</option>
+                {filteredBarangays.map((barangay, index) => (
+                  <option key={index} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
+                ))}
+              </select>
+
+              <input
+                type="text"
+                className="address-input"
+                placeholder="House/Lot no./Street"
+                value={houseNumberStreet}
+                onChange={(e) => setHouseNumberStreet(e.target.value)}
+              />
+            </div>
+          )}
 
           <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-101">
