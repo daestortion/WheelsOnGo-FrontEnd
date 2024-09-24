@@ -13,30 +13,52 @@ import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import { CashOptionPopup } from "../Components/BookingPopup";
 
-const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, userId, carId }) => {
+const PaymentPopup = ({ 
+    car, 
+    startDate, 
+    endDate, 
+    totalPrice, 
+    initialOrder, 
+    deliveryOption, 
+    deliveryAddress, 
+    onClose, 
+    onBack, 
+    userId, 
+    carId 
+}) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [order, setOrder] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
   const [showBookingPopup, setBookingPopup] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
+  
+  // Local state for order
+  const [order, setOrder] = useState(initialOrder); 
 
+  // Initialize order state from the initialOrder prop ONCE
   useEffect(() => {
-    const paymentOption = uploadedFile ? "Online" : "Cash";
-    const newOrder = {
-      startDate,
-      endDate,
-      totalPrice,
-      paymentOption,
-      isDeleted: false,
-      referenceNumber: '',
-      payment: uploadedFile ? { method: 'image', screenshot: uploadedFile } : null
-    };
-    setOrder(newOrder);
-  }, [startDate, endDate, totalPrice, uploadedFile]);
+    setOrder(initialOrder);
+  }, [initialOrder]);
+
+  // Update order when uploadedFile changes
+  useEffect(() => {
+    if (uploadedFile) {
+      setOrder(prevOrder => ({
+        ...prevOrder,
+        paymentOption: "Online",
+        payment: { method: 'image', screenshot: uploadedFile }
+      }));
+    } else {
+      setOrder(prevOrder => ({
+        ...prevOrder,
+        paymentOption: "Cash",
+        payment: null
+      }));
+    }
+  }, [uploadedFile]);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -55,20 +77,22 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     }
   };
 
+  // Function to handle form submission
   const handleClick = async () => {
     if (order && isChecked) {
       try {
         const formData = new FormData();
         formData.append('file', uploadedFile);
         formData.append('order', new Blob([JSON.stringify({
-          startDate: order.startDate,
-          endDate: order.endDate,
-          totalPrice: order.totalPrice,
-          paymentOption: order.paymentOption,
-          isDeleted: order.isDeleted,
-          referenceNumber: order.referenceNumber,
+          ...order, 
+          startDate,  // Include startDate and endDate from props
+          endDate,
+          totalPrice,  // Include totalPrice
+          deliveryOption,  // Include delivery option
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
         })], { type: 'application/json' }));
 
+        // Post order to backend
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -77,7 +101,7 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
 
         if (response.data) {
           setOrder(response.data);
-          setShowBookedPopup(true);
+          setShowBookedPopup(true);  // Show confirmation popup
         }
       } catch (error) {
         console.error('Error submitting order:', error);
@@ -89,6 +113,16 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
     setShowPayPalSuccess(true);
     setPaypalPaid(true);
     generateReceipt();
+  };
+
+  const handlePayPalError = (error) => {
+    console.error("Handling PayPal error:", error); 
+    setShowPayPalError(true);
+  };
+
+  const handleClosePayPalPopup = () => {
+    setShowPayPalSuccess(false);
+    setShowPayPalError(false);
   };
 
   const handleCash = async () => {
@@ -112,16 +146,6 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
 
   const handleCloseCash = () => {
     setBookingPopup(false);
-  };
-
-  const handlePayPalError = (error) => {
-    console.error("Handling PayPal error:", error); // Ensure error handling is logged
-    setShowPayPalError(true);
-  };
-
-  const handleClosePayPalPopup = () => {
-    setShowPayPalSuccess(false);
-    setShowPayPalError(false);
   };
 
   const generateReceipt = () => {
@@ -172,7 +196,12 @@ const PaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, onBack, us
           <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
           <div className="text-wrapper-77">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
+
+          {/* Change the location based on deliveryOption */}
+          <div className="text-wrapper-9">
+            {deliveryOption === "Delivery" ? `Delivery Location: ${deliveryAddress}` : `Pick-up Location: ${car.address}`}
+          </div>
+
           <div className="overlap-2">
             <div className="group11">
               <input

@@ -18,7 +18,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [bookedDates, setBookedDates] = useState([]); // For disabling booked dates
+  const [bookedDates, setBookedDates] = useState([]); 
   const [deliveryOption, setDeliveryOption] = useState("Pickup");
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
@@ -28,17 +28,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
 
-  // Fetch booked dates for the car
   useEffect(() => {
     const fetchBookedDates = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
 
-        // Convert dates to JavaScript Date objects
         const bookedRanges = orders.map(order => ({
-          start: new Date(order.startDate),  // Convert to Date object
-          end: new Date(order.endDate)       // Convert to Date object
+          start: new Date(order.startDate),  
+          end: new Date(order.endDate)       
         }));
 
         setBookedDates(bookedRanges);
@@ -107,6 +105,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         referenceNumber: '',
         payment: null
       };
+      // Pass the newOrder to the PaymentPopup
       setOrder(newOrder);
       setShowPaymentPopup(true);
     }
@@ -119,18 +118,32 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     closePopup();
   };
 
-  // Helper function to check if a date is within any booked date range
   const isDateBooked = (date) => {
     return bookedDates.some(({ start, end }) => {
-      return date >= start && date <= end;  // Check if the date is within any booked range
+      return date >= start && date <= end;  
     });
   };
 
-  // Filter cities based on selected province
   const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
 
-  // Filter barangays based on selected city
   const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
+
+  const handleProvinceChange = (e) => {
+    const selectedProv = e.target.value;
+    setSelectedProvince(selectedProv);
+    setSelectedCity('');
+    setSelectedBarangay('');
+  };
+
+  const handleCityChange = (e) => {
+    const selectedCity = e.target.value;
+    setSelectedCity(selectedCity);
+    setSelectedBarangay('');
+  };
+
+  const handleBarangayChange = (e) => {
+    setSelectedBarangay(e.target.value);
+  };
 
   return (
     <div className="checkout-popup">
@@ -162,7 +175,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 inline
                 shouldCloseOnSelect
                 minDate={new Date()}
-                filterDate={(date) => !isDateBooked(date)} // Disable booked dates
+                filterDate={(date) => !isDateBooked(date)}
               />
             )}
           </div>
@@ -178,7 +191,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 inline
                 shouldCloseOnSelect
                 minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
-                filterDate={(date) => !isDateBooked(date)} // Disable booked dates
+                filterDate={(date) => !isDateBooked(date)} 
               />
             )}
           </div>
@@ -211,7 +224,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               <select
                 className="address-dropdown"
                 value={selectedProvince}
-                onChange={(e) => setSelectedProvince(e.target.value)}
+                onChange={handleProvinceChange}
               >
                 <option value="">Select Province</option>
                 {provincesData.RECORDS.map((province, index) => (
@@ -222,7 +235,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               <select
                 className="address-dropdown"
                 value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
+                onChange={handleCityChange}
                 disabled={!selectedProvince}
               >
                 <option value="">Select City/Municipality</option>
@@ -234,7 +247,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               <select
                 className="address-dropdown"
                 value={selectedBarangay}
-                onChange={(e) => setSelectedBarangay(e.target.value)}
+                onChange={handleBarangayChange}
                 disabled={!selectedCity}
               >
                 <option value="">Select Barangay</option>
@@ -266,8 +279,16 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="text-wrapper-104">
             Plate Number: <span className="normal-text">{car.plateNumber}</span>
           </div>
-          <div className="text-wrapper-10">Pick-up Location:</div>
-          <div className="text-wrapper-11">{car.address}</div>
+          <div className="text-wrapper-10">
+            {deliveryOption === "Delivery" ? "Delivery Location:" : "Pick-up Location:"}
+          </div>
+          <div className="text-wrapper-11">
+            {deliveryOption === "Delivery" 
+              ? `${houseNumberStreet}, ${selectedBarangay ? barangaysData.RECORDS.find(b => b.brgyCode === selectedBarangay)?.brgyDesc : ""}, 
+                ${selectedCity ? citiesData.RECORDS.find(c => c.citymunCode === selectedCity)?.citymunDesc : ""}, 
+                ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}` 
+              : car.address}
+          </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="group">
             <div className="overlap-group-2" onClick={handleBook}>
@@ -290,6 +311,14 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           carId={car.carId}
           onClose={handlePaymentPopupClose}
           onBack={() => setShowPaymentPopup(false)}
+          deliveryOption={deliveryOption}  
+          deliveryAddress={
+            deliveryOption === "Delivery"
+              ? `${houseNumberStreet}, ${selectedBarangay ? barangaysData.RECORDS.find(b => b.brgyCode === selectedBarangay)?.brgyDesc : ""}, 
+                 ${selectedCity ? citiesData.RECORDS.find(c => c.citymunCode === selectedCity)?.citymunDesc : ""}, 
+                 ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}`
+              : car.address
+          }  
         />
       )}
     </div>
