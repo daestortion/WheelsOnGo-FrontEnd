@@ -156,13 +156,13 @@ const AdminPageCars = () => {
                     <td>{car.carBrand}</td>
                     <td>{car.carModel}</td>
                     <td>
-                      <button onClick={() => handleShowImage(car.carImage)}>Show Image</button>
+                      <button onClick={() => handleShowImage(car.carImage)} className="button-show-image">Show Image</button>
                     </td>
                     <td>
-                      <button onClick={() => handleShowImage(car.carOR)}>Show Image</button>
+                      <button onClick={() => handleShowImage(car.carOR)} className="button-show-image">Show Image</button>
                     </td>
                     <td>
-                      <button onClick={() => handleShowImage(car.carCR)}>Show Image</button>
+                      <button onClick={() => handleShowImage(car.carCR)} className="button-show-image">Show Image</button>
                     </td>               
                     <td>{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>{car.approved ? 'Yes' : 'No'}</td>
