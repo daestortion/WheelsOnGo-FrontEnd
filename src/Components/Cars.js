@@ -24,10 +24,11 @@ export const Cars = () => {
   const [showPendingRentPopup, setShowPendingRentPopup] = useState(false);
   const [isRenting, setIsRenting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchQuery, setSearchQuery] = useState(''); // Updated when user clicks "Search"
+  const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   const navigate = useNavigate();
 
+  // Fetch data on load
   useEffect(() => {
     const fetchCars = async () => {
       setIsLoading(true);
@@ -35,6 +36,8 @@ export const Cars = () => {
         const response = await axios.get('http://localhost:8080/car/getAllCars');
         const approvedCars = response.data.filter(car => car.approved && !car.deleted);
         
+        console.log("Fetched Cars:", approvedCars); // Log fetched cars
+
         setCars(approvedCars.map(car => ({
           ...car,
           carImage: car.carImage ? `data:image/jpeg;base64,${car.carImage}` : null
@@ -48,19 +51,20 @@ export const Cars = () => {
     };
 
     fetchCars();
-    
-    // Fetch user renting status
+
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const userId = JSON.parse(storedUser).userId;
       axios.get(`http://localhost:8080/user/getUserById/${userId}`).then((response) => {
         if (response.status === 200) {
+          console.log("User Renting Status:", response.data.renting); // Log user renting status
           setIsRenting(response.data.renting);
           localStorage.setItem('user', JSON.stringify({ ...JSON.parse(storedUser), isRenting: response.data.renting }));
         } else {
           navigate('/login');
         }
-      }).catch(() => {
+      }).catch((error) => {
+        console.error("Error fetching user data:", error); // Log errors
         navigate('/login');
       });
     } else {
@@ -70,20 +74,27 @@ export const Cars = () => {
 
   // Map province, city, barangay codes to descriptions
   const getProvinceDesc = (provCode) => {
-    return provincesData.RECORDS.find(prov => prov.provCode === provCode)?.provDesc || '';
+    const province = provincesData.RECORDS.find(prov => prov.provCode === provCode)?.provDesc || '';
+    console.log("Province Description for", provCode, ":", province); // Log province lookup
+    return province;
   };
 
   const getCityDesc = (cityCode) => {
-    return citiesData.RECORDS.find(city => city.citymunCode === cityCode)?.citymunDesc || '';
+    const city = citiesData.RECORDS.find(city => city.citymunCode === cityCode)?.citymunDesc || '';
+    console.log("City Description for", cityCode, ":", city); // Log city lookup
+    return city;
   };
 
   const getBarangayDesc = (barangayCode) => {
-    return barangaysData.RECORDS.find(brgy => brgy.brgyCode === barangayCode)?.brgyDesc || '';
+    const barangay = barangaysData.RECORDS.find(brgy => brgy.brgyCode === barangayCode)?.brgyDesc || '';
+    console.log("Barangay Description for", barangayCode, ":", barangay); // Log barangay lookup
+    return barangay;
   };
 
   // Handle search execution
   const handleSearch = () => {
-    setSearchQuery(searchTerm.toLowerCase()); // Set the search query to lowercase for case-insensitive search
+    console.log("Search Term:", searchTerm); // Log search term
+    setSearchQuery(searchTerm.toLowerCase());
   };
 
   // Filter cars based on the search query
@@ -101,26 +112,20 @@ export const Cars = () => {
       }
     })
     .filter(car => {
-      // Case-insensitive search string
       const searchString = searchQuery.toLowerCase();
-
-      // Extract car attributes
       const carBrand = car.carBrand?.toLowerCase() || '';
       const carModel = car.carModel?.toLowerCase() || '';
+      const address = car.address?.toLowerCase() || '';
 
-      // Get province, city, and barangay descriptions
-      const province = getProvinceDesc(car.province).toLowerCase();
-      const city = getCityDesc(car.city).toLowerCase();
-      const barangay = getBarangayDesc(car.barangay).toLowerCase();
-
-      // Match search string with car attributes and location data
-      return (
+      const match = (
         carBrand.includes(searchString) ||
         carModel.includes(searchString) ||
-        province.includes(searchString) ||
-        city.includes(searchString) ||
-        barangay.includes(searchString)
+        address.includes(searchString)
       );
+
+      console.log("Matching Car:", car.carBrand, car.carModel, " Match:", match); // Log matching process
+
+      return match;
     });
 
   return (
@@ -135,7 +140,7 @@ export const Cars = () => {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)} // Capture user input
+                onChange={e => setSearchTerm(e.target.value)}
                 className="search-bar"
               />
               <button onClick={handleSearch} className="submit-button">Search</button>
