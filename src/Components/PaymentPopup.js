@@ -13,18 +13,18 @@ import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import { CashOptionPopup } from "../Components/BookingPopup";
 
-const PaymentPopup = ({ 
-    car, 
-    startDate, 
-    endDate, 
-    totalPrice, 
-    initialOrder, 
-    deliveryOption, 
-    deliveryAddress, 
-    onClose, 
-    onBack, 
-    userId, 
-    carId 
+const PaymentPopup = ({
+  car,
+  startDate,
+  endDate,
+  totalPrice,
+  initialOrder,
+  deliveryOption,
+  deliveryAddress,
+  onClose,
+  onBack,
+  userId,
+  carId
 }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -34,9 +34,9 @@ const PaymentPopup = ({
   const [showPayPalError, setShowPayPalError] = useState(false);
   const [showBookingPopup, setBookingPopup] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
-  
+
   // Local state for order
-  const [order, setOrder] = useState(initialOrder); 
+  const [order, setOrder] = useState(initialOrder);
 
   // Initialize order state from the initialOrder prop ONCE
   useEffect(() => {
@@ -84,7 +84,7 @@ const PaymentPopup = ({
         const formData = new FormData();
         formData.append('file', uploadedFile);
         formData.append('order', new Blob([JSON.stringify({
-          ...order, 
+          ...order,
           startDate,  // Include startDate and endDate from props
           endDate,
           totalPrice,  // Include totalPrice
@@ -92,6 +92,7 @@ const PaymentPopup = ({
           deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
         })], { type: 'application/json' }));
 
+        console.log(formData);
         // Post order to backend
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
@@ -116,7 +117,7 @@ const PaymentPopup = ({
   };
 
   const handlePayPalError = (error) => {
-    console.error("Handling PayPal error:", error); 
+    console.error("Handling PayPal error:", error);
     setShowPayPalError(true);
   };
 
@@ -128,9 +129,22 @@ const PaymentPopup = ({
   const handleCash = async () => {
     if (order && isChecked) {
       try {
-        const response = await axios.post(`http://localhost:8080/order/insertCashOrder?userId=${userId}&carId=${carId}`, order, {
+        const formData = new FormData();
+        formData.append('file', uploadedFile);
+        formData.append('order', new Blob([JSON.stringify({
+          ...order,
+          startDate,  // Include startDate and endDate from props
+          endDate,
+          totalPrice,  // Include totalPrice
+          deliveryOption,  // Include delivery option
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
+        })], { type: 'application/json' }));
+
+        console.log(formData);
+        // Post order to backend
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data'
           }
         });
 
@@ -273,7 +287,7 @@ const PaymentPopup = ({
             >
               <div className="text-wrapper-321">Cash</div>
             </button>
-            
+
           </div>
           <button className="close" onClick={onClose}>
             <img className="vector-2" alt="Vector" src={close} />

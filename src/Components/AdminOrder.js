@@ -21,6 +21,7 @@ const AdminPageOrder = () => {
     try {
       const response = await fetch('http://localhost:8080/order/getAllOrders');
       const data = await response.json();
+      console.log(data);
       if (Array.isArray(data)) {
         setOrders(data);
         const userIds = data.map(order => order.user.userId);

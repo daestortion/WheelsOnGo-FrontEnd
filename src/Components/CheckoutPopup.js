@@ -33,7 +33,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       try {
         const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
-
+        console.log(response.data);
         const bookedRanges = orders.map(order => ({
           start: new Date(order.startDate),  
           end: new Date(order.endDate)       
@@ -106,6 +106,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         payment: null
       };
       // Pass the newOrder to the PaymentPopup
+      console.log(newOrder);
       setOrder(newOrder);
       setShowPaymentPopup(true);
     }
