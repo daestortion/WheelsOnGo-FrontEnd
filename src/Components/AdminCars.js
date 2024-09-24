@@ -21,6 +21,7 @@ const AdminPageCars = () => {
     try {
       const response = await axios.get('http://localhost:8080/car/getAllCars');
       setCars(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching cars:', error);
     }
