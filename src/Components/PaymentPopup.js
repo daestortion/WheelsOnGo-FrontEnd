@@ -48,7 +48,7 @@ const PaymentPopup = ({
     if (uploadedFile) {
       setOrder(prevOrder => ({
         ...prevOrder,
-        paymentOption: "Online",
+        paymentOption: "GCash",
         payment: { method: 'image', screenshot: uploadedFile }
       }));
     } else {
@@ -77,7 +77,7 @@ const PaymentPopup = ({
     }
   };
 
-  // Function to handle form submission
+  // Function to handle form submission for GCash payment
   const handleClick = async () => {
     if (order && isChecked) {
       try {
@@ -85,15 +85,13 @@ const PaymentPopup = ({
         formData.append('file', uploadedFile);
         formData.append('order', new Blob([JSON.stringify({
           ...order,
-          startDate,  // Include startDate and endDate from props
+          startDate,
           endDate,
-          totalPrice,  // Include totalPrice
-          deliveryOption,  // Include delivery option
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
+          totalPrice,
+          deliveryOption,
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
         })], { type: 'application/json' }));
 
-        console.log(formData);
-        // Post order to backend
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -102,7 +100,7 @@ const PaymentPopup = ({
 
         if (response.data) {
           setOrder(response.data);
-          setShowBookedPopup(true);  // Show confirmation popup
+          setShowBookedPopup(true);
         }
       } catch (error) {
         console.error('Error submitting order:', error);
@@ -110,14 +108,45 @@ const PaymentPopup = ({
     }
   };
 
-  const handlePayPalSuccess = () => {
-    setShowPayPalSuccess(true);
+  const handlePayPalSuccess = async (details) => {
     setPaypalPaid(true);
-    generateReceipt();
+    let newOrder = order;
+
+    if (!newOrder || !newOrder.orderId) {
+      const formData = new FormData();
+      formData.append('order', new Blob([JSON.stringify({
+        startDate, endDate, totalPrice, paymentOption: "PayPal", isDeleted: false, referenceNumber: '',
+      })], { type: 'application/json' }));
+
+      const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      if (response.data) {
+        newOrder = response.data;
+        setOrder(newOrder);
+      }
+    }
+
+    const transactionId = details.id;
+    if (!transactionId) return;
+
+    const paymentData = {
+      orderId: newOrder.orderId, transactionId, paymentOption: "PayPal",
+    };
+
+    const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (paymentResponse.data) {
+      setShowPayPalSuccess(true);
+      generateReceipt();
+      setShowBookedPopup(true);
+    }
   };
 
   const handlePayPalError = (error) => {
-    console.error("Handling PayPal error:", error);
     setShowPayPalError(true);
   };
 
@@ -130,22 +159,14 @@ const PaymentPopup = ({
     if (order && isChecked) {
       try {
         const formData = new FormData();
-        formData.append('file', uploadedFile);
         formData.append('order', new Blob([JSON.stringify({
           ...order,
-          startDate,  // Include startDate and endDate from props
-          endDate,
-          totalPrice,  // Include totalPrice
-          deliveryOption,  // Include delivery option
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
+          startDate, endDate, totalPrice, deliveryOption,
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
         })], { type: 'application/json' }));
 
-        console.log(formData);
-        // Post order to backend
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+        const response = await axios.post(`http://localhost:8080/order/insertCashOrder?userId=${userId}&carId=${carId}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
         });
 
         if (response.data) {
@@ -210,8 +231,6 @@ const PaymentPopup = ({
           <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
           <div className="text-wrapper-77">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-
-          {/* Change the location based on deliveryOption */}
           <div className="text-wrapper-9">
             {deliveryOption === "Delivery" ? `Delivery Location: ${deliveryAddress}` : `Pick-up Location: ${car.address}`}
           </div>
@@ -236,7 +255,7 @@ const PaymentPopup = ({
               </button>
             </div>
             <div className="payment-screenshot">
-              {uploadedFileName || " Proof Of Payment"}
+              {uploadedFileName || "Proof Of Payment"}
             </div>
           </div>
 
