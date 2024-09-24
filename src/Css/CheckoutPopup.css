@@ -300,9 +300,10 @@
   line-height: normal; 
   position: absolute; 
   top: 600px; 
-  white-space: nowrap; 
+  white-space: normal; 
   width: 712px; 
-  height: 80px;
+  height: auto;
+  overflow-wrap: break-word;
 }
 
 .checkout-popup .overlap-2 { 
