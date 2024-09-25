@@ -78,7 +78,6 @@ const AdminPageUsers = () => {
 
           {/* Filter */}
           <div className="filter-container">
-            <label htmlFor="filter">Filter Users: </label>
             <select id="filter" value={filter} onChange={handleFilterChange} className="user-filter">
               <option value="all">All Users</option>
               <option value="regular">Regular Users</option>

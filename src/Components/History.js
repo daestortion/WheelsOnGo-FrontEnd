@@ -13,6 +13,7 @@ export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [allOrders, setAllOrders] = useState([]);
+  const [showOwnedCars, setShowOwnedCars] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     userId: null,
     username: "username",
@@ -195,18 +196,21 @@ export const OrderHistoryPage = () => {
 
   // Handle the "Owned Cars" button click
   const handleOwnedCarsClick = () => {
+    setShowOwnedCars(true); // Set to true when owned cars are viewed
     fetchCarOrdersByUserId(currentUser.userId);
-  };
+  };  
 
   // Handle the "Rent History" button click
   const handleRentHistoryClick = () => {
+    setShowOwnedCars(false); // Reset to false when viewing all orders
     setOrders(allOrders);
   };
-
-  // Handle the "Ongoing Rent" button click
+  
   const handleOngoingRentClick = () => {
+    setShowOwnedCars(false); // Reset to false when viewing ongoing rent
     setOrders(allOrders.filter((order) => order.active));
   };
+  
 
   // Navigation Handlers
   const handleCarsClick = () => {
@@ -219,6 +223,20 @@ export const OrderHistoryPage = () => {
 
   const handleHomeClick = () => {
     navigate("/home");
+  };
+
+  const handleCarReturned = async (orderId) => {
+    try {
+      // Send a PUT request to update the order's return status
+      const response = await axios.put(`http://localhost:8080/order/markAsReturned/${orderId}`);
+      
+      if (response.status === 200) {
+        console.log('Car return processed successfully.');
+        // Optionally, refresh the orders list or give visual feedback to the user
+      }
+    } catch (error) {
+      console.error('Error processing car return:', error.response?.data || error.message);
+    }
   };
 
   useEffect(() => {
@@ -290,7 +308,8 @@ export const OrderHistoryPage = () => {
                       <th>Owner Phone</th>
                       <th>Status</th>
                       <th>Activity</th>
-                      <th>Actions</th> {/* New column for actions */}
+                      {showOwnedCars && <th>isReturned</th>} {/* Conditionally render isReturned */}
+                      {showOwnedCars && <th>Actions</th>} {/* Conditionally render Actions */}
                     </tr>
                   </thead>
                   <tbody>
@@ -307,13 +326,16 @@ export const OrderHistoryPage = () => {
                         <td>{getStatusText(order.status)}</td>
                         <td>{getActivity(order.active)}</td>
                         <td>
+                          <button className="button" onClick={() => handleCarReturned(order.orderId)}>Returned</button>
+                        </td>
+                        <td>
                           {/* Extend Rent Action */}
                           {order.active && (
                             <div>
-                              <button
+                              <button className="button"
                                 onClick={() => setShowDatePicker(order.orderId)}
                               >
-                                Extend Rent
+                                Extend
                               </button>
                               {showDatePicker === order.orderId && (
                                 <div>
