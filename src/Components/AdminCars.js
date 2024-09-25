@@ -184,7 +184,7 @@ const AdminPageCars = () => {
                     <td>
                       <button onClick={() => handleShowImage(car.carCR)} className="button-show-image">Show Image</button>
                     </td>
-                    <td>{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>{car.approved ? 'Yes' : 'No'}</td>
                     <td>{car.deleted ? 'Inactive' : 'Active'}</td>
                     <td>

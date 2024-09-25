@@ -162,6 +162,7 @@ const AdminPageOrder = () => {
                   <th>Reference Number</th>
                   <th>isActive</th>
                   <th>Status</th>
+                  <th>Payment Status</th>
                   <th>Proof of Payment</th>
                   <th>Action</th>
                 </tr>
@@ -180,6 +181,7 @@ const AdminPageOrder = () => {
                     <td>{order.referenceNumber}</td>
                     <td>{order.active ? 'True' : 'False'}</td>
                     <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : 'Pending'}</td>
+                    <td>{order.paid ? 'Paid' : 'Not'}</td>
                     <td>
                       <button className="button-show-image" onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
                     </td>
