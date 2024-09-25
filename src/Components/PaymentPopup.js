@@ -13,52 +13,30 @@ import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import { CashOptionPopup } from "../Components/BookingPopup";
 
-const PaymentPopup = ({
-  car,
-  startDate,
-  endDate,
-  totalPrice,
-  initialOrder,
-  deliveryOption,
-  deliveryAddress,
-  onClose,
-  onBack,
-  userId,
-  carId
-}) => {
+const PaymentPopup = ({ car, startDate, endDate, initialOrder, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [order, setOrder] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
   const [showBookingPopup, setBookingPopup] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
 
-  // Local state for order
-  const [order, setOrder] = useState(initialOrder);
-
-  // Initialize order state from the initialOrder prop ONCE
   useEffect(() => {
-    setOrder(initialOrder);
-  }, [initialOrder]);
-
-  // Update order when uploadedFile changes
-  useEffect(() => {
-    if (uploadedFile) {
-      setOrder(prevOrder => ({
-        ...prevOrder,
-        paymentOption: "GCash",
-        payment: { method: 'image', screenshot: uploadedFile }
-      }));
-    } else {
-      setOrder(prevOrder => ({
-        ...prevOrder,
-        paymentOption: "Cash",
-        payment: null
-      }));
-    }
-  }, [uploadedFile]);
+    const paymentOption = uploadedFile ? "GCash" : "Cash";
+    const newOrder = {
+      startDate,
+      endDate,
+      totalPrice,
+      paymentOption,  // Set GCash or Cash as the default option
+      isDeleted: false,
+      referenceNumber: '',
+      payment: uploadedFile ? { method: 'image', screenshot: uploadedFile } : null
+    };
+    setOrder(newOrder);
+  }, [startDate, endDate, totalPrice, uploadedFile]);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -77,19 +55,19 @@ const PaymentPopup = ({
     }
   };
 
-  // Function to handle form submission for GCash payment
+  // Handle GCash Payment
   const handleClick = async () => {
     if (order && isChecked) {
       try {
         const formData = new FormData();
-        formData.append('file', uploadedFile);
+        formData.append('file', uploadedFile);  // Upload screenshot if available
         formData.append('order', new Blob([JSON.stringify({
-          ...order,
-          startDate,
-          endDate,
-          totalPrice,
-          deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+          startDate: order.startDate,
+          endDate: order.endDate,
+          totalPrice: order.totalPrice,
+          paymentOption: "GCash",  // Explicitly set payment option as GCash
+          isDeleted: order.isDeleted,
+          referenceNumber: order.referenceNumber,
         })], { type: 'application/json' }));
 
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
@@ -108,65 +86,26 @@ const PaymentPopup = ({
     }
   };
 
-  const handlePayPalSuccess = async (details) => {
-    setPaypalPaid(true);
-    let newOrder = order;
-
-    if (!newOrder || !newOrder.orderId) {
-      const formData = new FormData();
-      formData.append('order', new Blob([JSON.stringify({
-        startDate, endDate, totalPrice, paymentOption: "PayPal", isDeleted: false, referenceNumber: '',
-      })], { type: 'application/json' }));
-
-      const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-
-      if (response.data) {
-        newOrder = response.data;
-        setOrder(newOrder);
-      }
-    }
-
-    const transactionId = details.id;
-    if (!transactionId) return;
-
-    const paymentData = {
-      orderId: newOrder.orderId, transactionId, paymentOption: "PayPal",
-    };
-
-    const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (paymentResponse.data) {
-      setShowPayPalSuccess(true);
-      generateReceipt();
-      setShowBookedPopup(true);
-    }
-  };
-
-  const handlePayPalError = (error) => {
-    setShowPayPalError(true);
-  };
-
-  const handleClosePayPalPopup = () => {
-    setShowPayPalSuccess(false);
-    setShowPayPalError(false);
-  };
-
   const handleCash = async () => {
     if (order && isChecked) {
       try {
         const formData = new FormData();
+        formData.append('file', uploadedFile);
         formData.append('order', new Blob([JSON.stringify({
           ...order,
-          startDate, endDate, totalPrice, deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+          startDate,  // Include startDate and endDate from props
+          endDate,
+          totalPrice,  // Include totalPrice
+          deliveryOption,  // Include delivery option
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
         })], { type: 'application/json' }));
 
-        const response = await axios.post(`http://localhost:8080/order/insertCashOrder?userId=${userId}&carId=${carId}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        console.log(formData);
+        // Post order to backend
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         });
 
         if (response.data) {
@@ -177,6 +116,96 @@ const PaymentPopup = ({
         console.error('Error submitting cash order:', error);
       }
     }
+  };
+
+  const handlePayPalSuccess = async (details, data) => {
+    try {
+        setPaypalPaid(true);
+        let newOrder = order;
+
+        // If newOrder is null, create the order
+        if (!newOrder || !newOrder.orderId) {
+            console.log("Order object is null. Creating a new order...");
+            
+            const formData = new FormData();
+            formData.append('order', new Blob([JSON.stringify({
+                startDate: startDate,   // Use the prop startDate
+                endDate: endDate,       // Use the prop endDate
+                totalPrice: totalPrice, // Use the prop totalPrice
+                paymentOption: "PayPal",  // Set payment option to PayPal
+                isDeleted: false,
+                referenceNumber: '',  // Generate reference number later
+            })], { type: 'application/json' }));
+
+            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.data) {
+                newOrder = response.data;  // Save the created order with its ID
+                setOrder(newOrder);        // Update state with the new order
+                console.log("Order created successfully:", newOrder);
+            } else {
+                throw new Error("Failed to create order before PayPal success.");
+            }
+        }
+
+        // Ensure that newOrder.orderId exists
+        if (!newOrder || !newOrder.orderId) {
+            throw new Error("OrderId is missing after order creation.");
+        }
+
+        console.log("Updating payment status for order:", newOrder.orderId);
+
+        // Using details.id as transaction ID instead of data.transactionId
+        const transactionId = details.id;  // This contains the PayPal transaction ID
+
+        if (!transactionId) {
+            console.error("PayPal transaction ID is missing.");
+            return; // Exit early if transactionId is not found
+        }
+
+        // Now update the payment status
+        const paymentData = {
+            orderId: newOrder.orderId,  // Ensure orderId is used correctly
+            transactionId: transactionId,  // PayPal transaction ID from details.id
+            paymentOption: "PayPal",  // Set payment option as PayPal
+        };
+
+        const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (paymentResponse.data) {
+            setShowPayPalSuccess(true);  // Trigger PayPal success popup
+            generateReceipt();           // Generate receipt after successful payment
+            setShowBookedPopup(true);    // Show booked popup
+            console.log("Payment status updated successfully.");
+        }
+
+    } catch (error) {
+        console.error("Error updating payment status:", error.message);
+    }
+};
+
+
+
+
+
+
+
+  const handlePayPalError = (error) => {
+    console.error("Handling PayPal error:", error);  // Ensure error handling is logged
+    setShowPayPalError(true);
+  };
+
+  const handleClosePayPalPopup = () => {
+    setShowPayPalSuccess(false);
+    setShowPayPalError(false);
   };
 
   const handleCloseCash = () => {
@@ -231,10 +260,7 @@ const PaymentPopup = ({
           <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
           <div className="text-wrapper-77">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-9">
-            {deliveryOption === "Delivery" ? `Delivery Location: ${deliveryAddress}` : `Pick-up Location: ${car.address}`}
-          </div>
-
+          <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
             <div className="group11">
               <input
@@ -255,7 +281,7 @@ const PaymentPopup = ({
               </button>
             </div>
             <div className="payment-screenshot">
-              {uploadedFileName || "Proof Of Payment"}
+              {uploadedFileName || "Gcash Screenshot"}
             </div>
           </div>
 
@@ -306,7 +332,7 @@ const PaymentPopup = ({
             >
               <div className="text-wrapper-321">Cash</div>
             </button>
-
+            
           </div>
           <button className="close" onClick={onClose}>
             <img className="vector-2" alt="Vector" src={close} />
