@@ -135,6 +135,8 @@ const PaymentPopup = ({ car, startDate, endDate, initialOrder, deliveryOption, d
                 paymentOption: "PayPal",  // Set payment option to PayPal
                 isDeleted: false,
                 referenceNumber: '',  // Generate reference number later
+                deliveryOption,  // Include delivery option
+                deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
             })], { type: 'application/json' }));
 
             const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
