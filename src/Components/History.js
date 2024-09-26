@@ -239,6 +239,22 @@ export const OrderHistoryPage = () => {
     }
   };
 
+  const handleApprove = async (orderId) => {
+    try {
+        // Call backend to approve order
+        const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, { method: 'PUT' });
+        
+        if (response.ok) {
+            // After approval, update the 'active' status in the local state to 1 (true)
+            setOrders(prevOrders => prevOrders.map(order =>
+                order.orderId === orderId ? { ...order, active: 1 } : order
+            ));
+        }
+      } catch (error) {
+          console.error('Error approving order:', error);
+      }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -306,9 +322,11 @@ export const OrderHistoryPage = () => {
                       <th>Car Address</th>
                       <th>Owner</th>
                       <th>Owner Phone</th>
+                      {showOwnedCars && <th>Payment Option</th>} {/* Conditionally render isReturned */}
                       <th>Status</th>
                       <th>Activity</th>
                       {showOwnedCars && <th>isReturned</th>} {/* Conditionally render isReturned */}
+                      {showOwnedCars && <th>Approve</th>} {/* Conditionally render isReturned */}
                       {showOwnedCars && <th>Actions</th>} {/* Conditionally render Actions */}
                     </tr>
                   </thead>
@@ -323,11 +341,19 @@ export const OrderHistoryPage = () => {
                         <td>{order.car.address}</td>
                         <td>{order.car.owner.username}</td>
                         <td>{order.car.owner.pNum}</td>
+                        <td>{order.paymentOption}</td>
                         <td>{getStatusText(order.status)}</td>
                         <td>{getActivity(order.active)}</td>
                         <td>
                           <button className="button" onClick={() => handleCarReturned(order.orderId)}>Returned</button>
                         </td>
+                        {order.paymentOption === "Cash" ? (
+                        <td>
+                          <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
+                        </td>
+                        ) : (
+                          <td></td> // Empty cell when no button
+                        )}
                         <td>
                           {/* Extend Rent Action */}
                           {order.active && (

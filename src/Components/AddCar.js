@@ -308,7 +308,7 @@ export const AddCar = () => {
                   onBlur={() => {
                     // Format the value when input loses focus
                     if (rentPrice !== '' && !isNaN(rentPrice)) {
-                      const parsedPrice = '₱' + parseFloat(rentPrice).toFixed(2);
+                      const parsedPrice = parseFloat(rentPrice).toFixed(2);
                       setRentPrice(parsedPrice);
                     }
                   }}
