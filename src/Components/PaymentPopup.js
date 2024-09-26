@@ -13,7 +13,7 @@ import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import { CashOptionPopup } from "../Components/BookingPopup";
 
-const PaymentPopup = ({ car, startDate, endDate, initialOrder, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
+const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -118,6 +118,8 @@ const PaymentPopup = ({ car, startDate, endDate, initialOrder, deliveryOption, d
     }
   };
 
+  
+
   const handlePayPalSuccess = async (details, data) => {
     try {
         setPaypalPaid(true);
@@ -185,7 +187,11 @@ const PaymentPopup = ({ car, startDate, endDate, initialOrder, deliveryOption, d
         if (paymentResponse.data) {
             setShowPayPalSuccess(true);  // Trigger PayPal success popup
             generateReceipt();           // Generate receipt after successful payment
-            setShowBookedPopup(true);    // Show booked popup
+            setShowBookedPopup(true);    // Show booked popup with PayPal transaction ID
+            setOrder({
+                ...newOrder,
+                referenceNumber: transactionId  // Use the PayPal transaction ID as the reference number
+            });
             console.log("Payment status updated successfully.");
         }
 
