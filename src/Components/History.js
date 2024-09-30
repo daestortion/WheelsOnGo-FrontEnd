@@ -7,6 +7,7 @@ import sidelogo from "../Images/sidelogo.png";
 import vector from "../Images/adminvector.png";
 import profile from "../Images/profile.png";
 import DatePicker from "react-datepicker";
+import PaymentPopup from "./PaymentPopup";
 import "react-datepicker/dist/react-datepicker.css";
 
 export const OrderHistoryPage = () => {
@@ -14,6 +15,8 @@ export const OrderHistoryPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [allOrders, setAllOrders] = useState([]);
   const [showOwnedCars, setShowOwnedCars] = useState(false);
+  const [showOngoingRents, setShowOngoingRents] = useState(false);
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to control PaymentPopup
   const [currentUser, setCurrentUser] = useState({
     userId: null,
     username: "username",
@@ -28,6 +31,7 @@ export const OrderHistoryPage = () => {
     orders: [],
     isOwner: false,
   });
+  const [selectedOrder, setSelectedOrder] = useState(null); // Track the selected order for payment
   const [showDatePicker, setShowDatePicker] = useState(null); // For showing DatePicker
   const [selectedDate, setSelectedDate] = useState(null); // Selected date for extension
   const [priceSummary, setPriceSummary] = useState({
@@ -63,7 +67,9 @@ export const OrderHistoryPage = () => {
   // Fetch orders for a specific car
   const fetchOrdersByCarId = async (carId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${carId}`);
+      const response = await axios.get(
+        `http://localhost:8080/order/getOrdersByCarId/${carId}`
+      );
       if (response.status === 200) {
         return response.data;
       } else {
@@ -101,7 +107,11 @@ export const OrderHistoryPage = () => {
     }
 
     try {
-      const newEndDate = selectedDate.toISOString().split("T")[0];
+      // Adjust the selected date to ensure time zone issues don't affect the stored date
+      const adjustedDate = new Date(selectedDate);
+      adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone shifts
+
+      const newEndDate = adjustedDate.toISOString().split("T")[0]; // Convert to YYYY-MM-DD format
       const response = await axios.put(
         `http://localhost:8080/order/extendOrder/${orderId}`,
         null,
@@ -109,9 +119,10 @@ export const OrderHistoryPage = () => {
       );
 
       if (response.status === 200) {
-        alert("Rental extended successfully!");
         setShowDatePicker(null);
         fetchOrders(currentUser.userId);
+        setSelectedOrder({ orderId, carId, totalPrice: priceSummary.total }); // Store the selected order for payment
+        setShowPaymentPopup(true); // Show the payment popup
       } else {
         alert("Error extending rent.");
       }
@@ -126,25 +137,32 @@ export const OrderHistoryPage = () => {
 
     const car = await fetchCarDetails(carId);
     const orders = await fetchOrdersByCarId(carId);
-    
+
     // Filter out active orders and prepare booked dates
     const bookedDates = orders
-      .filter(order => new Date(order.startDate) <= date && new Date(order.endDate) >= date)
-      .map(order => {
+      .filter(
+        (order) =>
+          new Date(order.startDate) <= date && new Date(order.endDate) >= date
+      )
+      .map((order) => {
         let dates = [];
         let currentDate = new Date(order.startDate);
-        const addDays = (date, days) => new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const addDays = (date, days) =>
+          new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
         while (currentDate <= new Date(order.endDate)) {
           dates.push(new Date(currentDate));
           currentDate = addDays(currentDate, 1);
         }
         return dates;
-      }).flat();
+      })
+      .flat();
 
     setDisabledDates(bookedDates);
 
     if (car && date > new Date(endDate)) {
-      const days = Math.ceil((date - new Date(endDate)) / (1000 * 60 * 60 * 24));
+      const days = Math.ceil(
+        (date - new Date(endDate)) / (1000 * 60 * 60 * 24)
+      );
       const total = days * car.rentPrice;
       setPriceSummary({ days, pricePerDay: car.rentPrice, total });
     } else {
@@ -196,21 +214,23 @@ export const OrderHistoryPage = () => {
 
   // Handle the "Owned Cars" button click
   const handleOwnedCarsClick = () => {
-    setShowOwnedCars(true); // Set to true when owned cars are viewed
+    setShowOwnedCars(true);
+    setShowOngoingRents(false); // Disable Ongoing Rents view
     fetchCarOrdersByUserId(currentUser.userId);
-  };  
+  };
 
   // Handle the "Rent History" button click
   const handleRentHistoryClick = () => {
-    setShowOwnedCars(false); // Reset to false when viewing all orders
-    setOrders(allOrders);
+    setShowOwnedCars(false);
+    setShowOngoingRents(false); // Disable Ongoing Rents view
+    setOrders(allOrders); // Show all orders (Rent History)
   };
-  
+
   const handleOngoingRentClick = () => {
-    setShowOwnedCars(false); // Reset to false when viewing ongoing rent
-    setOrders(allOrders.filter((order) => order.active));
+    setShowOwnedCars(false);
+    setShowOngoingRents(true); // Enable Ongoing Rents view
+    setOrders(allOrders.filter((order) => order.active)); // Filter ongoing rents
   };
-  
 
   // Navigation Handlers
   const handleCarsClick = () => {
@@ -228,31 +248,41 @@ export const OrderHistoryPage = () => {
   const handleCarReturned = async (orderId) => {
     try {
       // Send a PUT request to update the order's return status
-      const response = await axios.put(`http://localhost:8080/order/markAsReturned/${orderId}`);
-      
+      const response = await axios.put(
+        `http://localhost:8080/order/markAsReturned/${orderId}`
+      );
+
       if (response.status === 200) {
-        console.log('Car return processed successfully.');
+        console.log("Car return processed successfully.");
         // Optionally, refresh the orders list or give visual feedback to the user
       }
     } catch (error) {
-      console.error('Error processing car return:', error.response?.data || error.message);
+      console.error(
+        "Error processing car return:",
+        error.response?.data || error.message
+      );
     }
   };
 
   const handleApprove = async (orderId) => {
     try {
-        // Call backend to approve order
-        const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, { method: 'PUT' });
-        
-        if (response.ok) {
-            // After approval, update the 'active' status in the local state to 1 (true)
-            setOrders(prevOrders => prevOrders.map(order =>
-                order.orderId === orderId ? { ...order, active: 1 } : order
-            ));
-        }
-      } catch (error) {
-          console.error('Error approving order:', error);
+      // Call backend to approve order
+      const response = await fetch(
+        `http://localhost:8080/order/approveOrder/${orderId}`,
+        { method: "PUT" }
+      );
+
+      if (response.ok) {
+        // After approval, update the 'active' status in the local state to 1 (true)
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.orderId === orderId ? { ...order, active: 1 } : order
+          )
+        );
       }
+    } catch (error) {
+      console.error("Error approving order:", error);
+    }
   };
 
   useEffect(() => {
@@ -322,12 +352,14 @@ export const OrderHistoryPage = () => {
                       <th>Car Address</th>
                       <th>Owner</th>
                       <th>Owner Phone</th>
-                      {showOwnedCars && <th>Payment Option</th>} {/* Conditionally render isReturned */}
+                      <th>Payment Option</th>
+                      {showOwnedCars && <th>Approve</th>}{" "}
+                      {/* Conditionally render isReturned */}
                       <th>Status</th>
                       <th>Activity</th>
-                      {showOwnedCars && <th>isReturned</th>} {/* Conditionally render isReturned */}
-                      {showOwnedCars && <th>Approve</th>} {/* Conditionally render isReturned */}
-                      {showOwnedCars && <th>Actions</th>} {/* Conditionally render Actions */}
+                      {showOwnedCars && <th>isReturned</th>}{" "}
+                      {/* Conditionally render isReturned */}
+                      {showOngoingRents && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -342,70 +374,91 @@ export const OrderHistoryPage = () => {
                         <td>{order.car.owner.username}</td>
                         <td>{order.car.owner.pNum}</td>
                         <td>{order.paymentOption}</td>
+                        {showOwnedCars &&
+                          (order.paymentOption === "Cash" ? (
+                            <td>
+                              <button
+                                className="button-approve"
+                                onClick={() => handleApprove(order.orderId)}
+                              >
+                                Approve
+                              </button>
+                            </td>
+                          ) : (
+                            <td></td> // Empty cell when no button
+                          ))}
                         <td>{getStatusText(order.status)}</td>
                         <td>{getActivity(order.active)}</td>
-                        <td>
-                          <button className="button" onClick={() => handleCarReturned(order.orderId)}>Returned</button>
-                        </td>
-                        {order.paymentOption === "Cash" ? (
-                        <td>
-                          <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
-                        </td>
-                        ) : (
-                          <td></td> // Empty cell when no button
-                        )}
-                        <td>
-                          {/* Extend Rent Action */}
-                          {order.active && (
-                            <div>
-                              <button className="button"
-                                onClick={() => setShowDatePicker(order.orderId)}
-                              >
-                                Extend
-                              </button>
-                              {showDatePicker === order.orderId && (
-                                <div>
-                                  <DatePicker
-                                    selected={selectedDate}
-                                    onChange={(date) =>
-                                      handleDateChange(
-                                        date,
-                                        order.endDate,
-                                        order.car.carId
-                                      )
-                                    }
-                                    minDate={new Date(order.endDate)}
-                                    excludeDates={disabledDates} // Disable booked dates
-                                    placeholderText="Select new end date"
-                                  />
-                                  <button
-                                    onClick={() =>
-                                      handleExtendRent(
-                                        order.orderId,
-                                        order.endDate,
-                                        order.car.carId
-                                      )
-                                    }
-                                  >
-                                    Submit
-                                  </button>
-                                  <div className="summary">
-                                    <h4>Summary of the Cost for Extension:</h4>
-                                    <p>Days: {priceSummary.days}</p>
-                                    <p>
-                                      Price per day: ₱
-                                      {priceSummary.pricePerDay.toFixed(2)}
-                                    </p>
-                                    <p>
-                                      Total Remaining Balance: ₱
-                                      {priceSummary.total.toFixed(2)}
-                                    </p>
+                        {showOwnedCars && (
+                          <td>
+                            <button
+                              className="button"
+                              onClick={() => handleCarReturned(order.orderId)}
+                            >
+                              Returned
+                            </button>
+                          </td>
+                        )}{" "}
+                        {/* Conditionally render isReturned */}
+                        {showOngoingRents && (
+                          <td>
+                            {/* Extend Rent Action */}
+                            {order.active && (
+                              <div>
+                                <button
+                                  className="button"
+                                  onClick={() =>
+                                    setShowDatePicker(order.orderId)
+                                  }
+                                >
+                                  Extend
+                                </button>
+                                {showDatePicker === order.orderId && (
+                                  <div>
+                                    <DatePicker
+                                      selected={selectedDate}
+                                      onChange={(date) =>
+                                        handleDateChange(
+                                          date,
+                                          order.endDate,
+                                          order.car.carId
+                                        )
+                                      }
+                                      minDate={new Date(order.endDate)}
+                                      excludeDates={disabledDates} // Disable booked dates
+                                      placeholderText="Select new end date"
+                                    />
+                                    <button
+                                      onClick={() =>
+                                        handleExtendRent(
+                                          order.orderId,
+                                          order.endDate,
+                                          order.car.carId
+                                        )
+                                      }
+                                    >
+                                      Submit
+                                    </button>
+                                    <div className="summary">
+                                      <h4>
+                                        Summary of the Cost for Extension:
+                                      </h4>
+                                      <p>Days: {priceSummary.days}</p>
+                                      <p>
+                                        Price per day: ₱
+                                        {priceSummary.pricePerDay.toFixed(2)}
+                                      </p>
+                                      <p>
+                                        Total Remaining Balance: ₱
+                                        {priceSummary.total.toFixed(2)}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </td>
+                                )}
+                              </div>
+                            )}
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>
@@ -421,7 +474,10 @@ export const OrderHistoryPage = () => {
           </div>
           {currentUser.owner ? (
             <div className="group-2">
-              <button className="div-wrapper" onClick={handleOwnedCarsClick}>
+              <button
+                className="div-wrapper"
+                onClick={handleOwnedCarsClick}
+              >
                 <div className="text-wrapper-4">Owned Cars</div>
               </button>
             </div>
@@ -434,6 +490,17 @@ export const OrderHistoryPage = () => {
           <div className="text-wrapper-5">Transaction History</div>
         </div>
       </div>
+
+      {/* Ensure PaymentPopup is shown when showPaymentPopup is true */}
+      {showPaymentPopup && selectedOrder && (
+        <PaymentPopup
+          car={orders.find((order) => order.orderId === selectedOrder.orderId)?.car}
+          order={selectedOrder}
+          totalPrice={selectedOrder.totalPrice}
+          userId={currentUser.userId}
+          onClose={() => setShowPaymentPopup(false)}
+        />
+      )}
     </div>
   );
 };
