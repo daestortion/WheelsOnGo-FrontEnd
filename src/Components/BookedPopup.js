@@ -15,7 +15,9 @@ const BookedPopup = ({ order, onClose }) => {
       <div className="overlap-wrapper">
         <div className="bp-overlap">
         <p className="bp-car-booked">
-                        Order {order?.referenceNumber} is now pending. Please check history for approval.
+                        {order.paymentOption === "PayPal"
+                          ? `Order is completed, this is your referrence number: ${order?.referenceNumber}`
+                          : `Order ${order?.referenceNumber} is now pending. Please check history for approval.`}
                     </p>
           <div className="group" >
             <div className="bp-overlap-group" onClick={handleOkClick}>

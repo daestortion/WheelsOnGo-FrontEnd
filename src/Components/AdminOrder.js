@@ -62,13 +62,17 @@ const AdminPageOrder = () => {
 
   const handleApprove = async (orderId) => {
     try {
-      const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, { method: 'PUT' });
-      if (response.ok) {
-        fetchOrders();
+        const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, { method: 'PUT' });
+        if (response.ok) {
+            // Update the frontend to mark the order as paid
+            setOrders(prevOrders => prevOrders.map(order =>
+                order.orderId === orderId ? { ...order, paid: true } : order
+            ));
+            fetchOrders(); // Optionally refetch orders to reflect the changes
+        }
+      } catch (error) {
+          console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   const handleDeny = async (orderId) => {
@@ -182,9 +186,13 @@ const AdminPageOrder = () => {
                     <td>{order.active ? 'True' : 'False'}</td>
                     <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : 'Pending'}</td>
                     <td>{order.paid ? 'Paid' : 'Not'}</td>
+                    {order.paymentOption === "GCash" ? (
                     <td>
                       <button className="button-show-image" onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
                     </td>
+                    ) : (
+                      <td></td> // Empty cell when no button
+                    )}
                     <td>
                       <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
                       <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
