@@ -45,6 +45,30 @@ export const AdminPageReports = () => {
         }
     };
 
+    // Handle group chat creation
+    const handleCreateGroupChat = async () => {
+        if (selectedReport) {
+            try {
+                // Define userIds for the group chat
+                const userIds = [
+                    selectedReport.user.userId, // Car Owner or Report User
+                    1 // Admin userId (hardcoded as 1, replace with actual admin userId from your session or state)
+                ];
+
+                // Call the API to create a group chat for the report
+                const response = await axios.post('http://localhost:8080/api/chats', {
+                    reportId: selectedReport.reportId,
+                    userIds
+                });
+
+                // Navigate to the created chat page with the new chatId
+                navigate(`/chats/${response.data.chatId}`);
+            } catch (error) {
+                console.error('Failed to create group chat:', error);
+            }
+        }
+    };
+
     const handleAdminCars = () => {
         navigate('/admincars');
     };
@@ -150,6 +174,11 @@ export const AdminPageReports = () => {
                                             hour12: false
                                         })}
                                     </p>
+
+                                    {/* Create Group Chat Button */}
+                                    <button className="create-group-chat-btn" onClick={handleCreateGroupChat}>
+                                        Create Group Chat
+                                    </button>
                                 </div>
                             ) : (
                                 <p className="select-report">Select a report to view details</p>
