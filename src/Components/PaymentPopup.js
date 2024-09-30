@@ -118,7 +118,34 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     }
   };
 
+      const createPaymentLink = async () => {
+        // Ensure that totalPrice is available and convert it to centavos
+        const amountInCentavos = Math.round(totalPrice * 100);  // Convert to centavos (e.g. PHP 100.00 = 10000 centavos)
+      
+        const response = await fetch('http://localhost:8080/api/payment/create-link', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: amountInCentavos,  // Dynamically use totalPrice in centavos
+            description: `Payment for renting ${car.carBrand} ${car.carModel} ${car.carYear}`,  // You can add dynamic description if needed
+          }),
+        });
+      
+        const data = await response.json();
+        console.log('Payment Link Response:', data);
+      
+        if (data && data.data && data.data.attributes && data.data.attributes.checkout_url) {
+          const paymentUrl = data.data.attributes.checkout_url;
+          // Redirect user to PayMongo payment page
+          window.location.href = paymentUrl;
+        } else {
+          console.error('Failed to create payment link');
+        }
+      };
   
+      
 
   const handlePayPalSuccess = async (details, data) => {
     try {
@@ -329,6 +356,9 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             >
               <div className="text-wrapper-11">Book</div>
             </button>
+
+            <button onClick={createPaymentLink}>Pay with PayMongo</button>
+
 
             <button
               className='cashbackground'
