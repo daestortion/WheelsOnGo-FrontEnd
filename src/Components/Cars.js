@@ -75,25 +75,21 @@ export const Cars = () => {
   // Map province, city, barangay codes to descriptions
   const getProvinceDesc = (provCode) => {
     const province = provincesData.RECORDS.find(prov => prov.provCode === provCode)?.provDesc || '';
-    console.log("Province Description for", provCode, ":", province); // Log province lookup
     return province;
   };
 
   const getCityDesc = (cityCode) => {
     const city = citiesData.RECORDS.find(city => city.citymunCode === cityCode)?.citymunDesc || '';
-    console.log("City Description for", cityCode, ":", city); // Log city lookup
     return city;
   };
 
   const getBarangayDesc = (barangayCode) => {
     const barangay = barangaysData.RECORDS.find(brgy => brgy.brgyCode === barangayCode)?.brgyDesc || '';
-    console.log("Barangay Description for", barangayCode, ":", barangay); // Log barangay lookup
     return barangay;
   };
 
   // Handle search execution
   const handleSearch = () => {
-    console.log("Search Term:", searchTerm); // Log search term
     setSearchQuery(searchTerm.toLowerCase());
   };
 
@@ -117,16 +113,36 @@ export const Cars = () => {
       const carModel = car.carModel?.toLowerCase() || '';
       const address = car.address?.toLowerCase() || '';
 
-      const match = (
+      return (
         carBrand.includes(searchString) ||
         carModel.includes(searchString) ||
         address.includes(searchString)
       );
-
-      console.log("Matching Car:", car.carBrand, car.carModel, " Match:", match); // Log matching process
-
-      return match;
     });
+
+  const handleRentClick = (car) => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    if (storedUser) {
+      // Check if the user is the owner of the car
+      if (car.owner.userId === storedUser.userId) {
+        setShowRentOwnPopup(true);
+        return;
+      }
+
+      // Check if the user is verified
+      if (storedUser.verificationStatus !== 1) {
+        setShowVerifyFirst(true);
+        return;
+      }
+
+      // If the user is verified and not the owner, proceed to rent the car
+      setSelectedCar(car);
+    } else {
+      // If no user is found, navigate to login
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="cars">
@@ -159,7 +175,7 @@ export const Cars = () => {
                       <img src={car.carImage} alt="Car" className="car-image" />
                     )}
                     <div className="overlap-group-wrapper">
-                      <button className="div-wrapper" onClick={() => setSelectedCar(car)}>
+                      <button className="div-wrapper" onClick={() => handleRentClick(car)}>
                         <div className="text-wrapper">Rent</div>
                       </button>
                     </div>
