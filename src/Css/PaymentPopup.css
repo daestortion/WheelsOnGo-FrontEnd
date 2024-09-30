@@ -80,14 +80,14 @@
     font-size: 18px;
     font-weight: 500;
     height: 34px;
-    left: 940px;
+    left: 975px;
     letter-spacing: 0.23px;
     line-height: 140px;
     position: absolute;
     text-align: center;
-    top: 290px;
+    top: 265px;
     white-space: nowrap;
-    width: 592px;
+    width: 560px;
   }
   
   .payment-popup .pppp {
@@ -101,7 +101,7 @@
     line-height: 140px;
     position: absolute;
     text-align: center;
-    top: 415px;
+    top: 350px;
     white-space: nowrap;
     width: 592px;
   }
@@ -395,12 +395,14 @@
   }
   
   .payment-popup .image {
-    height: 300px;
-    left: 1108px;
-    object-fit: cover;
+    height: 280px;
+    left: 1115px;
+    max-width: 100%;  /* Ensure the image doesn't exceed the container's width */
+    max-height: 100%; /* Ensure the image doesn't exceed the container's height */
+    object-fit: contain; /* Fit the image inside the container while preserving aspect ratio */
     position: absolute;
-    top: 50px;
-    width: 300px;
+    top: 30px;
+    width: 280px;
   }
   
 
@@ -414,12 +416,12 @@
   .payment-popup .cashbackground {
     background-color: #e80029;
     border-radius: 35px;
-    height: 70px;
+    height: 55px;
     position: absolute;
-    width: 130px;
+    width: 570px;
     border: none;
-    left: 530px;
-    top: -157px;
+    left: 99px;
+    top: -170px;
   }
 
   .payment-popup .text-wrapper-321 {
@@ -431,8 +433,8 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 20px;
-    width: 80px;
+    top: 13px;
+    width: 520px;
     left: 25px;
   }
 
@@ -452,5 +454,5 @@
     height: 55px;
     border-radius: 30px;
     left: 99px;
-    top: 10px;
+    top: -165px;
   }

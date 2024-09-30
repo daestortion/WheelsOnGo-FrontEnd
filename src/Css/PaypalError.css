@@ -12,7 +12,7 @@
   }
   
   .payment-error-popup .overlap-wrapper312 {
-    background-color: #ffffff;
+    background: none;
     height: 410px;
     width: 907px;
   }
@@ -48,7 +48,7 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 131px;
+    top: 100px;
     width: 623px;
   }
   
