@@ -268,7 +268,7 @@
     width: 224px;
   }
   
-  .payment-popup .text-wrapper-9 {
+  .payment-popup .text-wrapper-99 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 25px;
@@ -278,7 +278,7 @@
     line-height: normal;
     position: absolute;
     top: 379px;
-    width: 260px;
+    width: 825px;
   }
   
   .payment-popup .overlap-2 {
@@ -434,4 +434,23 @@
     top: 20px;
     width: 80px;
     left: 25px;
+  }
+
+  .paymongo-logo{
+    width: 160px;
+    border-radius: 20px;
+    position: relative;
+  }
+
+  .paymongo-button{
+    border: none;
+    padding: 0%;
+    background: none;
+    background-color: #00D17D;
+    position: relative;
+    width: 570px;
+    height: 55px;
+    border-radius: 30px;
+    left: 99px;
+    top: 10px;
   }

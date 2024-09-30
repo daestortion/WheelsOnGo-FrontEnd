@@ -5,6 +5,7 @@ import qrcode from "../Images/qrcode.png";
 import line1 from "../Images/line11.png";
 import close from "../Images/close.png";
 import back from "../Images/back.png";
+import paymonggo from "../Images/paymongo.svg";
 import BookedPopup from './BookedPopup';
 import TAC from "../Images/WheelsOnGoTAC.pdf";
 import axios from 'axios';
@@ -295,7 +296,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
           <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
           <div className="text-wrapper-77">Total: ₱{totalPrice.toFixed(2)}</div>
           <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-9">Pick-up Location: {car.address}</div>
+          <div className="text-wrapper-99">Pick-up Location: {car.address}</div>
           <div className="overlap-2">
             <div className="group11">
               <input
@@ -357,7 +358,10 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
               <div className="text-wrapper-11">Book</div>
             </button>
 
-            <button onClick={createPaymentLink}>Pay with PayMongo</button>
+            <button onClick={createPaymentLink} className="paymongo-button">
+              <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
+            </button>
+
 
 
             <button

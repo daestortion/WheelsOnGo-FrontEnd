@@ -316,32 +316,32 @@ export const OrderHistoryPage = () => {
 
   return (
     <div className="order-history-page">
-      <div className="overlap-wrapper">
-        <div className="overlap">
-          <div className="overlap-group">
-            <div className="text-wrapper" onClick={handleCarsClick}>
+      <div className="overlap-wrapper213">
+        <div className="overlap213">
+          <div className="overlap-group123">
+            <div className="text-wrapper213" onClick={handleCarsClick}>
               Cars
             </div>
-            <div className="div" onClick={handleAboutClick}>
+            <div className="div213" onClick={handleAboutClick}>
               About
             </div>
             <img
-              className="sideview"
+              className="sideview213"
               alt="Sideview"
               onClick={handleHomeClick}
               src={sidelogo}
             />
-            <div className="text-wrapper-2" onClick={handleHomeClick}>
+            <div className="text-wrapper-2213" onClick={handleHomeClick}>
               Home
             </div>
             <Dropdown>
-              <img className="group" alt="Group" src={profile} />
+              <img className="group213" alt="Group" src={profile} />
             </Dropdown>
           </div>
-          <div className="overlap-2">
-            <div className="rectangle">
-              <div className="table-container">
-                <table className="order-table">
+          <div className="overlap-212">
+            <div className="rectangle213">
+              <div className="table-container213">
+                <table className="order-table213">
                   <thead>
                     <tr>
                       <th>Car</th>
@@ -392,7 +392,7 @@ export const OrderHistoryPage = () => {
                         {showOwnedCars && (
                           <td>
                             <button
-                              className="button"
+                              className="button213"
                               onClick={() => handleCarReturned(order.orderId)}
                             >
                               Returned
@@ -406,7 +406,7 @@ export const OrderHistoryPage = () => {
                             {order.active && (
                               <div>
                                 <button
-                                  className="button"
+                                  className="button213"
                                   onClick={() =>
                                     setShowDatePicker(order.orderId)
                                   }
@@ -465,29 +465,29 @@ export const OrderHistoryPage = () => {
                 </table>
               </div>
             </div>
-            <img className="vector" alt="Vector" src={vector} />
+            <img className="vector212" alt="Vector" src={vector} />
           </div>
-          <div className="overlap-group-wrapper">
-            <button className="div-wrapper" onClick={handleOngoingRentClick}>
-              <div className="text-wrapper-3">Ongoing Rent</div>
+          <div className="overlap-group-wrapper213">
+            <button className="div-wrapper213" onClick={handleOngoingRentClick}>
+              <div className="text-wrapper-3213">Ongoing Rent</div>
             </button>
           </div>
           {currentUser.owner ? (
-            <div className="group-2">
+            <div className="group-2213">
               <button
-                className="div-wrapper"
+                className="div-wrapper213"
                 onClick={handleOwnedCarsClick}
               >
-                <div className="text-wrapper-4">Owned Cars</div>
+                <div className="text-wrapper-4213">Owned Cars</div>
               </button>
             </div>
           ) : null}
-          <div className="group-3">
-            <button className="div-wrapper" onClick={handleRentHistoryClick}>
-              <div className="text-wrapper-4">Rent History</div>
+          <div className="group-3213">
+            <button className="div-wrapper213" onClick={handleRentHistoryClick}>
+              <div className="text-wrapper-4213">Rent History</div>
             </button>
           </div>
-          <div className="text-wrapper-5">Transaction History</div>
+          <div className="text-wrapper-5213">Transaction History</div>
         </div>
       </div>
 
