@@ -320,6 +320,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                  ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}`
               : car.address
           }  
+          isExtending={false}
         />
       )}
     </div>

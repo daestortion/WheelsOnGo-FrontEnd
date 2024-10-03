@@ -10,6 +10,11 @@ import DatePicker from "react-datepicker";
 import PaymentPopup from "./PaymentPopup";
 import "react-datepicker/dist/react-datepicker.css";
 
+// Utility function to format dates
+const formatDate = (date) => {
+  return date ? new Date(date).toLocaleDateString() : "N/A";
+};
+
 export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +105,7 @@ export const OrderHistoryPage = () => {
   };
 
   // Handle extend rent action
-  const handleExtendRent = async (orderId, endDate, carId) => {
+  const handleExtendRent = async (orderId, endDate, carId, isUpdating = false) => {
     if (!selectedDate || selectedDate <= new Date(endDate)) {
       alert("Please select a valid date after the current end date.");
       return;
@@ -121,7 +126,24 @@ export const OrderHistoryPage = () => {
       if (response.status === 200) {
         setShowDatePicker(null);
         fetchOrders(currentUser.userId);
-        setSelectedOrder({ orderId, carId, totalPrice: priceSummary.total }); // Store the selected order for payment
+
+        // Pass newEndDate instead of endDate when updating
+        const finalEndDate = isUpdating ? newEndDate : endDate;
+
+        // Fetch car details to pass carImage to PaymentPopup
+        const carDetails = await fetchCarDetails(carId);
+
+        setSelectedOrder({
+          orderId,
+          carId,
+          totalPrice: priceSummary.total,
+          endDate: finalEndDate,  // Use newEndDate if isUpdating
+          carImage: carDetails?.carImage, // Fetch and pass carImage
+          car: carDetails,                // Full car details
+          isUpdating,                     // Pass the isUpdating flag to PaymentPopup
+          startDate: carDetails.startDate, // Make sure startDate is correctly passed
+        });
+
         setShowPaymentPopup(true); // Show the payment popup
       } else {
         alert("Error extending rent.");
@@ -366,8 +388,8 @@ export const OrderHistoryPage = () => {
                     {orders.map((order) => (
                       <tr key={order.orderId}>
                         <td>{order.car.carModel}</td>
-                        <td>{order.startDate}</td>
-                        <td>{order.endDate}</td>
+                        <td>{formatDate(order.startDate)}</td> {/* Use formatDate for startDate */}
+                        <td>{formatDate(order.endDate)}</td> {/* Use formatDate for endDate */}
                         <td>{order.totalPrice}</td>
                         <td>{order.referenceNumber}</td>
                         <td>{order.car.address}</td>
@@ -499,6 +521,7 @@ export const OrderHistoryPage = () => {
           totalPrice={selectedOrder.totalPrice}
           userId={currentUser.userId}
           onClose={() => setShowPaymentPopup(false)}
+          isExtending={true}
         />
       )}
     </div>

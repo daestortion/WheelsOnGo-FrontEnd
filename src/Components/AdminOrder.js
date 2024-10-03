@@ -180,7 +180,7 @@ const AdminPageOrder = () => {
                     <td>{order.car ? order.car.carModel : 'N/A'}</td>
                     <td>{order.startDate}</td>
                     <td>{order.endDate}</td>
-                    <td>{order.totalPrice}</td>
+                    <td>₱{order.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>{order.paymentOption}</td>
                     <td>{order.referenceNumber}</td>
                     <td>{order.active ? 'True' : 'False'}</td>
