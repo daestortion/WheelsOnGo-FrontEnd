@@ -108,6 +108,7 @@ export const Login = () => {
   return (
     <div className="login">
       {isLoading && <Loading />}
+      
         <div className="overlap">
           <div className="text-wrapper">LOGIN</div>
           <input
@@ -123,6 +124,7 @@ export const Login = () => {
             name="identifier"
             autoComplete="username"
           />
+
           <input
             className="div-wrapper"
             type="password"
@@ -164,6 +166,7 @@ export const Login = () => {
           <button className="overlap-group-2" onClick={handleLogin}>
             Login
           </button>
+          
         </div>
         <img className="wheels-on-go" alt="Wheels on go" src={logo} />
     </div>
