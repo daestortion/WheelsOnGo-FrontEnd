@@ -39,6 +39,20 @@
     top: 33px;
     width: 285px;
   }
+
+  .payment-popup .header {
+    color: #000000;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-size: 50px;
+    font-weight: 600;
+    left: 164px;
+    letter-spacing: 0.62px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 33px;
+    width: 600px;
+  }
   
   .payment-popup .back {
     background-color: #e32128;
@@ -80,14 +94,14 @@
     font-size: 18px;
     font-weight: 500;
     height: 34px;
-    left: 940px;
+    left: 975px;
     letter-spacing: 0.23px;
     line-height: 140px;
     position: absolute;
     text-align: center;
-    top: 290px;
+    top: 265px;
     white-space: nowrap;
-    width: 592px;
+    width: 560px;
   }
   
   .payment-popup .pppp {
@@ -101,7 +115,7 @@
     line-height: 140px;
     position: absolute;
     text-align: center;
-    top: 415px;
+    top: 350px;
     white-space: nowrap;
     width: 592px;
   }
@@ -212,7 +226,7 @@
     font-size: 30px;
     font-weight: 500;
     height: 34px;
-    left: 172px;
+    left: 197px;
     letter-spacing: 0.38px;
     line-height: 140px;
     position: absolute;
@@ -223,7 +237,7 @@
   
   .payment-popup .img {
     height: 43px;
-    left: 152px;
+    left: 188px;
     position: absolute;
     top: 0;
     width: 2px;
@@ -395,12 +409,14 @@
   }
   
   .payment-popup .image {
-    height: 300px;
-    left: 1108px;
-    object-fit: cover;
+    height: 280px;
+    left: 1115px;
+    max-width: 100%;  /* Ensure the image doesn't exceed the container's width */
+    max-height: 100%; /* Ensure the image doesn't exceed the container's height */
+    object-fit: contain; /* Fit the image inside the container while preserving aspect ratio */
     position: absolute;
-    top: 50px;
-    width: 300px;
+    top: 30px;
+    width: 280px;
   }
   
 
@@ -414,12 +430,12 @@
   .payment-popup .cashbackground {
     background-color: #e80029;
     border-radius: 35px;
-    height: 70px;
+    height: 55px;
     position: absolute;
-    width: 130px;
+    width: 570px;
     border: none;
-    left: 530px;
-    top: -157px;
+    left: 99px;
+    top: -170px;
   }
 
   .payment-popup .text-wrapper-321 {
@@ -431,8 +447,8 @@
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 20px;
-    width: 80px;
+    top: 13px;
+    width: 520px;
     left: 25px;
   }
 
@@ -452,5 +468,5 @@
     height: 55px;
     border-radius: 30px;
     left: 99px;
-    top: 10px;
+    top: -165px;
   }

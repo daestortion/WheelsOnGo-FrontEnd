@@ -7,7 +7,7 @@ import sidelogo from "../Images/sidelogo.png";
 import vector from "../Images/adminvector.png";
 import profile from "../Images/profile.png";
 import DatePicker from "react-datepicker";
-import PaymentPopup from "./PaymentPopup";
+import ExtendPaymentPopup from "./ExtendPaymentPopup";
 import "react-datepicker/dist/react-datepicker.css";
 
 // Utility function to format dates
@@ -21,7 +21,7 @@ export const OrderHistoryPage = () => {
   const [allOrders, setAllOrders] = useState([]);
   const [showOwnedCars, setShowOwnedCars] = useState(false);
   const [showOngoingRents, setShowOngoingRents] = useState(false);
-  const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State to control PaymentPopup
+  const [showExtendPaymentPopup, setExtendShowPaymentPopup] = useState(false); // State to control PaymentPopup
   const [currentUser, setCurrentUser] = useState({
     userId: null,
     username: "username",
@@ -105,7 +105,7 @@ export const OrderHistoryPage = () => {
   };
 
   // Handle extend rent action
-  const handleExtendRent = async (orderId, endDate, carId, isUpdating = false) => {
+  const handleExtendRent = async (orderId, endDate, carId, isUpdating = true) => {
     if (!selectedDate || selectedDate <= new Date(endDate)) {
       alert("Please select a valid date after the current end date.");
       return;
@@ -144,7 +144,7 @@ export const OrderHistoryPage = () => {
           startDate: carDetails.startDate, // Make sure startDate is correctly passed
         });
 
-        setShowPaymentPopup(true); // Show the payment popup
+        setExtendShowPaymentPopup(true); // Show the payment popup
       } else {
         alert("Error extending rent.");
       }
@@ -514,13 +514,13 @@ export const OrderHistoryPage = () => {
       </div>
 
       {/* Ensure PaymentPopup is shown when showPaymentPopup is true */}
-      {showPaymentPopup && selectedOrder && (
-        <PaymentPopup
+      {showExtendPaymentPopup && selectedOrder && (
+        <ExtendPaymentPopup
           car={orders.find((order) => order.orderId === selectedOrder.orderId)?.car}
           order={selectedOrder}
           totalPrice={selectedOrder.totalPrice}
           userId={currentUser.userId}
-          onClose={() => setShowPaymentPopup(false)}
+          onClose={() => setExtendShowPaymentPopup(false)}
           isExtending={true}
         />
       )}

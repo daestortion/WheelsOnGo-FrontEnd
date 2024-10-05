@@ -1,0 +1,472 @@
+.extend-payment-popup {
+    position: fixed;  
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;  
+    justify-content: center;  
+    background-color: rgba(0, 0, 0, 0.5);  
+    z-index: 1050; 
+    overflow: hidden; /* Prevent scrolling */
+  }
+  
+  .extend-payment-popup .overlap-wrapper-popup {
+    width: 1502px;
+  }
+  
+  .extend-payment-popup .content {
+    background-color: #d7d1d1;
+    border-radius: 50px;
+    height: 724px;
+    position: relative;
+    width: 1698px;
+    left: -75px;
+  }
+  
+    
+    .extend-payment-popup .text-wrapper {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 50px;
+      font-weight: 600;
+      left: 164px;
+      letter-spacing: 0.62px;
+      line-height: normal;
+      position: absolute;
+      text-align: center;
+      top: 33px;
+      width: 285px;
+    }
+  
+    .extend-payment-popup .header {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 50px;
+      font-weight: 600;
+      left: 164px;
+      letter-spacing: 0.62px;
+      line-height: normal;
+      position: absolute;
+      text-align: center;
+      top: 33px;
+      width: 600px;
+    }
+    
+    .extend-payment-popup .back {
+      background-color: #e32128;
+      border-radius: 9px;
+      height: 50px;
+      left: 61px;
+      position: absolute;
+      top: 38px;
+      width: 50px;
+      border: none;
+    }
+    
+    .extend-payment-popup .vector {
+      height: 30px;
+      left: 12px;
+      position: absolute;
+      top: 10px;
+      width: 25px;
+    }
+    
+    .extend-payment-popup .by-click {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 20px;
+      font-weight: 500;
+      height: 34px;
+      left: 239px;
+      letter-spacing: 0.25px;
+      line-height: 140px;
+      position: absolute;
+      top: 500px;
+      white-space: nowrap;
+      width: 608px;
+    }
+    
+    .extend-payment-popup .payment-methods {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 18px;
+      font-weight: 500;
+      height: 34px;
+      left: 975px;
+      letter-spacing: 0.23px;
+      line-height: 140px;
+      position: absolute;
+      text-align: center;
+      top: 265px;
+      white-space: nowrap;
+      width: 560px;
+    }
+    
+    .extend-payment-popup .pppp {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 18px;
+      font-weight: 500;
+      height: 34px;
+      left: 961px;
+      letter-spacing: 0.23px;
+      line-height: 140px;
+      position: absolute;
+      text-align: center;
+      top: 350px;
+      white-space: nowrap;
+      width: 592px;
+    }
+  
+    .extend-payment-popup .ppp {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 18px;
+      font-weight: 700;
+      height: 34px;
+      left: 961px;
+      letter-spacing: 0.23px;
+      line-height: 140px;
+      position: absolute;
+      text-align: center;
+      top: 503px;
+      white-space: nowrap;
+      width: 592px;
+    }
+  
+    .extend-payment-popup .understood-agree {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 20px;
+      font-weight: 500;
+      height: 34px;
+      left: 239px;
+      letter-spacing: 0.25px;
+      line-height: 140px;
+      position: absolute;
+      top: 530px;
+      white-space: nowrap;
+      width: 608px;
+    }
+    
+    .extend-payment-popup .spanthis {
+      letter-spacing: 0.05px;
+    }
+    
+    .extend-payment-popup .tac-link {
+      letter-spacing: 0.05px;
+      text-decoration: underline;
+    }
+    
+    .extend-payment-popup .checkbox {
+      background-color: #ffffff;
+      height: 35px;
+      left: 181px;
+      position: absolute;
+      top: 588px;
+      width: 35px;
+      border: none;
+    }
+    
+    .extend-payment-popup .car-image {
+      background-color: #ffffff; 
+      border-radius: 40px; 
+      height: 200px;  /* Adjusted height to fit the image */
+      width: 200px;   /* Adjusted width to fit the image */
+      left: 95px; 
+      position: absolute; 
+      top: 148px; 
+      display: flex;          /* Use flexbox to center the image */
+      align-items: center;    /* Vertically center the image */
+      justify-content: center; /* Horizontally center the image */
+      overflow: hidden;       /* Hide overflow to maintain border radius */
+    }
+    
+    .extend-payment-popup .car-deets {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 40px;
+      font-weight: 600;
+      left: 335px;
+      letter-spacing: 0.5px;
+      line-height: normal;
+      position: absolute;
+      top: 196px;
+      width: 575px;
+    }
+    
+    .extend-payment-popup .price-pnum {
+      height: 43px;
+      left: 297px;
+      position: absolute;
+      top: 254px;
+      width: 590px;
+    }
+    
+    .extend-payment-popup .price {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 30px;
+      font-weight: 500;
+      height: 34px;
+      left: 40px;
+      letter-spacing: 0.38px;
+      line-height: 140px;
+      position: absolute;
+      top: -48px;
+      white-space: nowrap;
+      width: 418px;
+    }
+    
+    .extend-payment-popup .pnum {
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 30px;
+      font-weight: 500;
+      height: 34px;
+      left: 197px;
+      letter-spacing: 0.38px;
+      line-height: 140px;
+      position: absolute;
+      top: -48px;
+      white-space: nowrap;
+      width: 418px;
+    }
+    
+    .extend-payment-popup .vertical {
+      height: 43px;
+      left: 188px;
+      position: absolute;
+      top: 0;
+      width: 2px;
+    }
+    
+    .extend-payment-popup .end-date {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 25px;
+      font-weight: 600;
+      left: 110px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      top: 459px;
+      width: 300px;
+    }
+    
+    .extend-payment-popup .balance {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 25px;
+      font-weight: 600;
+      left: 111px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      top: 499px;
+      width: 250px;
+    }
+    
+    .extend-payment-popup .start-date {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 25px;
+      font-weight: 600;
+      left: 111px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      top: 419px;
+      width: 224px;
+    }
+    
+    .extend-payment-popup .ref-id {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 25px;
+      font-weight: 600;
+      left: 111px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      top: 379px;
+      width: 825px;
+    }
+    
+    .extend-payment-popup .overlap-2 {
+      background-color: #ffffff;
+      border-radius: 35px;
+      height: 71px;
+      left: 973px;
+      position: absolute;
+      top: 406px;
+      width: 410px;
+    }
+    
+    .extend-payment-popup .group11 {
+  
+      border-radius: 30px;
+      height: 50px;
+      left: 295px;
+      position: absolute;
+      top: 10px;
+      width: 105px;
+      border: none;
+    }
+    
+    .extend-payment-popup .div-wrapper111 {
+      background-color: #e80029;
+      border-radius: 35px;
+      height: 50px;
+      position: relative;
+      width: 105px;
+      border: none;
+    }
+    
+    .extend-payment-popup .text-wrapper-101 {
+      color: #ffffff;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 20px;
+      font-weight: 700;
+      left: 15px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      text-align: center;
+      top: 12px;
+      white-space: nowrap;
+      width: 72px;
+    }
+    
+    .extend-payment-popup .payment-screenshot {
+      color: #848484;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 30px;
+      font-weight: 700;
+      left: 15px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      top: 17px;
+      white-space: nowrap;
+      width: 270px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .extend-payment-popup .overlap-group-wrapper {
+      height: 71px;
+      left: 871px;
+      position: absolute;
+      top: 564px;
+      width: 573px;
+    }
+    
+    .extend-payment-popup .overlap-33 {
+      background-color: #e80029;
+      border-radius: 35px;
+      height: 60px;
+      position: relative;
+      width: 571px;
+      border: none;
+      left: 100px;
+      top: 50px;
+    }
+    
+    .extend-payment-popup .text-wrapper-11 {
+      color: #ffffff;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 20px;
+      font-weight: 700;
+      left: 207px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      text-align: center;
+      top: 18px;
+      width: 160px;
+    }
+    
+    .extend-payment-popup .close-button {
+      background-color: #e32128;
+      border-radius: 9px;
+      height: 50px;
+      left: 1580px;
+      position: absolute;
+      top: 34px;
+      width: 50px;
+      border: none;
+    }
+    
+    .extend-payment-popup .vector-2 {
+      height: 30px;
+      left: 10px;
+      position: absolute;
+      top: 10px;
+      width: 30px;
+    }
+    
+    .extend-payment-popup .image-slide {
+      height: 280px;
+      left: 1115px;
+      max-width: 100%;  /* Ensure the image doesn't exceed the container's width */
+      max-height: 100%; /* Ensure the image doesn't exceed the container's height */
+      object-fit: contain; /* Fit the image inside the container while preserving aspect ratio */
+      position: absolute;
+      top: 30px;
+      width: 280px;
+    }
+    
+  
+    .extend-payment-popup .car-picture {
+      position: relative;
+      max-width: 100%;   /* Ensure the image does not exceed the container width */
+      max-height: 100%;  /* Ensure the image does not exceed the container height */
+      border-radius: 40px; /* Maintain the border radius */
+    }
+  
+    .extend-payment-popup .backgroundcash {
+      background-color: #e80029;
+      border-radius: 35px;
+      height: 55px;
+      position: absolute;
+      width: 570px;
+      border: none;
+      left: 99px;
+      top: -170px;
+    }
+  
+    .extend-payment-popup .cash {
+      color: #ffffff;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      text-align: center;
+      top: 13px;
+      width: 520px;
+      left: 25px;
+    }
+  
+    .paymongologo{
+      width: 160px;
+      border-radius: 20px;
+      position: relative;
+    }
+  
+    .paymongo-option {
+      border: none;
+      padding: 0%;
+      background: none;
+      background-color: #00D17D;
+      position: relative;
+      width: 570px;
+      height: 55px;
+      border-radius: 30px;
+      left: 99px;
+      top: -165px;
+    }
