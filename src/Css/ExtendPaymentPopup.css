@@ -434,8 +434,8 @@
       position: absolute;
       width: 570px;
       border: none;
-      left: 99px;
-      top: -170px;
+      left: 970px;
+      top: 435px;
     }
   
     .extend-payment-popup .cash {
@@ -467,6 +467,6 @@
       width: 570px;
       height: 55px;
       border-radius: 30px;
-      left: 99px;
-      top: -165px;
+      left: 970px;
+      top: 520px;
     }
