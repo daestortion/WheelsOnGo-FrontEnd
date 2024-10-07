@@ -4,27 +4,38 @@
   flex-direction: row;
   justify-content: center;
   width: 100vw;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: auto; /* Disable vertical scrolling */
-  height: 100vh; /* Limit the height to the viewport height */
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 100vh;
   align-items: center;
 }
 
 .login .div {
   background-color: #ffffff;
-  position: relative;
-  height: 100%; /* Adjust to 100% of parent's height */
+  height: auto;
   width: 100%;
+  position: relative;
   max-width: 1920px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 40px;
 }
 
 .login .overlap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #d7d1d1;
   border-radius: 40px;
-  height: 700px;
-  left: 600px;
-  position: relative;
-  width: 907px;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
 .login .text-wrapper {
@@ -32,33 +43,11 @@
   font-family: "Inter-Bold", Helvetica;
   font-size: 40px;
   font-weight: 700;
-  left: 382px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 73px;
-  white-space: nowrap;
+  margin-bottom: 60px;
+  text-align: center;
 }
 
-.login .overlap-group {
-  background-color: #ffffff;
-  color: #848484;
-  border-radius: 35px;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: normal;
-  height: 71px;
-  left: 98px;
-  position: absolute;
-  top: 197px;
-  width: 647px;
-  border: none;
-  padding-left: 35px;
-  padding-right: 35px;
-}
-
+.login .overlap-group,
 .login .div-wrapper {
   background-color: #ffffff;
   color: #848484;
@@ -66,44 +55,22 @@
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
   font-weight: 700;
-  letter-spacing: 0;
-  line-height: normal;
   height: 71px;
-  left: 98px;
-  position: absolute;
-  top: 297px;
-  width: 647px;
+  width: 100%;
+  max-width: 600px;
   border: none;
-  padding-left: 35px;
-  padding-right: 35px;
+  padding: 0 35px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
-.login .not-registered {
-  color: transparent;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
-  font-weight: 700;
-  left: 452px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 575px;
-  width: 356px;
-}
-
+.login .not-registered,
 .login .forgot-passwords {
-  color: #e80029;
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  left: 103px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 575px;
-  width: 190px;
-  outline: none;
-  background: none;
+  margin: 20px;
+  text-align: center;
 }
 
 .login .span {
@@ -113,6 +80,7 @@
 .login .text-wrapper-323 {
   color: #e80029;
   text-decoration-line: none;
+  cursor: pointer;
 }
 
 .login .overlap-group-2 {
@@ -123,43 +91,26 @@
   font-weight: 700;
   border-radius: 35px;
   height: 71px;
-  position: relative;
-  width: 712px;
-  top: 420px;
-  left: 100px;
-  letter-spacing: 0;
-  line-height: normal;
+  width: 100%;
+  max-width: 600px;
   border: none;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
 .login .wheels-on-go {
-  position: relative;
   max-width: 600px;
   width: 100%;
   height: auto;
-  left: -1000px;
-}
-
-.auth-form {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
 .login .error {
-  padding: 10px;
-  border: none;
   border-radius: 5px;
-  margin: 10px 0;
   color: #721c24;
-  position: relative;
-  top: 280px;
   text-align: center;
   width: 80%;
   box-sizing: border-box;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .login .error-message {
@@ -167,184 +118,83 @@
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  position: absolute;
-  top: 95px; /* Adjust top value to position it correctly */
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  width: 100%;
+  margin: 20px;
 }
-
-/* Responsive adjustments for smaller screens */
 
 @media (max-width: 1024px) {
-
   .login {
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center elements */
+    flex-direction: column;
+    padding: 10px;
   }
 
   .login .div {
-    width: 90%; /* Reduce width for smaller screens */
-    max-width: 600px; /* Limit the max width */
-    padding: 20px; /* Add padding for better spacing */
+    flex-direction: column;
+    gap: 20px;
   }
 
   .login .overlap {
-    width: 90%;
-    left: auto;
-    height: 650px;
-    top: 220px;
-    position: absolute;
+    padding: 20px;
   }
 
   .login .text-wrapper {
-    font-size: 32px; /* Adjust font size */
-    text-align: center;
-    left: 10px;
-    right: 10px;
+    font-size: 30px;
+    margin-bottom: 30px;
   }
 
-
-
-  .login .overlap-group{
-    width: auto;
-    font-size: 24px;
-    margin-bottom: 20px;
-    position: absolute;
-    left: 10px;
-    right: 10px;
-  }
-
+  .login .overlap-group,
   .login .div-wrapper {
-    width: auto;
     font-size: 24px;
-    margin-bottom: 20px;
-    position: absolute;
-    left: 10px;
-    right: 10px;
+    height: 60px;
   }
 
-
-  
+  .login .not-registered,
+  .login .forgot-passwords {
+    font-size: 18px;
+  }
 
   .login .overlap-group-2 {
-    width: auto;
-    font-size: 20px;
-    margin-top: 20px;
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 445px;
+    font-size: 18px;
+    height: 60px;
   }
 
   .login .wheels-on-go {
-    max-width: 400px; /* Smaller logo for mobile */
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    position: relative; /* Make the position relative */
-    top: -340px; /* Move the logo to the top */
-    left: 0;
-  }
-
-  .login .forgot-passwords{
-    font-size: 20px; /* Adjust font size */
-    box-sizing: border-box; /* Ensure padding is included in the element's width */
-    word-wrap: break-word; /* Break long words to fit within the container */
-    position: absolute;
-    left: 10px;
-    right: 10;
-    width: 100%;
-    text-align: center;
-    top: 560px;
-  }
-
-  .login .not-registered {
-      font-size: 18px !important;
-      box-sizing: border-box !important;
-      word-wrap: break-word !important;
-      position: relative !important;
-      left: auto !important;
-      right: auto !important;
-      width: 100% !important;
-      text-align: center !important;
-      margin-top: 10px !important;
-      top: 565px;
-    
-  }
-
-  .login .error {
-    width: 100%;
-    font-size: 18px; /* Adjust font size */
-    text-align: center;
-  }
-
-  .login .error-message {
-    font-size: 16px;
-    top: 105px;
+    max-width: 400px;
+    height: 200px;
   }
 }
 
-
-
 @media (max-width: 768px) {
-
-  .login .wheels-on-go {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    position: relative; /* Make the position relative */
-  }
-
-  .login .div {
-    width: 100%; /* Full width */
-    padding: 10px; /* Add padding for better spacing */
+  .login {
+    padding: 5px;
   }
 
   .login .overlap {
-    width: 90%;
-    left: auto;
-    height: 650px;
-    top: 220px;
-    position: absolute;
-  }
-
-  
-
-  .login .overlap-group, .login .div-wrapper {
-    font-size: 18px; /* Adjust font size */
-  }
-
-  .login .overlap-group-2 {
-    font-size: 18px; /* Adjust button font size */
+    padding: 15px;
   }
 
   .login .text-wrapper {
-    font-size: 28px; /* Adjust font size */
-  }
-  .login .forgot-passwords{
-    font-size: 16px; /* Adjust font size */
-    box-sizing: border-box; /* Ensure padding is included in the element's width */
-    word-wrap: break-word; /* Break long words to fit within the container */
-    position: absolute;
-    left: 10px;
-    right: 10;
-    width: 100%;
-    text-align: center;
-    top: 560px;
+    font-size: 25px;
+    margin-bottom: 30px;
   }
 
-  .login .not-registered {
-      font-size: 14px !important;
-      box-sizing: border-box !important;
-      word-wrap: break-word !important;
-      position: relative !important;
-      left: auto !important;
-      right: auto !important;
-      width: 100% !important;
-      text-align: center !important;
-      margin-top: 10px !important;
-      top: 565px;
-    
+  .login .overlap-group,
+  .login .div-wrapper {
+    font-size: 20px;
+    height: 50px;
   }
 
+  .login .not-registered,
+  .login .forgot-passwords {
+    font-size: 16px;
+  }
+
+  .login .overlap-group-2 {
+    font-size: 16px;
+    height: 50px;
+  }
+
+  .login .wheels-on-go {
+    max-width: 400px;
+    height: 200px;
+  }
 }

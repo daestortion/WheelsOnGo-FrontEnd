@@ -108,10 +108,11 @@ export const Login = () => {
   return (
     <div className="login">
       {isLoading && <Loading />}
-      
-        <div className="overlap">
+      <div className="div">
         <img className="wheels-on-go" alt="Wheels on go" src={logo} />
+        <div className="overlap">
           <div className="text-wrapper">LOGIN</div>
+    
           <input
             className="overlap-group"
             type="text"
@@ -125,7 +126,7 @@ export const Login = () => {
             name="identifier"
             autoComplete="username"
           />
-
+    
           <input
             className="div-wrapper"
             type="password"
@@ -139,36 +140,31 @@ export const Login = () => {
             name="password"
             autoComplete="current-password"
           />
-            {errorMessage && (
-              <div className="error">
-                <p className="error-message">{errorMessage}</p>
-              </div>
-            )}
-            {!errorMessage && (
-              <div className="error" style={{ visibility: 'hidden' }}>
-                <p className="error-message">Placeholder for error</p>
-              </div>
-            )}
-          
-          
+    
+          {errorMessage && (
+            <div className="error">
+              <p className="error-message">{errorMessage}</p>
+            </div>
+          )}
+  
           <div className="not-registered">
             <span className="span">Not Registered? </span>
             <Link to="/register" className="text-wrapper-323">
               Create an Account
             </Link>
           </div>
-          
+    
           <div className="forgot-passwords">
             <Link to="/forgotpassword" className="text-wrapper-323">
               Forgot Password?
             </Link>
           </div>
-          
+    
           <button className="overlap-group-2" onClick={handleLogin}>
             Login
           </button>
-          
-        </div>
+      </div>
+    </div>
     </div>
   );
 };
