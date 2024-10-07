@@ -56,6 +56,7 @@ export const OrderHistoryPage = () => {
         `http://localhost:8080/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
+        console.log("Fetched orders:", response.data); // Log orders fetched
         setAllOrders(response.data);
         setOrders(response.data); // Initially set all orders
       } else {
@@ -76,6 +77,7 @@ export const OrderHistoryPage = () => {
         `http://localhost:8080/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
+        console.log("Fetched car-specific orders:", response.data); // Log car-specific orders
         return response.data;
       } else {
         console.error("Error fetching car orders");
@@ -94,6 +96,7 @@ export const OrderHistoryPage = () => {
         `http://localhost:8080/car/getCarById/${carId}`
       );
       if (response.status === 200) {
+        console.log("Fetched car details:", response.data); // Log car details fetched
         return response.data;
       } else {
         console.error("Error fetching car details");
@@ -110,41 +113,38 @@ export const OrderHistoryPage = () => {
       alert("Please select a valid date after the current end date.");
       return;
     }
-
+  
     try {
-      // Adjust the selected date to ensure time zone issues don't affect the stored date
       const adjustedDate = new Date(selectedDate);
-      adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone shifts
-
-      const newEndDate = adjustedDate.toISOString().split("T")[0]; // Convert to YYYY-MM-DD format
+      adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
+  
+      const newEndDate = adjustedDate.toISOString().split("T")[0];
       const response = await axios.put(
         `http://localhost:8080/order/extendOrder/${orderId}`,
         null,
         { params: { newEndDate } }
       );
-
+  
       if (response.status === 200) {
+        console.log("Rent extended successfully, response data:", response.data);
         setShowDatePicker(null);
         fetchOrders(currentUser.userId);
-
-        // Pass newEndDate instead of endDate when updating
+  
         const finalEndDate = isUpdating ? newEndDate : endDate;
-
-        // Fetch car details to pass carImage to PaymentPopup
         const carDetails = await fetchCarDetails(carId);
-
+  
         setSelectedOrder({
           orderId,
           carId,
           totalPrice: priceSummary.total,
-          endDate: finalEndDate,  // Use newEndDate if isUpdating
-          carImage: carDetails?.carImage, // Fetch and pass carImage
-          car: carDetails,                // Full car details
-          isUpdating,                     // Pass the isUpdating flag to PaymentPopup
-          startDate: carDetails.startDate, // Make sure startDate is correctly passed
+          endDate: finalEndDate,  // Correctly set the new/extended end date
+          car: carDetails,        // Full car details including carImage
+          startDate: response.data.startDate,  // Use startDate from the order (not carDetails)
+          referenceNumber: response.data.referenceNumber, // Ensure it's correctly fetched
+          isUpdating,
         });
-
-        setExtendShowPaymentPopup(true); // Show the payment popup
+  
+        setExtendShowPaymentPopup(true);
       } else {
         alert("Error extending rent.");
       }
@@ -186,6 +186,7 @@ export const OrderHistoryPage = () => {
         (date - new Date(endDate)) / (1000 * 60 * 60 * 24)
       );
       const total = days * car.rentPrice;
+      console.log("Price summary:", { days, pricePerDay: car.rentPrice, total });
       setPriceSummary({ days, pricePerDay: car.rentPrice, total });
     } else {
       setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
@@ -200,6 +201,7 @@ export const OrderHistoryPage = () => {
         `http://localhost:8080/user/${userId}/carOrders`
       );
       if (response.status === 200) {
+        console.log("Fetched car orders for owned cars:", response.data);
         setOrders(response.data);
       } else {
         console.error("No orders found for owned cars");
@@ -220,6 +222,7 @@ export const OrderHistoryPage = () => {
         `http://localhost:8080/user/getUserById/${userId}`
       );
       if (response.status === 200) {
+        console.log("Fetched user data:", response.data); // Log fetched user data
         setCurrentUser(response.data);
         fetchOrders(response.data.userId);
       } else {
@@ -269,14 +272,12 @@ export const OrderHistoryPage = () => {
 
   const handleCarReturned = async (orderId) => {
     try {
-      // Send a PUT request to update the order's return status
       const response = await axios.put(
         `http://localhost:8080/order/markAsReturned/${orderId}`
       );
 
       if (response.status === 200) {
-        console.log("Car return processed successfully.");
-        // Optionally, refresh the orders list or give visual feedback to the user
+        console.log("Car return processed successfully, orderId:", orderId);
       }
     } catch (error) {
       console.error(
@@ -288,14 +289,13 @@ export const OrderHistoryPage = () => {
 
   const handleApprove = async (orderId) => {
     try {
-      // Call backend to approve order
       const response = await fetch(
         `http://localhost:8080/order/approveOrder/${orderId}`,
         { method: "PUT" }
       );
 
       if (response.ok) {
-        // After approval, update the 'active' status in the local state to 1 (true)
+        console.log("Order approved, orderId:", orderId);
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.orderId === orderId ? { ...order, active: 1 } : order
@@ -311,6 +311,7 @@ export const OrderHistoryPage = () => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const userId = JSON.parse(storedUser).userId;
+      console.log("Stored user ID:", userId);
       fetchUserData(userId);
     } else {
       navigate("/login");
@@ -376,18 +377,16 @@ export const OrderHistoryPage = () => {
                       <th>Owner Phone</th>
                       <th>Payment Option</th>
                       {showOwnedCars && <th>Approve</th>}{" "}
-                      {/* Conditionally render isReturned */}
                       <th>Status</th>
                       <th>Activity</th>
                       {showOwnedCars && <th>isReturned</th>}{" "}
-                      {/* Conditionally render isReturned */}
                       {showOngoingRents && <th>Actions</th>}
                     </tr>
                   </thead>
                   <tbody>
                     {orders.map((order) => (
                       <tr key={order.orderId}>
-                        <td>{order.car.carModel}</td>
+                        <td>{order.car.carBrand} {order.car.carModel}</td>
                         <td>{formatDate(order.startDate)}</td> {/* Use formatDate for startDate */}
                         <td>{formatDate(order.endDate)}</td> {/* Use formatDate for endDate */}
                         <td>{order.totalPrice}</td>
@@ -420,11 +419,9 @@ export const OrderHistoryPage = () => {
                               Returned
                             </button>
                           </td>
-                        )}{" "}
-                        {/* Conditionally render isReturned */}
+                        )}
                         {showOngoingRents && (
                           <td>
-                            {/* Extend Rent Action */}
                             {order.active && (
                               <div>
                                 <button
@@ -513,15 +510,15 @@ export const OrderHistoryPage = () => {
         </div>
       </div>
 
-      {/* Ensure PaymentPopup is shown when showPaymentPopup is true */}
       {showExtendPaymentPopup && selectedOrder && (
         <ExtendPaymentPopup
-          car={orders.find((order) => order.orderId === selectedOrder.orderId)?.car}
+          car={selectedOrder.car} // Pass the car from the selectedOrder
           order={selectedOrder}
+          referenceNumber={selectedOrder.referenceNumber}
+          startDate={new Date(selectedOrder.startDate)} // Use startDate from selectedOrder
+          endDate={new Date(selectedOrder.endDate)} // Use endDate from selectedOrder
           totalPrice={selectedOrder.totalPrice}
-          userId={currentUser.userId}
           onClose={() => setExtendShowPaymentPopup(false)}
-          isExtending={true}
         />
       )}
     </div>

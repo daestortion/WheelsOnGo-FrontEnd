@@ -170,7 +170,7 @@
       border: none;
     }
     
-    .extend-payment-popup .car-image {
+    .extend-payment-popup .car-picture {
       background-color: #ffffff; 
       border-radius: 40px; 
       height: 200px;  /* Adjusted height to fit the image */
@@ -253,7 +253,7 @@
       line-height: normal;
       position: absolute;
       top: 459px;
-      width: 300px;
+      width: 500px;
     }
     
     .extend-payment-popup .balance {
@@ -279,7 +279,7 @@
       line-height: normal;
       position: absolute;
       top: 419px;
-      width: 224px;
+      width: 500px;
     }
     
     .extend-payment-popup .ref-id {
@@ -420,7 +420,7 @@
     }
     
   
-    .extend-payment-popup .car-picture {
+    .extend-payment-popup .car-image {
       position: relative;
       max-width: 100%;   /* Ensure the image does not exceed the container width */
       max-height: 100%;  /* Ensure the image does not exceed the container height */

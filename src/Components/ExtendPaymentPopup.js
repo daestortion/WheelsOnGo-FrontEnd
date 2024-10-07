@@ -20,20 +20,22 @@ import image13 from "../Images/image13.jpg";
 import image14 from "../Images/image14.jpg";
 import paymonggo from "../Images/paymongo.svg";
 import PayPal from "../Components/PayPal";
+import PayPalError from "../Components/PaypalError";
+import PayPalSuccessful from "../Components/PaypalSuccessful";
+import ExtendSuccessPopup from './ExtendSuccessPopup';
 import { jsPDF } from "jspdf";
 
-export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClose, userId, carId }) => {
+export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, totalPrice, onClose, userId, carId }) => {
     const [isChecked, setIsChecked] = useState(false);
     const [paypalPaid, setPaypalPaid] = useState(false);
     const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
     const [showPayPalError, setShowPayPalError] = useState(false);
-    const [showBookedPopup, setShowBookedPopup] = useState(false);
+    const [showExtendSuccessPopup, setShowExtendSuccesPopup] = useState(false);
     const [order, setOrder] = useState(null);
 
     useEffect(() => {
-      // Log both car and order objects to the console for debugging
-      console.log("Car object:", car);
-      console.log("Order object:", order);
+        console.log("Car object:", car);
+        console.log("Order object:", order)
     }, [car, order]);
 
     const handleCheckboxChange = (event) => {
@@ -101,35 +103,6 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClos
         return <img src={images[currentImageIndex]} alt="Slideshow"  width="500" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />;
     };
 
-    const handleCash = async () => {
-      if (order && isChecked) {
-        try {
-          const formData = new FormData();
-          formData.append('order', new Blob([JSON.stringify({
-            ...order,
-            startDate,  // Include startDate and endDate from props
-            endDate,
-            totalPrice,  // Include totalPrice
-          })], { type: 'application/json' }));
-  
-          console.log(formData);
-          // Post order to backend
-          const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          });
-  
-          if (response.data) {
-            setOrder(response.data);
-            setShowBookedPopup(true);
-          }
-        } catch (error) {
-          console.error('Error submitting cash order:', error);
-        }
-      }
-    };
-
     const createPaymentLink = async () => {
         // Ensure that totalPrice is available and convert it to centavos
         const amountInCentavos = Math.round(totalPrice * 100);  // Convert to centavos (e.g. PHP 100.00 = 10000 centavos)
@@ -160,80 +133,79 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClos
     const handlePayPalSuccess = async (details, data) => {
       try {
           setPaypalPaid(true);
-          let newOrder = order;
   
-          // If newOrder is null, create the order
-          if (!newOrder || !newOrder.orderId) {
-              console.log("Order object is null. Creating a new order...");
-              
-              const formData = new FormData();
-              formData.append('order', new Blob([JSON.stringify({
-                  startDate: startDate,   // Use the prop startDate
-                  endDate: endDate,       // Use the prop endDate
-                  totalPrice: totalPrice, // Use the prop totalPrice
-                  paymentOption: "PayPal",  // Set payment option to PayPal
-                  isDeleted: false,
-                  referenceNumber: '',  // Generate reference number later
-              })], { type: 'application/json' }));
+          // We assume the order already exists, so we update it.
+          let updatedOrder = order;
   
-              const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
-                  headers: {
-                      'Content-Type': 'multipart/form-data'
-                  }
-              });
-  
-              if (response.data) {
-                  newOrder = response.data;  // Save the created order with its ID
-                  setOrder(newOrder);        // Update state with the new order
-                  console.log("Order created successfully:", newOrder);
-              } else {
-                  throw new Error("Failed to create order before PayPal success.");
-              }
+          if (!updatedOrder || !updatedOrder.orderId) {
+              console.error("Order object is missing, cannot update order.");
+              return;
           }
   
-          // Ensure that newOrder.orderId exists
-          if (!newOrder || !newOrder.orderId) {
-              throw new Error("OrderId is missing after order creation.");
-          }
-  
-          console.log("Updating payment status for order:", newOrder.orderId);
-  
-          // Using details.id as transaction ID instead of data.transactionId
-          const transactionId = details.id;  // This contains the PayPal transaction ID
+          // Using details.id as PayPal transaction ID
+          const transactionId = details.id;
   
           if (!transactionId) {
               console.error("PayPal transaction ID is missing.");
-              return; // Exit early if transactionId is not found
+              return;
           }
   
-          // Now update the payment status
-          const paymentData = {
-              orderId: newOrder.orderId,  // Ensure orderId is used correctly
-              transactionId: transactionId,  // PayPal transaction ID from details.id
-              paymentOption: "PayPal",  // Set payment option as PayPal
-          };
+          // Adjusting the form data for the PUT request
+          const formData = new FormData();
+          formData.append('order', new Blob([JSON.stringify({
+              endDate: endDate,            // Updated end date after extension
+              balance: totalPrice,         // Updated balance to be paid
+              paymentOption: "PayPal",     // Payment method
+              isDeleted: false,            // Keep the order active
+              referenceNumber: transactionId,  // PayPal transaction ID
+          })], { type: 'application/json' }));
   
-          const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
-              headers: {
-                  'Content-Type': 'application/json'
+          // Sending a PUT request to update the order with new end date and payment details
+          const response = await axios.put(
+              `http://localhost:8080/order/updateOrder/${updatedOrder.orderId}?userId=${userId}&carId=${carId}`, 
+              formData, 
+              { headers: { 'Content-Type': 'multipart/form-data' } }
+          );
+  
+          if (response.status === 200) {
+              updatedOrder = response.data; // Store the updated order details
+              setOrder(updatedOrder);       // Update the state with the updated order
+  
+              // Now proceed to update the payment status
+              console.log("Updating payment status for order:", updatedOrder.orderId);
+  
+              const paymentData = {
+                  orderId: updatedOrder.orderId,
+                  transactionId: transactionId,  // PayPal transaction ID
+                  paymentOption: "PayPal",       // Set payment option as PayPal
+              };
+  
+              const paymentResponse = await axios.post(
+                  `http://localhost:8080/order/updatePaymentStatus`, 
+                  paymentData, 
+                  { headers: { 'Content-Type': 'application/json' } }
+              );
+  
+              if (paymentResponse.data) {
+                  setShowPayPalSuccess(true);      // Trigger PayPal success popup
+                  generateReceipt();               // Generate receipt after successful payment
+                  setShowExtendSuccesPopup(true);  // Show success popup
+                  setOrder({                       // Update the order state with the transaction ID
+                      ...updatedOrder,
+                      referenceNumber: transactionId,
+                  });
+                  console.log("Payment status updated successfully.");
+              } else {
+                  throw new Error("Failed to update payment status.");
               }
-          });
-  
-          if (paymentResponse.data) {
-              setShowPayPalSuccess(true);  // Trigger PayPal success popup
-              generateReceipt();           // Generate receipt after successful payment
-              setShowBookedPopup(true);    // Show booked popup with PayPal transaction ID
-              setOrder({
-                  ...newOrder,
-                  referenceNumber: transactionId  // Use the PayPal transaction ID as the reference number
-              });
-              console.log("Payment status updated successfully.");
+          } else {
+              throw new Error("Failed to update the order.");
           }
   
       } catch (error) {
-          console.error("Error updating payment status:", error.message);
+          console.error("Error updating payment status or order:", error.message);
       }
-    };
+    };  
     
     const handlePayPalError = (error) => {
         console.error("Handling PayPal error:", error);  // Ensure error handling is logged
@@ -251,6 +223,16 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClos
         doc.text(`Reference Number: ${order.referenceNumber}`, 20, 70);
       }
       doc.save("receipt.pdf");
+    };
+
+    const handleClosePayPalPopup = () => {
+      setShowPayPalSuccess(false);
+      setShowPayPalError(false);
+    };
+
+    const handleExtendSuccessPopupClose = () => {
+      setShowExtendSuccesPopup(false);
+      onClose();
     };
 
     return (
@@ -273,7 +255,7 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClos
                         <img className="vertical" alt="Vector" src={line1} />
                     </div>
 
-                    <div className="ref-id">Reference Id: </div>
+                    <div className="ref-id">Reference Id: {referenceNumber}</div>
                     <div className="start-date">Start Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
                     <div className="end-date">New Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
                     <div className="balance">Balance: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
@@ -297,17 +279,6 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClos
 
                     <div className="payment-options">
                         <p className="payment-methods">Choose Payment Method</p>
-                            <button
-                                className='backgroundcash'
-                                onClick={handleCash}
-                                style={{
-                                    pointerEvents: isChecked ? 'auto' : 'none',
-                                    opacity: isChecked ? 1 : 0.5
-                                }}
-                                >
-                                <div className="cash">Cash</div>
-                            </button>
-
                             <button
                                 onClick={createPaymentLink}
                                 className="paymongo-option"
@@ -346,7 +317,9 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, totalPrice, onClos
                     </div>
                 </div>
             </div>
-            
+            {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
+            {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
+            {showExtendSuccessPopup && <ExtendSuccessPopup order={order} onClose={handleExtendSuccessPopupClose} />}
         </div>
     );
 };
