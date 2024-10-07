@@ -110,6 +110,7 @@ export const Login = () => {
       {isLoading && <Loading />}
       
         <div className="overlap">
+        <img className="wheels-on-go" alt="Wheels on go" src={logo} />
           <div className="text-wrapper">LOGIN</div>
           <input
             className="overlap-group"
@@ -168,7 +169,6 @@ export const Login = () => {
           </button>
           
         </div>
-        <img className="wheels-on-go" alt="Wheels on go" src={logo} />
     </div>
   );
 };

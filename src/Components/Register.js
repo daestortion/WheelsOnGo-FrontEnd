@@ -123,6 +123,7 @@ export const Registration = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
+            
             <div className="password-input-wrapper">
               <input
                 className="overlap-5"
@@ -166,7 +167,7 @@ export const Registration = () => {
             <span className="span">Already have an Account? </span>
             <Link to="/login" className="text-wrapper-3">Login</Link>
           </div>
-          
+
           <button type="submit" className="overlap-group">Register</button>
 
           </form>
