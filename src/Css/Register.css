@@ -1,306 +1,244 @@
 .registration {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Disable vertical scrolling */
-    height: 100vh; /* Limit the height to the viewport height */
-  }
-  
-  .registration .div {
-    background-color: #ffffff;
-    height: 100%; /* Adjust to 100% of parent's height */
-    height: 939px;
-    position: relative;
-    width: 1920px;
-  }
-  
-  .registration .overlap {
-    background-color: #d7d1d1;
-    border-radius: 40px;
-    height: 802px;
-    left: 917px;
-    position: absolute;
-    top: 69px;
-    width: 907px;
-  }
-  
-  .registration .text-wrapper {
-    color: #3e3a3a;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 40px;
-    font-weight: 700;
-    left: 334px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 30px;
-    white-space: nowrap;
-  }
-  
-  .registration .group {
-    height: 71px;
-    left: 97px;
-    position: absolute;
-    top: 611px;
-    width: 714px;
-  }
-  
-  .registration .overlap-group {
-    background-color: #e80029;
-    color: #ffffff;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    position: relative;
-    width: 712px;
-    border: none;
-    left: 5px;
-    top: 55px;
-    transition: background-color 0.3s ease-in-out; /* Add transition for smooth animation */
-
-  }
-
-  .registration .overlap-group:hover {
-    background-color: #800000; /* Maroon on hover */
-  }
-  
-    
-  .registration .text-wrapper-2 {
-    
-    left: 314px;
-    
-    position: absolute;
-    top: 22px;
-    width: 83px;
-  }
-  
-  .registration .already-have-an {
-    color: transparent;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    left: 294px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 737px;
-    width:318px;
-  }
-  
-  .registration .span {
-    color: #848484;
-  }
-  
-  .registration .text-wrapper-3 {
-    color: #e80029;
-    text-decoration-line: none;
-  }
-  
-  .registration .div-wrapper {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 105px;
-    width: 648px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  .registration .text-wrapper-4 {
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    left: 36px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 16px;
-    white-space: nowrap;
-    width: 641px;
-  }
-  
-  .registration .overlap-2 {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 190px;
-    width: 285px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-
-  .registration .last {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 460px;
-    position: absolute;
-    top: 190px;
-    width: 285px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  
-  .registration .overlap-3 {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 275px;
-    width: 648px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  .registration .overlap-4 {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 360px;
-    width: 648px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  .registration .overlap-5 {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 445px;
-    width: 648px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-
-  .registration .overlap-6 {
-    background-color: #ffffff;
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 530px;
-    width: 648px;
-    border: none;
-    padding-left: 35px;
-    padding-right: 35px;
-  }
-  
-  .registration .wheels-on-go {
-    height: 744px;
-    left: 96px;
-    object-fit: cover;
-    position: absolute;
-    top: 98px;
-    width: 744px;
-  }
-  
-  .auth-form {
-    width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100vw;
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 100vh;
+  align-items: center;
 }
 
-@media (max-width: 768px) {
-    .auth-form {
-        width: 90%;
-    }
+.registration .div {
+  background-color: #ffffff;
+  height: auto;
+  width: 100%;
+  position: relative;
+  max-width: 1920px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 40px;
 }
 
-/* Center the error message */
+.registration .overlap {
+  background-color: #d7d1d1;
+  border-radius: 40px;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 40px;
+}
+
+.registration .text-wrapper {
+  color: #3e3a3a;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.registration .overlap-group {
+  background-color: #e80029;
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 35px;
+  height: 50px;
+  width: 100%;
+  max-width: 600px;
+  border: none;
+  transition: background-color 0.3s ease-in-out;
+  text-align: center;
+  cursor: pointer;
+}
+
+.registration .overlap-group:hover {
+  background-color: #800000;
+}
+
+.registration .already-have-an {
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.registration .span {
+  color: #848484;
+}
+
+.registration .text-wrapper-3 {
+  color: #e80029;
+  text-decoration-line: none;
+}
+
+.registration .div-wrapper,
+.registration .overlap-2,
+.registration .last,
+.registration .overlap-3,
+.registration .overlap-4,
+.registration .overlap-5,
+.registration .overlap-6 {
+  background-color: #ffffff;
+  color: #848484;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 35px;
+  height: 50px;
+  width: 100%;
+  max-width: 600px;
+  border: none;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.registration .overlap-5,
+.registration .overlap-6 {
+  padding-right: 70px;
+}
+
 .registration .error-message {
   color: red;
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  position: absolute;
-  top: 623px; /* Adjust top value to position it correctly */
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 10px auto;
   text-align: center;
   width: 100%;
+  max-width: 600px;
 }
 
+.registration .wheels-on-go {
+  height: auto;
+  max-width: 600px;
+  width: 100%;
+  object-fit: cover;
+}
 
-.registration .toggle-password {
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 60px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 20px;
+  border-radius: 35px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.password-input-wrapper .toggle-password {
   position: absolute;
   right: 10px;
-  top: 482px;
-  left: 705px;
+  top: 43%;
   transform: translateY(-50%);
+  background-color: #e80029;
   border: none;
   cursor: pointer;
   font-size: 14px;
-  background-color: #e80029;
-  border-radius: 35px;
   color: #ffffff;
-  height: 50px;
-  width: 100px;
-  font-size: 20px;
+  border-radius: 20px;
+  padding: 2%;
+}
+
+@media (max-width: 1024px) {
+  .registration {
+      flex-direction: column;
+      padding: 10px;
+  }
+
+  .registration .div {
+      flex-direction: column;
+      gap: 0;
+  }
+
+  .registration .wheels-on-go {
+    max-width: 400px;
+    height: 200px;
+  }
+
+  .registration .overlap {
+      padding: 20px;
+  }
+
+  .registration .text-wrapper {
+      font-size: 30px;
+  }
+
+  .registration .overlap-group,
+  .registration .div-wrapper,
+  .registration .overlap-2,
+  .registration .last,
+  .registration .overlap-3,
+  .registration .overlap-4,
+  .registration .overlap-5,
+  .registration .overlap-6 {
+      font-size: 18px;
+      height: 45px;
+  }
+
+  .password-input-wrapper input {
+      height: 45px;
+      font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration {
+      padding: 5px;
+  }
+
+  .registration .overlap {
+      padding: 15px;
+  }
+
+  .registration .text-wrapper {
+      font-size: 25px;
+  }
+
+  .registration .wheels-on-go {
+    max-width: 400px;
+  }
+
+  .registration .overlap-group,
+  .registration .div-wrapper,
+  .registration .overlap-2,
+  .registration .last,
+  .registration .overlap-3,
+  .registration .overlap-4,
+  .registration .overlap-5,
+  .registration .overlap-6 {
+      font-size: 16px;
+      height: 40px;
+  }
+
+  .password-input-wrapper input {
+      height: 40px;
+      font-size: 16px;
+  }
+
+  .password-input-wrapper .toggle-password {
+      font-size: 12px;
+  }
 }

@@ -84,13 +84,10 @@ export const Registration = () => {
     <div className="registration">
       {isLoading && <Loading />}
       <div className="div">
+        <img className="wheels-on-go" alt="Wheels on go" src={logo} />
         <div className="overlap">
-          <form onSubmit={handleSubmit}>
-            <div className="text-wrapper">Registration</div>
-            {error && <div className="error-message">{error}</div>}
-            <div className="group">
-              <button type="submit" className="overlap-group">Register</button>
-            </div>
+          <p className="text-wrapper">Registration</p>
+          <form onSubmit={handleSubmit} className="registration-form">
             <input
               className="div-wrapper"
               type="text"
@@ -142,29 +139,38 @@ export const Registration = () => {
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
-            <div className="password-input-wrapper">
-              <input
-                className="overlap-6"
-                type={showPassword ? "text" : "password"}
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </form>
-          <p className="already-have-an">
+
+
+              <div className="password-input-wrapper">
+                <input
+                  className="overlap-6"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+              
+          
+
+          {error && <div className="error-message">{error}</div>}
+
+          <div className="already-have-an">
             <span className="span">Already have an Account? </span>
             <Link to="/login" className="text-wrapper-3">Login</Link>
-          </p>
+          </div>
+          
+          <button type="submit" className="overlap-group">Register</button>
+
+          </form>
         </div>
-        <img className="wheels-on-go" alt="Wheels on go" src={logo} />
       </div>
       {isPopupVisible && <RegisteredPopup />}
     </div>
