@@ -5,7 +5,6 @@ import { useAuth } from '../AuthContext';
 
 const Dropdown = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const toggleDropdown = () => setIsOpen(!isOpen);
     const navigate = useNavigate();
     const { logout } = useAuth();
     const node = useRef();
@@ -23,18 +22,24 @@ const Dropdown = ({ children }) => {
         };
     }, []);
 
+    const handleToggle = () => {
+        setIsOpen((prev) => !prev);
+    };
+
     const handleLogout = () => {
         logout();
         navigate('/login');
+        setIsOpen(false);
     };
 
     const goToProfile = () => {
         navigate('/userprofile');
+        setIsOpen(false);
     };
 
     return (
-        <div className="dropdown" ref={node}>
-            <div onClick={toggleDropdown}>
+        <div className="dropdown" ref={node} style={{ position: 'relative' }}>
+            <div onClick={handleToggle} style={{ cursor: 'pointer' }}>
                 {children}
             </div>
             {isOpen && (
