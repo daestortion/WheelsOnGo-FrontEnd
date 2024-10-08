@@ -28,6 +28,7 @@ import PrivateRoute from './PrivateRoute';
 import AdminReport from './Components/AdminReport.js';
 import AdminDashboard from './Components/AdminDashboard.js';
 import ChatPage from './Components/ChatPage.js';
+import Messages from './Components/Messages.js'
 
 
 function DebugRoutes() {
@@ -69,6 +70,7 @@ function AuthRoutes() {
             
             <Route path="/adminorder" element={<AdminOrder />} />
             <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/messages" element={<Messages />} />
             <Route path="/popup1" element={<CheckoutPopup />} />
             <Route path="/history" element={<History />} />
             <Route path="/adminreport" element={<AdminReport />} />
