@@ -25,18 +25,56 @@ import PayPalSuccessful from "../Components/PaypalSuccessful";
 import ExtendSuccessPopup from './ExtendSuccessPopup';
 import { jsPDF } from "jspdf";
 
-export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, totalPrice, onClose, userId, carId }) => {
+const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
-  const [showExtendSuccessPopup, setShowExtendSuccesPopup] = useState(false);
-  const [order, setOrder] = useState(null);
+  const [showExtendSuccessPopup, setShowExtendSuccessPopup] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [loadingError, setLoadingError] = useState(null);
+  const [priceSummary, setPriceSummary] = useState({
+    days: 0,
+    pricePerDay: 0,
+    total: 0,
+  });
 
   useEffect(() => {
-    console.log("Car object:", car);
-    console.log("Order object:", order)
-  }, [car, order]);
+    // Ensure orderId is valid before making the request
+    if (!orderId) {
+      setLoadingError('Invalid Order ID');
+      return;
+    }
+
+    const fetchOrderDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/order/getOrderById/${orderId}`);
+        if (response.status === 200 && response.data) {
+          setOrderDetails(response.data);
+          const { car, endDate: orderEndDate } = response.data;
+
+          // Calculate the number of days between current and extended end date
+          const currentEndDate = new Date(orderEndDate);
+          const extendedEndDate = new Date(endDate);
+          const days = Math.ceil((extendedEndDate - currentEndDate) / (1000 * 60 * 60 * 24));
+
+          // Calculate total price
+          const total = days * car.rentPrice;
+
+          setPriceSummary({ days, pricePerDay: car.rentPrice, total });
+
+          console.log("Order details fetched:", response.data);
+        } else {
+          throw new Error("Order details not found or invalid response");
+        }
+      } catch (error) {
+        console.error("Error fetching order details:", error);
+        setLoadingError("Failed to load order details. Please try again.");
+      }
+    };
+
+    fetchOrderDetails();
+  }, [orderId, endDate]);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -104,45 +142,29 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
   };
 
   const createPaymentLink = async () => {
-    // Ensure that totalPrice is available and convert it to centavos
-    const amountInCentavos = Math.round(totalPrice * 100);  // Convert to centavos (e.g. PHP 100.00 = 10000 centavos)
+    if (!orderDetails) return;
 
+    const amountInCentavos = Math.round(priceSummary.total * 100);
     const response = await fetch('http://localhost:8080/api/payment/create-link', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount: amountInCentavos,  // Dynamically use totalPrice in centavos
-        description: `Payment for renting ${car.carBrand} ${car.carModel} ${car.carYear}`,  // You can add dynamic description if needed
+        amount: amountInCentavos,
+        description: `Payment for Order ID: ${orderId}`,
       }),
     });
 
     const data = await response.json();
-    console.log('Payment Link Response:', data);
-
-    if (data && data.data && data.data.attributes && data.data.attributes.checkout_url) {
-      const paymentUrl = data.data.attributes.checkout_url;
-      // Redirect user to PayMongo payment page
-      window.location.href = paymentUrl;
+    if (data?.data?.attributes?.checkout_url) {
+      window.location.href = data.data.attributes.checkout_url;
     } else {
       console.error('Failed to create payment link');
     }
   };
 
-  const handlePayPalSuccess = async (details, data) => {
+  const handlePayPalSuccess = async (details) => {
     try {
       setPaypalPaid(true);
-
-      // We assume the order already exists, so we update it.
-      let updatedOrder = order;
-
-      if (!updatedOrder || !updatedOrder.orderId) {
-        console.error("Order object is missing, cannot update order.");
-        return;
-      }
-
-      // Using details.id as PayPal transaction ID
       const transactionId = details.id;
 
       if (!transactionId) {
@@ -150,77 +172,53 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
         return;
       }
 
-      // Adjusting the form data for the PUT request
       const formData = new FormData();
       formData.append('order', new Blob([JSON.stringify({
-        endDate: endDate,            // Updated end date after extension
-        balance: totalPrice,         // Updated balance to be paid
-        paymentOption: "PayPal",     // Payment method
-        isDeleted: false,            // Keep the order active
-        referenceNumber: transactionId,  // PayPal transaction ID
+        endDate,
+        balance: priceSummary.total,
+        paymentOption: "PayPal",
+        isDeleted: false,
+        referenceNumber: transactionId,
       })], { type: 'application/json' }));
 
-      // Sending a PUT request to update the order with new end date and payment details
       const response = await axios.put(
-        `http://localhost:8080/order/updateOrder/${updatedOrder.orderId}?userId=${userId}&carId=${carId}`,
+        `http://localhost:8080/order/updateOrder/${orderId}`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
       if (response.status === 200) {
-        updatedOrder = response.data; // Store the updated order details
-        setOrder(updatedOrder);       // Update the state with the updated order
-
-        // Now proceed to update the payment status
-        console.log("Updating payment status for order:", updatedOrder.orderId);
-
-        const paymentData = {
-          orderId: updatedOrder.orderId,
-          transactionId: transactionId,  // PayPal transaction ID
-          paymentOption: "PayPal",       // Set payment option as PayPal
-        };
+        const updatedOrder = response.data;
 
         const paymentResponse = await axios.post(
           `http://localhost:8080/order/updatePaymentStatus`,
-          paymentData,
+          { orderId: updatedOrder.orderId, transactionId, paymentOption: "PayPal" },
           { headers: { 'Content-Type': 'application/json' } }
         );
 
         if (paymentResponse.data) {
-          setShowPayPalSuccess(true);      // Trigger PayPal success popup
-          generateReceipt();               // Generate receipt after successful payment
-          setShowExtendSuccesPopup(true);  // Show success popup
-          setOrder({                       // Update the order state with the transaction ID
-            ...updatedOrder,
-            referenceNumber: transactionId,
-          });
-          console.log("Payment status updated successfully.");
+          setShowPayPalSuccess(true);
+          generateReceipt(updatedOrder);
+          setShowExtendSuccessPopup(true);
         } else {
           throw new Error("Failed to update payment status.");
         }
       } else {
         throw new Error("Failed to update the order.");
       }
-
     } catch (error) {
       console.error("Error updating payment status or order:", error.message);
     }
   };
 
-  const handlePayPalError = (error) => {
-    console.error("Handling PayPal error:", error);  // Ensure error handling is logged
-    setShowPayPalError(true);
-  };
-
-  const generateReceipt = () => {
+  const generateReceipt = (updatedOrder) => {
     const doc = new jsPDF();
     doc.text("Receipt", 20, 20);
-    doc.text(`Car: ${car.carBrand} ${car.carModel} ${car.carYear}`, 20, 30);
-    doc.text(`Pick-up Date: ${startDate ? startDate.toLocaleDateString() : "N/A"}`, 20, 40);
-    doc.text(`Return Date: ${endDate ? endDate.toLocaleDateString() : "N/A"}`, 20, 50);
-    doc.text(`Total: ₱${totalPrice.toFixed(2)}`, 20, 60);
-    if (order && order.referenceNumber) {
-      doc.text(`Reference Number: ${order.referenceNumber}`, 20, 70);
+    doc.text(`Order ID: ${orderId}`, 20, 30);
+    doc.text(`New Return Date: ${endDate.toLocaleDateString()}`, 20, 40);
+    doc.text(`Total: ₱${priceSummary.total.toFixed(2)}`, 20, 50);
+    if (updatedOrder?.referenceNumber) {
+      doc.text(`Reference Number: ${updatedOrder.referenceNumber}`, 20, 60);
     }
     doc.save("receipt.pdf");
   };
@@ -231,9 +229,22 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
   };
 
   const handleExtendSuccessPopupClose = () => {
-    setShowExtendSuccesPopup(false);
+    setShowExtendSuccessPopup(false);
     onClose();
   };
+
+  // Error or Loading state
+  if (loadingError) {
+    return <div className="error-message">{loadingError}</div>;
+  }
+
+  if (!orderDetails) {
+    return <div>Loading order details...</div>; // Show a loading state while fetching
+  }
+
+  const car = orderDetails.car; // Accessing the car object from orderDetails
+  const referenceNumber = orderDetails.referenceNumber;
+  const startDate = orderDetails.startDate;
 
   return (
     <div className="extend-payment-popup">
@@ -242,30 +253,34 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
           <div className="header">Extend Rent Payment</div>
 
           <button className="close-button" onClick={onClose}>
-            <img className="vector-2" alt="Vector" src={close} />
+            <img className="vector-2" alt="Close" src={close} />
           </button>
 
           <div className="car-picture">
-            <img
-              src={`data:image/png;base64,${car.carImage}`}
-              alt={`${car.carBrand} ${car.carModel}`}
-              className="car-image"
-              style={{ width: '100%', height: 'auto' }}
-            />
+            {car && (
+              <img
+                src={`data:image/png;base64,${car.carImage}`}
+                alt={`${car.carBrand} ${car.carModel}`}
+                className="car-image"
+                style={{ width: '100%', height: 'auto' }}
+              />
+            )}
           </div>
-          <div className="car-deets">{car.carBrand} {car.carModel} {car.carYear}</div>
+          {car && (
+            <div className="car-deets">{car.carBrand} {car.carModel} {car.carYear}</div>
+          )}
           <div className="price-pnum">
-            <div className="price">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-            <div className="pnum">{car.owner.pNum}</div>
+            <div className="price">₱{car?.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+            <div className="pnum">{car?.owner?.pNum}</div>
             <img className="vertical" alt="Vector" src={line1} />
           </div>
 
           <div className="ref-id">Reference Id: {referenceNumber}</div>
-          <div className="start-date">Start Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
+          <div className="start-date">Start Date: {startDate ? new Date(startDate).toLocaleDateString() : "N/A"}</div>
           <div className="end-date">New Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-          <div className="balance">Balance: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          <div className="balance">Balance: ₱{priceSummary.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
 
-          <p className="by-click">by clicking, you are confirming that you have read,</p>
+          <p className="by-click">By clicking, you are confirming that you have read,</p>
           <p className="understood-agree">
             <span className="spanthis">understood and agree to the </span>
             <a href={TAC} target="_blank" rel="noopener noreferrer" className="tac-link">terms and conditions</a>
@@ -287,7 +302,7 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
             <button
               onClick={createPaymentLink}
               className="paymongo-option"
-              disabled={!isChecked}  // Disable PayMongo button if not checked
+              disabled={!isChecked}
               style={{
                 pointerEvents: isChecked ? 'auto' : 'none',
                 opacity: isChecked ? 1 : 0.5,
@@ -303,7 +318,7 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
                 position: 'relative'
               }}
             >
-              <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+              <PayPal totalPrice={priceSummary.total} onSuccess={handlePayPalSuccess} onError={() => setShowPayPalError(true)} />
               {paypalPaid && (
                 <div style={{
                   position: 'absolute',
@@ -324,10 +339,9 @@ export const ExtendPaymentPopup = ({ car, startDate, endDate, referenceNumber, t
       </div>
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
-      {showExtendSuccessPopup && <ExtendSuccessPopup order={order} onClose={handleExtendSuccessPopupClose} />}
+      {showExtendSuccessPopup && <ExtendSuccessPopup order={orderDetails} onClose={handleExtendSuccessPopupClose} />}
     </div>
   );
 };
-
 
 export default ExtendPaymentPopup;

@@ -219,7 +219,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         });
 
         if (paymentResponse.data) {
-            setShowPayPalSuccess(true);  // Trigger PayPal success popup
             generateReceipt();           // Generate receipt after successful payment
             setShowBookedPopup(true);    // Show booked popup with PayPal transaction ID
             setOrder({

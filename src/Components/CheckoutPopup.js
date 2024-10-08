@@ -82,7 +82,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       const timeDifference = endDate.getTime() - startDate.getTime();
       const days = Math.ceil(timeDifference / (1000 * 3600 * 24));
       const rentTotal = car.rentPrice * days;
-      const systemFee = rentTotal * 0.15;
+      const systemFee = car.rentPrice * 0.15;
       const total = rentTotal + systemFee;
       setTotalPrice(total);
     } else {

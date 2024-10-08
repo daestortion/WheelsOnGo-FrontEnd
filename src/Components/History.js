@@ -108,50 +108,26 @@ export const OrderHistoryPage = () => {
   };
 
   // Handle extend rent action
-  const handleExtendRent = async (orderId, endDate, carId, isUpdating = true) => {
+  const handleExtendRent = (orderId, endDate) => {
     if (!selectedDate || selectedDate <= new Date(endDate)) {
       alert("Please select a valid date after the current end date.");
       return;
     }
   
-    try {
-      const adjustedDate = new Date(selectedDate);
-      adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
+    // Adjust the date if needed
+    const adjustedDate = new Date(selectedDate);
+    adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
+    const newEndDate = adjustedDate.toISOString().split("T")[0]; // Format the date as YYYY-MM-DD
   
-      const newEndDate = adjustedDate.toISOString().split("T")[0];
-      const response = await axios.put(
-        `http://localhost:8080/order/extendOrder/${orderId}`,
-        null,
-        { params: { newEndDate } }
-      );
+    // Set the selected order details and show the ExtendPaymentPopup
+    setSelectedOrder({
+      orderId: orderId,
+      endDate: newEndDate,
+    });
   
-      if (response.status === 200) {
-        console.log("Rent extended successfully, response data:", response.data);
-        setShowDatePicker(null);
-        fetchOrders(currentUser.userId);
-  
-        const finalEndDate = isUpdating ? newEndDate : endDate;
-        const carDetails = await fetchCarDetails(carId);
-  
-        setSelectedOrder({
-          orderId,
-          carId,
-          totalPrice: priceSummary.total,
-          endDate: finalEndDate,  // Correctly set the new/extended end date
-          car: carDetails,        // Full car details including carImage
-          startDate: response.data.startDate,  // Use startDate from the order (not carDetails)
-          referenceNumber: response.data.referenceNumber, // Ensure it's correctly fetched
-          isUpdating,
-        });
-  
-        setExtendShowPaymentPopup(true);
-      } else {
-        alert("Error extending rent.");
-      }
-    } catch (error) {
-      console.error("Error extending rent:", error);
-    }
+    setExtendShowPaymentPopup(true); // Open the payment popup
   };
+  
 
   // Handle date change for extension, disable overlapping dates
   const handleDateChange = async (date, endDate, carId) => {
@@ -509,15 +485,10 @@ export const OrderHistoryPage = () => {
           <div className="text-wrapper-5213">Transaction History</div>
         </div>
       </div>
-
       {showExtendPaymentPopup && selectedOrder && (
         <ExtendPaymentPopup
-          car={selectedOrder.car} // Pass the car from the selectedOrder
-          order={selectedOrder}
-          referenceNumber={selectedOrder.referenceNumber}
-          startDate={new Date(selectedOrder.startDate)} // Use startDate from selectedOrder
-          endDate={new Date(selectedOrder.endDate)} // Use endDate from selectedOrder
-          totalPrice={selectedOrder.totalPrice}
+          orderId={selectedOrder.orderId} // Pass the orderId
+          endDate={new Date(selectedOrder.endDate)} // Pass the updated endDate
           onClose={() => setExtendShowPaymentPopup(false)}
         />
       )}

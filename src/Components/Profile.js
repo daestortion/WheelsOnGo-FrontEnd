@@ -197,6 +197,10 @@ const UserProfile = () => {
         navigate(`/updatecar/${carId}`);
     };
 
+    const goToMessages = () => {
+        navigate('/aboutus');
+    };
+
     console.log(currentUser);
     return (
         <div className="profile-not-verified">
@@ -208,6 +212,7 @@ const UserProfile = () => {
                         <div className="div" onClick={handleAboutClick}>About</div>
                         <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
                         <div className="text-wrapper-2" onClick={handleHomeClick}>Home</div>
+                        <div className="messages" onClick={goToMessages}>Messages</div>
                         <Dropdown>
                             <button className="group">
                                 <img alt="Group" src={profileIcon} />
