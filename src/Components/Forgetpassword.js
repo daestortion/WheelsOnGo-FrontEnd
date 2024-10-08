@@ -13,6 +13,7 @@ const ForgotPassword = () => {
 
     const handleResetPassword = async () => {
         setIsLoading(true);
+        setMessage(''); // Clear previous message
         try {
             const response = await axios.get(`http://localhost:8080/user/forgot-password`, {
                 params: { identifier: email }
@@ -28,15 +29,21 @@ const ForgotPassword = () => {
             setIsLoading(false);
         }
     };
+    
 
     return (
         <div className="forgot-password">
             {isLoading && <Loading />}
             <div className="div11">
-                <div className="overlap">
-                    <p className="text-wrapper">
+                <img className="wheels-on-go" alt="Wheels on go" src={logo} />
+                <div className="overlap12">
+                    <h1 className="text-wrapper-6">Forgot Password</h1>
+                    <span className="text-wrapper">
                         Please enter your email address or username. You will receive a link to create a new password via email.
-                    </p>
+                    </span>
+    
+                    <span className="text-wrapper-5">Your Email:</span>
+    
                     <input
                         className="div-wrapper"
                         type="email"
@@ -44,25 +51,28 @@ const ForgotPassword = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-
-                    <div className="text-wrapper-5">Your Email:</div>
-                    <div className="text-wrapper-6">Forgot Password</div>
-                    
-                    <div className="group">
-                        <button onClick={handleResetPassword} className="overlap-group">
-                            Send Email
-                        </button>
-                    </div>
-                    <p className="already-have-an">
+    
+                    {message && (
+                        <p className={error ? "error-message" : "success-message"}>
+                            {message}
+                        </p>
+                    )}
+    
+                    <button onClick={handleResetPassword} className="overlap-group">
+                        Send Email
+                    </button>
+    
+                    <div className="already-have-an">
                         <span className="span">Already have an Account? </span>
-                        <Link to="/login"> <button className="text-wrapper-3">Login</button> </Link>
-                    </p>
-                    <p className={error ? "error-message" : "success-message"}>{message}</p>
+                        <Link to="/login">
+                            <button className="text-wrapper-3">Login</button>
+                        </Link>
+                    </div>
                 </div>
-                <img className="wheels-on-go" alt="Wheels on go" src={logo} />
             </div>
         </div>
     );
-};
+} 
 
 export default ForgotPassword;
+    

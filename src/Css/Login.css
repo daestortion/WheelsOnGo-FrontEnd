@@ -1,3 +1,11 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .login {
   background-color: #ffffff;
   display: flex;
@@ -20,7 +28,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   gap: 40px;
 }
 
