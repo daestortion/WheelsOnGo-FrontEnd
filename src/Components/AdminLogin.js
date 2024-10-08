@@ -21,14 +21,11 @@ export const AdminLogin = () => {
 
   const handleLoginClick = async (e) => {
     e.preventDefault(); // Prevent form submission
-    console.log("Form submission started");
 
     const loginData = {
       username: username,
       password: password
     };
-
-    console.log("Sending login request with data:", loginData);
 
     try {
       const response = await fetch("http://localhost:8080/admin/login", {
@@ -40,18 +37,17 @@ export const AdminLogin = () => {
       });
 
       const responseData = await response.json();
-      console.log("Response data:", responseData);
 
       if (response.ok && responseData.status === "success") {
-        console.log("Login successful");
-        adminLogin(); // Set admin as authenticated
+        const adminId = responseData.adminId; // Extract adminId from the response
+        adminLogin(adminId); // Call adminLogin and pass adminId to store it
+        localStorage.setItem('adminId', adminId); // Store the adminId in localStorage
+        console.log('Stored adminId:', localStorage.getItem('adminId')); // Verify it's stored
         navigate("/adminusers");
       } else {
-        console.log("Login failed:", responseData);
         alert(`Login failed: ${responseData.message}`);
       }
     } catch (error) {
-      console.error("An error occurred:", error);
       alert(`An error occurred: ${error.message}`);
     }
   };
