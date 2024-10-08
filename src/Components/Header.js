@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <div className="overlap-3">
+    <div className="overlap-233">
       <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
 
       <div className="header-items">
