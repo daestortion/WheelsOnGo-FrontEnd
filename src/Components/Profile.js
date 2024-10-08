@@ -197,8 +197,8 @@ const UserProfile = () => {
         navigate(`/updatecar/${carId}`);
     };
 
-    const goToMessages = () => {
-        navigate('/aboutus');
+    const handleMessagesClick = () => {
+        navigate('/messages');
     };
 
     console.log(currentUser);
@@ -212,7 +212,7 @@ const UserProfile = () => {
                         <div className="div" onClick={handleAboutClick}>About</div>
                         <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
                         <div className="text-wrapper-2" onClick={handleHomeClick}>Home</div>
-                        <div className="messages" onClick={goToMessages}>Messages</div>
+                        <div className="messages" onClick={handleMessagesClick}>Messages</div>
                         <Dropdown>
                             <button className="group">
                                 <img alt="Group" src={profileIcon} />

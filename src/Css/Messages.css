@@ -1,0 +1,54 @@
+.messages-container .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 10px 40px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 112px;
+  }
+  
+  .header .sidelogo {
+    margin-left: 31px;
+    height: 75px;
+    object-fit: cover;
+    /* Align to the left */
+  }
+  
+  .header .nav-links {
+    margin-left: 683px;
+    margin-bottom: 4px;
+    display: flex;
+    gap: 69px;
+  }
+  
+  .header .nav-links div {
+    color: #000;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+  }
+  
+  .header .nav-links div:hover {
+    color: #007bff;
+    text-decoration: underline;
+  }
+  
+  .header .profile-button {
+    margin-right: 56px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .header .profile-button img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 2px;
+  }
+
+  .title {
+    margin-left: 100px;
+  }
+  
