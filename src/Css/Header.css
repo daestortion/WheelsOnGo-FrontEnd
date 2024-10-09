@@ -1,47 +1,140 @@
 .overlap-233 {
-    position: fixed; /* Make the header fixed to always stay at the top */
+  position: fixed; /* Make the header fixed to always stay at the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Set to 100% for responsiveness */
+  height: 112px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* Space between logo and other items */
+  padding: 0 40px; /* Add some padding on left and right */
+  padding-right: 90px;
+  z-index: 1000; /* Ensure it stays above other content */
+  box-sizing: border-box;
+}
+
+.sideview {
+  height: 75px;
+  width: auto; /* Maintain aspect ratio */
+  cursor: pointer;
+}
+
+.header-items {
+  display: flex;
+  align-items: center;
+  gap: 50px; /* Reduce space between header items for smaller screens */
+}
+
+.text-wrapper-4,
+.text-wrapper-5,
+.text-wrapper-6 {
+  color: #000000;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 22px; /* Reduce font size for better scaling */
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.text-wrapper-4:hover,
+.text-wrapper-5:hover,
+.text-wrapper-6:hover {
+  color: #e80029;
+  transform: scale(1.1); /* Reduce hover effect for smaller screens */
+}
+
+
+@media (max-width: 1024px) {
+  .overlap-233 {
+    height: 90px;
+    flex-direction: row;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-items {
+    display: none;
+  }
+
+  .menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: #000;
+    left: 20px;
+    position: absolute;
+  }
+
+  .sideview {
+    justify-self: center;
+  }
+
+  .side-nav {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Set to 100% for responsiveness */
-    height: 112px;
+    height: 100%;
+    width: 250px;
     background-color: #ffffff;
-    box-shadow: 0px 4px 4px #00000040;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between; /* Space between logo and other items */
-    padding: 0 40px; /* Add some padding on left and right */
-    padding-right: 90px;
-    z-index: 1000; /* Ensure it stays above other content */
-    box-sizing: border-box;
+    padding-top: 60px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1500;
   }
-  
-  .sideview {
-    height: 75px;
-    width: auto; /* Maintain aspect ratio */
-    cursor: pointer;
+
+  .side-nav.open {
+    transform: translateX(0);
   }
-  
-  .header-items {
-    display: flex;
-    align-items: center;
-    gap: 90px; /* Space between header items */
-  }
-  
-  .text-wrapper-4,
-  .text-wrapper-5,
-  .text-wrapper-6 {
+
+  .side-nav a {
+    padding: 30px 10px;
+    text-decoration: none;
+    font-size: 22px;
     color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
+    display: block;
+    transition: 0.3s;
+    text-align: center;
   }
-  
-  .text-wrapper-4:hover,
-  .text-wrapper-5:hover,
-  .text-wrapper-6:hover {
-    color: #e80029;
+
+  .side-nav a:hover {
+    background-color: #ee8585;
+    border-radius: 30px;
   }
-  
+}
+
+/* Side navigation items for smaller screens */
+.side-nav .home-link {
+  content: 'Home';
+}
+
+.side-nav .cars-link {
+  content: 'Cars';
+}
+
+.side-nav .about-link {
+  content: 'About';
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #000000;
+}
+
+@media (min-width: 1025px) {
+  .side-nav {
+    display: none;
+  }
+
+  .menu-icon{
+    display: none;
+  }
+}

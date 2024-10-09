@@ -13,21 +13,21 @@ body {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: auto; /* Disable vertical scrolling */
-  height: 100vh; /* Limit the height to the viewport height */
+  height: 100vh;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .dashboard .overlap-wrapper {
   background-color: #ffffff;
-  width: 100%; /* Set the width proportionally for centering */
-  max-width: 1920px; /* Maximum width to prevent it from growing too much */
-  height: auto; /* Height adjusts based on content */
+  width: 100%;
+  max-width: 1920px;
+  height: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center; /* Center horizontally */
-  margin: 0; /* Centers vertically within the parent */
+  justify-content: center;
+  margin: 0;
   box-sizing: border-box;
   gap: 50px;
   position: relative;
@@ -35,8 +35,9 @@ body {
 }
 
 .dashboard .overlap-group {
-  width: 40%; /* Adjust the width as needed */
-  max-width: 575px;
+  width: 100%;
+  height: auto;
+  max-width: 600px;
 }
 
 .dashboard .find-book-and-rent-a {
@@ -49,6 +50,7 @@ body {
   position: relative;
   width: 575px;
   margin: 0;
+  padding-bottom: 20px;
 }
 
 .dashboard .text-wrapper {
@@ -65,8 +67,8 @@ body {
   height: 45px;
   position: relative;
   width: 157px;
-  top: -70px;
-  left: 415px;
+  top: -10px;
+  left: 220px;
 }
 
 .dashboard .div {
@@ -81,8 +83,7 @@ body {
   text-align: left;
   width: 500px;
   display: flex;
-  padding-bottom: 40px;
-  
+  padding-bottom: 20px;
 }
 
 .dashboard .div-wrapper {
@@ -92,43 +93,139 @@ body {
   position: relative;
   width: 241px;
   border: none;
-  top: 20px;
-}
-
-.dashboard .text-wrapper-7 {
+  cursor: pointer;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
   font-size: 30px;
   font-weight: 700;
-  left: 35px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 28px;
   white-space: nowrap;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard .div-wrapper:hover {
+  background-color: #ff4d4d;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.8);
 }
 
 .dashboard .overlap-2 {
   width: 100%;
   max-width: 930px;
-  height: 100%;
+  height: auto;
   display: flex;
-  flex-direction: row; /* Stack images vertically or change to row for horizontal stacking */
-  align-items: center; /* Center items horizontally */
-  gap: 20px; /* Space between each element */
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
   box-sizing: border-box;
+}
+
+.dashboard .image-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Space between images */
+  width: 100%;
+  max-width: 930px;
+  height: auto;
 }
 
 .dashboard .rectangle,
 .dashboard .img,
 .dashboard .rectangle-2 {
-  height: auto; /* Adjust height dynamically */
-  width: 100%; /* Let each image take up available space, adjust if needed */
-  max-height: 600px; /* Set a maximum height for consistency */
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  object-fit: cover; /* Ensures the image fills the available space while maintaining aspect ratio */
 }
 
-.dashboard .img,
-.dashboard .rectangle-2 {
-  border-radius: 20px;
+
+@media (max-width: 1024px) {
+  .dashboard {
+    padding: 10px;
+  }
+
+  .dashboard .overlap-wrapper {
+    flex-direction: column;
+    gap: 50px;
+    top: 100px;
+    padding-top: 50px;
+  }
+
+  .dashboard .div-wrapper {
+    height: 75px;
+    width: 200px;
+    font-size: x-large;
+  }
+
+  .dashboard .text-wrapper-7 {
+    font-size: 24px;
+    top: 20px;
+    left: 25px;
+  }
+
+  .dashboard .overlap-2 {
+    gap: 15px;
+  }
+
+  .dashboard .rectangle,
+  .dashboard .img,
+  .dashboard .rectangle-2 {
+    max-height: 450px;
+    max-width: 450px; /* Set a max width to avoid excessive enlargement */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 5px;
+  }
+
+  .dashboard .overlap-group{
+    max-width: 480px;
+  }
+
+  .dashboard .overlap-wrapper {
+    flex-direction: column;
+    gap: 50px;
+    top: 0;
+    padding-top: 50px;
+  }
+
+  .dashboard .div-wrapper {
+    height: 60px;
+    width: 180px;
+    font-size: larger;
+  }
+
+  .dashboard .text-wrapper-7 {
+    font-size: 20px;
+    top: 15px;
+    left: 15px;
+  }
+
+  .dashboard .overlap-2 {
+    gap: 10px;
+  }
+
+  .dashboard .find-book-and-rent-a {
+    font-size: 53px; /* Further reduce font size for even smaller screens */
+    width: 475px; /* Further reduce width */
+    padding-bottom: 20px;
+  }
+
+  .dashboard .vector {
+    height: 30px; /* Further reduce height */
+    width: 120px; /* Further reduce width */
+    top: -15px; /* Adjust positioning */
+    left: 190px; /* Adjust positioning */
+  }
+
+  .dashboard .rectangle,
+  .dashboard .img,
+  .dashboard .rectangle-2 {
+    max-height: 300px;
+    max-width: 300px; /* Set a max width to avoid excessive enlargement */
+  }
 }

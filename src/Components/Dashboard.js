@@ -20,23 +20,24 @@ export const Dashboard = () => {
 
       <div className="overlap-wrapper">
         <div className="overlap-group">
-          <p className="find-book-and-rent-a">
+          <div className="find-book-and-rent-a">
             <span className="text-wrapper">Find, Book, and Rent a Car in </span>
             <span className="span">Easy</span>
             <span className="text-wrapper"> Steps.</span>
-          </p>
-          <img className="vector" alt="Vector" src={homecheck} />
+            <img className="vector" alt="Vector" src={homecheck} />
+          </div>
+          
           <span className="div">Conquer the open road with Wheels On Go</span>
 
-          <button className="div-wrapper" onClick={handleCarsClick}>
-            <div className="text-wrapper-7">BOOK NOW</div>
-          </button>
+          <button className="div-wrapper" onClick={handleCarsClick}>Book Now</button>
         </div>
 
         <div className="overlap-2">
-          <img className="rectangle" alt="Rectangle" src={car1} />
-          <img className="rectangle-2" alt="Rectangle" src={car3} />
-          <img className="img" alt="Rectangle" src={car2} />
+          <div className="image-group">
+            <img className="rectangle" alt="Rectangle" src={car1} />
+            <img className="rectangle-2" alt="Rectangle" src={car3} />
+            <img className="img" alt="Rectangle" src={car2} />
+          </div>
         </div>
       </div>
     </div>
