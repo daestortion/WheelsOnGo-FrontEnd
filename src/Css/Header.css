@@ -47,6 +47,40 @@
   transform: scale(1.1); /* Reduce hover effect for smaller screens */
 }
 
+.auth-buttons{
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.overlap-group-2,
+.div-wrapper121 {
+  border-radius: 9px;
+  height: 50px;
+  position: relative;
+  width: 124px;
+  cursor: pointer;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  position: relative;
+  white-space: nowrap;
+  border: 3px solid;
+}
+
+.overlap-group-2{
+  background-color: #ffffff;
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.div-wrapper121{
+  color: #ffffff;
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
 
 @media (max-width: 1024px) {
   .overlap-233 {
@@ -106,6 +140,10 @@
     background-color: #ee8585;
     border-radius: 50px;
   }
+
+  .auth-buttons{
+    display: none;
+  }
 }
 
 /* Side navigation items for smaller screens */
@@ -129,6 +167,7 @@
   cursor: pointer;
   color: #000000;
 }
+
 
 @media (min-width: 1025px) {
   .side-nav {

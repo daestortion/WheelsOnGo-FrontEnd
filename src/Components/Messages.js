@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Dropdown from "../Components/Dropdown.js";
 import "../Css/Messages.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
-import Dropdown from "../Components/Dropdown.js";
-import { useNavigate } from 'react-router-dom';
 
 // Helper function to format the timestamp
 const formatTimestamp = (timestamp) => {
@@ -120,18 +120,19 @@ export const Messages = () => {
       </div>
 
       {selectedChat && (
-        <div className="chat-section">
-          <h3>Group Chat: {selectedChat.report.title}</h3>
-          <div className="chat-messages">
-            {messages.map((message, index) => (
-              <div key={index} className="chat-message">
-                {message.sender ? (
-                  <strong>{message.sender.fName} {message.sender.lName || ''}:</strong>
-                ) : (
-                  <strong>Admin:</strong>
-                )}
-                {message.messageContent}
-                <span className="timestamp">{formatTimestamp(message.sentAt)}</span>
+  <div className="chat-section">
+    <h3>Group Chat: {selectedChat.report.title}</h3>
+    <div className="chat-messages">
+      {messages.map((message, index) => (
+        <div
+          key={index}
+          className={`chat-message ${message.sender ? 'user-message' : 'admin-message'}`}
+        >
+          <div className="chat-bubble">
+            {/* Display only the message content without the sender's name */}
+            {message.messageContent}
+            <span className="timestamp">{formatTimestamp(message.sentAt)}</span>
+                </div>
               </div>
             ))}
           </div>
