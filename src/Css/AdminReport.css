@@ -6,7 +6,6 @@
     height: 100vh;
 }
 
-/* Topbar */
 .admin-dashboard-topbar {
     display: flex;
     justify-content: space-between;
@@ -112,62 +111,99 @@
 }
 
 .report-user {
-    display: flex;
-    align-items: center;
     font-size: 14px;
     color: #666;
 }
 
-.user-profile-pic {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.user-profile-pic-placeholder {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-}
-
-/* Report Details */
-.report-details {
-    width: 65%;
-    background-color: white;
+/* Chat Section Styling */
+.chat-section {
     padding: 20px;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.report-details-card {
-    padding: 20px;
+.chat-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-bottom: 20px;
 }
 
-.report-title-black {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.chat-message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
 }
 
-.report-description-black {
+.admin-message .chat-bubble {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-start;
+}
+
+.user-message .chat-bubble {
+    background-color: #e9f0ff;
+    color: #000;
+    align-self: flex-end;
+}
+
+.chat-bubble {
+    max-width: 60%;
+    padding: 12px;
+    border-radius: 18px;
+    position: relative;
+    transition: background-color 0.3s ease;
+    word-wrap: break-word;
     font-size: 16px;
-    margin-bottom: 10px;
 }
 
-.report-submitted-by-black {
-    font-size: 14px;
-    color: #666;
+/* Hover Effect for Timestamp */
+.chat-bubble:hover .timestamp {
+    display: inline-block;
 }
 
-.select-report {
-    font-size: 16px;
-    color: #666;
-    text-align: center;
-    margin-top: 20px;
+.timestamp {
+    display: none;
+    position: absolute;
+    bottom: -20px;
+    right: 10px;
+    font-size: 12px;
+    color: gray;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.chat-input textarea {
+    width: calc(100% - 80px);
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    resize: none;
+}
+
+.chat-input button {
+    width: 60px;
+    height: 50px;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background-color: #0056b3;
 }
