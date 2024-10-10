@@ -61,16 +61,23 @@ const Header = () => {
   return (
     <div className="overlap-233">
       <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
-      <div className="menu-icon right" onClick={toggleSideNav}>&#9776;</div>
+      
+      {/* Menu icon should always be visible for side nav toggling */}
+      {isAuthenticated && (
+        <div className="menu-icon right" onClick={toggleSideNav}>&#9776;</div>
+      )}
 
-      <div ref={sideNavRef} className={`side-nav ${sideNavOpen ? 'open' : ''}`}>
-        <div className="close-btn" onClick={closeSideNav}>&times;</div>
-        <a href="#home" onClick={handleHomeClick} className="home-link">Home</a>
-        <a href="#cars" onClick={handleCarsClick} className="cars-link">Cars</a>
-        <a href="#about" onClick={handleAboutClick} className="about-link">About</a>
-        <a href="#userprofile" onClick={goToProfile} className="profile-link">Profile</a>
-        <a href="#logout" onClick={handleLogout} className="logout-link">Logout</a>
-      </div>
+      {/* Conditionally render the side-nav based on isAuthenticated */}
+      {isAuthenticated && (
+        <div ref={sideNavRef} className={`side-nav ${sideNavOpen ? 'open' : ''}`}>
+          <div className="close-btn" onClick={closeSideNav}>&times;</div>
+          <a href="#home" onClick={handleHomeClick} className="home-link">Home</a>
+          <a href="#cars" onClick={handleCarsClick} className="cars-link">Cars</a>
+          <a href="#about" onClick={handleAboutClick} className="about-link">About</a>
+          <a href="#userprofile" onClick={goToProfile} className="profile-link">Profile</a>
+          <a href="#logout" onClick={handleLogout} className="logout-link">Logout</a>
+        </div>
+      )}
 
       {/* Conditionally render based on isAuthenticated */}
       {isAuthenticated ? (
