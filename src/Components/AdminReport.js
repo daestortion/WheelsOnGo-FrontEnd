@@ -1,73 +1,73 @@
+import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../Css/AdminReport.css';
 import sidelogo from '../Images/sidelogo.png';
 
 // Helper function to format the timestamp
-const formatTimestamp = (timestamp) => {
-  const date = new Date(timestamp);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  return `${formattedHours}:${formattedMinutes} ${ampm}`;
+const adminFormatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
 export const AdminPageReports = () => {
-    const [reports, setReports] = useState([]);
-    const [selectedReport, setSelectedReport] = useState(null);
-    const [selectedChatId, setSelectedChatId] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
-    const [chatExists, setChatExists] = useState(false);
+    const [adminReports, setAdminReports] = useState([]);
+    const [adminSelectedReport, setAdminSelectedReport] = useState(null);
+    const [adminSelectedChatId, setAdminSelectedChatId] = useState(null);
+    const [adminMessages, setAdminMessages] = useState([]);
+    const [adminNewMessage, setAdminNewMessage] = useState('');
+    const [adminChatExists, setAdminChatExists] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchReports();
+        fetchAdminReports();
     }, []);
 
-    const fetchReports = () => {
+    const fetchAdminReports = () => {
         axios.get('http://localhost:8080/report/getAll')
             .then(response => {
                 if (Array.isArray(response.data)) {
-                    setReports(response.data);
+                    setAdminReports(response.data);
                 } else {
-                    setReports([]);
+                    setAdminReports([]);
                 }
             })
             .catch(() => {
-                setReports([]);
+                setAdminReports([]);
             });
     };
 
-    const handleReportClick = async (report) => {
-        setSelectedReport(report);
-        await checkForExistingGroupChat(report.reportId);
+    const handleAdminReportClick = async (report) => {
+        setAdminSelectedReport(report);
+        await checkAdminForExistingGroupChat(report.reportId);
     };
 
-    const checkForExistingGroupChat = async (reportId) => {
+    const checkAdminForExistingGroupChat = async (reportId) => {
         try {
             const response = await axios.get(`http://localhost:8080/chat/check?reportId=${reportId}`);
             if (response.data && response.data.chatId) {
-                setSelectedChatId(response.data.chatId);
-                setChatExists(true);
-                await fetchMessages(response.data.chatId);
+                setAdminSelectedChatId(response.data.chatId);
+                setAdminChatExists(true);
+                await fetchAdminMessages(response.data.chatId);
             } else {
-                setChatExists(false);
-                console.log('No chat found. You can create a new one.');
+                setAdminChatExists(false);
+                console.log('No admin chat found. You can create a new one.');
             }
         } catch (error) {
-            console.error('Failed to check for existing group chat:', error);
+            console.error('Failed to check for existing admin group chat:', error);
         }
     };
 
-    const handleCreateGroupChat = async () => {
-        if (selectedReport && !chatExists) {
+    const handleAdminCreateGroupChat = async () => {
+        if (adminSelectedReport && !adminChatExists) {
             try {
                 const adminId = localStorage.getItem('adminId');
-                const reportUserResponse = await axios.get(`http://localhost:8080/user/getUserById/${selectedReport.user.userId}`);
+                const reportUserResponse = await axios.get(`http://localhost:8080/user/getUserById/${adminSelectedReport.user.userId}`);
                 const reportUser = reportUserResponse.data;
 
                 const chatEntity = {
@@ -75,53 +75,53 @@ export const AdminPageReports = () => {
                     status: "pending"
                 };
 
-                const response = await axios.post(`http://localhost:8080/chat/create?adminId=${adminId}&reportId=${selectedReport.reportId}`, chatEntity);
+                const response = await axios.post(`http://localhost:8080/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`, chatEntity);
                 const chatId = response.data.chatId;
-                setSelectedChatId(chatId);
-                setChatExists(true);
-                await fetchMessages(chatId);
+                setAdminSelectedChatId(chatId);
+                setAdminChatExists(true);
+                await fetchAdminMessages(chatId);
             } catch (error) {
-                console.error('Failed to create group chat:', error);
+                console.error('Failed to create admin group chat:', error);
             }
         }
     };
 
-    const fetchMessages = async (chatId) => {
+    const fetchAdminMessages = async (chatId) => {
         try {
             const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages`);
-            setMessages(response.data);
+            setAdminMessages(response.data);
         } catch (error) {
-            console.error('Error fetching chat messages:', error);
+            console.error('Error fetching admin chat messages:', error);
         }
     };
 
-    const sendMessage = async () => {
-        if (selectedChatId && newMessage) {
+    const sendAdminMessage = async () => {
+        if (adminSelectedChatId && adminNewMessage) {
             try {
                 const adminId = localStorage.getItem('adminId');
-                await axios.post(`http://localhost:8080/chat/${selectedChatId}/send`, null, {
+                await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/send`, null, {
                     params: {
                         adminId: adminId,
-                        messageContent: newMessage
+                        messageContent: adminNewMessage
                     }
                 });
-                setNewMessage('');
-                await fetchMessages(selectedChatId);
+                setAdminNewMessage('');
+                await fetchAdminMessages(adminSelectedChatId);
             } catch (error) {
-                console.error('Error sending message:', error);
+                console.error('Error sending admin message:', error);
             }
         }
     };
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (selectedChatId) {
-                fetchMessages(selectedChatId);
+            if (adminSelectedChatId) {
+                fetchAdminMessages(adminSelectedChatId);
             }
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [selectedChatId]);
+    }, [adminSelectedChatId]);
 
     return (
         <div className="admin-report-page">
@@ -141,60 +141,60 @@ export const AdminPageReports = () => {
                 </div>
 
                 <div className="admin-dashboard-content">
-                    <h2 className="content-title">Reports</h2>
+                    <h2 className="admin-content-title">Reports</h2>
 
-                    <div className="reports-content">
-                        <div className="reports-list">
-                            {reports.map((report) => (
+                    <div className="admin-reports-content">
+                        <div className="admin-reports-list">
+                            {adminReports.map((report) => (
                                 <div
                                     key={report.reportId}
-                                    className={`report-item ${report.status === 0 ? 'unread' : 'read'} ${selectedReport && selectedReport.reportId === report.reportId ? 'selected' : ''}`}
-                                    onClick={() => handleReportClick(report)}
+                                    className={`admin-report-item ${report.status === 0 ? 'admin-unread' : 'admin-read'} ${adminSelectedReport && adminSelectedReport.reportId === report.reportId ? 'admin-selected' : ''}`}
+                                    onClick={() => handleAdminReportClick(report)}
                                 >
-                                    <div className={`report-title ${report.status === 0 ? 'bold' : ''}`}>{report.title}</div>
-                                    <div className="report-user">
+                                    <div className={`admin-report-title ${report.status === 0 ? 'admin-bold' : ''}`}>{report.title}</div>
+                                    <div className="admin-report-user">
                                         {report.user ? `${report.user.fName} ${report.user.lName}` : 'Unknown User'}
                                     </div>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="report-details">
-                            {selectedReport ? (
-                                <div className="report-details-card">
-                                    <h2 className="report-title-black">{selectedReport.title}</h2>
-                                    <p className="report-description-black">{selectedReport.description}</p>
-                                    <p className="report-submitted-by-black">
-                                        Submitted by: {selectedReport.user ? `${selectedReport.user.fName} ${selectedReport.user.lName}` : 'Unknown User'}
+                        <div className="admin-report-details">
+                            {adminSelectedReport ? (
+                                <div className="admin-report-details-card">
+                                    <h2 className="admin-report-title-black">{adminSelectedReport.title}</h2>
+                                    <p className="admin-report-description-black">{adminSelectedReport.description}</p>
+                                    <p className="admin-report-submitted-by-black">
+                                        Submitted by: {adminSelectedReport.user ? `${adminSelectedReport.user.fName} ${adminSelectedReport.user.lName}` : 'Unknown User'}
                                     </p>
 
-                                    {!chatExists && (
-                                        <button className="create-group-chat-btn" onClick={handleCreateGroupChat}>
+                                    {!adminChatExists && (
+                                        <button className="admin-create-group-chat-btn" onClick={handleAdminCreateGroupChat}>
                                             Create Group Chat
                                         </button>
                                     )}
 
-                                    {selectedChatId && (
-                                        <div className="chat-section">
+                                    {adminSelectedChatId && (
+                                        <div className="admin-chat-section">
                                             <h3>Group Chat</h3>
-                                            <div className="chat-messages">
-                                                {messages.map((message, index) => (
-                                                    <div key={index} className={`chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
-                                                        <div className="chat-bubble">
+                                            <div className="admin-chat-messages">
+                                                {adminMessages.map((message, index) => (
+                                                    <div key={index} className={`admin-chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
+                                                        <div className="admin-chat-bubble">
                                                             {message.messageContent}
-                                                            <span className="timestamp">{formatTimestamp(message.sentAt)}</span>
+                                                            <span className="admin-timestamp">{adminFormatTimestamp(message.sentAt)}</span>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
 
-                                            <div className="chat-input">
+                                            <div className="admin-chat-input">
                                                 <textarea
                                                     placeholder="Type your message here..."
-                                                    value={newMessage}
-                                                    onChange={(e) => setNewMessage(e.target.value)}
+                                                    value={adminNewMessage}
+                                                    onChange={(e) => setAdminNewMessage(e.target.value)}
                                                 />
-                                                <button onClick={sendMessage}>Send</button>
+                                                <button onClick={sendAdminMessage}>Send</button>
                                             </div>
                                         </div>
                                     )}

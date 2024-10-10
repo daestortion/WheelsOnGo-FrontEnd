@@ -272,8 +272,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     } catch (error) {
         console.error("Error updating payment status:", error.message);
     }
-};
-
+  };
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);  // Ensure error handling is logged

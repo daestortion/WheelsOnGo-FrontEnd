@@ -246,6 +246,10 @@ export const OrderHistoryPage = () => {
     navigate("/home");
   };
 
+  const handleTerminate = () => {
+    
+  };
+
   const handleCarReturned = async (orderId) => {
     try {
       const response = await axios.put(
@@ -365,7 +369,7 @@ export const OrderHistoryPage = () => {
                         <td>{order.car.carBrand} {order.car.carModel}</td>
                         <td>{formatDate(order.startDate)}</td> {/* Use formatDate for startDate */}
                         <td>{formatDate(order.endDate)}</td> {/* Use formatDate for endDate */}
-                        <td>{order.totalPrice}</td>
+                        <td>₱{order.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                         <td>{order.referenceNumber}</td>
                         <td>{order.car.address}</td>
                         <td>{order.car.owner.username}</td>
@@ -401,7 +405,7 @@ export const OrderHistoryPage = () => {
                             {order.active && (
                               <div>
                                 <button
-                                  className="button213"
+                                  className="extend"
                                   onClick={() =>
                                     setShowDatePicker(order.orderId)
                                   }
@@ -412,15 +416,9 @@ export const OrderHistoryPage = () => {
                                   <div>
                                     <DatePicker
                                       selected={selectedDate}
-                                      onChange={(date) =>
-                                        handleDateChange(
-                                          date,
-                                          order.endDate,
-                                          order.car.carId
-                                        )
-                                      }
-                                      minDate={new Date(order.endDate)}
-                                      excludeDates={disabledDates} // Disable booked dates
+                                      onChange={(date) => handleDateChange(date, order.endDate, order.car.carId)}
+                                      minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Next day after endDate
+                                      excludeDates={disabledDates} // Disable already booked dates
                                       placeholderText="Select new end date"
                                     />
                                     <button
@@ -452,6 +450,7 @@ export const OrderHistoryPage = () => {
                                 )}
                               </div>
                             )}
+                            <button className="terminate" onClick={() => handleTerminate()}>Terminate</button>
                           </td>
                         )}
                       </tr>

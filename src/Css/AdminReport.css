@@ -69,87 +69,101 @@
     overflow-y: auto;
 }
 
-.content-title {
+.admin-content-title {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
 /* Reports Content */
-.reports-content {
+.admin-reports-content {
     display: flex;
     gap: 20px;
+    height: 100%;
+    width: 100%; /* Ensure the content fills all available space */
 }
 
-.reports-list {
+.admin-reports-list {
     width: 35%;
     border-right: 1px solid #ccc;
     overflow-y: auto;
 }
 
-.report-item {
+.admin-report-item {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.report-item:hover {
+.admin-report-item:hover {
     background-color: #f0f0f0;
 }
 
-.report-item.selected {
+.admin-report-item.admin-selected {
     background-color: #d0eaff;
 }
 
-.report-title {
+.admin-report-title {
     font-size: 16px;
     font-weight: normal;
 }
 
-.report-title.bold {
+.admin-report-title.admin-bold {
     font-weight: bold;
 }
 
-.report-user {
+.admin-report-user {
     font-size: 14px;
     color: #666;
 }
 
-/* Chat Section Styling */
-.chat-section {
+/* Admin Chat Section Styling */
+.admin-chat-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     padding: 20px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    height: calc(100vh - 250px); /* Adjusted height */
+    width: 100%;
+    max-width: 1450px;
     margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.chat-messages {
-    max-height: 400px;
+.admin-chat-messages {
+    flex-grow: 1;
     overflow-y: auto;
     padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
 }
 
-.chat-message {
+.admin-chat-message {
     margin-bottom: 15px;
     display: flex;
     align-items: flex-start;
 }
 
-.admin-message .chat-bubble {
+.admin-message .admin-chat-bubble {
     background-color: #007bff;
     color: white;
     align-self: flex-start;
+    margin-left: 700px;
+
 }
 
-.user-message .chat-bubble {
+.user-message .admin-chat-bubble {
     background-color: #e9f0ff;
     color: #000;
     align-self: flex-end;
 }
 
-.chat-bubble {
+.admin-chat-bubble {
     max-width: 60%;
     padding: 12px;
     border-radius: 18px;
@@ -160,11 +174,11 @@
 }
 
 /* Hover Effect for Timestamp */
-.chat-bubble:hover .timestamp {
+.admin-chat-bubble:hover .admin-timestamp {
     display: inline-block;
 }
 
-.timestamp {
+.admin-timestamp {
     display: none;
     position: absolute;
     bottom: -20px;
@@ -176,15 +190,15 @@
     border-radius: 10px;
 }
 
-/* Chat Input */
-.chat-input {
+/* Admin Chat Input */
+.admin-chat-input {
     display: flex;
     align-items: center;
     border-top: 1px solid #ddd;
     padding-top: 10px;
 }
 
-.chat-input textarea {
+.admin-chat-input textarea {
     width: calc(100% - 80px);
     height: 50px;
     padding: 10px;
@@ -193,7 +207,7 @@
     resize: none;
 }
 
-.chat-input button {
+.admin-chat-input button {
     width: 60px;
     height: 50px;
     margin-left: 10px;
@@ -204,6 +218,56 @@
     cursor: pointer;
 }
 
-.chat-input button:hover {
+.admin-chat-input button:hover {
+    background-color: #0056b3;
+}
+
+/* Admin Report Details */
+.admin-report-details {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.admin-report-details-card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.admin-report-title-black {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.admin-report-description-black {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.admin-report-submitted-by-black {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.admin-create-group-chat-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.admin-create-group-chat-btn:hover {
     background-color: #0056b3;
 }

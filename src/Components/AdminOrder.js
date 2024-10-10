@@ -86,6 +86,10 @@ const AdminPageOrder = () => {
     }
   };
 
+  const handleTerminate = () => {
+    
+  };
+
   const handleSearch = () => {
     setSearchQuery(searchTerm);
   };
@@ -168,7 +172,7 @@ const AdminPageOrder = () => {
                   <th>Status</th>
                   <th>Payment Status</th>
                   <th>Proof of Payment</th>
-                  <th>Action</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,6 +200,7 @@ const AdminPageOrder = () => {
                     <td>
                       <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
                       <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
+                      <button className="button-terminate" onClick={() => handleTerminate(order.orderId)}>Terminate</button>
                     </td>
                   </tr>
                 ))}

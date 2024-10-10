@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import {
@@ -12,13 +12,12 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler  
 } from "chart.js";
-import "../Css/AdminDashboard.css"; 
-import sidelogo from "../Images/sidelogo.png";  
+import "../Css/AdminDashboard.css";
+import sidelogo from "../Images/sidelogo.png";
 import { useNavigate } from "react-router-dom";
 
-
-// Register Chart.js components
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -28,15 +27,41 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler  
 );
 
 const AdminDashboard = () => {
   const [userData, setUserData] = useState({ total: 0, owners: 0, regular: 0 });
-  const [carData, setCarData] = useState({ total: 0, rented: 0, available: 0 });
+  const [carData, setCarData] = useState({ total: 0, rented: 0, available: 0, pendingApproval: 0 });
   const [orderData, setOrderData] = useState({ total: 0, pending: 0, completed: 0 });
+  const [incomeData, setIncomeData] = useState(0);
+  const [rentsPerCar, setRentsPerCar] = useState({ labels: [], datasets: [] });
+  const [rentOverTime, setRentOverTime] = useState({ labels: [], datasets: [] });
 
   const navigate = useNavigate();
+
+  // Logout function
+  const handleLogout = () => {
+    // Clear the user session or token here, e.g.:
+    localStorage.removeItem('authToken');  // Example if you're storing the token in localStorage
+
+    // Redirect to the login page
+    navigate('/adminlogin');
+  };
+
+  // Fetch all data in one function for polling
+  const fetchData = useCallback(async () => {
+    try {
+      await fetchUserData();
+      await fetchCarData();
+      await fetchOrderData();
+      await fetchRentsPerCar();
+      await fetchRentOverTime();
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
+  }, []); 
 
   // Fetch user data
   const fetchUserData = async () => {
@@ -73,12 +98,15 @@ const AdminDashboard = () => {
 
       let rentedCars = 0;
       let availableCars = 0;
+      let pendingApproval = 0;
 
       cars.forEach(car => {
         if (car.isRented) {
           rentedCars++;
-        } else {
+        } else if (car.isApproved) {
           availableCars++;
+        } else {
+          pendingApproval++;
         }
       });
 
@@ -86,6 +114,7 @@ const AdminDashboard = () => {
         total: cars.length,
         rented: rentedCars,
         available: availableCars,
+        pendingApproval,
       });
     } catch (error) {
       console.error("Error fetching cars:", error);
@@ -100,12 +129,14 @@ const AdminDashboard = () => {
 
       let pendingOrders = 0;
       let completedOrders = 0;
+      let totalIncome = 0;
 
       orders.forEach(order => {
         if (order.status === 0) {
           pendingOrders++;
         } else if (order.status === 1) {
           completedOrders++;
+          totalIncome += order.totalPrice;
         }
       });
 
@@ -114,47 +145,79 @@ const AdminDashboard = () => {
         pending: pendingOrders,
         completed: completedOrders,
       });
+      setIncomeData(totalIncome);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
 
+  // Fetch rents per car data
+  const fetchRentsPerCar = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/car/allCarsWithOrders");
+      const cars = response.data;
+      const labels = cars.map(car => car.carModel);
+      const rentCounts = cars.map(car => car.orders.length);
+
+      setRentsPerCar({
+        labels,
+        datasets: [
+          {
+            label: "Rents per Car",
+            data: rentCounts,
+            backgroundColor: "rgba(153, 102, 255, 0.6)",
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error fetching rents per car:", error);
+    }
+  };
+
+  // Fetch rent over time data
+  const fetchRentOverTime = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/order/getAllOrders");
+      const orders = response.data;
+
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const monthlyRentCounts = Array(12).fill(0);
+
+      orders.forEach(order => {
+        const orderMonth = new Date(order.startDate).getMonth();
+        monthlyRentCounts[orderMonth]++;
+      });
+
+      setRentOverTime({
+        labels: months,
+        datasets: [
+          {
+            label: "Rents",
+            data: monthlyRentCounts,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            fill: true,  
+          },
+        ],
+      });
+    } catch (error) {
+      console.error("Error fetching rent over time:", error);
+    }
+  };
+
+  // Poll the API every 5 seconds
   useEffect(() => {
-    fetchUserData();
-    fetchCarData();
-    fetchOrderData();
-  }, []);
+    fetchData(); 
+    const intervalId = setInterval(fetchData, 5000); 
 
-  const handleAdminCars = () => {
-    navigate('/admincars');
-  };
-
-  const handleAdminUsers = () => {
-    navigate('/adminusers');
-  };
-
-  const handleAdminVerify = () => {
-    navigate('/adminverify');
-  };
-
-  const handleAdminOrder = () => {
-    navigate('/adminorder'); 
-  };
-
-  const handleAdminReport = () => {
-    navigate('/adminreport'); 
-  };
-
-  const handleAdminDashboard = () => {
-    navigate('/admin-dashboard'); 
-  };
+    return () => clearInterval(intervalId); 
+  }, [fetchData]); 
 
   return (
     <div className="admin-dashboard-page">
-      {/* Top navigation bar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
-        <button className="admin-dashboard-logout" onClick={() => console.log('Logout clicked')}>
+        <button className="admin-dashboard-logout" onClick={handleLogout}>
           Logout
         </button>
       </div>
@@ -162,17 +225,16 @@ const AdminDashboard = () => {
       <div className="admin-dashboard-wrapper">
         {/* Sidebar */}
         <div className="admin-dashboard-sidebar">
-          <button className="admin-dashboard-menu-item" onClick={handleAdminDashboard}>Dashboard</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminUsers}>Users</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminCars}>Cars</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminVerify}>Verifications</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminOrder}>Transactions</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminReport}>Reports</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/admin-dashboard')}>Dashboard</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminusers')}>Users</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/admincars')}>Cars</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminverify')}>Verifications</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminreport')}>Reports</button>
         </div>
 
         {/* Main Analytics Section */}
         <div className="admin-dashboard-content">
-          {/* Summary Cards */}
           <div className="grid-container">
             <div className="card">
               <h3>Total Users</h3>
@@ -186,9 +248,21 @@ const AdminDashboard = () => {
               <h3>Total Rents</h3>
               <p>{orderData.total}</p>
             </div>
+            <div className="card">
+              <h3>Pending Rents</h3>
+              <p>{orderData.pending}</p>
+            </div>
+            <div className="card">
+              <h3>Pending Car Approvals</h3>
+              <p>{carData.pendingApproval}</p>
+            </div>
+            <div className="card">
+              <h3>Total Income</h3>
+              <p>{incomeData.toFixed(2)} PHP</p>
+            </div>
           </div>
 
-          {/* Pie Chart for User Breakdown */}
+          {/* Charts */}
           <div className="grid-container">
             <div className="chart-section">
               <h3>User Breakdown</h3>
@@ -200,56 +274,54 @@ const AdminDashboard = () => {
                       {
                         data: [userData.owners, userData.regular],
                         backgroundColor: ["#FF6384", "#36A2EB"],
-                        hoverBackgroundColor: ["#FF6384", "#36A2EB"],
                       },
                     ],
+                  }}
+                  options={{
+                    maintainAspectRatio: false,  
+                    responsive: true,
                   }}
                 />
               </div>
             </div>
-
-            {/* Bar Chart for Car Breakdown */}
             <div className="chart-section">
               <h3>Cars Breakdown</h3>
-              <div className="chart-container">
-                <Bar
-                  data={{
-                    labels: ["Rented Cars", "Available Cars"],
-                    datasets: [
-                      {
-                        label: "Cars",
-                        data: [carData.rented, carData.available],
-                        backgroundColor: ["#FF6384", "#36A2EB"],
-                        hoverBackgroundColor: ["#FF6384", "#36A2EB"],
-                      },
-                    ],
-                  }}
-                />
-              </div>
+              <Bar
+                data={{
+                  labels: ["Rented Cars", "Available Cars", "Pending Approval"],
+                  datasets: [
+                    {
+                      label: "Cars",
+                      data: [carData.rented, carData.available, carData.pendingApproval],
+                      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                    },
+                  ],
+                }}
+              />
             </div>
           </div>
 
-          {/* Line Chart for Orders Over Time */}
           <div className="grid-container">
             <div className="chart-section">
+              <h3>Rents Per Car</h3>
+              {rentsPerCar.labels.length > 0 ? (
+                <Bar data={rentsPerCar} />
+              ) : (
+                <p>Loading rents per car...</p>
+              )}
+            </div>
+            <div className="chart-section">
               <h3>Rents Over Time</h3>
-              <div className="chart-container">
+              {rentOverTime.labels.length > 0 ? (
                 <Line
                   data={{
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],  // Static labels for months
-                    datasets: [
-                      {
-                        label: "Completed Orders",
-                        data: [12, 19, 3, 5, 2, 3],  // Sample data; replace with API data
-                        backgroundColor: "rgba(75,192,192,0.2)",
-                        borderColor: "rgba(75,192,192,1)",
-                        borderWidth: 1,
-                        fill: true,
-                      },
-                    ],
+                    labels: rentOverTime.labels,
+                    datasets: rentOverTime.datasets,
                   }}
                 />
-              </div>
+              ) : (
+                <p>Loading rents over time...</p>
+              )}
             </div>
           </div>
         </div>
