@@ -78,10 +78,12 @@
 .reports-content {
     display: flex;
     gap: 20px;
+    height: 100%;
+    width: 100%; /* Ensure the content fills all available space */
 }
 
 .reports-list {
-    width: 35%;
+    width: 25%; /* Reduced the width for the reports list */
     border-right: 1px solid #ccc;
     overflow-y: auto;
 }
@@ -121,14 +123,17 @@
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 0 auto;
+    flex-grow: 1; /* Make the chat section expand to use remaining space */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Take up all the width available */
 }
 
 .chat-messages {
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
     padding-bottom: 20px;
+    flex-grow: 1; /* Make messages section grow to fill space */
 }
 
 .chat-message {

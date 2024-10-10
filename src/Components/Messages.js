@@ -124,14 +124,16 @@ export const Messages = () => {
           <h3>Group Chat: {selectedChat.report.title}</h3>
           <div className="chat-messages">
             {messages.map((message, index) => (
-              <div key={index} className="chat-message">
-                {message.sender ? (
-                  <strong>{message.sender.fName} {message.sender.lName || ''}:</strong>
-                ) : (
-                  <strong>Admin:</strong>
-                )}
-                {message.messageContent}
-                <span className="timestamp">{formatTimestamp(message.sentAt)}</span>
+              <div key={index} className={`chat-message ${message.sender ? "user-message" : "admin-message"}`}>
+                <div className="chat-bubble">
+                  <strong>
+                    {message.sender
+                      ? `${message.sender.fName} ${message.sender.lName}`
+                      : "Admin"}
+                  </strong>
+                  : {message.messageContent}
+                  <span className="timestamp">{formatTimestamp(message.sentAt)}</span>
+                </div>
               </div>
             ))}
           </div>
