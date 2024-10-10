@@ -53,6 +53,18 @@
   margin-left: 100px;
 }
 
+.title h1 {
+  font-size: 36px; /* Make the text bigger */
+  font-weight: bold; /* Make the text bold */
+  margin-top: 30px; /* Add space above the heading */
+  margin-bottom: 15px; /* Add space below the heading */
+  color: #000000; /* Optional: Change the color to a darker shade for better visibility */
+  text-align: left; /* Ensure it's aligned to the left */
+  font-family: "Inter-Bold", Helvetica, sans-serif; /* Ensure a modern, bold font */
+  font-size: 35px;
+}
+
+
 /* Reports List */
 .reports-list {
   width: 35%;
@@ -96,59 +108,48 @@
   background-color: white;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 1400px;
+  margin-left: 650px;
+  margin-top: -385px;
+  margin-right: 10px;
+  margin-bottom: 1000px;
+  height: calc(100vh - 140px); /* Adjust the height to fill most of the viewport */
 }
 
 .chat-messages {
-  max-height: 400px;
+  flex-grow: 1;
   overflow-y: auto;
-  padding-bottom: 20px;
-}
-
-.chat-message {
-  margin-bottom: 15px;
+  padding-bottom: 700px;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px; /* Space between messages */
 }
 
-.user-message .chat-bubble {
-  background-color: #e9f0ff;
-  color: #000;
-  align-self: flex-end;
-}
-
+/* Admin message (right-aligned) */
 .admin-message .chat-bubble {
-  background-color: #007bff;
-  color: white;
-  align-self: flex-start;
-}
-
-.chat-bubble {
+  align-self: flex-start; /* Align admin messages to the left */
+  background-color: #e8e9ea; /* Light blue for admin bubble */
+  color: rgb(0, 0, 0);
+  padding: 12px 18px;
+  border-radius: 18px 18px 18px 0px; /* Rounded with flat bottom-left corner */
   max-width: 60%;
-  padding: 12px;
-  border-radius: 18px;
-  position: relative;
-  transition: background-color 0.3s ease;
   word-wrap: break-word;
-  font-size: 16px;
+  font-size: 20px;
+  margin-left: 20px;
 }
 
-/* Hover Effect for Timestamp */
-.chat-bubble:hover .timestamp {
-  display: inline-block;
-}
-
-.timestamp {
-  display: none;
-  position: absolute;
-  bottom: -20px;
-  right: 10px;
-  font-size: 12px;
-  color: gray;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 3px 8px;
-  border-radius: 10px;
+/* User/sender message (left-aligned) */
+.user-message .chat-bubble {
+  align-self: flex-end; /* Align user messages to the right */
+  background-color: #38a1f3; /* Dark gray for user bubble */
+  color: white;
+  padding: 12px 18px;
+  border-radius: 18px 18px 0px 18px; /* Rounded with flat bottom-right corner */
+  max-width: 60%;
+  word-wrap: break-word;
+  font-size: 20px;
+  margin-left: 1000px; /* Push the user message all the way to the right */
+  text-align: left;
 }
 
 /* Chat Input */
@@ -157,28 +158,38 @@
   align-items: center;
   border-top: 1px solid #ddd;
   padding-top: 10px;
+  height: 60px; /* Fixed height for input field */
 }
 
 .chat-input textarea {
-  width: calc(100% - 80px);
-  height: 50px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  resize: none;
+    width: calc(100% - 80px); /* Adjusted width to leave space for the button */
+    height: 50px;
+    background-color: #ffffff;
+    border: 1px solid #666;
+    color: black;
+    padding: 10px;
+    border-radius: 20px;
+    resize: none; /* Disable resizing */
+    font-size: 16px; /* Adjust the text size */
 }
 
 .chat-input button {
-  width: 60px;
-  height: 50px;
+  width: 70px; /* Increase the width of the Send button */
+  height: 50px; /* Increase the height of the Send button */
   margin-left: 10px;
-  background-color: #007bff;
+  background-color: #38a1f3;
   color: white;
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  font-size: 16px; /* Increase the font size of the button text */
 }
+
 
 .chat-input button:hover {
   background-color: #0056b3;
+}
+h3 {
+  font-size: 25px; /* Set to your desired size */
+  font-weight: bold; /* Optional: Make the text bolder */
 }
