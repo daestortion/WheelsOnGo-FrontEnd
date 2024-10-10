@@ -6,7 +6,7 @@ import "../Css/Messages.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 
-// Helper function to format the timestamp
+// Helper function to format the timestamp (not needed anymore)
 const formatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -120,23 +120,23 @@ export const Messages = () => {
       </div>
 
       {selectedChat && (
-  <div className="chat-section">
-    <h3>Group Chat: {selectedChat.report.title}</h3>
-    <div className="chat-messages">
-      {messages.map((message, index) => (
-        <div
-          key={index}
-          className={`chat-message ${message.sender ? 'user-message' : 'admin-message'}`}
-        >
-          <div className="chat-bubble">
-            {/* Display only the message content without the sender's name */}
-            {message.messageContent}
-            <span className="timestamp">{formatTimestamp(message.sentAt)}</span>
+        <div className="chat-section">
+          <h3>Group Chat: {selectedChat.report.title}</h3>
+          <div className="chat-messages">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`chat-message ${message.sender ? 'user-message' : 'admin-message'}`}
+              >
+                <div className="chat-bubble">
+                  {/* Display only the message content */}
+                  {message.messageContent}
                 </div>
               </div>
             ))}
           </div>
 
+          {/* Chat input fixed at the bottom */}
           <div className="chat-input">
             <textarea
               placeholder="Type your message here..."
