@@ -125,34 +125,75 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     }
   };
 
-      const createPaymentLink = async () => {
-        // Ensure that totalPrice is available and convert it to centavos
-        const amountInCentavos = Math.round(totalPrice * 100);  // Convert to centavos (e.g. PHP 100.00 = 10000 centavos)
-      
-        const response = await fetch('http://localhost:8080/api/payment/create-link', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            amount: amountInCentavos,  // Dynamically use totalPrice in centavos
-            description: `Payment for renting ${car.carBrand} ${car.carModel} ${car.carYear}`,  // You can add dynamic description if needed
-          }),
-        });
-      
-        const data = await response.json();
-        console.log('Payment Link Response:', data);
-      
-        if (data && data.data && data.data.attributes && data.data.attributes.checkout_url) {
-          const paymentUrl = data.data.attributes.checkout_url;
-          // Redirect user to PayMongo payment page
-          window.location.href = paymentUrl;
-        } else {
-          console.error('Failed to create payment link');
-        }
-      };
+  const createPaymentLink = async () => {
+    // Ensure that totalPrice is available and convert it to centavos
+    const amountInCentavos = Math.round(totalPrice * 100);  // Convert to centavos (e.g. PHP 100.00 = 10000 centavos)
   
-      
+    try {
+      const response = await fetch('http://localhost:8080/api/payment/create-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: amountInCentavos,  // Dynamically use totalPrice in centavos
+          description: `Payment for renting ${car.carBrand} ${car.carModel} ${car.carYear}`,  // Add dynamic description if needed
+        }),
+      });
+  
+      const data = await response.json();
+      console.log('Payment Link Response:', data);
+  
+      if (data && data.data && data.data.attributes && data.data.attributes.checkout_url) {
+        const paymentUrl = data.data.attributes.checkout_url;
+  
+        // Redirect the user to PayMongo payment page
+        window.open(paymentUrl, '_blank');
+  
+        // Once the payment is completed, insert the order with Paymongo as the payment option
+        await insertOrderWithPaymongo();
+      } else {
+        console.error('Failed to create payment link');
+      }
+    } catch (error) {
+      console.error('Error creating payment link:', error);
+    }
+  };
+  
+  // Function to insert the order with Paymongo as payment option
+  const insertOrderWithPaymongo = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('order', new Blob([JSON.stringify({
+        startDate: startDate,   // Use the prop startDate
+        endDate: endDate,       // Use the prop endDate
+        totalPrice: totalPrice, // Use the prop totalPrice
+        paymentOption: "Paymongo",  // Set payment option to Paymongo
+        isDeleted: false,
+        referenceNumber: '',  // Generate reference number later
+        deliveryOption,  // Include delivery option
+        deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
+      })], { type: 'application/json' }));
+  
+      const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  
+      if (response.data) {
+        setOrder(response.data);        // Update state with the new order
+        console.log("Order created successfully with Paymongo:", response.data);
+        setShowBookedPopup(true);       // Show the booked popup
+      } else {
+        throw new Error("Failed to create order with Paymongo.");
+      }
+    } catch (error) {
+      console.error('Error inserting order with Paymongo:', error);
+    }
+  };
+
+  
 
   const handlePayPalSuccess = async (details, data) => {
     try {
