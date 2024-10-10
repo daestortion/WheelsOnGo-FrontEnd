@@ -116,7 +116,7 @@
 }
 
 /* Action Buttons */
-.button-approve, .button-deny, .button-show-image {
+.button-approve, .button-deny, .button-show-image, .button-terminate {
   padding: 8px 12px;
   background-color: #e32128;
   color: white;
@@ -130,7 +130,7 @@
   background-color: #00c04b;
 }
 
-.button-deny {
+.button-deny, .button-terminate {
   background-color: #ff4b4b;
 }
 

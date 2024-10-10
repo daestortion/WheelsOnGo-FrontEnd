@@ -247,12 +247,21 @@
     font-weight: bold;
   }
 
-  .button213 {
+  .extend, .terminate {
     padding: 8px 12px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 80px;  /* Set a fixed width */
+    text-align: center; /* Center the text */
+  }
+  
+  .extend {
+    background-color: #009d40; /* Green color for extend */
+  }
+  
+  .terminate {
+    background-color: #ff0000; /* Red color for terminate */
   }
   

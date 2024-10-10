@@ -1,43 +1,41 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Dropdown from "../Components/Dropdown.js";
 import sidelogo from "../Images/sidelogo.png";
 import profile from "../Images/profile.png";
 import "../Css/Header.css";
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../AuthContext';  // Adjust path to match your folder structure
 
 const Header = () => {
-  const navigate = useNavigate(); // Setup useNavigate
+  const navigate = useNavigate();
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const sideNavRef = useRef(null);
-  const { logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth(); // Access isAuthenticated and logout from useAuth
 
-  // Define onClick handlers
   const handleHomeClick = () => {
-    navigate('/home'); // Navigate to home page
-    setSideNavOpen(false); // Close side navigation
+    navigate('/home');
+    setSideNavOpen(false);
   };
 
   const handleCarsClick = () => {
-    navigate('/cars'); // Navigate to cars page
-    setSideNavOpen(false); // Close side navigation
+    navigate('/cars');
+    setSideNavOpen(false);
   };
 
   const handleAboutClick = () => {
-    navigate('/aboutus'); // Navigate to about-us page
-    setSideNavOpen(false); // Close side navigation
+    navigate('/aboutus');
+    setSideNavOpen(false);
   };
 
   const handleLogout = () => {
     logout();
     navigate('/login');
-    setSideNavOpen(false); // Close side navigation
+    setSideNavOpen(false);
   };
 
   const goToProfile = () => {
     navigate('/userprofile');
-    setSideNavOpen(false); // Close side navigation
+    setSideNavOpen(false);
   };
 
   const toggleSideNav = () => {
@@ -74,14 +72,22 @@ const Header = () => {
         <a href="#logout" onClick={handleLogout} className="logout-link">Logout</a>
       </div>
 
-      <div className="header-items">
-        <div className="text-wrapper-4" onClick={handleHomeClick}>Home</div>
-        <div className="text-wrapper-5" onClick={handleCarsClick}>Cars</div>
-        <div className="text-wrapper-6" onClick={handleAboutClick}>About</div>
-        <Dropdown>
-          <img className="group" alt="Group" src={profile} />
-        </Dropdown>
-      </div>
+      {/* Conditionally render based on isAuthenticated */}
+      {isAuthenticated ? (
+        <div className="header-items">
+          <div className="text-wrapper-4" onClick={handleHomeClick}>Home</div>
+          <div className="text-wrapper-5" onClick={handleCarsClick}>Cars</div>
+          <div className="text-wrapper-6" onClick={handleAboutClick}>About</div>
+          <Dropdown>
+            <img className="group" alt="Group" src={profile} />
+          </Dropdown>
+        </div>
+      ) : (
+        <div className="auth-buttons">
+          <button className="overlap-group-2" onClick={() => navigate('/login')}>LOGIN</button>
+          <button className="div-wrapper121" onClick={() => navigate('/signup')}>SIGN UP</button>
+        </div>
+      )}
     </div>
   );
 };
