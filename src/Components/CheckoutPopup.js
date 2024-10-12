@@ -28,6 +28,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
 
+  // Fetch booked dates
   useEffect(() => {
     const fetchBookedDates = async () => {
       try {
@@ -49,17 +50,21 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   }, [car.carId]);
 
   const handleStartDateChange = (date) => {
-    setStartDate(date);
+    const normalizedDate = new Date(date.getTime());
+    normalizedDate.setHours(12, 0, 0, 0); // Set the time to noon to avoid time zone issues
+    setStartDate(normalizedDate);
     setStartDateOpen(false);
     if (endDate && date && endDate <= date) {
       setEndDate(null);
     }
   };
-
+  
   const handleEndDateChange = (date) => {
-    setEndDate(date);
+    const normalizedDate = new Date(date.getTime());
+    normalizedDate.setHours(12, 0, 0, 0); // Set the time to noon to avoid time zone issues
+    setEndDate(normalizedDate);
     setEndDateOpen(false);
-  };
+  };  
 
   const toggleStartDatePicker = () => {
     setStartDateOpen(!startDateOpen);
@@ -77,6 +82,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     setDeliveryOption(event.target.value);
   };
 
+  // Recalculate the total price based on the selected start and end dates
   useEffect(() => {
     if (startDate && endDate) {
       const timeDifference = endDate.getTime() - startDate.getTime();
@@ -119,9 +125,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     closePopup();
   };
 
+  // Logic to disable both booked dates and the day after endDate
   const isDateBooked = (date) => {
     return bookedDates.some(({ start, end }) => {
-      return date >= start && date <= end;  
+      const oneDayAfterEndDate = new Date(end.getTime() + 24 * 60 * 60 * 1000); // One day after the booked end date
+      return date >= start && date <= oneDayAfterEndDate;  // Disable the day after the end date as well
     });
   };
 
@@ -192,7 +200,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 inline
                 shouldCloseOnSelect
                 minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
-                filterDate={(date) => !isDateBooked(date)} 
+                filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
               />
             )}
           </div>
