@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Dropdown from "../Components/Dropdown.js";
 import "../Css/ProfileVerified.css";
 import trash from "../Images/trash.png";
 import check from "../Images/verified.png";
