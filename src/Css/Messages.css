@@ -133,8 +133,10 @@
   max-width: 60%;
   word-wrap: break-word;
   font-size: 18px;
-  margin-left: 1000px;
+  margin-left: auto; /* Ensures alignment to the right */
+  margin-right: 10px;
 }
+
 
 .admin-message .chat-bubble {
   align-self: flex-start;
@@ -145,6 +147,8 @@
   max-width: 60%;
   word-wrap: break-word;
   font-size: 18px;
+  margin-left: 0px; /* Ensures alignment to the left */
+  margin-right: auto;
 }
 
 /* Chat Input */

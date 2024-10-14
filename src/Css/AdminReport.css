@@ -150,10 +150,16 @@
 }
 
 .admin-message .admin-chat-bubble {
-    background-color: #007bff;
+    align-self: flex-end;
+    background-color: #38a1f3;
     color: white;
-    align-self: flex-start;
-    margin-left: 700px;
+    padding: 12px 18px;
+    border-radius: 18px 18px 0px 18px;
+    max-width: 60%;
+    word-wrap: break-word;
+    font-size: 18px;
+    margin-left: auto; /* Ensures alignment to the right */
+    margin-right: 10px;
 
 }
 
