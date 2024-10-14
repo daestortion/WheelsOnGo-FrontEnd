@@ -118,20 +118,8 @@ const UserProfile = () => {
         }
     };
 
-    const handleHomeClick = () => {
-        navigate('/home');
-    };
-
     const handleRentHistory = () => {
         navigate('/history');
-    };
-
-    const handleCarsClick = () => {
-        navigate('/cars');
-    };
-
-    const handleAboutClick = () => {
-        navigate('/aboutus');
     };
 
     const handleRegisterAsOwner = () => {
