@@ -2,11 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "../Components/Dropdown.js";
-import "../Css/OwnerProfile.css";
-import "../Css/Profile.css";
 import "../Css/ProfileVerified.css";
-import profileIcon from "../Images/profile.png";
-import sidelogo from "../Images/sidelogo.png";
 import trash from "../Images/trash.png";
 import check from "../Images/verified.png";
 import ApplyOwnerPopup from './ApplyOwnerPopup';
@@ -15,6 +11,7 @@ import VerifyPopup from './VerifyPopup';
 import ReverifyPopup from './ReverifyPopup';
 import DeleteCarPopup from './DeleteCar';
 import { Report } from './Report'; // Import the named export
+import Header from "../Components/Header";
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -202,118 +199,150 @@ const UserProfile = () => {
     };
 
     console.log(currentUser);
+    
     return (
         <div className="profile-not-verified">
             {isLoading && <Loading />}
-            <div className="overlap-wrapper">
-                <div className="overlap">
-                    <div className="overlap-group">
-                        <div className="text-wrapper" onClick={handleCarsClick}>Cars</div>
-                        <div className="div" onClick={handleAboutClick}>About</div>
-                        <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
-                        <div className="text-wrapper-2" onClick={handleHomeClick}>Home</div>
-                        <div className="messages" onClick={handleMessagesClick}>Messages</div>
-                        <Dropdown>
-                            <button className="group">
-                                <img alt="Group" src={profileIcon} />
-                            </button>
-                        </Dropdown>
-                    </div>
-                    <div className="rectangle" style={{ backgroundImage: `url(${currentUser.profilePic})`, backgroundSize: 'cover' }} />
-                    <div className="overlap-2">
-                        <div className="overlap-3">
-                            <div className="text-wrapper-3">{currentUser.fName} {currentUser.lName}</div>
-                            <div className="user-info">
-                                <div className="text-wrapper-3">
-                                    {currentUser.fName} {currentUser.lName}
-                                </div>
-                                <div className="group-wrapper">
-                                    {currentUser.verificationStatus === 1 ? (
-                                    <img className="vector" alt="Vector" src={check} />
-                                    ) : currentUser.verificationStatus === 0 ? (
-                                    <div className="text-wrapper-69">Pending Verification</div>
-                                    ) : currentUser.verificationStatus === 2 ? (
-                                    <div className="reverify">
-                                        Verification denied, please <span className="reverify-link" onClick={toggleReverifyPopup}>reverify.</span>
-                                    </div>
-                                    ) : (
-                                    <button className="div-wrapper" onClick={toggleVerifyPopup}>
-                                        <div className="text-wrapper-4">Verify Account</div>
-                                    </button>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                        <p className="p">{currentUser.pNum} | {currentUser.email}</p>
-                    </div>
-                    {currentUser.verificationStatus === 1 && (
-                        <div className="text-wrapper-55" onClick={handleRentHistory}>Transaction History</div>
-                    )}
-                    {currentUser.verificationStatus === 1 && currentUser.isOwner ? (
-                        <div className="owner-section">
-                            <div className="overlap-group-wrapper6">
-                                <button className="div-wrappercar" onClick={handleAddCar}>
-                                    <div className="text-wrapper-44">Register a Car</div>
-                                </button>
-                            </div>
-                            
-                            <div className="overlap-33">
-                            {currentUser.cars.length > 0 ? (
-                                currentUser.cars.filter(car => car.approved).map(car => (
-                                    <div key={car.carId} className="car-frame">
-                                        <button className="carbutton" onClick={() => handleUpdateCar(car.carId)}>
-                                            <img
-                                                className="car-imagee"
-                                                alt="Car"
-                                                src={`data:image/jpeg;base64,${car.carImage}`}
-                                            />
-                                        </button>
-                                        <img className="icon-trashhh" alt="Icon trash" src={trash} onClick={() => handleDeleteCar(car.carId)} />
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No cars registered</p>
-                            )}
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="overlap-4">
-                            <p className="join-our-car-rental">
-                                Join our car rental community and start earning extra income <br /> by enlisting your vehicles for rent. Share the convenience and benefits of your car while making money effortlessly.
-                            </p>
-                            <div className="fgh" />
-                            {currentUser.verificationStatus === 1 && (
-                                <button className="overlap-6" onClick={handleRegisterAsOwner}>
-                                    <div className="text-wrapper-6">Register as Owner</div>
-                                </button>
-                            )}
-                        </div>
-                    )}
+            <Header />
 
-                    <div className="group-22">
+            <div className="overlap-wrapper">
+                <div className="overlap213">
+                    <div
+                        className="rectangle"
+                        style={{
+                            backgroundImage: `url(${currentUser.profilePic})`,
+                            backgroundSize: 'cover',
+                        }}
+                    />
+
+                    <div className="overlap-2">
+                        <div className="text-wrapper-3">
+                            <span>{currentUser.fName} </span>
+                            <span>{currentUser.lName} </span>
+
+                            {currentUser.verificationStatus === 1 ? (
+                                <img className="vector" alt="Verified" src={check} />
+                            ) : currentUser.verificationStatus === 0 ? (
+                                <div className="text-wrapper-69">( Pending Verification )</div>
+                            ) : currentUser.verificationStatus === 2 ? (
+                                <div className="reverify">
+                                    ( Verification denied, please&nbsp;
+                                    <span
+                                        className="reverify-link"
+                                        onClick={toggleReverifyPopup}
+                                    >
+                                        reverify
+                                    </span>)
+                                </div>
+                            ) : (
+                                <button className="div-wrapper" onClick={toggleVerifyPopup}>
+                                    Verify Account
+                                </button>
+                            )}
+                        </div>
+
+                        <p className="p">
+                            {currentUser.pNum} | {currentUser.email}
+                        </p>
+
                         <button className="overlap-5" onClick={handleEditProfile}>
-                            <div className="text-wrapper-5">Edit Profile</div>
+                            Edit Profile
                         </button>
                     </div>
                 </div>
-                <div onClick={toggleReportPopup} className="submitbackground">
-                <div className="submit-report-link">
-                            Submit a Report
-                </div>
+
+                {/* Button Group Section */}
+                <div className="button-group">
+                    <button onClick={handleMessagesClick} className="messages">
+                        Messages
+                    </button>
+
+                    <button onClick={toggleReportPopup} className="submitbackground">
+                        Submit a Report
+                    </button>
+
+                    {currentUser.verificationStatus === 1 && (
+                        <button className="text-wrapper-55" onClick={handleRentHistory}>
+                            Transaction History
+                        </button>
+                    )}
+
+                    {/* Register a Car Button Moved Here */}
+                    {currentUser.verificationStatus === 1 && currentUser.isOwner && (
+                        <button className="div-wrappercar" onClick={handleAddCar}>
+                            Register a Car
+                        </button>
+                    )}
                 </div>
             </div>
+
+           {/* Register as Owner Section */}
+            {!currentUser.isOwner && currentUser.verificationStatus === 1 && (
+                <div className="register-owner-container">
+                    <div className="group1">
+                        <span className="join-our-car-rental">
+                            Join our car rental community and start earning extra income <br />
+                            by enlisting your vehicles for rent. Share the convenience and benefits of your car while making money effortlessly.
+                        </span>
+                        <button className="overlap-6" onClick={handleRegisterAsOwner}>
+                            Register as Owner
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Car List Section for Owners */}
+            {currentUser.verificationStatus === 1 && currentUser.isOwner && (
+                <div className="overlap-33">
+                    {currentUser.cars && currentUser.cars.length > 0 ? (
+                        currentUser.cars.filter(car => car.approved).map(car => (
+                                <div key={car.carId} className="car-frame">
+                                    <button
+                                        className="carbutton"
+                                        onClick={() => handleUpdateCar(car.carId)}
+                                    >
+                                        <img
+                                            className="car-imagee"
+                                            alt="Car"
+                                            src={`data:image/jpeg;base64,${car.carImage}`}
+                                        />
+                                    </button>
+                                    <img
+                                        className="icon-trashhh"
+                                        alt="Icon trash"
+                                        src={trash}
+                                        onClick={() => handleDeleteCar(car.carId)}
+                                    />
+                                </div>
+                        ))
+                    ) : (
+                        <span className="no-cars-message">NO CARS REGISTERED</span>
+                    )}
+                </div>
+            )}
+
+            
+
+            {/* Popups */}
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
             {showReverifyPopup && <ReverifyPopup closePopup={toggleReverifyPopup} />}
-            {showApplyOwnerPopup && <ApplyOwnerPopup closePopup={toggleApplyOwnerPopup} confirmRegister={handleConfirmRegisterAsOwner} />}
+            {showApplyOwnerPopup && (
+                <ApplyOwnerPopup
+                    closePopup={toggleApplyOwnerPopup}
+                    confirmRegister={handleConfirmRegisterAsOwner}
+                />
+            )}
             {showDeleteCarPopup && (
                 <DeleteCarPopup
                     confirmDelete={confirmDeleteCar}
                     cancelDelete={cancelDeleteCar}
                 />
             )}
-            {showReportPopup && <Report />} {/* Render the Report popup */}
+            {showReportPopup && <Report />}
         </div>
+
     );
+    
 };
 
 export default UserProfile;

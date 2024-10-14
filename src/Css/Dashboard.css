@@ -13,9 +13,10 @@ body {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh; /* Ensure it takes the full viewport height */
   overflow-x: auto;
   overflow-y: auto;
+  padding-top: 112px; /* Offset for the fixed header height */
 }
 
 .dashboard .overlap-wrapper {
@@ -31,7 +32,6 @@ body {
   box-sizing: border-box;
   gap: 50px;
   position: relative;
-  top: 55px;
 }
 
 .dashboard .overlap-group {
