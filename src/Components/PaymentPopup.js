@@ -394,7 +394,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             <img className="img" alt="Vector" src={line1} />
           </div>
           <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-77">Total: ₱{totalPrice.toFixed(2)}</div>
+          <div className="text-wrapper-77">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
           <div className="text-wrapper-99">Pick-up Location: {car.address}</div>
 

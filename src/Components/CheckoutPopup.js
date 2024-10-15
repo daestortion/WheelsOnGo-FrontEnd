@@ -166,7 +166,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             {car.carBrand} {car.carModel} {car.carYear}
           </div>
           <div className="cp-overlap-group">
-            <div className="text-wrapper-345">₱{car.rentPrice.toFixed(2)}</div>
+            <div className="text-wrapper-345">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
             <div className="text-wrapper-4">{car.owner.pNum}</div>
             <img className="vector" alt="Vector" src={vector7} />
           </div>
@@ -275,7 +275,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             </div>
           )}
 
-          <div className="text-wrapper-8">Total: ₱{totalPrice.toFixed(2)}</div>
+          <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           <div className="text-wrapper-101">
             Description: <span className="normal-text">{car.carDescription}</span>{" "}
           </div>
