@@ -15,7 +15,7 @@ const BookedPopup = ({ order, onClose }) => {
       <div className="overlapwrapper">
         <div className="bpoverlap">
             <p className="bpcarbooked">
-                Rent extended successfully. Thank you
+                Car booking extended successfully. Thank you
             </p>
           <div className="groupy" >
             <div className="bpoverlapgroup" onClick={handleOkClick}>

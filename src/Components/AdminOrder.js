@@ -189,7 +189,7 @@ const AdminPageOrder = () => {
                     <td>{order.referenceNumber}</td>
                     <td>{order.active ? 'True' : 'False'}</td>
                     <td>{order.status === 1 ? 'Approved' : order.status === 2 ? 'Denied' : 'Pending'}</td>
-                    <td>{order.paid ? 'Paid' : 'Not'}</td>
+                    <td>{order.paid ? 'Paid' : 'Not Paid'}</td>
                     {order.paymentOption === "GCash" ? (
                     <td>
                       <button className="button-show-image" onClick={() => fetchProofOfPayment(order.orderId)}>Show Image</button>
@@ -198,8 +198,12 @@ const AdminPageOrder = () => {
                       <td></td> // Empty cell when no button
                     )}
                     <td>
-                      <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
-                      <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
+                      {order.paymentOption === "Cash" ? (
+                        <>
+                          <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
+                          <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
+                        </>
+                      ) : null}
                       <button className="button-terminate" onClick={() => handleTerminate(order.orderId)}>Terminate</button>
                     </td>
                   </tr>
