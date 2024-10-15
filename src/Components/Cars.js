@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../Css/Cars.css";
-import sidelogo from "../Images/sidelogo.png";
-import profile from "../Images/profile.png";
-import design from "../Images/design.png";
-import Dropdown from "../Components/Dropdown.js";
 import CheckoutPopup from "../Components/CheckoutPopup.js";
 import Loading from "../Components/Loading.js";
 import VerifyFirstPopup from './VerifyFirstPopup.js';
@@ -14,6 +10,7 @@ import { PendingRent } from './PendingPopup.js';
 import provincesData from '../Data/refprovince.json';
 import citiesData from '../Data/refcitymun.json';
 import barangaysData from '../Data/refbrgy.json';
+import Header from "../Components/Header";
 
 export const Cars = () => {
   const [cars, setCars] = useState([]);
@@ -147,11 +144,11 @@ export const Cars = () => {
   return (
     <div className="cars">
       {isLoading && <Loading />}
+      <Header />
+
       <div className="div">
-        <div className="overlap">
-          <img className="vector" alt="Vector" src={design} />
-          <div className="frame">
-            <div className="filter-container">
+
+      <div className="filter-container2121">
               <input
                 type="text"
                 placeholder="Search..."
@@ -159,14 +156,16 @@ export const Cars = () => {
                 onChange={e => setSearchTerm(e.target.value)}
                 className="search-bar"
               />
-              <button onClick={handleSearch} className="submit-button">Search</button>
               <select onChange={e => setFilter(e.target.value)} value={filter} className="user-filter">
                 <option value="all">All Cars</option>
                 <option value="lowest">Lowest Price</option>
                 <option value="highest">Highest Price</option>
                 <option value="capacity">Seat Capacity</option>
               </select>
+              <button onClick={handleSearch} className="submit-button">Search</button>
             </div>
+
+          <div className="frame">
             <div className="cars-grid">
               {filteredCars.length > 0 ? filteredCars.map((car, index) => (
                 <div key={index}>
@@ -174,11 +173,9 @@ export const Cars = () => {
                     {car.carImage && (
                       <img src={car.carImage} alt="Car" className="car-image" />
                     )}
-                    <div className="overlap-group-wrapper">
                       <button className="div-wrapper" onClick={() => handleRentClick(car)}>
-                        <div className="text-wrapper">Rent</div>
+                        Rent
                       </button>
-                    </div>
                   </div>
                   <div className="car-info-outside">
                     <div className="car-details">
@@ -193,14 +190,6 @@ export const Cars = () => {
               <p className="unavailable">No cars available for rent.</p>}
             </div>
           </div>
-        </div>
-        <Dropdown>
-          <img className="group-4" alt="Group" src={profile} />
-        </Dropdown>
-        <div className="text-wrapper-2" onClick={() => navigate('/home')}>Home</div>
-        <div className="text-wrapper-3" onClick={() => navigate('/cars')}>Cars</div>
-        <div className="text-wrapper-4" onClick={() => navigate('/aboutus')}>About</div>
-        <img className="sideview" alt="Sideview" onClick={() => navigate('/home')} src={sidelogo} />
       </div>
 
       {selectedCar && <CheckoutPopup car={selectedCar} closePopup={() => setSelectedCar(null)} />}

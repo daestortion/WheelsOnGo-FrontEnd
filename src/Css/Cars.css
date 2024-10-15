@@ -1,30 +1,44 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
 .cars {
   background-color: #ffffff;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  overflow-y: hidden; /* Disable vertical scrolling */
-  height: 100vh; /* Limit the height to the viewport height */
+  min-height: 100vh;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-top: 112px; /* Offset for the fixed header height */
 }
 
 .cars .div {
-  background-color: #ffffff;
-  height: 100%; /* Adjust to 100% of parent's height */
-  height: 939px;
-  overflow: hidden;
-  position: relative;
-  width: 1920px;
-  flex-grow: 1; 
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  justify-content: flex-start; /* Center children vertically */
+  flex-grow: 1;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.cars .overlap {
-  height: 826px;
-  left: 0;
-  position: absolute;
-  top: 113px;
-  width: 1920px;
+.cars .overlap211 {
+  flex-grow: 1; /* Grow to take remaining space */
+  width: 100%; /* Full width */
+  display: flex; /* Enable flex properties for this container */
+  justify-content: center; /* Center the child horizontally */
+  align-items: center; /* Center the child vertically */
+  position: relative; /* Necessary for positioning children absolutely if needed */
+  overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 .cars .vector {
@@ -36,15 +50,11 @@
 }
 
 .cars .frame {
-  height: 770px;
-  left: 0;
-  overflow: hidden;
-  overflow-y: scroll;
-  position: absolute;
-  width: 1920px;
-  padding-top: 20px;
-  top: 1px; 
-  
+  width: 100%; /* Take the full width of its parent */
+  height: 100%; /* Take the full height of its parent */
+  position: relative; /* Natural flow inside the container */
+  overflow: hidden; /* Hide overflowed content */
+  overflow-y: auto; /* Enable vertical scroll if necessary */
 }
 
 .cars .frame::-webkit-scrollbar {
@@ -53,31 +63,58 @@
 }
 
 .cars .cars-grid {
-  display: grid; /* Switch to grid layout */
-  grid-template-columns: repeat(3, 1fr); /* Always 3 columns per row */
-  gap: 50px; /* Equal gap between the containers */
-  width: 100%; /* Full width to make use of available space */
-  padding-left: 20px;
-  padding-right: 20px;
-  box-sizing: border-box; /* Include padding in the width calculation */
-  top: 1px;
+  display: flex; /* Use grid layout */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px; /* Space between grid items */
+  width: 100%; /* Full width to utilize available space */
+  padding: 20px; /* Padding inside the grid for internal spacing */
+  box-sizing: border-box; /* Padding included in width */
+  position: relative; /* Positioned relative to its normal flow */
+  overflow-y: auto; /* Allows vertical scrolling */
+  max-height: calc(100vh - 185px); /* Example: Subtract the total height of other elements */
+}
+
+.cars .cars-grid::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+  width: 10px; /* Width of the scrollbar */
+}
+
+  .cars-grid > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
   }
 
+.filter-container2121 {
+    width: 100%; /* Take full width to align children inside */
+    display: flex;
+    justify-content: flex-start; /* Distribute space between elements */
+    align-items: center; /* Center items vertically */
+    padding: 20px; /* Padding for some breathing room */
+    padding-top: 0;
+    box-sizing: border-box;
+}
 
 .cars .overlap-group {
-  position: relative; /* Important to position children absolutely within this container */
+  position: relative;
   background-color: #d9d9d9;
   border: 2px solid #000000;
   border-radius: 35px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  height: 467px;
-  width: 100%;
-  overflow: hidden; /* Ensures no content spills out */
+  height: 350px;
+  width: 400px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .car-info-outside {
-  text-align: center;
+  text-align: center; /* Center text horizontally */
   margin-top: 10px; /* Space between car container and details */
+  width: 100%; /* Take full width to maintain alignment */
 }
 
 .car-details {
@@ -114,11 +151,20 @@
 .cars .div-wrapper {
   background-color: #e80029;
   border-radius: 25px;
-  height: 50px;
-  position: relative;
-  width: 400px;
-  left: 80px;
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  height: 40px;
+  width: 80%; /* Take full width of its parent */
+  position: absolute; /* Positioned absolutely within overlap-group */
+  bottom: 10px; /* 10px from the bottom of overlap-group */
   border: none;
+  display: flex;
+  justify-content: center; /* Center any text or content horizontally */
+  align-items: center; /* Center any text or content vertically */
 }
 
 .cars .div-wrapper11 {
@@ -130,21 +176,6 @@
   left: 300px;
   top: -50px;
   border: none;
-}
-
-.cars .text-wrapper {
-  color: #ffffff;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
-  font-weight: 700;
-  left: 20px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 13px;
-  white-space: nowrap;
-  width: 360px;
 }
 
 .cars .group-wrapper {
@@ -192,35 +223,6 @@
   width: 389px;
 }
 
-.cars .group-4 {
-  height: 50px;
-  left: 1760px;
-  position: absolute;
-  top: 15px;
-  width: 50px;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.cars .text-wrapper-2 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1327px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.text-wrapper-2:hover{
-  color: #e80029;
-}
-
 .cars .text-wrapper-3 {
   color: #000000;
   font-family: "Inter-Bold", Helvetica;
@@ -233,37 +235,6 @@
   top: 40px;
   white-space: nowrap;
   cursor: pointer;
-}
-
-.text-wrapper-3:hover{
-  color: #e80029;
-}
-
-.cars .text-wrapper-4 {
-  color: #000000;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 1589px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 40px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.text-wrapper-4:hover{
-  color: #e80029;
-}
-
-.cars .sideview {
-  height: 75px;
-  left: 71px;
-  object-fit: cover;
-  position: absolute;
-  top: 19px;
-  width: 291px;
 }
 
 .cars .unavailable {

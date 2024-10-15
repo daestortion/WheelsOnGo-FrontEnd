@@ -92,7 +92,7 @@ const Header = () => {
       ) : (
         <div className="auth-buttons">
           <button className="overlap-group-2" onClick={() => navigate('/login')}>LOGIN</button>
-          <button className="div-wrapper121" onClick={() => navigate('/signup')}>SIGN UP</button>
+          <button className="div-wrapper121" onClick={() => navigate('/register')}>SIGN UP</button>
         </div>
       )}
     </div>
