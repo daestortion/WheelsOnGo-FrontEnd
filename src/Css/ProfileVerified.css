@@ -1,3 +1,11 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .profile-not-verified {
   display: flex;
   flex-direction: column;
