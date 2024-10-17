@@ -75,12 +75,20 @@ export const ReverifyPopup = ({ closePopup }) => {
         <div className="vap-popup">
             <div className="vap-wrapper">
                 <div className="vap-overlap">
-                    <div className="vap-text-wrapper">Verify Account</div>
+
+                    <div className="close" onClick={closePopup}>
+                        <img className="vector1" alt="Close" src={close} />
+                    </div>
+
+                    <h1 className="vap-text-wrapper">Reverify Account</h1>
+
                     <div className="vap-group-wrapper">
-                        <div className="vap-group">
-                            <div className="vap-div-wrapper" onClick={handleUploadClick(fileInputRefDriverLicense)}>
-                                <div className="vap-div">Upload</div>
-                            </div>
+
+                        <div className="vap-text-2">{driverLicenseFileName}</div>
+                            <button className="vap-div-wrapper1" onClick={handleUploadClick(fileInputRefDriverLicense)}>
+                                Upload
+                            </button>
+
                             <input
                                 ref={fileInputRefDriverLicense}
                                 type="file"
@@ -88,14 +96,16 @@ export const ReverifyPopup = ({ closePopup }) => {
                                 onChange={(event) => handleFileChange(event, setDriverLicenseFileName)}
                                 accept="image/*"
                             />
-                        </div>
-                        <div className="vap-text-2">{driverLicenseFileName}</div>
+                        
                     </div>
+
                     <div className="vap-overlap-2">
-                        <div className="vap-group-wrapper-2">
-                            <div className="vap-div-wrapper" onClick={handleUploadClick(fileInputRefGovId)}>
-                                <div className="vap-div">Upload</div>
-                            </div>
+                    <div className="vap-text-3">{govIdFileName}</div>
+
+                            <button className="vap-div-wrapper2" onClick={handleUploadClick(fileInputRefGovId)}>
+                                Upload
+                            </button>
+
                             <input
                                 ref={fileInputRefGovId}
                                 type="file"
@@ -103,23 +113,20 @@ export const ReverifyPopup = ({ closePopup }) => {
                                 onChange={(event) => handleFileChange(event, setGovIdFileName)}
                                 accept="image/*"
                             />
-                        </div>
-                        <div className="vap-text-3">{govIdFileName}</div>
+
+                        
                     </div>
-                    <p className="vap-p">
-                        Your verification has been denied. Please upload valid identification
-                    </p>
-                    <p className="text-wrapper-pp">
-                        documents, ensuring that they are clear and legible.
-                    </p>
-                    <div className="vap-group-2">
-                        <div className="vap-overlap-3" onClick={handleVerify}>
-                            <div className="vap-text-4">Verify</div>
-                        </div>
+
+                    <div className="vap-text-info211ver">
+                        Your verification has been denied. Please upload valid identification documents, ensuring that they are clear and legible.
                     </div>
-                    <div className="close" onClick={closePopup}>
-                        <img className="vector" alt="Close" src={close} />
-                    </div>
+
+
+                        <button className="vap-overlap-3" onClick={handleVerify}>
+                            Verify
+                        </button>
+
+
                 </div>
             </div>
             {showWaitVerificationPopup && (
