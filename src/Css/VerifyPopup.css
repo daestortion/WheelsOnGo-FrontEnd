@@ -1,57 +1,77 @@
-.vap-popup {
-    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
+.vap-popupver {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     display: flex;
-    align-items: center;  /* Center vertically */
-    justify-content: center;  /* Center horizontally */
-    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
-    z-index: 1050;  /* Ensure it's above all other content */
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
 }
 
-.vap-popup .vap-wrapper {
+.vap-popupver .vap-wrapperver {
     background-color: #d7d1d1;
-    border-radius: 50px;  /* Optional: adds rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: drop shadow for better focus */
-    width: 90%;  /* Responsive width up to a max */
-    max-width: 907px;  /* Max width as before */
-    height: 560px;  /* As before */
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 907px;
+    height: 560px;
 }
 
-.vap-popup .vap-overlap {
+.vap-popupver .vap-overlapver {
     background-color: #d7d1d1;
     border-radius: 40px;
     height: 560px;
     position: relative;
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    justify-content: center; /* Center items vertically */
+    gap: 20px; /* Adjust this value for the desired gap */
+    padding: 20px;
 }
 
-.vap-popup .vap-text-wrapper {
+
+.vap-popupver .vap-text-wrapperver {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 50px;
     font-weight: 600;
-    left: 257px;
     letter-spacing: 0.62px;
-    line-height: normal;
-    position: absolute;
     text-align: center;
-    top: 71px;
-    width: 393px;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding-bottom: 30px;
 }
 
-.vap-popup .vap-group-wrapper {
+.vap-group-wrapperver, 
+.vap-overlap-2ver {
     background-color: #ffffff;
     border-radius: 35px;
     height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 197px;
-    width: 712px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Ensure the text is on the left and button on the right */
+    align-items: center; /* Vertically center items */
+    padding: 0 20px;
+    position: relative;
 }
 
-.vap-popup .vap-group {
+.wew{
+
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.vap-popupver .vap-groupver {
     height: 50px;
     left: 485px;
     position: absolute;
@@ -59,57 +79,79 @@
     width: 212px;
 }
 
-.vap-popup .vap-div-wrapper {
+.vap-popupver .vap-div-wrapperver1 {
     background-color: #e80029;
     border-radius: 35px;
     height: 50px;
-    position: relative;
     width: 210px;
     cursor: pointer;
-}
-
-.vap-div-wrapper:hover{
-    background-color: #800000;
-}
-
-.vap-popup .vap-div {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 20px;
     font-weight: 700;
-    left: 57px;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 13px;
+    text-align: center; 
     white-space: nowrap;
-    width: 93px;
+    border: none;
+    display: flex; 
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    position: relative; 
+    margin-left: auto; /* Pushes the button to the far right */
+
 }
 
-.vap-popup .vap-text-2 {
+.vap-div-wrapperver1:hover {
+    background-color: #800000;
+}
+
+.vap-popupver .vap-div-wrapperver2 {
+    background-color: #e80029;
+    border-radius: 35px;
+    height: 50px;
+    width: 210px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center; 
+    white-space: nowrap;
+    border: none;
+    display: flex; 
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    position: relative; 
+    margin-left: auto; /* Pushes the button to the far right */
+}
+
+.closever {
+    margin-left: auto; /* Pushes it to the right */
+    position: relative;
+    display: flex;
+    right: 20px;
+    align-self: flex-end; /* Align it to the top-right (or flex-end for bottom-right) */
+}
+
+
+
+.vap-div-wrapperver2:hover {
+    background-color: #800000;
+}
+
+.vap-popupver .vap-text-2ver {
     color: #848484;
     font-size: 30px;
-    left: 36px;
     line-height: normal;
-    position: absolute;
-    top: 16px;
     white-space: nowrap;
     width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative; 
 }
 
-.vap-popup .vap-overlap-2 {
-    background-color: #ffffff;
-    border-radius: 35px;
-    height: 71px;
-    left: 98px;
-    position: absolute;
-    top: 282px;
-    width: 712px;
-}
 
-.vap-popup .vap-group-wrapper-2 {
+
+.vap-popupver .vap-group-wrapper-2ver {
     height: 50px;
     left: 485px;
     position: absolute;
@@ -117,20 +159,18 @@
     width: 212px;
 }
 
-.vap-popup .vap-text-3 {
+.vap-popupver .vap-text-3ver {
     color: #848484;
     font-size: 30px;
-    left: 35px;
     line-height: normal;
-    position: absolute;
-    top: 17px;
     white-space: nowrap;
     width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative; 
 }
 
-.vap-popup .vap-group-2 {
+.vap-popupver .vap-group-2ver {
     height: 71px;
     left: 99px;
     position: absolute;
@@ -138,19 +178,29 @@
     width: 714px;
 }
 
-.vap-popup .vap-overlap-3 {
+.vap-popupver .vap-overlap-3ver {
     background-color: #e80029;
     border-radius: 35px;
     height: 71px;
-    position: relative;
-    width: 712px;
+    width: 100%;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center; 
+    white-space: nowrap;
+    border: none;
 }
-.vap-overlap-3:hover{
+
+.vap-overlap-3ver:hover {
     background-color: #800000;
 }
 
-.vap-popup .vap-text-4 {
+.vap-popupver .vap-text-4ver {
     color: #ffffff;
     font-size: 20px;
     left: 258px;
@@ -161,20 +211,17 @@
     width: 200px;
 }
 
-.vap-popup .close{
+.vap-popupver .closever {
     border-radius: 9px;
     height: 50px;
-    left: 790px;
-    position: absolute;
-    top: 29px;
     width: 50px;
+    cursor: pointer;
+    position: relative;
 }
 
-.vap-popup .vap-text-info211{
-    font-size: 0.9rem; /* Sets the font size */
-    color: #000000; /* Sets the text color */
-    position: fixed;
-    top: 555px;
-    left: 770px;
-
+.vap-popupver .vap-text-info211ver {
+    font-size: 0.9rem;
+    color: #000000;
+    position: relative;
+    text-align: center;
 }
