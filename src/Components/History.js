@@ -246,9 +246,37 @@ export const OrderHistoryPage = () => {
     navigate("/home");
   };
 
-  const handleTerminate = () => {
-    
-  };
+  const handleTerminate = async (orderId) => {
+    try {
+      const terminationDate = new Date().toISOString();
+  
+      // Send the terminate request to the backend with the orderId
+      const response = await axios.put(
+        `http://localhost:8080/order/terminateOrder/${orderId}`, // Ensure orderId is used
+        {
+          terminated: true,  // Set termination status
+          terminationDate: terminationDate,  // Set termination date
+        }
+      );
+  
+      if (response.status === 200) {
+        console.log(`Order ${orderId} terminated successfully.`);
+  
+        // Update the state to reflect the termination
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.orderId === orderId
+              ? { ...order, terminated: true, terminationDate }
+              : order
+          )
+        );
+      } else {
+        console.error("Failed to terminate order.");
+      }
+    } catch (error) {
+      console.error("Error terminating the order:", error.response?.data || error.message);
+    }
+  };  
 
   const handleCarReturned = async (orderId) => {
     try {
@@ -357,8 +385,9 @@ export const OrderHistoryPage = () => {
                       <th>Owner Phone</th>
                       <th>Payment Option</th>
                       {showOwnedCars && <th>Approve</th>}{" "}
-                      <th>Status</th>
+                      <th>Status</th>                      
                       <th>Activity</th>
+                      <th>Termination</th>
                       {showOwnedCars && <th>isReturned</th>}{" "}
                       {showOngoingRents && <th>Actions</th>}
                     </tr>
@@ -387,7 +416,10 @@ export const OrderHistoryPage = () => {
                             </td>
                           ) : (
                             <td></td> // Empty cell when no button
-                          ))}
+                          ))}                       
+                        <td>
+                          {order.terminated ? `Terminated on ${new Date(order.terminationDate).toISOString().split('T')[0]}` : ''}
+                        </td>
                         <td>{getStatusText(order.status)}</td>
                         <td>{getActivity(order.active)}</td>
                         {showOwnedCars && (
@@ -450,7 +482,9 @@ export const OrderHistoryPage = () => {
                                 )}
                               </div>
                             )}
-                            <button className="terminate" onClick={() => handleTerminate()}>Terminate</button>
+                            <button className="terminate" onClick={() => handleTerminate(order.orderId)}>
+                              Terminate
+                            </button>
                           </td>
                         )}
                       </tr>
