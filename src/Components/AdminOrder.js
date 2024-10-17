@@ -86,10 +86,6 @@ const AdminPageOrder = () => {
     }
   };
 
-  const handleTerminate = () => {
-    
-  };
-
   const handleSearch = () => {
     setSearchQuery(searchTerm);
   };
@@ -172,6 +168,7 @@ const AdminPageOrder = () => {
                   <th>Status</th>
                   <th>Payment Status</th>
                   <th>Proof of Payment</th>
+                  <th>Termination</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -198,13 +195,15 @@ const AdminPageOrder = () => {
                       <td></td> // Empty cell when no button
                     )}
                     <td>
+                      {order.terminated ? `Terminated on ${new Date(order.terminationDate).toISOString().split('T')[0]}` : ''}
+                    </td>
+                    <td>
                       {order.paymentOption === "Cash" ? (
                         <>
                           <button className="button-approve" onClick={() => handleApprove(order.orderId)}>Approve</button>
                           <button className="button-deny" onClick={() => handleDeny(order.orderId)}>Deny</button>
                         </>
                       ) : null}
-                      <button className="button-terminate" onClick={() => handleTerminate(order.orderId)}>Terminate</button>
                     </td>
                   </tr>
                 ))}
