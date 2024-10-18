@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import "../Css/UpdateCar.css";
-import profileIcon from "../Images/profile.png";
-import sidelogo from "../Images/sidelogo.png";
-import Dropdown from "./Dropdown.js";
 import CarUpdated from "./CarUpdated.js";
 import Header from "./Header.js";
 
@@ -48,18 +45,6 @@ const UpdateCar = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCarDetails({ ...carDetails, [name]: value });
-  };
-
-  const handleHomeClick = () => {
-    navigate('/home');
-  };
-
-  const handleCarsClick = () => {
-    navigate('/cars');
-  };
-
-  const handleAboutClick = () => {
-    navigate('/aboutus');
   };
 
   const handleCarFileChange = (event) => {
@@ -109,73 +94,87 @@ const UpdateCar = () => {
   return (
     <div className="update-car-owner">
       <Header />
+
       <div className="div">
+
+      <div className="group212">
+        <div className="text-wrapper-9">Update Car</div>
+          <div className="rectangle">
+            {carDetails.imageSrc && <img src={carDetails.imageSrc} alt="Uploaded" className="rectangle12" />}
+          </div>
+               <input
+              id="image-upload-input"
+              type="file"
+              style={{ display: 'none' }}
+              onChange={handleImageUpload}
+            />
+            <button className="overlap-group-212" onClick={() => document.getElementById('image-upload-input').click()}>
+            Upload
+            </button>
+
+
+        </div>
 
         <div className="overlap-group">
 
-          <input
-            className="div-wrapper"
-            type="text"
-            name="description"
-            placeholder="New Description"
-            value={carDetails.description}
-            onChange={handleInputChange}
-          />
+          <div className="new-car-details">New Car Details</div>
+          <span className="p">Please enter your new car details. Upon confirming, your car details will be updated.</span>
 
-          <input
-            className="div-wrapper123"
-            type="text"
-            name="price"
-            placeholder="New Price"
-            value={carDetails.price}
-            onChange={handleInputChange}
-          />
+            <input
+              className="div-wrapper"
+              type="text"
+              name="description"
+              placeholder="New Description"
+              value={carDetails.description}
+              onChange={handleInputChange}
+            />
 
-          <input
-            className="div-wrapper12345"
-            type="text"
-            name="location"
-            placeholder="New Location"
-            value={carDetails.location}
-            onChange={handleInputChange}
-          />
+            <input
+              className="div-wrapper123"
+              type="text"
+              name="price"
+              placeholder="New Price"
+              value={carDetails.price}
+              onChange={handleInputChange}
+            />
+
+            <input
+              className="div-wrapper12345"
+              type="text"
+              name="location"
+              placeholder="New Location"
+              value={carDetails.location}
+              onChange={handleInputChange}
+            />
 
           <div className="overlap-2">
-            <div className="overlap-wrapper">
-              <button className="overlap-333" onClick={() => document.getElementById('car-upload-input').click()}>
-                <div className="text-wrapper-555">Upload</div>
-              </button>
-              <input
-                id="car-upload-input"
-                type="file"
-                style={{ display: 'none' }}
-                onChange={handleCarFileChange}
-              />
-            </div>
-          </div>
-          <div className="group-22">
-            <button className="overlap-55" onClick={handleUpdateCar}>
-              <div className="text-wrapper-8">Update Car</div>
-            </button>
-          </div>
-          <div className="new-car-details">New Car Details</div>
-          <p className="p">Please enter your new car details. Upon confirming, your car details will be updated.</p>
-        </div>
-        <div className="text-wrapper-9">Update Car</div>
-        <div className="rectangle">
-          {carDetails.imageSrc && <img src={carDetails.imageSrc} alt="Uploaded" className="rectangle12" />}
-        </div>
-        <div className="group-3">
-          <button className="overlap-group-2" onClick={() => document.getElementById('image-upload-input').click()}>
-            <div className="text-wrapper-10">Upload</div>
-          </button>
+
           <input
-            id="image-upload-input"
+            id="car-upload-input"
             type="file"
             style={{ display: 'none' }}
-            onChange={handleImageUpload}
+            onChange={handleCarFileChange}
           />
+
+          <span className="car-file-name-placeholder">{carDetails.carFileName}</span>
+
+          <button className="overlap-333" onClick={() => document.getElementById('car-upload-input').click()}>
+            Upload
+          </button>
+
+          
+
+          </div>
+
+
+
+              <button className="overlap-55" onClick={handleUpdateCar}>
+              Update Car
+              </button>
+
+          
         </div>
+
       </div>
       {showCarUpdatedPopup && <CarUpdated />}
     </div>
