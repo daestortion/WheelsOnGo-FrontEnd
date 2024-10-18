@@ -29,7 +29,7 @@ import AdminReport from './Components/AdminReport.js';
 import AdminDashboard from './Components/AdminDashboard.js';
 import ChatPage from './Components/ChatPage.js';
 import Messages from './Components/Messages.js'
-
+import Balance from './Components/BalancePage.js'
 
 function DebugRoutes() {
     const location = useLocation();
@@ -67,6 +67,7 @@ function AuthRoutes() {
 
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+            <Route path="/balance-page" element={<PrivateRoute><Balance/></PrivateRoute>} />
             
             <Route path="/adminorder" element={<AdminOrder />} />
             <Route path="/aboutus" element={<AboutUs />} />
