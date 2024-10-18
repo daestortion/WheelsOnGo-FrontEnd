@@ -13,7 +13,7 @@ const AdminVerify = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8080/verification/getAllVerification')
+    axios.get('https://tender-curiosity-production.up.railway.app/verification/getAllVerification')
       .then(response => {
         const verificationsData = response.data;
         setVerifications(verificationsData);
@@ -24,7 +24,7 @@ const AdminVerify = () => {
 
         const uniqueUserIds = [...new Set(userIds)];
         uniqueUserIds.forEach(userId => {
-          axios.get(`http://localhost:8080/user/getUserById/${userId}`)
+          axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`)
             .then(userResponse => {
               setUsers(prevUsers => ({ ...prevUsers, [userId]: userResponse.data }));
             })
@@ -47,7 +47,7 @@ const AdminVerify = () => {
   };
 
   const handleApprove = (vId) => {
-    axios.put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=1`)
+    axios.put(`https://tender-curiosity-production.up.railway.app/verification/changeStatus/${vId}?newStatus=1`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
           verification.vId === vId ? { ...verification, status: 1 } : verification
@@ -59,7 +59,7 @@ const AdminVerify = () => {
   };
 
   const handleDeny = (vId) => {
-    axios.put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=2`)
+    axios.put(`https://tender-curiosity-production.up.railway.app/verification/changeStatus/${vId}?newStatus=2`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
           verification.vId === vId ? { ...verification, status: 2 } : verification

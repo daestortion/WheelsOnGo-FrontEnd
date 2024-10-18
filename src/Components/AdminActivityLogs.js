@@ -14,7 +14,7 @@ const AdminActivityLogs = () => {
 
   useEffect(() => {
     // Fetch logs from the backend
-    axios.get('http://localhost:8080/activity/logs')
+    axios.get('https://tender-curiosity-production.up.railway.app/activity/logs')
       .then(response => {
         console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
 
@@ -60,6 +60,7 @@ const AdminActivityLogs = () => {
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminverify')}>Verifications</button>
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminreport')}>Reports</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
         </div>
 
