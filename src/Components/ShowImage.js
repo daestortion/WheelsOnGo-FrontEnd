@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 const ShowImage = () => {
   const { id, type } = useParams();
-  const imageUrl = `http://localhost:8080/verification/${id}/${type}`;
+  const imageUrl = `https://tender-curiosity-production.up.railway.app/verification/${id}/${type}`;
 
   return (
     <div className="show-image-page">

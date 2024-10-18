@@ -20,7 +20,7 @@ const AdminPageCars = () => {
   // Fetch all cars
   const fetchCars = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/car/getAllCars');
+      const response = await axios.get('https://tender-curiosity-production.up.railway.app/car/getAllCars');
       setCars(response.data);
       console.log(response.data);
     } catch (error) {
@@ -31,7 +31,7 @@ const AdminPageCars = () => {
   // Approve a car
   const handleApprove = async (carId) => {
     try {
-      await axios.put(`http://localhost:8080/car/approveCar/${carId}`);
+      await axios.put(`https://tender-curiosity-production.up.railway.app/car/approveCar/${carId}`);
       console.log(`Approved Car ID: ${carId}`); // Log approved car ID
       fetchCars(); // Refresh the list of cars after approval
     } catch (error) {
@@ -42,7 +42,7 @@ const AdminPageCars = () => {
   // Delete a car
   const handleDeleteCar = async (carId) => {
     try {
-      await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
+      await axios.put(`https://tender-curiosity-production.up.railway.app/car/deleteCar/${carId}`);
       console.log(`Deleted Car ID: ${carId}`); // Log deleted car ID
       fetchCars(); // Refresh the list of cars after deletion
     } catch (error) {

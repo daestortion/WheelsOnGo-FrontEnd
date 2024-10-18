@@ -14,7 +14,7 @@ const AdminActivityLogs = () => {
 
   useEffect(() => {
     // Fetch logs from the backend
-    axios.get('http://localhost:8080/activity/logs')
+    axios.get('https://tender-curiosity-production.up.railway.app/activity/logs')
       .then(response => {
         console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
 

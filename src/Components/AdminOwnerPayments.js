@@ -16,7 +16,7 @@ const AdminOwnerPayments = () => {
   const fetchRequests = () => {
     setLoading(true);
     axios
-      .get("http://localhost:8080/wallet/getAllRequests")
+      .get("https://tender-curiosity-production.up.railway.app/wallet/getAllRequests")
       .then((response) => {
         console.log("Fetched payment requests:", response.data);
         setRequests(response.data);
@@ -42,7 +42,7 @@ const AdminOwnerPayments = () => {
       }
   
       console.log("Sending approve request to backend...");
-      await axios.put(`http://localhost:8080/wallet/approveRequest/${requestId}`);
+      await axios.put(`https://tender-curiosity-production.up.railway.app/wallet/approveRequest/${requestId}`);
       console.log("Approve request sent successfully!");
   
       console.log("Fetching updated requests...");
@@ -62,7 +62,7 @@ const AdminOwnerPayments = () => {
   const handleDeny = (requestId) => {
     setLoading(true);
     axios
-      .put(`http://localhost:8080/wallet/denyRequest/${requestId}`)
+      .put(`https://tender-curiosity-production.up.railway.app/wallet/denyRequest/${requestId}`)
       .then(() => {
         fetchRequests();
         alert("Request denied successfully!");

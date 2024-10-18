@@ -32,7 +32,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   useEffect(() => {
     const fetchBookedDates = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
+        const response = await axios.get(`https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
         console.log(response.data);
         const bookedRanges = orders.map(order => ({

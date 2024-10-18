@@ -50,7 +50,7 @@ export const AdminPageReports = () => {
     }, [adminSelectedChatId]);
 
     const fetchAdminReports = () => {
-        axios.get('http://localhost:8080/report/getAll')
+        axios.get('https://tender-curiosity-production.up.railway.app/report/getAll')
             .then(response => {
                 if (Array.isArray(response.data)) {
                     setAdminReports(response.data);
@@ -70,7 +70,7 @@ export const AdminPageReports = () => {
 
     const checkAdminForExistingGroupChat = async (reportId) => {
         try {
-            const response = await axios.get(`http://localhost:8080/chat/check?reportId=${reportId}`);
+            const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/check?reportId=${reportId}`);
             if (response.data && response.data.chatId) {
                 setAdminSelectedChatId(response.data.chatId);
                 setAdminChatExists(true);
@@ -88,7 +88,7 @@ export const AdminPageReports = () => {
         if (adminSelectedReport && !adminChatExists) {
             try {
                 const adminId = localStorage.getItem('adminId');
-                const reportUserResponse = await axios.get(`http://localhost:8080/user/getUserById/${adminSelectedReport.user.userId}`);
+                const reportUserResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${adminSelectedReport.user.userId}`);
                 const reportUser = reportUserResponse.data;
 
                 const chatEntity = {
@@ -96,7 +96,7 @@ export const AdminPageReports = () => {
                     status: "pending"
                 };
 
-                const response = await axios.post(`http://localhost:8080/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`, chatEntity);
+                const response = await axios.post(`https://tender-curiosity-production.up.railway.app/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`, chatEntity);
                 const chatId = response.data.chatId;
                 setAdminSelectedChatId(chatId);
                 setAdminChatExists(true);
@@ -109,7 +109,7 @@ export const AdminPageReports = () => {
 
     const fetchAdminMessages = async (chatId) => {
         try {
-            const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages`);
+            const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages`);
             setAdminMessages(response.data);
             scrollToBottom();
         } catch (error) {
@@ -121,7 +121,7 @@ export const AdminPageReports = () => {
         if (adminSelectedChatId && adminNewMessage) {
             try {
                 const adminId = localStorage.getItem('adminId');
-                await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/send`, null, {
+                await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}/send`, null, {
                     params: {
                         adminId: adminId,
                         messageContent: adminNewMessage
@@ -160,7 +160,7 @@ export const AdminPageReports = () => {
         setSearchQuery(e.target.value);
         if (e.target.value.trim() !== '') {
             try {
-                const response = await axios.get(`http://localhost:8080/user/getAllUsers`);
+                const response = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getAllUsers`);
                 const filteredUsers = response.data.filter(user =>
                     `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
                 );
@@ -180,7 +180,7 @@ export const AdminPageReports = () => {
     const handleAddUserToChat = async () => {
         if (selectedUserId && adminSelectedChatId) {
             try {
-                await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/addUser`, null, {
+                await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}/addUser`, null, {
                     params: { userId: selectedUserId }
                 });
                 closeAddMemberModal();
