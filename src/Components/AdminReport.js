@@ -1,16 +1,15 @@
 import axios from 'axios';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../Css/AdminReport.css';
 import sidelogo from '../Images/sidelogo.png';
 
-// Helper function to format the timestamp
 const adminFormatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+    const formattedHours = hours % 12 || 12;
     const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
@@ -22,11 +21,33 @@ export const AdminPageReports = () => {
     const [adminMessages, setAdminMessages] = useState([]);
     const [adminNewMessage, setAdminNewMessage] = useState('');
     const [adminChatExists, setAdminChatExists] = useState(false);
+    const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+
+    const messagesEndRef = useRef(null);
     const navigate = useNavigate();
+    const messagePollInterval = useRef(null);  // Ref to store the interval ID
 
     useEffect(() => {
         fetchAdminReports();
     }, []);
+
+    // Polling mechanism to fetch messages periodically
+    useEffect(() => {
+        if (adminSelectedChatId) {
+            // Start polling when a chat is selected
+            messagePollInterval.current = setInterval(() => {
+                fetchAdminMessages(adminSelectedChatId);
+            }, 1000); // Poll every second
+
+            // Cleanup interval when component unmounts or chat changes
+            return () => {
+                clearInterval(messagePollInterval.current);
+            };
+        }
+    }, [adminSelectedChatId]);
 
     const fetchAdminReports = () => {
         axios.get('http://localhost:8080/report/getAll')
@@ -56,7 +77,7 @@ export const AdminPageReports = () => {
                 await fetchAdminMessages(response.data.chatId);
             } else {
                 setAdminChatExists(false);
-                console.log('No admin chat found. You can create a new one.');
+                clearInterval(messagePollInterval.current); // Stop polling if no chat exists
             }
         } catch (error) {
             console.error('Failed to check for existing admin group chat:', error);
@@ -90,6 +111,7 @@ export const AdminPageReports = () => {
         try {
             const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages`);
             setAdminMessages(response.data);
+            scrollToBottom();
         } catch (error) {
             console.error('Error fetching admin chat messages:', error);
         }
@@ -113,18 +135,94 @@ export const AdminPageReports = () => {
         }
     };
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            if (adminSelectedChatId) {
-                fetchAdminMessages(adminSelectedChatId);
-            }
-        }, 1000);
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
-        return () => clearInterval(intervalId);
-    }, [adminSelectedChatId]);
+    useEffect(() => {
+        scrollToBottom();
+    }, [adminMessages]);
+
+    const openAddMemberModal = () => {
+        setIsAddMemberModalOpen(true);
+    };
+
+    const closeAddMemberModal = () => {
+        setIsAddMemberModalOpen(false);
+        setSearchResults([]);
+        setSearchQuery('');
+    };
+
+    // Handle search for users based on the query
+    const handleSearch = async (e) => {
+        setSearchQuery(e.target.value);
+        if (e.target.value.trim() !== '') {
+            try {
+                const response = await axios.get(`http://localhost:8080/user/getAllUsers`);
+                const filteredUsers = response.data.filter(user =>
+                    `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
+                );
+                setSearchResults(filteredUsers);  // Update search results with filtered users
+            } catch (error) {
+                console.error('Error searching for users:', error);
+            }
+        } else {
+            setSearchResults([]);
+        }
+    };
+
+    const handleUserSelect = (userId) => {
+        setSelectedUserId(userId);
+    };
+
+    const handleAddUserToChat = async () => {
+        if (selectedUserId && adminSelectedChatId) {
+            try {
+                await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/addUser`, null, {
+                    params: { userId: selectedUserId }
+                });
+                closeAddMemberModal();
+                alert("User added successfully!");
+            } catch (error) {
+                console.error('Error adding user to chat:', error);
+            }
+        }
+    };
 
     return (
         <div className="admin-report-page">
+            {isAddMemberModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Add a Member</h3>
+                        <input
+                            type="text"
+                            placeholder="Search by name"
+                            value={searchQuery}
+                            onChange={handleSearch}
+                            className="search-input"
+                        />
+                        <ul className="search-results">
+                            {searchResults.map((user) => (
+                                <li
+                                    key={user.userId}
+                                    onClick={() => handleUserSelect(user.userId)}
+                                    className={`search-item ${selectedUserId === user.userId ? 'selected' : ''}`}
+                                >
+                                    {user.fName} {user.lName}
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="modal-actions">
+                            <button className="btn-add" onClick={handleAddUserToChat}>Add User</button>
+                            <button className="btn-cancel" onClick={closeAddMemberModal}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="admin-dashboard-topbar">
                 <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
                 <button className="admin-dashboard-logout" onClick={() => navigate('/adminlogin')}>Logout</button>
@@ -138,6 +236,7 @@ export const AdminPageReports = () => {
                     <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminverify')}>Verifications</button>
                     <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
                     <button className="admin-dashboard-menu-item active">Reports</button>
+                    <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
                 </div>
 
                 <div className="admin-dashboard-content">
@@ -157,6 +256,7 @@ export const AdminPageReports = () => {
                                     </div>
                                 </div>
                             ))}
+
                         </div>
 
                         <div className="admin-report-details">
@@ -177,6 +277,7 @@ export const AdminPageReports = () => {
                                     {adminSelectedChatId && (
                                         <div className="admin-chat-section">
                                             <h3>Group Chat</h3>
+                                            <button onClick={openAddMemberModal} className="add-member-btn">Add Member</button>
                                             <div className="admin-chat-messages">
                                                 {adminMessages.map((message, index) => (
                                                     <div key={index} className={`admin-chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
@@ -186,6 +287,7 @@ export const AdminPageReports = () => {
                                                         </div>
                                                     </div>
                                                 ))}
+                                                <div ref={messagesEndRef} />
                                             </div>
 
                                             <div className="admin-chat-input">
