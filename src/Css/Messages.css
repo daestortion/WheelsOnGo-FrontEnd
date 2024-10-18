@@ -9,6 +9,7 @@
   height: 112px;
 }
 
+
 .header .sidelogo {
   margin-left: 31px;
   height: 75px;
@@ -107,9 +108,10 @@
   height: calc(100vh - 140px); /* Adjusted to take most of the viewport */
   display: flex;
   flex-direction: column;
-  margin-top: -650px;
+  margin-top: -250px;
   margin-right: 10px;
 }
+
 
 .chat-messages {
   flex-grow: 1;
@@ -120,36 +122,46 @@
   gap: 10px; /* Space between messages */
 }
 
+/* Hover Effect for Timestamp */
+.chat-bubble:hover .timestamp {
+  display: inline-block;
+}
+
+.timestamp {
+  display: none;
+  position: absolute;
+  bottom: -20px;
+  right: 10px;
+  font-size: 12px;
+  color: gray;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
 .chat-message {
   display: flex;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .user-message .chat-bubble {
-  align-self: flex-end;
   background-color: #38a1f3;
   color: white;
   padding: 12px 18px;
   border-radius: 18px 18px 0px 18px;
   max-width: 60%;
   word-wrap: break-word;
-  font-size: 18px;
-  margin-left: auto; /* Ensures alignment to the right */
-  margin-right: 10px;
+  margin-left: auto;
 }
 
-
 .admin-message .chat-bubble {
-  align-self: flex-start;
   background-color: #e8e9ea;
   color: black;
   padding: 12px 18px;
   border-radius: 18px 18px 18px 0px;
   max-width: 60%;
   word-wrap: break-word;
-  font-size: 18px;
-  margin-left: 10px; /* Ensures alignment to the left */
-  margin-right: auto;
 }
 
 /* Chat Input */

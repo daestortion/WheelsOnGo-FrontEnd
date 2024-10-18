@@ -26,21 +26,31 @@ const BalancePage = () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
+      console.log('Fetched user data from localStorage:', parsedUser);
       setUserId(parsedUser.userId); // Set the user ID from local storage
+    } else {
+      console.log('No user data found in localStorage');
     }
   }, []);
 
   // Fetch wallet data from the backend API using Axios
   const fetchWalletData = useCallback(async (id) => {
     try {
-      setIsLoading(true); // Set loading to true before fetching data
+      setIsLoading(true);  // Show loading state
       const [creditRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`http://localhost:8080/wallet/credit/${id}`),
+        axios.get(`http://localhost:8080/wallet/credit/${id}`),  // Fetch current balance without recalculation
         axios.get(`http://localhost:8080/wallet/debit/${id}`),
         axios.get(`http://localhost:8080/wallet/refundable/${id}`)
       ]);
-
+  
+      // Update the state with fetched data
       setWalletData({
+        credit: creditRes.data,
+        debit: debitRes.data,
+        refundable: refundableRes.data,
+      });
+  
+      console.log("Updated walletData state:", {
         credit: creditRes.data,
         debit: debitRes.data,
         refundable: refundableRes.data,
@@ -48,19 +58,22 @@ const BalancePage = () => {
     } catch (error) {
       console.error('Error fetching wallet data:', error);
     } finally {
-      setIsLoading(false); // Set loading to false after the data is fetched
+      setIsLoading(false);  // Hide loading state
     }
   }, []);
+  
 
-  // UseEffect to trigger the fetching and recalculation when the page loads
+  // Fetch wallet data without recalculating when page loads
   useEffect(() => {
     if (userId) {
-      fetchWalletData(userId);
+      console.log('User ID available, fetching wallet data without recalculation...');
+      fetchWalletData(userId);  // Fetch wallet data directly
     }
   }, [userId, fetchWalletData]);
 
   // Toggle form visibility
   const toggleForm = () => {
+    console.log('Toggling request form visibility. Current state:', isFormOpen);
     setIsFormOpen(!isFormOpen);
   };
 
@@ -68,22 +81,26 @@ const BalancePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null); // Reset any previous error
+    console.log('Form submitted with requestType:', requestType);
 
     // Validate the form based on request type
     if (!userId || !requestType || !amount) {
       setFormError("Please fill in all required fields.");
+      console.log('Form validation error: missing fields.');
       return;
     }
 
     // GCash request validation
     if (requestType === 'gcash' && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
+      console.log('GCash validation error: missing fields.');
       return;
     }
 
     // Bank request validation
     if (requestType === 'bank' && (!accountName || !bankName || !accountNumber || accountNumber.length < 10 || accountNumber.length > 12)) {
       setFormError("Please fill in the required Bank fields and ensure the account number is between 10 and 12 digits.");
+      console.log('Bank validation error: invalid fields.');
       return;
     }
 
@@ -107,14 +124,35 @@ const BalancePage = () => {
       requestData.accountNumber = accountNumber;
     }
 
+    console.log('Submitting request data:', requestData);
+
     // Send the request to the backend
     try {
       await axios.post('http://localhost:8080/wallet/request-funds', requestData);
+      
+      // Fetch updated wallet data after submitting a request without recalculation
+      await fetchWalletData(userId);
+
       alert('Request submitted successfully!');
       setIsFormOpen(false); // Close the form after submission
     } catch (error) {
       console.error('Error submitting request:', error);
       alert('Failed to submit the request.');
+    }
+  };
+
+  // Handle approve request
+  const handleApprove = async (requestId) => {
+    try {
+      await axios.put(`http://localhost:8080/wallet/approveRequest/${requestId}`);
+      
+      // Fetch updated wallet data after approval without recalculating
+      await fetchWalletData(userId);
+      
+      alert('Request approved successfully!');
+    } catch (error) {
+      console.error('Error approving request:', error);
+      alert('Failed to approve request.');
     }
   };
 
@@ -250,9 +288,8 @@ const BalancePage = () => {
                 onChange={(e) => setAmount(e.target.value)}
                 required
               />
-              <small>Available Balance: ₱{walletData.debit.toFixed(2)}</small>
+              <small>Available Balance: ₱{walletData.credit.toFixed(2)}</small> {/* Show Credit Balance */}
             </div>
-
             <button type="submit" className="submit-btn">Submit Request</button>
           </form>
         )}

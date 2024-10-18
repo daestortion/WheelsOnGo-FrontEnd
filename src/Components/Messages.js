@@ -7,10 +7,17 @@ import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import Header from "./Header.js";
 
-// Helper function to format the timestamp (not needed anymore)
-const formatTimestamp = (timestamp) => {
+// Helper function to format the timestamp for admin messages
+const formatMessageTimestamp = (timestamp) => {
+  // Convert the timestamp to a valid Date object
   const date = new Date(timestamp);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const formattedHours = hours % 12 || 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
 export const Messages = () => {
@@ -41,6 +48,7 @@ export const Messages = () => {
     }
   };
 
+  
   const handleReportClick = async (report) => {
     try {
       const chatResponse = await axios.get(`http://localhost:8080/chat/check?reportId=${report.reportId}`);
@@ -109,7 +117,6 @@ export const Messages = () => {
 
       {selectedChat && (
         <div className="chat-section">
-          <h3>Group Chat: {selectedChat.report.title}</h3>
           <div className="chat-messages">
             {messages.map((message, index) => (
               <div
@@ -119,6 +126,10 @@ export const Messages = () => {
                 <div className="chat-bubble">
                   {/* Display only the message content */}
                   {message.messageContent}
+                  {/* Timestamp will be shown on hover */}
+                  <div className="timestamp">
+                    {formatMessageTimestamp(message.timestamp)}
+                  </div>
                 </div>
               </div>
             ))}

@@ -31,6 +31,7 @@ import ChatPage from './Components/ChatPage.js';
 import Messages from './Components/Messages.js'
 import AdminActivityLogs from './Components/AdminActivityLogs.js';
 import Balance from './Components/BalancePage.js'
+import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
 
 function DebugRoutes() {
     const location = useLocation();
@@ -65,6 +66,7 @@ function AuthRoutes() {
             <Route path="/adminorder" element={<AdminPrivateRoute><AdminOrder /></AdminPrivateRoute>} />
             <Route path="/admin-dashboard" element={<AdminPrivateRoute><AdminDashboard /></AdminPrivateRoute>} />
             <Route path="/chats/:chatId" element={<AdminPrivateRoute><ChatPage /></AdminPrivateRoute>} />
+            <Route path="/admin-payments" element={<AdminPrivateRoute><AdminOwnerPayments /></AdminPrivateRoute>} />
 
 
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
