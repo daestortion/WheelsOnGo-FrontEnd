@@ -27,53 +27,7 @@
     width: 1920px;
   }
   
-  .update-car-owner .text-wrapper {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1327px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-  }
-  
-  .update-car-owner .text-wrapper-2 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1465px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-  }
-  
-  .update-car-owner .text-wrapper-3 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 1589px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 40px;
-    white-space: nowrap;
-  }
-  
-  .update-car-owner .sideview {
-    height: 75px;
-    left: 71px;
-    object-fit: cover;
-    position: absolute;
-    top: 19px;
-    width: 291px;
-  }
+
   
   .update-car-owner .group {
     height: 50px;
@@ -192,20 +146,6 @@
     border: none;
   }
   
-  .update-car-owner .text-wrapper-5 {
-    color: #ffffff;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
-    font-weight: 700;
-    left: 57px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 13px;
-    white-space: nowrap;
-    width: 93px;
-  }
 
   .update-car-owner .text-wrapper-555 {
     color: #ffffff;
@@ -222,21 +162,6 @@
     width: 93px;
   }
   
-  .update-car-owner .text-wrapper-6 {
-    color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
-    font-weight: 700;
-    left: 36px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 18px;
-    white-space: nowrap;
-    width: 400px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   
   .update-car-owner .overlap-4 {
     background-color: #ffffff;

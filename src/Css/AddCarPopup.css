@@ -1,27 +1,39 @@
 .add-car-success {
-    position: fixed;  /* Use fixed positioning to stay in place during scrolling */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;  /* Center vertically */
-    justify-content: center;  /* Center horizontally */
-    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
-    z-index: 1050;  /* Ensure it's above all other content */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;  /* Center vertically */
+  justify-content: center;  /* Center horizontally */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
   }
   
   .add-car-success .overlap-wrapper11 {
-    height: 410px;
-    width: 907px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   width: 100%;
+   max-width: 800px;
+   
   }
   
-  .add-car-success .overlap {
+  .add-car-success .overlapw1 {
     background-color: #d7d1d1;
     border-radius: 40px;
-    height: 410px;
-    top: 0px;
-    left: 0px;
+    height: 400px;
+    gap: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+
   }
   
   .add-car-success .ac-text-wrapper {
@@ -29,13 +41,11 @@
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 50px;
     font-weight: 600;
-    left: 142px;
     letter-spacing: 0.62px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: center;
-    top: 94px;
-    width: 623px;
+    width: 100%;
   }
   
   .add-car-success .group {
@@ -52,19 +62,15 @@
     height: 71px;
     position: relative;
     width: 168px;
-  }
-  
-  .add-car-success .div {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 20px;
     font-weight: 700;
-    left: 40px;
     letter-spacing: 0;
     line-height: normal;
-    position: absolute;
+    display: flex;
     text-align: center;
-    top: 22px;
-    width: 92px;
+    justify-content: center;
+    align-items: center;
   }
   

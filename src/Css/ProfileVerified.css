@@ -117,12 +117,10 @@ body {
   align-items: flex-end;
   justify-content: center;
   gap: 10px;
-  width: 30%;
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
   position: relative;
-  padding-right: 40px;
 }
 
 .profile-not-verified .vector {

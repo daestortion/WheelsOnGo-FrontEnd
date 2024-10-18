@@ -12,6 +12,7 @@ import WheelsOnGoPriceList from '../Images/WheelsOnGoPriceList.png';
 import provincesData from '../Data/refprovince.json';
 import citiesData from '../Data/refcitymun.json';
 import barangaysData from '../Data/refbrgy.json';
+import Header from "./Header";
 
 const carData = {
   Toyota: ['Vios', 'Hilux', 'Fortuner', 'Innova', 'Wigo', 'Avanza', 'Rush', 'Hiace', 'Camry', 'Corolla Altis', 'Land Cruiser', 'Prado', 'RAV4', 'Yaris', 'Alphard'],
@@ -174,79 +175,122 @@ export const AddCar = () => {
   }
   return (
     <div className="car-management-owner">
+      <Header />
+    <div className="main">
       <div className="overlap-wrapper">
-        <div className="overlap">
-          <div className="overlap-group">
-            <div className="text-wrapper" onClick={handleHomeClick}>Home</div>
-            <div className="div" onClick={handleCarsClick}>Cars</div>
-            <div className="text-wrapper-2" onClick={handleAboutClick}>About</div>
-            <img className="sideview" alt="Sideview" src={sidelogo} />
-            <Dropdown>
-              <img className="group" alt="Group" src={profile} />
-            </Dropdown>
-          </div>
-  
+          <div className="a13">
+            <div className="text-wrapper-9">Car Registration</div>
+           
+            {(carImageURL || !carImageURL) && (
+                <div
+                  className="rectangle12"
+                  style={{
+                    backgroundImage: carImageURL
+                      ? `url(${carImageURL})`
+                      : `url('path/to/default/background/image.jpg')`, // Replace with your default background image path
+                    backgroundColor: carImageURL ? 'transparent' : '#d7d1d1' // Set background color when no image is uploaded
+                  }}
+                />
+              )}
+
+              <button
+                className="overlap-group-221"
+                onClick={() => carImageInputRef.current.click()}
+              >
+                Upload Car Image
+              </button>
+
+              <input
+                type="file"
+                ref={carImageInputRef}
+                style={{ display: 'none' }}
+                onChange={(e) => handleFileChange(e.target.files[0], setCarImage)}
+                required
+              />
+
+              <a
+                href="#"
+                className="view-pricelist-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowPriceList(true);
+                }}
+              >
+                View Pricelist
+              </a>
+
+            </div>
+
           {showOverlap1 && (
+
             <div className="overlap-1">
-              <div className="overlap-group-wrapper">
+
+              <h1 className="text-wrapper-912">Step 1: Car Details</h1>
+            <div className="group2">
+              <div className="group1">
                 <select className="div-wrapper" value={carBrand} onChange={(e) => setCarBrand(e.target.value)} required>
                   <option value="">Car Brand</option>
                   {Object.keys(carData).map((brand) => (
                     <option key={brand} value={brand}>{brand}</option>
                   ))}
                 </select>
-              </div>
-              <div className="group-22">
+
+
                 <select className="div-wrapper1" value={carModel} onChange={(e) => setCarModel(e.target.value)} disabled={!carBrand} required>
                   <option value="">Car Model</option>
                   {carBrand && carData[carBrand].map((model, index) => (
                     <option key={`${carBrand}-${model}-${index}`} value={model}>{model}</option>
                   ))}
                 </select>
-              </div>
-              <div className="group-3">
+             
+
                 <input className="div-wrapper2" type="text" placeholder="Car Year" value={carYear} onChange={(e) => setCarYear(e.target.value)} required />
               </div>
-              <div className="description-textarea">
+
                 <textarea className="description-wrapper" placeholder="Car Description" value={carDescription} onChange={(e) => setCarDescription(e.target.value)} required />
+            </div>
+
+
+            <div className="group3">
+                <input className="div-wrapper412" type="text" placeholder="Plate #" value={plateNumber} onChange={(e) => setPlateNumber(e.target.value)} required />
+                <input className="div-wrapper42" type="text" placeholder="Color" value={color} onChange={(e) => setColor(e.target.value)} required />
+                  
+                  <select className="div-wrapper43" value={capacity} onChange={(e) => setCapacity(e.target.value)} required>
+                    <option value="">Capacity</option>
+                    <option value="4">4 Seat</option>
+                    <option value="5">5 Seat</option>
+                    <option value="7">7 Seat</option>
+                    <option value="8">8 Seat</option>
+                    <option value="12">12 Seat</option>
+                    <option value="15">15 Seat</option>
+                  </select>
               </div>
-              <div className="overlap-3">
-                <div className="group-5">
-                  <div className="overlap-4">
+
+
+              <div className="group4">
+
+                <div className="overlap-4">
                     <div className="text-wrapper-44">{carORFileName || 'Car OR'}</div>
-                  </div>
-                </div>
-                <div className="group-6">
-                  <input type="file" ref={carORInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e.target.files[0], setCarOR, setCarORFileName)} required />
+                    
                   <button className="overlap-5" onClick={() => carORInputRef.current.click()}>
-                    <div className="text-wrapper-555">Upload</div>
+                    Upload
                   </button>
+                  <input type="file" ref={carORInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e.target.files[0], setCarOR, setCarORFileName)} required />
                 </div>
-              </div>
-              <div className="overlap-6">
-                <div className="group-5">
-                  <div className="overlap-442">
-                    <div className="text-wrapper-66">{carCRFileName || 'Car CR'}</div>
-                  </div>
-                  <input className="div-wrapper412" type="text" placeholder="Plate #" value={plateNumber} onChange={(e) => setPlateNumber(e.target.value)} required />
-                </div>
-                <div className="group-6">
+
+                  
+ 
+              
+                <div className="overlap-442">
+                  <div className="text-wrapper-66">{carCRFileName || 'Car CR'}</div>
                   <input type="file" ref={carCRInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e.target.files[0], setCarCR, setCarCRFileName)} required />
                   <button className="overlap-521" onClick={() => carCRInputRef.current.click()}>
-                    <div className="text-wrapper-555">Upload</div>
+                    Upload
                   </button>
                 </div>
+             
               </div>
-              <input className="div-wrapper42" type="text" placeholder="Color" value={color} onChange={(e) => setColor(e.target.value)} required />
-              <select className="div-wrapper43" value={capacity} onChange={(e) => setCapacity(e.target.value)} required>
-                <option value="">Capacity</option>
-                <option value="4">4 Seat</option>
-                <option value="5">5 Seat</option>
-                <option value="7">7 Seat</option>
-                <option value="8">8 Seat</option>
-                <option value="12">12 Seat</option>
-                <option value="15">15 Seat</option>
-              </select>
+              
   
               <button
                 className="overlap-777"
@@ -257,40 +301,43 @@ export const AddCar = () => {
                 <div className="text-wrapper-8">Next</div>
               </button>
   
-              <div className="text-wrapper-912">Step 1: Car Details</div>
+              
             </div>
           )}
   
           {!showOverlap1 && (
-            <div className="overlap-2">
-              <div className="group-4">
+
+            <div className="overlap-1">
+
+               <div className="text-wrapper-912">Step 2: Address & Pricing</div>
+
                 <select className="div-wrapper3" value={selectedProvince} onChange={handleProvinceChange} required>
                   <option value="">Province</option>
                   {provincesData.RECORDS.map((province, index) => (
                     <option key={`${province.provCode}-${index}`} value={province.provCode}>{province.provDesc}</option>
                   ))}
                 </select>
-              </div>
-              <div className="group-4">
+
+    
                 <select className="div-wrapper31" value={selectedCity} onChange={handleCityChange} disabled={!selectedProvince} required>
                   <option value="">City/Municipality</option>
                   {filteredCities.map((city, index) => (
                     <option key={`${city.citymunCode}-${index}`} value={city.citymunCode}>{city.citymunDesc}</option>
                   ))}
                 </select>
-              </div>
-              <div className="group-4">
+            
+           
                 <select className="div-wrapper32" value={selectedBarangay} onChange={handleBarangayChange} disabled={!selectedCity} required>
                   <option value="">Barangay</option>
                   {filteredBarangays.map((barangay, index) => (
                     <option key={`${barangay.brgyCode}-${index}`} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
                   ))}
                 </select>
-              </div>
-              <div className="group-7">
+           
+         
                 <input className="div-wrapper41" type="text" placeholder="House/Lot no./Street" value={houseNumberStreet} onChange={(e) => setHouseNumberStreet(e.target.value)} required />
-              </div>
-              <div className="group-7">
+          
+          
                 <input
                   className="div-wrapper4"
                   type="text"
@@ -314,42 +361,34 @@ export const AddCar = () => {
                   }}
                   required
                 />
-              </div>
+         
               <div className="group-8">
-                <button className="overlap-7" onClick={debouncedHandleSubmit} type="button" disabled={isSubmitting}>
-                  <div className="text-wrapper-8123">Register Car</div>
-                </button>
-  
                 <button className="overlap-712" type="button" onClick={handleBackClick}>
-                  <div className="text-wrapper-81">Back</div>
-                </button>
+                  Back
+                  </button>
+                  
+                  <button className="overlap-7" onClick={debouncedHandleSubmit} type="button" disabled={isSubmitting}>
+                    <div className="text-wrapper-8123">Register Car</div>
+                  </button>
+  
               </div>
   
-              <div className="text-wrapper-912">Step 2: Address & Pricing</div>
+             
             </div>
           )}
   
-          <div className="text-wrapper-9">Car Registration</div>
-          {carImageURL && (
-            <div className="rectangle12" style={{ backgroundImage: `url(${carImageURL})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', position: 'absolute'}} />
-          )}
-          <div className="group-9">
-            <input type="file" ref={carImageInputRef} style={{ display: 'none' }} onChange={(e) => handleFileChange(e.target.files[0], setCarImage)} required />
-            <button className="overlap-group-2" onClick={() => carImageInputRef.current.click()}>
-              <div className="text-wrapper-10">Upload Car Image</div>
-            </button>
-            <a href="#" className="view-pricelist-link" onClick={(e) => { e.preventDefault(); setShowPriceList(true); }}>
-              View Pricelist
-            </a>
-          </div>
+          
+
+
           {showAddCarPopup && <AddCarPopup />}
           {showPriceList && (
             <div className="pricelist-popup" onClick={() => setShowPriceList(false)}>
               <img src={WheelsOnGoPriceList} alt="Pricelist" className="pricelist-image" />
             </div>
           )}
-        </div>
+        
       </div>
+    </div>
     </div>
   );  
 };

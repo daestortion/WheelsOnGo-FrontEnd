@@ -83,7 +83,6 @@
     justify-content: center; /* Center text horizontally */
     align-items: center; /* Center text vertically */
     position: relative; 
-    margin-left: auto; /* Pushes the button to the far right */
 }
 
 .vap-div-wrapper1:hover{
@@ -107,7 +106,6 @@
     justify-content: center; /* Center text horizontally */
     align-items: center; /* Center text vertically */
     position: relative; 
-    margin-left: auto; /* Pushes the button to the far right */
 }
 
 .vap-div-wrapper2:hover{
@@ -119,10 +117,11 @@
     font-size: 30px;
     line-height: normal;
     white-space: nowrap;
-    width: 400px;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative;
+    
 }
 
 .vap-popup .vap-group-wrapper-2 {
@@ -138,7 +137,7 @@
     font-size: 30px;
     line-height: normal;
     white-space: nowrap;
-    width: 400px;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative; 

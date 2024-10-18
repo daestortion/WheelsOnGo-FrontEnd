@@ -6,6 +6,7 @@ import profileIcon from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
 import Dropdown from "./Dropdown.js";
 import CarUpdated from "./CarUpdated.js";
+import Header from "./Header.js";
 
 const UpdateCar = () => {
   const navigate = useNavigate();
@@ -101,18 +102,9 @@ const UpdateCar = () => {
 
   return (
     <div className="update-car-owner">
+      <Header />
       <div className="div">
-        <div className="overlap">
-          <div className="text-wrapper" onClick={handleHomeClick}>Home</div>
-          <div className="text-wrapper-2" onClick={handleCarsClick}>Cars</div>
-          <div className="text-wrapper-3" onClick={handleAboutClick}>About</div>
-          <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
-          <Dropdown>
-            <button className="group">
-              <img alt="Group" src={profileIcon} />
-            </button>
-          </Dropdown>
-        </div>
+
         <div className="overlap-group">
 
           <input
@@ -154,7 +146,6 @@ const UpdateCar = () => {
                 onChange={handleCarFileChange}
               />
             </div>
-            <div className="text-wrapper-6">{carDetails.carFileName}</div>
           </div>
           <div className="group-22">
             <button className="overlap-55" onClick={handleUpdateCar}>

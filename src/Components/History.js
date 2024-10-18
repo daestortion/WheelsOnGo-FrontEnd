@@ -9,6 +9,7 @@ import profile from "../Images/profile.png";
 import DatePicker from "react-datepicker";
 import ExtendPaymentPopup from "./ExtendPaymentPopup";
 import "react-datepicker/dist/react-datepicker.css";
+import Header from "./Header.js";
 
 // Utility function to format dates
 const formatDate = (date) => {
@@ -347,27 +348,11 @@ export const OrderHistoryPage = () => {
 
   return (
     <div className="order-history-page">
+      <Header />
       <div className="overlap-wrapper213">
         <div className="overlap213">
           <div className="overlap-group123">
-            <div className="text-wrapper213" onClick={handleCarsClick}>
-              Cars
-            </div>
-            <div className="div213" onClick={handleAboutClick}>
-              About
-            </div>
-            <img
-              className="sideview213"
-              alt="Sideview"
-              onClick={handleHomeClick}
-              src={sidelogo}
-            />
-            <div className="text-wrapper-2213" onClick={handleHomeClick}>
-              Home
-            </div>
-            <Dropdown>
-              <img className="group213" alt="Group" src={profile} />
-            </Dropdown>
+      
           </div>
           <div className="overlap-212">
             <div className="rectangle213">
