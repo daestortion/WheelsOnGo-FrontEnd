@@ -13,14 +13,15 @@ export const AddCarPopup = () => {
   return (
     <div className="add-car-success">
       <div className="overlap-wrapper11">
-        <div className="overlap">
+
+        <div className="overlapw1">
           <div className="ac-text-wrapper">Car successfully registered.</div>
-          <div className="group">
+ 
             <div className="overlap-group" onClick={handleOkClick}>
-              <div className="div">OK</div>
+              OK
             </div>
-          </div>
         </div>
+
       </div>
     </div>
   );

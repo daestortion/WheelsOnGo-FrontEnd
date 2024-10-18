@@ -18,6 +18,7 @@ import racaza1 from "../Images/racaza1.png";
 import tatardcircle1 from "../Images/tatardcircle1.png";
 import Dropdown from "../Components/Dropdown.js";
 import { useNavigate } from 'react-router-dom';
+import Header from "./Header.js";
 
 
 export const AboutUsFinal = () => {
@@ -38,6 +39,7 @@ const handleAboutClick = () => {
 
   return (
     <div className="about-us-FINAL">
+      <Header />
       <div className="overlap-wrapper">
         <div className="overlap">
           <div className="fgh" />
@@ -93,7 +95,6 @@ const handleAboutClick = () => {
               </p>
             </div>
           </div>
-          <div className="rectangle-2" />
 
           <Dropdown>
             <button className="group">
@@ -101,10 +102,6 @@ const handleAboutClick = () => {
             </button>
           </Dropdown>
 
-          <div className="text-wrapper-10" onClick={handleHomeClick}>Home</div>
-          <div className="text-wrapper-11" onClick={handleCarsClick}>Cars</div>
-          <div className="text-wrapper-12" onClick={handleAboutClick}>About</div>
-          <img className="sideview" alt="Sideview" src={sidelogo} />
         </div>
       </div>
     </div>

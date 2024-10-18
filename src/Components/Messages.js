@@ -5,6 +5,7 @@ import Dropdown from "../Components/Dropdown.js";
 import "../Css/Messages.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
+import Header from "./Header.js";
 
 // Helper function to format the timestamp for admin messages
 const formatMessageTimestamp = (timestamp) => {
@@ -99,20 +100,7 @@ export const Messages = () => {
 
   return (
     <div className="messages-container">
-      <div className="header">
-        <img className="sidelogo" alt="Side Logo" src={sidelogo} />
-        <div className="nav-links">
-          <div className="messages-link">Messages</div>
-          <div className="home-link" onClick={() => navigate('/home')}>Home</div>
-          <div className="cars-link" onClick={() => navigate('/cars')}>Cars</div>
-          <div className="about-link" onClick={() => navigate('/aboutus')}>About</div>
-        </div>
-        <Dropdown>
-          <button className="profile-button">
-            <img alt="Profile" src={profile} />
-          </button>
-        </Dropdown>
-      </div>
+      <Header/>
 
       <div className="title">
         <h1>Messages</h1>

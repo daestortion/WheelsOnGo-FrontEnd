@@ -237,6 +237,7 @@ export const AdminPageReports = () => {
                     <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
                     <button className="admin-dashboard-menu-item active">Reports</button>
                     <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
+                    <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
                 </div>
 
                 <div className="admin-dashboard-content">

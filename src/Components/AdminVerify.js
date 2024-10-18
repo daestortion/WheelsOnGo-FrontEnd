@@ -133,6 +133,7 @@ const AdminVerify = () => {
           <button className="admin-dashboard-menu-item" onClick={handleOrder}>Transactions</button>
           <button className="admin-dashboard-menu-item" onClick={handleReport}>Reports</button>
           <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
         </div>
 
         {/* Main Content */}
