@@ -36,25 +36,21 @@ const BalancePage = () => {
   // Fetch wallet data from the backend API using Axios
   const fetchWalletData = useCallback(async (id) => {
     try {
-      console.log('Fetching wallet data for user ID:', id);
-      setIsLoading(true); // Set loading to true before fetching data
+      setIsLoading(true);  // Show loading state
       const [creditRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`http://localhost:8080/wallet/credit/${id}`),
+        axios.get(`http://localhost:8080/wallet/credit/${id}`),  // Fetch current balance without recalculation
         axios.get(`http://localhost:8080/wallet/debit/${id}`),
         axios.get(`http://localhost:8080/wallet/refundable/${id}`)
       ]);
-
-      console.log('Credit response:', creditRes.data);
-      console.log('Debit response:', debitRes.data);
-      console.log('Refundable response:', refundableRes.data);
-
+  
+      // Update the state with fetched data
       setWalletData({
         credit: creditRes.data,
         debit: debitRes.data,
         refundable: refundableRes.data,
       });
-
-      console.log('Updated walletData state:', {
+  
+      console.log("Updated walletData state:", {
         credit: creditRes.data,
         debit: debitRes.data,
         refundable: refundableRes.data,
@@ -62,29 +58,19 @@ const BalancePage = () => {
     } catch (error) {
       console.error('Error fetching wallet data:', error);
     } finally {
-      setIsLoading(false); // Set loading to false after the data is fetched
+      setIsLoading(false);  // Hide loading state
     }
   }, []);
+  
 
-  // UseEffect to trigger the fetching and recalculation when the page loads
-    useEffect(() => {
-      if (userId) {
-        console.log('User ID available, recalculating and fetching wallet data...');
-    
-        // Recalculate wallet on page load
-        axios.put(`http://localhost:8080/wallet/recalculate/${userId}`)
-          .then(() => {
-            console.log("Wallet recalculated successfully.");
-    
-            // Fetch the updated wallet data after recalculation
-            fetchWalletData(userId);
-          })
-          .catch((error) => {
-            console.error("Error recalculating wallet:", error);
-          });
-      }
-    }, [userId, fetchWalletData]);
-    
+  // Fetch wallet data without recalculating when page loads
+  useEffect(() => {
+    if (userId) {
+      console.log('User ID available, fetching wallet data without recalculation...');
+      fetchWalletData(userId);  // Fetch wallet data directly
+    }
+  }, [userId, fetchWalletData]);
+
   // Toggle form visibility
   const toggleForm = () => {
     console.log('Toggling request form visibility. Current state:', isFormOpen);
@@ -144,10 +130,7 @@ const BalancePage = () => {
     try {
       await axios.post('http://localhost:8080/wallet/request-funds', requestData);
       
-      // Recalculate wallet after submitting a request
-      await axios.put(`http://localhost:8080/wallet/recalculate/${userId}`);
-
-      // Fetch updated wallet data
+      // Fetch updated wallet data after submitting a request without recalculation
       await fetchWalletData(userId);
 
       alert('Request submitted successfully!');
@@ -163,10 +146,7 @@ const BalancePage = () => {
     try {
       await axios.put(`http://localhost:8080/wallet/approveRequest/${requestId}`);
       
-      // Recalculate wallet after approval
-      await axios.put(`http://localhost:8080/wallet/recalculate/${userId}`);
-
-      // Fetch updated wallet data
+      // Fetch updated wallet data after approval without recalculating
       await fetchWalletData(userId);
       
       alert('Request approved successfully!');
