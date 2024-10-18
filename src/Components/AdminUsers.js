@@ -70,6 +70,7 @@ const AdminPageUsers = () => {
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminverify')}>Verifications</button>
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
           <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminreport')}>Reports</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
         </div>
 
         {/* Main Content */}
