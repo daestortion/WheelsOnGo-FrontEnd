@@ -29,6 +29,7 @@ import AdminReport from './Components/AdminReport.js';
 import AdminDashboard from './Components/AdminDashboard.js';
 import ChatPage from './Components/ChatPage.js';
 import Messages from './Components/Messages.js'
+import AdminActivityLogs from './Components/AdminActivityLogs.js';
 
 
 function DebugRoutes() {
@@ -57,6 +58,7 @@ function AuthRoutes() {
             <Route path="/adminusers" element={<AdminPrivateRoute><AdminUsers /></AdminPrivateRoute>} />
             <Route path="/admincars" element={<AdminPrivateRoute><AdminCars /></AdminPrivateRoute>} />
             <Route path="/adminverify" element={<AdminPrivateRoute><AdminVerify /></AdminPrivateRoute>} />
+            <Route path="/activitylogs" element={<AdminPrivateRoute><AdminActivityLogs /></AdminPrivateRoute>} />
             <Route path="/AdminRegister" element={<AdminRegister />} />
             <Route path="/AdminLogin" element={<AdminLogin />} />
             <Route path="/show-image/:id/:type" element={<ShowImage />} />

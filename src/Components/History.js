@@ -248,25 +248,19 @@ export const OrderHistoryPage = () => {
 
   const handleTerminate = async (orderId) => {
     try {
-      const terminationDate = new Date().toISOString();
-  
       // Send the terminate request to the backend with the orderId
       const response = await axios.put(
-        `http://localhost:8080/order/terminateOrder/${orderId}`, // Ensure orderId is used
-        {
-          terminated: true,  // Set termination status
-          terminationDate: terminationDate,  // Set termination date
-        }
+        `http://localhost:8080/order/terminateOrder/${orderId}`  // Ensure orderId is used
       );
-  
+
       if (response.status === 200) {
         console.log(`Order ${orderId} terminated successfully.`);
-  
+
         // Update the state to reflect the termination
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.orderId === orderId
-              ? { ...order, terminated: true, terminationDate }
+              ? { ...order, terminated: true, active: false, terminationDate: new Date().toISOString() }
               : order
           )
         );
@@ -276,7 +270,8 @@ export const OrderHistoryPage = () => {
     } catch (error) {
       console.error("Error terminating the order:", error.response?.data || error.message);
     }
-  };  
+  };
+
 
   const handleCarReturned = async (orderId) => {
     try {
@@ -417,11 +412,11 @@ export const OrderHistoryPage = () => {
                           ) : (
                             <td></td> // Empty cell when no button
                           ))}                       
+                        <td>{getStatusText(order.status)}</td>
+                        <td>{getActivity(order.active)}</td>
                         <td>
                           {order.terminated ? `Terminated on ${new Date(order.terminationDate).toISOString().split('T')[0]}` : ''}
                         </td>
-                        <td>{getStatusText(order.status)}</td>
-                        <td>{getActivity(order.active)}</td>
                         {showOwnedCars && (
                           <td>
                             <button

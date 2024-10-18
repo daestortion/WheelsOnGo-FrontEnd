@@ -81,13 +81,19 @@ const UpdateCar = () => {
 
   const handleUpdateCar = async () => {
     try {
-        const response = await axios.put(`http://localhost:8080/car/updateCar`, {
+        const updatedCarDetails = {
             carId: carId,
-            carDescription: carDetails.description,
-            rentPrice: carDetails.price,
-            address: carDetails.location,
-            carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null
-        });
+            carDescription: carDetails.description || null,
+            rentPrice: carDetails.price || 0,
+            address: carDetails.location || null,
+            color: carDetails.color || null,
+            plateNumber: carDetails.plateNumber || null,
+            maxSeatingCapacity: carDetails.maxSeatingCapacity || 0,
+            carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null // Ensure this is handled in the backend
+        };
+
+        const response = await axios.put(`http://localhost:8080/car/updateCar`, updatedCarDetails);
+        
         if (response.status === 200) {
             setShowCarUpdatedPopup(true);
         } else {
