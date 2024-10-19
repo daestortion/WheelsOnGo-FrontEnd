@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from "../Components/Header"; 
 import ProfileUpdatePopup from '../Components/ProfileUpdatePopup';
 import "../Css/EditProfile.css";
+import Loading from "../Components/Loading.js";
 
 
 export const EditProfile = () => {
