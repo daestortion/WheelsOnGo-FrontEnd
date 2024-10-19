@@ -14,7 +14,7 @@ const AdminPageUsers = () => {
   }, []);
 
   const fetchUsers = () => {
-    axios.get('http://localhost:8080/user/getAllUsers')
+    axios.get('https://tender-curiosity-production.up.railway.app/user/getAllUsers')
       .then(response => {
         console.log("Fetched Users:", response.data); // Log fetched users
         setUsers(response.data);
@@ -36,13 +36,13 @@ const AdminPageUsers = () => {
   });
 
   const handleDelete = (userId) => {
-    axios.put(`http://localhost:8080/user/deleteUser/${userId}`)
+    axios.put(`https://tender-curiosity-production.up.railway.app/user/deleteUser/${userId}`)
       .then(() => fetchUsers())
       .catch(error => console.error('Error deleting user:', error));
   };
 
   const handleReactivate = (userId) => {
-    axios.put(`http://localhost:8080/user/reactivateUser/${userId}`)
+    axios.put(`https://tender-curiosity-production.up.railway.app/user/reactivateUser/${userId}`)
       .then(() => fetchUsers())
       .catch(error => console.error('Error reactivating user:', error));
   };

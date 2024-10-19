@@ -66,7 +66,7 @@ const AdminDashboard = () => {
   // Fetch user data
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/user/getAllUsers");
+      const response = await axios.get("https://tender-curiosity-production.up.railway.app/user/getAllUsers");
       const users = response.data;
 
       let carOwners = 0;
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
   // Fetch car data
   const fetchCarData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/car/getAllCars");
+      const response = await axios.get("https://tender-curiosity-production.up.railway.app/car/getAllCars");
       const cars = response.data;
 
       let rentedCars = 0;
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
   // Fetch order data
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/order/getAllOrders");
+      const response = await axios.get("https://tender-curiosity-production.up.railway.app/order/getAllOrders");
       const orders = response.data;
 
       let pendingOrders = 0;
@@ -154,7 +154,7 @@ const AdminDashboard = () => {
   // Fetch rents per car data
   const fetchRentsPerCar = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/car/allCarsWithOrders");
+      const response = await axios.get("https://tender-curiosity-production.up.railway.app/car/allCarsWithOrders");
       const cars = response.data;
       const labels = cars.map(car => car.carModel);
       const rentCounts = cars.map(car => car.orders.length);
@@ -177,7 +177,7 @@ const AdminDashboard = () => {
   // Fetch rent over time data
   const fetchRentOverTime = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/order/getAllOrders");
+      const response = await axios.get("https://tender-curiosity-production.up.railway.app/order/getAllOrders");
       const orders = response.data;
 
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

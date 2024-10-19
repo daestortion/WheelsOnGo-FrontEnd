@@ -20,22 +20,26 @@
 .checkout-popup .cp-overlap { 
   background-color: #d7d1d1; 
   border-radius: 40px; 
-  height: 724px; 
   position: relative; 
+  display: flex;
+  width: 100%;
+  max-width: 1500px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .checkout-popup .text-wrapper { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 50px; 
   font-weight: 600; 
-  left: 260px;
   letter-spacing: 0.62px; 
   line-height: normal; 
-  position: absolute; 
+  position: relative; 
   text-align: center; 
-  top: 67px; 
-  width: 393px; 
+
 }
 
 .checkout-popup .rectangle { 
@@ -43,9 +47,7 @@
   border-radius: 40px; 
   height: 200px;  /* Adjusted height to fit the image */
   width: 200px;   /* Adjusted width to fit the image */
-  left: 95px; 
-  position: absolute; 
-  top: 148px; 
+  position: relative; 
   display: flex;          /* Use flexbox to center the image */
   align-items: center;    /* Vertically center the image */
   justify-content: center; /* Horizontally center the image */
@@ -79,25 +81,106 @@
   background-color: #000;
 }
 
+.groups1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+}
+
+.groups2{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  gap: 20px;
+}
+
+.groups3{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  gap: 10px;
+}
+
+.groups4{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+}
+
+.groups5{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+}
+
+.overall1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  gap: 10px;
+}
+
+.overall2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 20px;
+}
+
+.finale{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 100px;
+}
+
+.wew1{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 30px;
+}
+
 .checkout-popup .text-wrapper-234 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 40px; 
   font-weight: 600; 
-  left: 345px; 
-  letter-spacing: 0.5px; 
   line-height: normal; 
-  position: absolute; 
-  top: 190px; 
-  width: 575px; 
+  position: relative; 
+  width: 100%; 
+  text-align: center;
 }
 
 .checkout-popup .cp-overlap-group { 
   height: 43px; 
-  left: 350px; 
-  position: absolute; 
-  top: 248px; 
-  width: 590px; 
+  position: relative; 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .checkout-popup .text-wrapper-345 { 
@@ -106,89 +189,74 @@
   font-size: 30px; 
   font-weight: 500; 
   height: 34px; 
-  left: -5px; 
-  letter-spacing: 0.38px; 
-  line-height: 140px; 
-  position: absolute; 
-  top: -47px; 
+  position: relative; 
   white-space: nowrap; 
-  width: 418px; 
+  text-align: center;
 }
 
-.checkout-popup .text-wrapper-4 { 
+.checkout-popup .text-wrapper-412 { 
   color: #e32128; 
   font-family: "Inter-Medium", Helvetica; 
   font-size: 30px; 
   font-weight: 500; 
   height: 34px; 
-  left: 180px; 
-  letter-spacing: 0.38px; 
-  line-height: 140px; 
-  position: absolute; 
-  top: -48px; 
+  position: relative;  
   white-space: nowrap; 
-  width: 418px; 
 }
 
-.checkout-popup .vector { 
+.checkout-popup .vector2 { 
   height: 43px; 
-  left: 152px; 
-  position: absolute; 
-  top: 0; 
-  width: 2px; 
+  position: relative; 
 }
 
-.checkout-popup .text-wrapper-5 { 
+.checkout-popup .text-wrapper-51 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 1337px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
+  position: relative; 
   text-align: center; 
-  top: 100px; 
   white-space: nowrap; 
-  width: 237px; 
+
 }
 
-.checkout-popup .text-wrapper-6 { 
+.checkout-popup .text-wrapper-61 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 980px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
+  position: relative; 
   text-align: center; 
-  top: 100px; 
   white-space: nowrap; 
-  width: 237px; 
 }
 
-.checkout-popup .div-wrapper { 
+
+.checkout-popup .div-wrapper12 { 
   background-color: #ffffff; 
   border-radius: 35px; 
   height: 71px; 
-  left: 960px; 
-  position: absolute; 
-  top: 160px; 
+  position: relative; 
   width: 284px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+
 
 .checkout-popup .text-wrapper-7 { 
   color: #7c7c7c; 
   font-family: "Inter-Regular", Helvetica; 
   font-size: 25px; 
   font-weight: 400; 
-  left: 78px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
-  top: 19px; 
-  width: 150px; 
+  position: relative;
+
 }
 
 .checkout-popup .text-wrapper-8 { 
@@ -196,13 +264,10 @@
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 970px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
-  top: 520px; 
+  position: relative; 
   white-space: nowrap; 
-  width: 87px; 
 }
 
 .checkout-popup .text-wrapper-9 { 
@@ -280,13 +345,10 @@
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 30px; 
   font-weight: 600; 
-  left: 130px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
-  top: 380px; 
+  position: relative; 
   white-space: nowrap; 
-  width:800px; 
   height: 40px;
 }
 
@@ -295,27 +357,26 @@
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 20px; 
   font-weight: 600; 
-  left: 130px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
-  top: 600px; 
+  position: relative; 
   white-space: normal; 
-  width: 712px; 
-  height: auto;
+  height: 40px;
   overflow-wrap: break-word;
+  text-align: center;
 }
 
 .checkout-popup .overlap-2 { 
   background-color: #ffffff; 
   border-radius: 35px; 
   height: 71px; 
-  left: 1319px; 
-  position: absolute; 
-  top: 160px; 
+  position: relative; 
   width: 284px; 
   border: none;
   box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .checkout-popup .text-wrapper-12 { 
@@ -323,12 +384,9 @@
   font-family: "Inter-Regular", Helvetica; 
   font-size: 25px; 
   font-weight: 400; 
-  left: 83px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
-  top: 19px; 
-  width: 150px; 
+  position: relative; 
 }
 
 .checkout-popup .group { 
@@ -339,28 +397,26 @@
   width: 645px; 
 }
 
-.checkout-popup .overlap-group-2 { 
+.checkout-popup .overlap-group-2121 { 
   background-color: #e80029; 
   border-radius: 35px; 
   height: 71px; 
   position: relative; 
-  width: 643px;
-  top: 30px; 
-}
-
-.checkout-popup .text-wrapper-13 { 
+  width: 90%;
   color: #ffffff; 
   font-family: "Inter-Bold", Helvetica; 
   font-size: 20px; 
   font-weight: 700; 
-  left: 233px; 
   letter-spacing: 0; 
   line-height: normal; 
-  position: absolute; 
   text-align: center; 
-  top: 22px; 
-  width: 181px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
 }
+
 
 .checkout-popup .p { 
   color: #e32128; 
@@ -405,22 +461,29 @@
   background-color: #e32128; 
   border-radius: 9px; 
   height: 50px; 
-  left: 1608px; 
-  position: absolute; 
-  top: 35px; 
+  position: relative; 
   width: 50px; 
+  border: none;
+  margin-left: auto;
 }
 
-.checkout-popup .img { 
+.checkout-popup .imgs { 
   height: 30px; 
-  left: 10px; 
-  position: absolute; 
-  top: 10px; 
+  position: relative; 
   width: 30px; 
 }
 
 .react-datepicker {
   font-family: inherit;
+  position: absolute; /* Absolute position to anchor it relative to the wrapper div */
+  top: 100%; /* Position it directly below the parent div */
+  z-index: 1000; /* Ensure it appears on top of other content */
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+  border-radius: 10px; /* Optional: Rounding corners for aesthetics */
 }
 
 .react-datepicker__navigation {
@@ -435,27 +498,26 @@
 
 .react-datepicker__header {
   background-color: #fff;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
 }
 
 .react-datepicker__navigation--previous {
   left: 10px;
+  z-index: 1001;
 }
 
 .react-datepicker__navigation--next {
   right: 10px;
+  z-index: 1001;
 }
-
-.checkout-popup .error-message {
+.checkout-popup .error-messagea {
   color: red;
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  position: absolute;
-  top: 430px; /* Adjust top value to position it correctly */
-  left: 1285px;
-  transform: translateX(-50%);
+  position: relative;
   text-align: center;
-  width: 100%;
 }
 
 .normal-text {
@@ -463,15 +525,16 @@
 } 
 
 .checkout-popup .delivery-options {
-  position: absolute;
-  top: 520px; /* Adjust the position to fit above the total */
-  left: 1320px;
-  display: flex;
+  position: relative;
   flex-direction: row;
   gap: 20px; /* Add space between options */
   font-family: "Inter-SemiBold", Helvetica;
   font-size: 25px;
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .radio-option input[type="radio"] {
@@ -481,6 +544,10 @@
 
 .radio-option {
   display: flex;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -509,10 +576,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px; /* Space between form elements */
-  top: 260px;
-  position: absolute;
-  left: 950px;
-  width: 660px;
+  position: relative;
+  width: 100%;
+  margin-top: 0;
 }
 
 .address-dropdown, .address-input {
@@ -533,4 +599,9 @@
 .address-input {
   width: 100%;
   box-sizing: border-box;
+}
+
+.div-wrapper12, .overlap-2 {
+  position: relative;
+  z-index: 1; /* Set lower z-index to ensure date picker is on top */
 }

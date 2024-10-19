@@ -15,7 +15,7 @@ const ForgotPassword = () => {
         setIsLoading(true);
         setMessage(''); // Clear previous message
         try {
-            const response = await axios.get(`http://localhost:8080/user/forgot-password`, {
+            const response = await axios.get(`https://tender-curiosity-production.up.railway.app/user/forgot-password`, {
                 params: { identifier: email }
             });
             if (response.status === 200) {

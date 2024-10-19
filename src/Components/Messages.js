@@ -40,7 +40,7 @@ export const Messages = () => {
     try {
       const storedUser = localStorage.getItem('user');
       const userId = JSON.parse(storedUser).userId;
-      const response = await axios.get('http://localhost:8080/report/getAll');
+      const response = await axios.get('https://tender-curiosity-production.up.railway.app/report/getAll');
       const userReports = response.data.filter(report => report.user.userId === userId);
       setReports(userReports);
     } catch (error) {
@@ -51,7 +51,7 @@ export const Messages = () => {
   
   const handleReportClick = async (report) => {
     try {
-      const chatResponse = await axios.get(`http://localhost:8080/chat/check?reportId=${report.reportId}`);
+      const chatResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/check?reportId=${report.reportId}`);
       if (chatResponse.data && chatResponse.data.chatId) {
         setSelectedChat(chatResponse.data);
         fetchMessages(chatResponse.data.chatId);
@@ -65,7 +65,7 @@ export const Messages = () => {
 
   const fetchMessages = async (chatId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages`);
+      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages`);
       setMessages(response.data);
     } catch (error) {
       console.error('Failed to fetch messages', error);
@@ -75,7 +75,7 @@ export const Messages = () => {
   const sendMessage = async () => {
     if (selectedChat && newMessage && currentUser) {
       try {
-        await axios.post(`http://localhost:8080/chat/${selectedChat.chatId}/send`, null, {
+        await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${selectedChat.chatId}/send`, null, {
           params: {
             userId: currentUser.userId,
             messageContent: newMessage

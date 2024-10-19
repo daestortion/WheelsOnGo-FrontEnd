@@ -30,7 +30,7 @@ export const Cars = () => {
     const fetchCars = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('http://localhost:8080/car/getAllCars');
+        const response = await axios.get('https://tender-curiosity-production.up.railway.app/car/getAllCars');
         const approvedCars = response.data.filter(car => car.approved && !car.deleted);
         
         console.log("Fetched Cars:", approvedCars); // Log fetched cars
@@ -52,7 +52,7 @@ export const Cars = () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const userId = JSON.parse(storedUser).userId;
-      axios.get(`http://localhost:8080/user/getUserById/${userId}`).then((response) => {
+      axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`).then((response) => {
         if (response.status === 200) {
           console.log("User Renting Status:", response.data.renting); // Log user renting status
           setIsRenting(response.data.renting);
