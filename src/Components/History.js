@@ -69,6 +69,43 @@ export const OrderHistoryPage = () => {
     }
   };
 
+  // Fetch car details
+  const fetchCarDetails = async (carId) => {
+    try {
+      const response = await axios.get(
+        `https://tender-curiosity-production.up.railway.app/car/getCarById/${carId}`
+      );
+      if (response.status === 200) {
+        console.log("Fetched car details:", response.data);
+        return response.data;
+      } else {
+        console.error("Error fetching car details");
+      }
+    } catch (error) {
+      console.error("Error fetching car details:", error);
+    }
+    return null;
+  };
+
+  // Fetch orders by car ID
+  const fetchOrdersByCarId = async (carId) => {
+    try {
+      const response = await axios.get(
+        `https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${carId}`
+      );
+      if (response.status === 200) {
+        console.log("Fetched orders for car:", response.data);
+        return response.data;
+      } else {
+        console.error("Error fetching car orders");
+        return [];
+      }
+    } catch (error) {
+      console.error("Error fetching car orders:", error);
+      return [];
+    }
+  };
+
   // Fetch car orders (owned cars)
   const fetchCarOrdersByUserId = async (userId) => {
     setIsLoading(true); // Start loading
@@ -209,6 +246,74 @@ export const OrderHistoryPage = () => {
       }
     } catch (error) {
       console.error("Error approving order:", error);
+    }
+  };
+
+  const handleDateChange = async (date, endDate, carId) => {
+    setSelectedDate(date);
+
+    const car = await fetchCarDetails(carId);
+    const orders = await fetchOrdersByCarId(carId);
+
+    // Filter out active orders and prepare booked dates
+    const bookedDates = orders
+      .filter(
+        (order) =>
+          new Date(order.startDate) <= date && new Date(order.endDate) >= date
+      )
+      .map((order) => {
+        let dates = [];
+        let currentDate = new Date(order.startDate);
+        const addDays = (date, days) =>
+          new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+        while (currentDate <= new Date(order.endDate)) {
+          dates.push(new Date(currentDate));
+          currentDate = addDays(currentDate, 1);
+        }
+        return dates;
+      })
+      .flat();
+
+    setDisabledDates(bookedDates);
+
+    if (car && date > new Date(endDate)) {
+      const days = Math.ceil(
+        (date - new Date(endDate)) / (1000 * 60 * 60 * 24)
+      );
+      const total = days * car.rentPrice;
+      console.log("Price summary:", { days, pricePerDay: car.rentPrice, total });
+      setPriceSummary({ days, pricePerDay: car.rentPrice, total });
+    } else {
+      setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
+    }
+  };
+
+  // Function to handle extending the rent
+  const handleExtendRent = async (orderId, endDate) => {
+    if (!selectedDate || selectedDate <= new Date(endDate)) {
+      alert("Please select a valid date after the current end date.");
+      return;
+    }
+
+    const adjustedDate = new Date(selectedDate);
+    adjustedDate.setHours(12, 0, 0, 0); // Set the time to avoid timezone issues
+    const newEndDate = adjustedDate.toISOString().split("T")[0]; // Format the date as YYYY-MM-DD
+
+    try {
+      const response = await axios.put(
+        `https://tender-curiosity-production.up.railway.app/order/extendOrder/${orderId}`,
+        {
+          endDate: newEndDate, // Send the new end date to the server
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Rent extended successfully:", response.data);
+      } else {
+        console.error("Error extending rent:", response.data);
+      }
+    } catch (error) {
+      console.error("Failed to extend rent:", error);
     }
   };
 
