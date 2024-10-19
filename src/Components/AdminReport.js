@@ -26,9 +26,8 @@ export const AdminPageReports = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
-    const messagesEndRef = useRef(null);
     const navigate = useNavigate();
-    const messagePollInterval = useRef(null);  // Ref to store the interval ID
+    const messagePollInterval = useRef(null);
 
     useEffect(() => {
         fetchAdminReports();
@@ -37,12 +36,10 @@ export const AdminPageReports = () => {
     // Polling mechanism to fetch messages periodically
     useEffect(() => {
         if (adminSelectedChatId) {
-            // Start polling when a chat is selected
             messagePollInterval.current = setInterval(() => {
                 fetchAdminMessages(adminSelectedChatId);
-            }, 1000); // Poll every second
+            }, 1000);
 
-            // Cleanup interval when component unmounts or chat changes
             return () => {
                 clearInterval(messagePollInterval.current);
             };
@@ -111,7 +108,6 @@ export const AdminPageReports = () => {
         try {
             const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages`);
             setAdminMessages(response.data);
-            scrollToBottom();
         } catch (error) {
             console.error('Error fetching admin chat messages:', error);
         }
@@ -135,16 +131,6 @@ export const AdminPageReports = () => {
         }
     };
 
-    const scrollToBottom = () => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [adminMessages]);
-
     const openAddMemberModal = () => {
         setIsAddMemberModalOpen(true);
     };
@@ -155,40 +141,62 @@ export const AdminPageReports = () => {
         setSearchQuery('');
     };
 
-    // Handle search for users based on the query
     const handleSearch = async (e) => {
         setSearchQuery(e.target.value);
         if (e.target.value.trim() !== '') {
-            try {
-                const response = await axios.get(`http://localhost:8080/user/getAllUsers`);
-                const filteredUsers = response.data.filter(user =>
-                    `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
-                );
-                setSearchResults(filteredUsers);  // Update search results with filtered users
-            } catch (error) {
-                console.error('Error searching for users:', error);
-            }
+          try {
+            const response = await axios.get(`http://localhost:8080/user/getAllUsers`);
+      
+            // Fetch the current chat users
+            const chatResponse = await axios.get(`http://localhost:8080/chat/${adminSelectedChatId}`);
+            const existingChatUsers = chatResponse.data.users.map(user => user.userId);
+      
+            // Filter out users who are already in the chat
+            const filteredUsers = response.data.filter(user =>
+              !existingChatUsers.includes(user.userId) &&
+              `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
+            );
+      
+            setSearchResults(filteredUsers);
+          } catch (error) {
+            console.error('Error searching for users:', error);
+          }
         } else {
-            setSearchResults([]);
+          setSearchResults([]);
         }
-    };
-
+      };
+      
     const handleUserSelect = (userId) => {
         setSelectedUserId(userId);
     };
 
     const handleAddUserToChat = async () => {
         if (selectedUserId && adminSelectedChatId) {
-            try {
-                await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/addUser`, null, {
-                    params: { userId: selectedUserId }
-                });
-                closeAddMemberModal();
-                alert("User added successfully!");
-            } catch (error) {
-                console.error('Error adding user to chat:', error);
-            }
+          try {
+            await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/addUser`, null, {
+              params: { userId: selectedUserId }
+            });
+            closeAddMemberModal();
+            alert("User added successfully!");
+          } catch (error) {
+            console.error('Error adding user to chat:', error);
+          }
         }
+      };
+      
+
+    const renderAdminMessages = () => {
+        return adminMessages.map((message, index) => (
+            <div key={index} className={`admin-chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
+                <div className="admin-chat-bubble">
+                    <div className="sender-name">
+                        {message.sender ? message.sender.username : message.adminSender ? "Admin" : "Unknown"}
+                    </div>
+                    {message.messageContent}
+                    <span className="admin-timestamp">{adminFormatTimestamp(message.sentAt)}</span>
+                </div>
+            </div>
+        ));
     };
 
     return (
@@ -236,7 +244,7 @@ export const AdminPageReports = () => {
                     <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminverify')}>Verifications</button>
                     <button className="admin-dashboard-menu-item" onClick={() => navigate('/adminorder')}>Transactions</button>
                     <button className="admin-dashboard-menu-item active">Reports</button>
-                    <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
+                    <button className="admin-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
                     <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
                 </div>
 
@@ -257,7 +265,6 @@ export const AdminPageReports = () => {
                                     </div>
                                 </div>
                             ))}
-
                         </div>
 
                         <div className="admin-report-details">
@@ -280,15 +287,7 @@ export const AdminPageReports = () => {
                                             <h3>Group Chat</h3>
                                             <button onClick={openAddMemberModal} className="add-member-btn">Add Member</button>
                                             <div className="admin-chat-messages">
-                                                {adminMessages.map((message, index) => (
-                                                    <div key={index} className={`admin-chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
-                                                        <div className="admin-chat-bubble">
-                                                            {message.messageContent}
-                                                            <span className="admin-timestamp">{adminFormatTimestamp(message.sentAt)}</span>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                                <div ref={messagesEndRef} />
+                                                {renderAdminMessages()}
                                             </div>
 
                                             <div className="admin-chat-input">

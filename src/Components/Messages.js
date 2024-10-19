@@ -1,72 +1,110 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Dropdown from "../Components/Dropdown.js";
 import "../Css/Messages.css";
-import profile from "../Images/profile.png";
-import sidelogo from "../Images/sidelogo.png";
 import Header from "./Header.js";
 
-// Helper function to format the timestamp for admin messages
+// Helper function to format the timestamp for messages
 const formatMessageTimestamp = (timestamp) => {
-  // Convert the timestamp to a valid Date object
   const date = new Date(timestamp);
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const ampm = hours >= 12 ? 'PM' : 'AM';
   const formattedHours = hours % 12 || 12;
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 };
 
 export const Messages = () => {
   const navigate = useNavigate();
-  const [reports, setReports] = useState([]);
+  const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [lastMessageId, setLastMessageId] = useState(null); // Track the last message ID
+  const [messageIds, setMessageIds] = useState(new Set()); // Track unique message IDs
 
+  // Set up current user and fetch chats when the component is mounted
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser);
+      setCurrentUser(parsedUser);
+      console.log("Current User: ", parsedUser);
     }
-    fetchUserReports();
+    fetchUserChats();
   }, []);
 
-  const fetchUserReports = async () => {
+  // Poll for new messages every 5 seconds if a chat is selected
+  useEffect(() => {
+    if (selectedChat) {
+      console.log(`Started polling for chatId: ${selectedChat.chatId}`);
+      const intervalId = setInterval(() => {
+        fetchNewMessages(selectedChat.chatId);
+      }, 5000); // Set interval to 5 seconds
+      return () => {
+        clearInterval(intervalId);
+        console.log(`Stopped polling for chatId: ${selectedChat.chatId}`);
+      };
+    }
+  }, [selectedChat, lastMessageId]);
+
+  const fetchUserChats = async () => {
     try {
       const storedUser = localStorage.getItem('user');
       const userId = JSON.parse(storedUser).userId;
-      const response = await axios.get('http://localhost:8080/report/getAll');
-      const userReports = response.data.filter(report => report.user.userId === userId);
-      setReports(userReports);
+      console.log("Fetching chats for userId: ", userId);
+      const response = await axios.get(`http://localhost:8080/chat/user/${userId}/chats`);
+      setChats(response.data);
+      console.log("Chats fetched: ", response.data);
     } catch (error) {
-      console.error("Failed to fetch reports", error);
+      console.error("Failed to fetch user chats", error);
     }
   };
 
-  
-  const handleReportClick = async (report) => {
+  const handleChatClick = async (chat) => {
     try {
-      const chatResponse = await axios.get(`http://localhost:8080/chat/check?reportId=${report.reportId}`);
-      if (chatResponse.data && chatResponse.data.chatId) {
-        setSelectedChat(chatResponse.data);
-        fetchMessages(chatResponse.data.chatId);
+      console.log("Chat clicked: ", chat);
+      setSelectedChat(chat);
+      setMessages([]); // Reset messages when switching chats
+      setMessageIds(new Set()); // Reset message tracking when switching chats
+      fetchMessages(chat.chatId);
+    } catch (error) {
+      console.error('Error selecting chat:', error);
+    }
+  };
+
+  // Fetches only new messages since the last message ID
+  const fetchNewMessages = async (chatId) => {
+    try {
+      console.log(`Fetching new messages for chatId: ${chatId}, after messageId: ${lastMessageId}`);
+      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages?lastMessageId=${lastMessageId}`);
+      const newMessages = response.data;
+      const uniqueMessages = newMessages.filter(msg => !messageIds.has(msg.messageId)); // Avoid duplicates
+
+      if (uniqueMessages.length > 0) {
+        console.log("New messages fetched: ", uniqueMessages);
+        setMessages((prevMessages) => [...prevMessages, ...uniqueMessages]);
+        setMessageIds((prevIds) => new Set([...prevIds, ...uniqueMessages.map(msg => msg.messageId)])); // Update unique IDs
+        setLastMessageId(uniqueMessages[uniqueMessages.length - 1].messageId); // Update last message ID
       } else {
-        console.log('No group chat exists for this report.');
+        console.log("No new messages.");
       }
     } catch (error) {
-      console.error('Error checking or fetching chat:', error);
+      console.error('Failed to fetch new messages', error);
     }
   };
 
   const fetchMessages = async (chatId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages`);
-      setMessages(response.data);
+      console.log(`Fetching messages for chatId: ${chatId}`);
+      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages?limit=50`); // Limit the number of messages
+      const initialMessages = response.data;
+      setMessages(initialMessages);
+      setMessageIds(new Set(initialMessages.map(msg => msg.messageId))); // Track unique message IDs
+      setLastMessageId(initialMessages[initialMessages.length - 1]?.messageId); // Track the last message ID
+      console.log("Initial messages fetched: ", initialMessages);
     } catch (error) {
       console.error('Failed to fetch messages', error);
     }
@@ -75,6 +113,7 @@ export const Messages = () => {
   const sendMessage = async () => {
     if (selectedChat && newMessage && currentUser) {
       try {
+        console.log("Sending message: ", newMessage);
         await axios.post(`http://localhost:8080/chat/${selectedChat.chatId}/send`, null, {
           params: {
             userId: currentUser.userId,
@@ -82,35 +121,25 @@ export const Messages = () => {
           }
         });
         setNewMessage('');
-        fetchMessages(selectedChat.chatId);
+        fetchNewMessages(selectedChat.chatId); // Fetch new messages after sending
       } catch (error) {
         console.error('Failed to send message', error);
       }
     }
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (selectedChat) {
-        fetchMessages(selectedChat.chatId);
-      }
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [selectedChat]);
-
   return (
     <div className="messages-container">
-      <Header/>
-
+      <Header />
       <div className="title">
         <h1>Messages</h1>
       </div>
 
-      <div className="reports-list">
-        {reports.map(report => (
-          <div key={report.reportId} className="report-item" onClick={() => handleReportClick(report)}>
-            <h3>{report.title}</h3>
-            <p>{report.description}</p>
+      <div className="chats-list">
+        {chats.map(chat => (
+          <div key={chat.chatId} className="chat-item" onClick={() => handleChatClick(chat)}>
+            <h3>{chat.report ? chat.report.title : "Group Chat"}</h3>
+            <p>{chat.status}</p>
           </div>
         ))}
       </div>
@@ -121,21 +150,23 @@ export const Messages = () => {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`chat-message ${message.sender ? 'user-message' : 'admin-message'}`}
+                className={`chat-message ${message.sender && message.sender.userId === currentUser.userId ? 'user-message' : 'admin-message'}`}
               >
                 <div className="chat-bubble">
-                  {/* Display only the message content */}
+                  {/* Display the message sender's name */}
+                  <div className="sender-name">
+                    {message.sender ? message.sender.username : message.adminSender ? "Admin" : "Unknown"}
+                  </div>
                   {message.messageContent}
                   {/* Timestamp will be shown on hover */}
                   <div className="timestamp">
-                    {formatMessageTimestamp(message.timestamp)}
+                    {formatMessageTimestamp(message.sentAt)}
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Chat input fixed at the bottom */}
           <div className="chat-input">
             <textarea
               placeholder="Type your message here..."
