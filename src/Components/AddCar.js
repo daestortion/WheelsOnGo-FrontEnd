@@ -3,16 +3,14 @@ import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "../Css/AddCar.css";
-import profile from "../Images/profile.png";
-import sidelogo from "../Images/sidelogo.png";
-import AddCarPopup from './AddCarPopup';
-import Dropdown from "./Dropdown";
 import WheelsOnGoPriceList from '../Images/WheelsOnGoPriceList.png';
+import AddCarPopup from './AddCarPopup';
 // Import address data
-import provincesData from '../Data/refprovince.json';
-import citiesData from '../Data/refcitymun.json';
 import barangaysData from '../Data/refbrgy.json';
+import citiesData from '../Data/refcitymun.json';
+import provincesData from '../Data/refprovince.json';
 import Header from "./Header";
+import Loading from './Loading'; // Import Loading component
 
 const carData = {
   Toyota: ['Vios', 'Hilux', 'Fortuner', 'Innova', 'Wigo', 'Avanza', 'Rush', 'Hiace', 'Camry', 'Corolla Altis', 'Land Cruiser', 'Prado', 'RAV4', 'Yaris', 'Alphard'],
@@ -379,7 +377,7 @@ export const AddCar = () => {
   
           
 
-
+          {isLoading && <Loading />} {/* Conditionally render the loading indicator */}
           {showAddCarPopup && <AddCarPopup />}
           {showPriceList && (
             <div className="pricelist-popup" onClick={() => setShowPriceList(false)}>
