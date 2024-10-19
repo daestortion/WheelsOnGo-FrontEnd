@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import "../Css/AddCar.css";
 import WheelsOnGoPriceList from '../Images/WheelsOnGoPriceList.png';
 import AddCarPopup from './AddCarPopup';
+import Loading from './Loading'; // Import Loading component
 // Import address data
 import barangaysData from '../Data/refbrgy.json';
 import citiesData from '../Data/refcitymun.json';
 import provincesData from '../Data/refprovince.json';
 import Header from "./Header";
-import Loading from './Loading'; // Import Loading component
 
 const carData = {
   Toyota: ['Vios', 'Hilux', 'Fortuner', 'Innova', 'Wigo', 'Avanza', 'Rush', 'Hiace', 'Camry', 'Corolla Altis', 'Land Cruiser', 'Prado', 'RAV4', 'Yaris', 'Alphard'],
@@ -46,6 +46,7 @@ export const AddCar = () => {
   const [carDescription, setCarDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAddCarPopup, setShowAddCarPopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State for loading
   const [showPriceList, setShowPriceList] = useState(false);
   const carImageInputRef = useRef(null);
   const carORInputRef = useRef(null);
@@ -73,7 +74,6 @@ export const AddCar = () => {
     }
   }, []);
 
-  // Function to check if all required fields are filled
   const isFormValid = () => {
     return (
       carBrand &&
@@ -101,10 +101,8 @@ export const AddCar = () => {
     setShowOverlap1(true); // Show overlap1 and hide overlap2
   };
 
-  // Filter cities based on selected province
   const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
 
-  // Filter barangays based on selected city
   const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
   const handleProvinceChange = (e) => {
     setSelectedProvince(e.target.value);
@@ -127,6 +125,7 @@ export const AddCar = () => {
       setCarImageURL(URL.createObjectURL(file));
     }
   };
+
   const handleSubmit = async () => {
     if (isSubmitting) return;
     if (!isFormValid()) {
@@ -134,11 +133,11 @@ export const AddCar = () => {
       return;
     }
     setIsSubmitting(true);
-    // Find descriptions based on selected codes
+    setIsLoading(true); // Start loading
+
     const provinceDesc = provincesData.RECORDS.find(province => province.provCode === selectedProvince)?.provDesc || '';
     const cityDesc = citiesData.RECORDS.find(city => city.citymunCode === selectedCity)?.citymunDesc || '';
     const barangayDesc = barangaysData.RECORDS.find(barangay => barangay.brgyCode === selectedBarangay)?.brgyDesc || '';
-    // Construct full address with descriptions
     const fullAddress = `${houseNumberStreet}, ${barangayDesc}, ${cityDesc}, ${provinceDesc}`;
     const formData = new FormData();
     formData.append('carBrand', carBrand);
@@ -160,22 +159,26 @@ export const AddCar = () => {
         },
       });
       console.log(response.data);
-      setShowAddCarPopup(true);
+      setShowAddCarPopup(true); // Show popup after successful registration
     } catch (error) {
       console.error('Error submitting form', error);
     } finally {
       setIsSubmitting(false);
+      setIsLoading(false); // Stop loading after submission
     }
   };
+
   const debouncedHandleSubmit = debounce(handleSubmit, 300);
+
   if (!userId) {
     return <div>Please log in to manage cars.</div>;
   }
+
   return (
     <div className="car-management-owner">
       <Header />
-    <div className="main">
-      <div className="overlap-wrapper">
+      <div className="main">
+        <div className="overlap-wrapper">
           <div className="a13">
             <div className="text-wrapper-9">Car Registration</div>
            
@@ -289,7 +292,6 @@ export const AddCar = () => {
              
               </div>
               
-  
               <button
                 className="overlap-777"
                 type="button"
@@ -375,8 +377,6 @@ export const AddCar = () => {
             </div>
           )}
   
-          
-
           {isLoading && <Loading />} {/* Conditionally render the loading indicator */}
           {showAddCarPopup && <AddCarPopup />}
           {showPriceList && (
