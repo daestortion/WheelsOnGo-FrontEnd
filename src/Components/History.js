@@ -54,7 +54,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/getAllOrdersFromUser/${userId}`
+        `https://tender-curiosity-production.up.railway.app/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
         console.log("Fetched orders:", response.data); // Log orders fetched
@@ -75,7 +75,7 @@ export const OrderHistoryPage = () => {
   const fetchOrdersByCarId = async (carId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/order/getOrdersByCarId/${carId}`
+        `https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
         console.log("Fetched car-specific orders:", response.data); // Log car-specific orders
@@ -94,7 +94,7 @@ export const OrderHistoryPage = () => {
   const fetchCarDetails = async (carId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/car/getCarById/${carId}`
+        `https://tender-curiosity-production.up.railway.app/car/getCarById/${carId}`
       );
       if (response.status === 200) {
         console.log("Fetched car details:", response.data); // Log car details fetched
@@ -175,7 +175,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/${userId}/carOrders`
+        `https://tender-curiosity-production.up.railway.app/user/${userId}/carOrders`
       );
       if (response.status === 200) {
         console.log("Fetched car orders for owned cars:", response.data);
@@ -196,7 +196,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/getUserById/${userId}`
+        `https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`
       );
       if (response.status === 200) {
         console.log("Fetched user data:", response.data); // Log fetched user data
@@ -251,7 +251,7 @@ export const OrderHistoryPage = () => {
     try {
       // Send the terminate request to the backend with the orderId
       const response = await axios.put(
-        `http://localhost:8080/order/terminateOrder/${orderId}`  // Ensure orderId is used
+        `https://tender-curiosity-production.up.railway.app/order/terminateOrder/${orderId}`  // Ensure orderId is used
       );
 
       if (response.status === 200) {
@@ -277,7 +277,7 @@ export const OrderHistoryPage = () => {
   const handleCarReturned = async (orderId) => {
     try {
       const response = await axios.put(
-        `http://localhost:8080/order/markAsReturned/${orderId}`
+        `https://tender-curiosity-production.up.railway.app/order/markAsReturned/${orderId}`
       );
 
       if (response.status === 200) {
@@ -294,7 +294,7 @@ export const OrderHistoryPage = () => {
   const handleApprove = async (orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/order/approveOrder/${orderId}`,
+        `https://tender-curiosity-production.up.railway.app/order/approveOrder/${orderId}`,
         { method: "PUT" }
       );
 
@@ -405,7 +405,7 @@ export const OrderHistoryPage = () => {
                         {showOwnedCars && (
                           <td>
                             <button
-                              className="button213"
+                              className="return"
                               onClick={() => handleCarReturned(order.orderId)}
                             >
                               Returned

@@ -35,9 +35,9 @@ const BalancePage = () => {
     try {
       setIsLoading(true);  // Show loading state
       const [creditRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`http://localhost:8080/wallet/credit/${id}`),  // Fetch current balance without recalculation
-        axios.get(`http://localhost:8080/wallet/debit/${id}`),
-        axios.get(`http://localhost:8080/wallet/refundable/${id}`)
+        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/credit/${id}`),  // Fetch current balance without recalculation
+        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/debit/${id}`),
+        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/refundable/${id}`)
       ]);
 
       // Update the state with fetched data
@@ -116,7 +116,7 @@ const BalancePage = () => {
     console.log('Submitting request data:', requestData);
     // Send the request to the backend
     try {
-      await axios.post('http://localhost:8080/wallet/request-funds', requestData);
+      await axios.post('https://tender-curiosity-production.up.railway.app/wallet/request-funds', requestData);
 
       // Fetch updated wallet data after submitting a request without recalculation
       await fetchWalletData(userId);
@@ -131,7 +131,7 @@ const BalancePage = () => {
   // Handle approve request
   const handleApprove = async (requestId) => {
     try {
-      await axios.put(`http://localhost:8080/wallet/approveRequest/${requestId}`);
+      await axios.put(`https://tender-curiosity-production.up.railway.app/wallet/approveRequest/${requestId}`);
 
       // Fetch updated wallet data after approval without recalculating
       await fetchWalletData(userId);

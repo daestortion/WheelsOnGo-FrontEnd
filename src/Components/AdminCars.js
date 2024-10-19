@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import "../Css/AdminCars.css"; // Matching AdminDashboard CSS
 import sidelogo from "../Images/sidelogo.png"; // Logo image
+import Loading from './Loading';
 
 const AdminPageCars = () => {
   const [cars, setCars] = useState([]);
@@ -11,6 +12,7 @@ const AdminPageCars = () => {
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,19 +21,24 @@ const AdminPageCars = () => {
 
   // Fetch all cars
   const fetchCars = async () => {
+    setIsLoading(true); // Start loading
+
     try {
-      const response = await axios.get('http://localhost:8080/car/getAllCars');
+      const response = await axios.get('https://tender-curiosity-production.up.railway.app/car/getAllCars');
       setCars(response.data);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching cars:', error); // Log error if fetch fails
+    } finally {
+      setIsLoading(false); // Stop loading when fetch is complete (success or error)
     }
-  };
+};
+
 
   // Approve a car
   const handleApprove = async (carId) => {
     try {
-      await axios.put(`http://localhost:8080/car/approveCar/${carId}`);
+      await axios.put(`https://tender-curiosity-production.up.railway.app/car/approveCar/${carId}`);
       console.log(`Approved Car ID: ${carId}`); // Log approved car ID
       fetchCars(); // Refresh the list of cars after approval
     } catch (error) {
@@ -42,7 +49,7 @@ const AdminPageCars = () => {
   // Delete a car
   const handleDeleteCar = async (carId) => {
     try {
-      await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
+      await axios.put(`https://tender-curiosity-production.up.railway.app/car/deleteCar/${carId}`);
       console.log(`Deleted Car ID: ${carId}`); // Log deleted car ID
       fetchCars(); // Refresh the list of cars after deletion
     } catch (error) {
@@ -110,6 +117,7 @@ const AdminPageCars = () => {
 
   return (
     <div className="admin-cars-page">
+      {isLoading && <Loading />}
       {/* Topbar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />

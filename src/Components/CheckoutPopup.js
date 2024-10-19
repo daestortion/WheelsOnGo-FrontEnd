@@ -32,7 +32,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   useEffect(() => {
     const fetchBookedDates = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
+        const response = await axios.get(`https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
         console.log(response.data);
         const bookedRanges = orders.map(order => ({
@@ -157,78 +157,104 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   return (
     <div className="checkout-popup">
       <div className="overlap-wrapper">
+
         <div className="cp-overlap">
+
+        <button className="close" onClick={closePopup}>
+            <img className="imgs" alt="Close" src={close} />
+          </button>
+
           <div className="text-wrapper">Checkout</div>
-          <div className="rectangle">
-            <img src={car.carImage} alt="Car" className="car-image" />
-          </div>
-          <div className="text-wrapper-234">
-            {car.carBrand} {car.carModel} {car.carYear}
-          </div>
-          <div className="cp-overlap-group">
-            <div className="text-wrapper-345">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-            <div className="text-wrapper-4">{car.owner.pNum}</div>
-            <img className="vector" alt="Vector" src={vector7} />
-          </div>
-          <div className="text-wrapper-5">Return Date</div>
-          <div className="text-wrapper-6">Pick-up Date</div>
 
-          <div className="div-wrapper" onMouseEnter={clearErrorMessage}>
-            <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
-              {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
+        <div className="finale">
+          <div className="overall1">
+            <div className="groups2">
+              <div className="rectangle">
+                <img src={car.carImage} alt="Car" className="car-image" />
+              </div>
+
+              <div className="groups1">
+                <div className="text-wrapper-234">
+                  {car.carBrand} {car.carModel} {car.carYear}
+                </div>
+
+                <div className="cp-overlap-group">
+                  <div className="text-wrapper-345">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                  <img className="vector2" alt="Vector" src={vector7} />
+                  <div className="text-wrapper-412">{car.owner.pNum}</div>
+                </div>
+              </div>
             </div>
-            {startDateOpen && (
-              <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                inline
-                shouldCloseOnSelect
-                minDate={new Date()}
-                filterDate={(date) => !isDateBooked(date)}
-              />
-            )}
-          </div>
 
-          <div className="overlap-2" onMouseEnter={clearErrorMessage}>
-            <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
-              {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
+            <div className="groups3">
+                <div className="text-wrapper-101">
+                  Description: <span className="normal-text">{car.carDescription}</span>{" "}
+                </div>
+                <div className="text-wrapper-101">
+                  Color: <span className="normal-text">{car.color}</span>
+                </div>
+                <div className="text-wrapper-101">
+                  Seat Capacity: <span className="normal-text">{car.maxSeatingCapacity}</span>
+                </div>
+                <div className="text-wrapper-101">
+                  Plate Number: <span className="normal-text">{car.plateNumber}</span>
+                </div>
+                <div className="text-wrapper-101">
+                  {deliveryOption === "Delivery" ? "Delivery Location:" : "Pick-up Location:"}
+                </div>
+                <div className="text-wrapper-11">
+                  {deliveryOption === "Delivery" 
+                    ? `${houseNumberStreet}, ${selectedBarangay ? barangaysData.RECORDS.find(b => b.brgyCode === selectedBarangay)?.brgyDesc : ""}, 
+                      ${selectedCity ? citiesData.RECORDS.find(c => c.citymunCode === selectedCity)?.citymunDesc : ""}, 
+                      ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}` 
+                    : car.address}
+                </div>
             </div>
-            {endDateOpen && (
-              <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                inline
-                shouldCloseOnSelect
-                minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
-                filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
-              />
-            )}
-          </div>
+        </div>
 
-          {!startDateOpen && !endDateOpen && (
-            <div className="delivery-options">
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  value="Pickup"
-                  checked={deliveryOption === "Pickup"}
-                  onChange={handleDeliveryOptionChange}
-                />
-                Pickup
-              </label>
-              <label className="radio-option">
-                <input
-                  type="radio"
-                  value="Delivery"
-                  checked={deliveryOption === "Delivery"}
-                  onChange={handleDeliveryOptionChange}
-                />
-                Delivery
-              </label>
-            </div>
-          )}
+        
+          <div className="overall2">
+            <div className="groups5">      
+              <div className="groups4">
+                  <span className="text-wrapper-61">Pick-up Date</span>
+                  <div className="div-wrapper12" onMouseEnter={clearErrorMessage}>
+                    <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
+                      {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
+                    </div>
+                    {startDateOpen && (
+                      <DatePicker
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        inline
+                        shouldCloseOnSelect
+                        minDate={new Date()}
+                        filterDate={(date) => !isDateBooked(date)}
+                      />
+                    )}
+                  </div>
+              </div>
 
-          {deliveryOption === "Delivery" && !startDateOpen && !endDateOpen && (
+                <div className="groups4">
+                    <div className="text-wrapper-51">Return Date</div>
+                    <div className="overlap-2" onMouseEnter={clearErrorMessage}>
+                      <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
+                        {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
+                      </div>
+                      {endDateOpen && (
+                        <DatePicker
+                          selected={endDate}
+                          onChange={handleEndDateChange}
+                          inline
+                          shouldCloseOnSelect
+                          minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                          filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
+                        />
+                      )}
+                    </div>
+                </div>
+              </div> 
+
+              {deliveryOption === "Delivery" && !startDateOpen && !endDateOpen && (
             <div className="address-form">
               <select
                 className="address-dropdown"
@@ -275,38 +301,55 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             </div>
           )}
 
-          <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-          <div className="text-wrapper-101">
-            Description: <span className="normal-text">{car.carDescription}</span>{" "}
-          </div>
-          <div className="text-wrapper-102">
-            Color: <span className="normal-text">{car.color}</span>
-          </div>
-          <div className="text-wrapper-103">
-            Seat Capacity: <span className="normal-text">{car.maxSeatingCapacity}</span>
-          </div>
-          <div className="text-wrapper-104">
-            Plate Number: <span className="normal-text">{car.plateNumber}</span>
-          </div>
-          <div className="text-wrapper-10">
-            {deliveryOption === "Delivery" ? "Delivery Location:" : "Pick-up Location:"}
-          </div>
-          <div className="text-wrapper-11">
-            {deliveryOption === "Delivery" 
-              ? `${houseNumberStreet}, ${selectedBarangay ? barangaysData.RECORDS.find(b => b.brgyCode === selectedBarangay)?.brgyDesc : ""}, 
-                ${selectedCity ? citiesData.RECORDS.find(c => c.citymunCode === selectedCity)?.citymunDesc : ""}, 
-                ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}` 
-              : car.address}
-          </div>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <div className="group">
-            <div className="overlap-group-2" onClick={handleBook}>
-              <div className="text-wrapper-13">Next</div>
+            <div className="wew1">
+              <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+              
+              {!startDateOpen && !endDateOpen && (
+                <div className="delivery-options">
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      value="Pickup"
+                      checked={deliveryOption === "Pickup"}
+                      onChange={handleDeliveryOptionChange}
+                    />
+                    Pickup
+                  </label>
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      value="Delivery"
+                      checked={deliveryOption === "Delivery"}
+                      onChange={handleDeliveryOptionChange}
+                    />
+                    Delivery
+                  </label>
+                </div>
+              )}
             </div>
+
+            {errorMessage && <div className="error-messagea">{errorMessage}</div>}
+
+
+            <button className="overlap-group-2121" onClick={handleBook}>
+            Next
+            </button>
           </div>
-          <div className="close" onClick={closePopup}>
-            <img className="img" alt="Close" src={close} />
-          </div>
+
+        </div>
+
+
+
+
+          
+
+          
+          
+
+
+
+      
+
         </div>
       </div>
       {showPaymentPopup && (
