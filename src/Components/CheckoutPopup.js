@@ -24,7 +24,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedBarangay, setSelectedBarangay] = useState('');
   const [houseNumberStreet, setHouseNumberStreet] = useState('');
-
+  const [order, setOrder] = useState(null);
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
 
@@ -39,13 +39,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           start: new Date(order.startDate),  
           end: new Date(order.endDate)       
         }));
-
         setBookedDates(bookedRanges);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
       }
     };
-
     fetchBookedDates();
   }, [car.carId]);
 
@@ -82,15 +80,22 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     setDeliveryOption(event.target.value);
   };
 
-  // Recalculate the total price based on the selected start and end dates
+  const calculateDays = (start, end) => {
+    if (!start || !end) return 0;
+    const timeDifference = end.getTime() - start.getTime();
+    return Math.ceil(timeDifference / (1000 * 3600 * 24));
+  };
+
+  const [days, setDays] = useState(0);
+
+  // Recalculate the total price and number of days based on the selected start and end dates
   useEffect(() => {
-    if (startDate && endDate) {
-      const timeDifference = endDate.getTime() - startDate.getTime();
-      const days = Math.ceil(timeDifference / (1000 * 3600 * 24));
-      const rentTotal = car.rentPrice * days;
-      const systemFee = car.rentPrice * 0.15;
-      const total = rentTotal + systemFee;
-      setTotalPrice(total);
+    const daysCount = calculateDays(startDate, endDate);
+    setDays(daysCount);
+
+    if (daysCount > 0) {
+      const rentTotal = car.rentPrice * daysCount;
+      setTotalPrice(rentTotal);
     } else {
       setTotalPrice(0);
     }
@@ -118,8 +123,6 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     }
   };
 
-  const [order, setOrder] = useState(null);
-
   const handlePaymentPopupClose = () => {
     setShowPaymentPopup(false);
     closePopup();
@@ -134,7 +137,6 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   };
 
   const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
-
   const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
 
   const handleProvinceChange = (e) => {
@@ -157,36 +159,29 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   return (
     <div className="checkout-popup">
       <div className="overlap-wrapper">
-
         <div className="cp-overlap">
-
-        <button className="close" onClick={closePopup}>
+          <button className="close" onClick={closePopup}>
             <img className="imgs" alt="Close" src={close} />
           </button>
-
           <div className="text-wrapper">Checkout</div>
-
-        <div className="finale">
-          <div className="overall1">
-            <div className="groups2">
-              <div className="rectangle">
-                <img src={car.carImage} alt="Car" className="car-image" />
-              </div>
-
-              <div className="groups1">
-                <div className="text-wrapper-234">
-                  {car.carBrand} {car.carModel} {car.carYear}
+          <div className="finale">
+            <div className="overall1">
+              <div className="groups2">
+                <div className="rectangle">
+                  <img src={car.carImage} alt="Car" className="car-image" />
                 </div>
-
-                <div className="cp-overlap-group">
-                  <div className="text-wrapper-345">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                  <img className="vector2" alt="Vector" src={vector7} />
-                  <div className="text-wrapper-412">{car.owner.pNum}</div>
+                <div className="groups1">
+                  <div className="text-wrapper-234">
+                    {car.carBrand} {car.carModel} {car.carYear}
+                  </div>
+                  <div className="cp-overlap-group">
+                    <div className="text-wrapper-345">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    <img className="vector2" alt="Vector" src={vector7} />
+                    <div className="text-wrapper-412">{car.owner.pNum}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="groups3">
+              <div className="groups3">
                 <div className="text-wrapper-101">
                   Description: <span className="normal-text">{car.carDescription}</span>{" "}
                 </div>
@@ -209,13 +204,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                       ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}` 
                     : car.address}
                 </div>
+              </div>
             </div>
-        </div>
-
-        
-          <div className="overall2">
-            <div className="groups5">      
-              <div className="groups4">
+            <div className="overall2">
+              <div className="groups5">      
+                <div className="groups4">
                   <span className="text-wrapper-61">Pick-up Date</span>
                   <div className="div-wrapper12" onMouseEnter={clearErrorMessage}>
                     <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
@@ -232,124 +225,113 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                       />
                     )}
                   </div>
-              </div>
-
+                </div>
                 <div className="groups4">
-                    <div className="text-wrapper-51">Return Date</div>
-                    <div className="overlap-2" onMouseEnter={clearErrorMessage}>
-                      <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
-                        {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
-                      </div>
-                      {endDateOpen && (
-                        <DatePicker
-                          selected={endDate}
-                          onChange={handleEndDateChange}
-                          inline
-                          shouldCloseOnSelect
-                          minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
-                          filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
-                        />
-                      )}
+                  <div className="text-wrapper-51">Return Date</div>
+                  <div className="overlap-2" onMouseEnter={clearErrorMessage}>
+                    <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
+                      {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
                     </div>
+                    {endDateOpen && (
+                      <DatePicker
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        inline
+                        shouldCloseOnSelect
+                        minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                        filterDate={(date) => !isDateBooked(date)}
+                      />
+                    )}
+                  </div>
                 </div>
               </div> 
 
               {deliveryOption === "Delivery" && !startDateOpen && !endDateOpen && (
-            <div className="address-form">
-              <select
-                className="address-dropdown"
-                value={selectedProvince}
-                onChange={handleProvinceChange}
-              >
-                <option value="">Select Province</option>
-                {provincesData.RECORDS.map((province, index) => (
-                  <option key={index} value={province.provCode}>{province.provDesc}</option>
-                ))}
-              </select>
+                <div className="address-form">
+                  <select
+                    className="address-dropdown"
+                    value={selectedProvince}
+                    onChange={handleProvinceChange}
+                  >
+                    <option value="">Select Province</option>
+                    {provincesData.RECORDS.map((province, index) => (
+                      <option key={index} value={province.provCode}>{province.provDesc}</option>
+                    ))}
+                  </select>
 
-              <select
-                className="address-dropdown"
-                value={selectedCity}
-                onChange={handleCityChange}
-                disabled={!selectedProvince}
-              >
-                <option value="">Select City/Municipality</option>
-                {filteredCities.map((city, index) => (
-                  <option key={index} value={city.citymunCode}>{city.citymunDesc}</option>
-                ))}
-              </select>
+                  <select
+                    className="address-dropdown"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                    disabled={!selectedProvince}
+                  >
+                    <option value="">Select City/Municipality</option>
+                    {filteredCities.map((city, index) => (
+                      <option key={index} value={city.citymunCode}>{city.citymunDesc}</option>
+                    ))}
+                  </select>
 
-              <select
-                className="address-dropdown"
-                value={selectedBarangay}
-                onChange={handleBarangayChange}
-                disabled={!selectedCity}
-              >
-                <option value="">Select Barangay</option>
-                {filteredBarangays.map((barangay, index) => (
-                  <option key={index} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
-                ))}
-              </select>
+                  <select
+                    className="address-dropdown"
+                    value={selectedBarangay}
+                    onChange={handleBarangayChange}
+                    disabled={!selectedCity}
+                  >
+                    <option value="">Select Barangay</option>
+                    {filteredBarangays.map((barangay, index) => (
+                      <option key={index} value={barangay.brgyCode}>{barangay.brgyDesc}</option>
+                    ))}
+                  </select>
 
-              <input
-                type="text"
-                className="address-input"
-                placeholder="House/Lot no./Street"
-                value={houseNumberStreet}
-                onChange={(e) => setHouseNumberStreet(e.target.value)}
-              />
-            </div>
-          )}
-
-            <div className="wew1">
-              <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-              
-              {!startDateOpen && !endDateOpen && (
-                <div className="delivery-options">
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Pickup"
-                      checked={deliveryOption === "Pickup"}
-                      onChange={handleDeliveryOptionChange}
-                    />
-                    Pickup
-                  </label>
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Delivery"
-                      checked={deliveryOption === "Delivery"}
-                      onChange={handleDeliveryOptionChange}
-                    />
-                    Delivery
-                  </label>
+                  <input
+                    type="text"
+                    className="address-input"
+                    placeholder="House/Lot no./Street"
+                    value={houseNumberStreet}
+                    onChange={(e) => setHouseNumberStreet(e.target.value)}
+                  />
                 </div>
               )}
+
+              <div className="wew1">
+                <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                
+                {/* Display number of days */}
+                <div className="text-wrapper-8">
+                  Days: {days}
+                </div>
+
+                {!startDateOpen && !endDateOpen && (
+                  <div className="delivery-options">
+                    <label className="radio-option">
+                      <input
+                        type="radio"
+                        value="Pickup"
+                        checked={deliveryOption === "Pickup"}
+                        onChange={handleDeliveryOptionChange}
+                      />
+                      Pickup
+                    </label>
+                    <label className="radio-option">
+                      <input
+                        type="radio"
+                        value="Delivery"
+                        checked={deliveryOption === "Delivery"}
+                        onChange={handleDeliveryOptionChange}
+                      />
+                      Delivery
+                    </label>
+                  </div>
+                )}
+              </div>
+
+              {errorMessage && <div className="error-messagea">{errorMessage}</div>}
+
+              <button className="overlap-group-2121" onClick={handleBook}>
+                Next
+              </button>
             </div>
-
-            {errorMessage && <div className="error-messagea">{errorMessage}</div>}
-
-
-            <button className="overlap-group-2121" onClick={handleBook}>
-            Next
-            </button>
           </div>
-
-        </div>
-
-
-
-
-          
-
-          
-          
-
-
-
-      
-
         </div>
       </div>
       {showPaymentPopup && (
