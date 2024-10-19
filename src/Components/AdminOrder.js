@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "../Css/AdminOrder.css"; // Matching AdminDashboard CSS
 import sidelogo from "../Images/sidelogo.png"; // Logo image
+import Loading from './Loading';
 
 const AdminPageOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -11,6 +12,7 @@ const AdminPageOrder = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,24 +20,35 @@ const AdminPageOrder = () => {
   }, [searchQuery]);
 
   const fetchOrders = async () => {
+    setIsLoading(true);  // Start loading
     try {
       const response = await fetch('https://tender-curiosity-production.up.railway.app/order/getAllOrders');
       const data = await response.json();
       console.log(data);
+  
       if (Array.isArray(data)) {
         setOrders(data);
+  
+        // Extract userIds from orders
         const userIds = data.map(order => order.user.userId);
         const uniqueUserIds = [...new Set(userIds)];
-        uniqueUserIds.forEach(userId => {
-          fetchUser(userId);
-        });
+  
+        // Make all user fetch requests in parallel using Promise.all
+        const userRequests = uniqueUserIds.map(userId => fetchUser(userId));
+        
+        // Wait for all user fetches to complete
+        await Promise.all(userRequests);
       } else {
         setOrders([]);
       }
     } catch (error) {
-      setOrders([]);
+      console.error('Error fetching orders:', error);
+      setOrders([]);  // Set orders to an empty array in case of error
+    } finally {
+      setIsLoading(false);  // Stop loading once all fetches are done
     }
   };
+  
 
   const fetchUser = async (userId) => {
     try {
@@ -112,6 +125,7 @@ const AdminPageOrder = () => {
 
   return (
     <div className="admin-order-page">
+      {isLoading && <Loading />}
       {/* Topbar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />

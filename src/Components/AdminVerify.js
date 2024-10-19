@@ -4,15 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import "../Css/AdminVerify.css"; // Matching AdminDashboard CSS
 import sidelogo from "../Images/sidelogo.png"; // Logo image
+import Loading from './Loading';
 
 const AdminVerify = () => {
   const [verifications, setVerifications] = useState([]);
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);  // Start loading
+
     axios.get('https://tender-curiosity-production.up.railway.app/verification/getAllVerification')
       .then(response => {
         const verificationsData = response.data;
@@ -23,20 +27,30 @@ const AdminVerify = () => {
           .map(verification => verification.user.userId);
 
         const uniqueUserIds = [...new Set(userIds)];
-        uniqueUserIds.forEach(userId => {
+
+        // Make all user requests using Promise.all
+        const userRequests = uniqueUserIds.map(userId =>
           axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`)
             .then(userResponse => {
               setUsers(prevUsers => ({ ...prevUsers, [userId]: userResponse.data }));
             })
             .catch(error => {
               console.error(`Error fetching user data for userId ${userId}:`, error);
-            });
-        });
+            })
+        );
+
+        // Wait for all user requests to finish
+        return Promise.all(userRequests);
+      })
+      .then(() => {
+        setIsLoading(false);  // Stop loading when all fetching is done
       })
       .catch(error => {
         console.error('Error fetching verification data:', error);
+        setIsLoading(false);  // Stop loading in case of error
       });
   }, []);
+
 
   const handleShowImage = (image) => {
     setSelectedImage(image);
@@ -115,6 +129,7 @@ const AdminVerify = () => {
 
   return (
     <div className="admin-verify-page">
+      {isLoading && <Loading />}
       {/* Topbar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
