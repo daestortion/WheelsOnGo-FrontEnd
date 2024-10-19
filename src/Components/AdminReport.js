@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../Css/AdminReport.css';
 import sidelogo from '../Images/sidelogo.png';
+import Loading from './Loading';
 
 const adminFormatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -25,6 +26,7 @@ export const AdminPageReports = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const messagesEndRef = useRef(null);
     const navigate = useNavigate();
@@ -50,18 +52,23 @@ export const AdminPageReports = () => {
     }, [adminSelectedChatId]);
 
     const fetchAdminReports = () => {
+        setIsLoading(true);  // Start loading
         axios.get('https://tender-curiosity-production.up.railway.app/report/getAll')
             .then(response => {
                 if (Array.isArray(response.data)) {
                     setAdminReports(response.data);
                 } else {
-                    setAdminReports([]);
+                    setAdminReports([]);  // If data is not an array, set an empty list
                 }
             })
             .catch(() => {
-                setAdminReports([]);
+                setAdminReports([]);  // In case of error, set an empty list
+            })
+            .finally(() => {
+                setIsLoading(false);  // Stop loading after the request completes (either success or error)
             });
     };
+    
 
     const handleAdminReportClick = async (report) => {
         setAdminSelectedReport(report);
@@ -193,6 +200,7 @@ export const AdminPageReports = () => {
 
     return (
         <div className="admin-report-page">
+            {isLoading && <Loading />}
             {isAddMemberModalOpen && (
                 <div className="modal">
                     <div className="modal-content">

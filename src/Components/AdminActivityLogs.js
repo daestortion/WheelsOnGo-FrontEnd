@@ -3,9 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Css/AdminActivityLogs.css"; // Matching styling to AdminDashboard
 import sidelogo from "../Images/sidelogo.png"; // Logo image
+import Loading from './Loading';
 
 const AdminActivityLogs = () => {
   const [logs, setLogs] = useState([]); // State to hold logs
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,7 +15,9 @@ const AdminActivityLogs = () => {
   };
 
   useEffect(() => {
-    // Fetch logs from the backend
+    // Set loading to true before the fetch
+    setIsLoading(true);
+
     axios.get('https://tender-curiosity-production.up.railway.app/activity/logs')
       .then(response => {
         console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
@@ -24,8 +28,13 @@ const AdminActivityLogs = () => {
       })
       .catch(error => {
         console.error("Error fetching activity logs", error);
+      })
+      .finally(() => {
+        // Set loading to false after the fetch is complete (either success or failure)
+        setIsLoading(false);
       });
-  }, []);
+}, []);
+
 
   // Function to format timestamp to 12-hour format
   const formatTimestamp = (timestamp) => {
@@ -43,6 +52,7 @@ const AdminActivityLogs = () => {
 
   return (
     <div className="admin-users-page">
+      {isLoading && <Loading />}
       {/* Topbar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />

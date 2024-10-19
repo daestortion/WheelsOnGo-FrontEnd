@@ -3,10 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Css/AdminUsers.css"; // Matching styling to AdminDashboard
 import sidelogo from "../Images/sidelogo.png"; // Logo image
+import Loading from './Loading';
 
 const AdminPageUsers = () => {
   const [users, setUsers] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,6 +16,7 @@ const AdminPageUsers = () => {
   }, []);
 
   const fetchUsers = () => {
+    setIsLoading(true);
     axios.get('https://tender-curiosity-production.up.railway.app/user/getAllUsers')
       .then(response => {
         console.log("Fetched Users:", response.data); // Log fetched users
@@ -22,6 +25,10 @@ const AdminPageUsers = () => {
       .catch(error => {
         console.error('Error fetching users:', error); // Log errors
         setUsers([]); // Clear users on error
+      })
+      .finally(() => {
+        // Set loading to false after the fetch is complete (either success or failure)
+        setIsLoading(false);
       });
   };
 
@@ -53,6 +60,7 @@ const AdminPageUsers = () => {
 
   return (
     <div className="admin-users-page">
+      {isLoading && <Loading />}
       {/* Topbar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
