@@ -52,7 +52,7 @@
     height: 71px;
     position: relative;
     color: #848484;
-    font-family: "Inter-Bold", Helvetica;
+    font-family: "Inter-Bold", Helvetica, sans-serif; /* Ensure sans-serif fallback */
     font-size: 30px;
     font-weight: 700;
     letter-spacing: 0;
@@ -62,7 +62,21 @@
     padding-right: 30px;
     border: none;
     width: 80%;
-  }
+    /* Remove spinners for Chrome, Safari, Edge, Opera */
+    -webkit-appearance: none; /* Removes the default styling of the spinner */
+}
+
+/* Additional CSS to remove the spinners specifically for Firefox */
+.edit-profile .div-wrapper::-webkit-inner-spin-button,
+.edit-profile .div-wrapper::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.edit-profile .div-wrapper {
+  -moz-appearance: textfield; /* Removes the spinner for Firefox */
+}
+
   
   .edit-profile .text-wrapper-3 {
     color: #848484;
