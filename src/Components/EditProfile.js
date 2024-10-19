@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Dropdown from "../Components/Dropdown.js";
+import Header from "../Components/Header"; 
 import ProfileUpdatePopup from '../Components/ProfileUpdatePopup';
 import "../Css/EditProfile.css";
-import profile from "../Images/profile.png";
-import sidelogo from "../Images/sidelogo.png";
-import Loading from './Loading'; // Import Loading component
+
 
 export const EditProfile = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
@@ -17,19 +15,6 @@ export const EditProfile = () => {
     const [isLoading, setIsLoading] = useState(false); // State to control loading
 
     const navigate = useNavigate(); // Setup useNavigate
-
-    // Define onClick handlers
-    const handleHomeClick = () => {
-        navigate('/home'); // Navigate to dashboard page which is at '/home'
-    };
-
-    const handleCarsClick = () => {
-        navigate('/cars'); // Navigate to cars page
-    };
-
-    const handleAboutClick = () => {
-        navigate('/about-us'); // Navigate to about-us page
-    };
 
     useEffect(() => {
         // This effect updates the local state if the local storage changes
@@ -90,46 +75,51 @@ export const EditProfile = () => {
 
     return (
         <div className="edit-profile">
+                  <Header />
+
             <div className="overlap-wrapper">
-                <div className="overlap">
-                    <div className="overlap-group">
-                        <div className="text-wrapper" onClick={handleHomeClick}>Home</div>
-                        <div className="div" onClick={handleCarsClick}>Cars</div>
-                        <div className="text-wrapper-2" onClick={handleAboutClick}>About</div>
-                        <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo}/>
-                        <Dropdown>
-                            <button className="group">
-                                <img alt="Group" src={profile} />
-                            </button>
-                        </Dropdown>
+
+            <div className="wew1">
+                <div className="text-wrapper-6wq">Update Profile</div>
+
+                <div className="rectangle11">
+                        {!profilePic && (
+                            <div className="upload-placeholder">Upload Profile Image</div>
+                        )}
                     </div>
-                    <div className="overlap-2">
-                        <input className="div-wrapper" type="number" placeholder="New Phone Number"
-                              value={phoneNumber} onChange={e => setPhoneNumber(e.target.value || '')} />
-                        <input className="overlap-3" type="text" placeholder="New Email"
-                              value={email} onChange={e => setEmail(e.target.value || '')} />
-                        <div className="overlap-group-wrapper">
-                            <button className="overlap-4" onClick={handleUpdateProfile}>
-                                <div className="text-wrapper-5">Update Profile</div>
-                            </button>
+
+
+                    <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                        <button className="overlap-group-211" onClick={handleClickUpload}>
+                            Upload
+                        </button>
+
                         </div>
-                        <div className="new-profile-details">New Profile Details</div>
-                        <p className="p">
+
+             
+
+                    <div className="overlap-2">
+
+                    <h1 className="new-profile-details">New Profile Details</h1>
+                    
+                        <span className="p">
                             Please enter your new user details. Upon confirming, your user
                             details will be updated.
-                        </p>
+                        </span>
+
+                        <input className="div-wrapper" type="number" placeholder="New Phone Number"
+                              value={phoneNumber} onChange={e => setPhoneNumber(e.target.value || '')} />
+
+                        <input className="overlap-3" type="text" placeholder="New Email"
+                              value={email} onChange={e => setEmail(e.target.value || '')} />
+
+                            <button className="overlap-4" onClick={handleUpdateProfile}>
+                            Update Profile
+                            </button>
+
+                        
                     </div>
-                    <div className="text-wrapper-6">Update Profile</div>
-                    <div className="rectangle1" style={{ backgroundImage: `url(${profilePicUrl})`, backgroundSize: 'cover', position: 'relative' }}>
-                        {!profilePic && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>Upload Profile Image</div>}
-                    </div>
-                    <div className="group-222">
-                        <button className="overlap-group-2" onClick={handleClickUpload}>
-                            <div className="text-wrapper-7">Upload</div>
-                        </button>
-                        <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-                    </div>
-                </div>
+         
             </div>
 
             {isLoading && <Loading />} {/* Conditionally render the loading indicator */}
