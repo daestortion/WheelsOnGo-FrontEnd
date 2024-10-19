@@ -35,19 +35,19 @@ const AdminOwnerPayments = () => {
       console.log("Request ID:", requestId);
       console.log("User ID:", userId);
       console.log("Amount Requested:", amountRequested);
-  
+
       if (!userId) {
         console.error("Invalid user ID");
         throw new Error("Invalid user ID");
       }
-  
+
       console.log("Sending approve request to backend...");
       await axios.put(`https://tender-curiosity-production.up.railway.app/wallet/approveRequest/${requestId}`);
       console.log("Approve request sent successfully!");
-  
+
       console.log("Fetching updated requests...");
-      fetchRequests();  // Simply refetch the requests without recalculation
-  
+      fetchRequests(); // Simply refetch the requests without recalculation
+
       alert("Request approved and wallet updated successfully!");
     } catch (error) {
       console.error("Error approving request or updating wallet:", error);
@@ -56,8 +56,6 @@ const AdminOwnerPayments = () => {
       setLoading(false);
     }
   };
-  
-
 
   const handleDeny = (requestId) => {
     setLoading(true);
@@ -109,7 +107,7 @@ const AdminOwnerPayments = () => {
                   <th>ID</th>
                   <th>User</th>
                   <th>Request Type</th>
-                  <th>Full Name/Account Name</th>
+                  <th>Details</th>
                   <th>Amount</th>
                   <th>Submitted On</th>
                   <th>Status</th>
@@ -122,7 +120,22 @@ const AdminOwnerPayments = () => {
                     <td>{request.requestId}</td>
                     <td>{request.user.username}</td>
                     <td>{request.requestType}</td>
-                    <td>{request.fullName || request.bankName}</td>
+                    <td>
+                      {request.requestType === 'gcash' ? (
+                        <>
+                          <strong>Full Name:</strong> {request.fullName || 'N/A'}<br />
+                          <strong>GCash Number:</strong> {request.gcashNumber || 'N/A'}
+                        </>
+                      ) : request.requestType === 'bank' ? (
+                        <>
+                          <strong>Account Name:</strong> {request.fullName || 'N/A'}<br />
+                          <strong>Bank Name:</strong> {request.bankName || 'N/A'}<br />
+                          <strong>Account Number:</strong> {request.accountNumber || 'N/A'}
+                        </>
+                      ) : (
+                        'N/A'
+                      )}
+                    </td>
                     <td>₱{request.amount.toFixed(2)}</td>
                     <td>{new Date(request.createdAt).toLocaleString()}</td>
                     <td>{request.status || "pending"}</td>

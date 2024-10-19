@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../Css/AdminReport.css';
 import sidelogo from '../Images/sidelogo.png';
-import Loading from './Loading';
+import Loading from './Loading'; // Make sure this is correctly imported
 
 const adminFormatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -35,7 +35,6 @@ export const AdminPageReports = () => {
         fetchAdminReports();
     }, []);
 
-    // Polling mechanism to fetch messages periodically
     useEffect(() => {
         if (adminSelectedChatId) {
             messagePollInterval.current = setInterval(() => {
@@ -65,7 +64,6 @@ export const AdminPageReports = () => {
                 setIsLoading(false);  // Stop loading after the request completes (either success or error)
             });
     };
-    
 
     const handleAdminReportClick = async (report) => {
         setAdminSelectedReport(report);
@@ -151,47 +149,48 @@ export const AdminPageReports = () => {
     const handleSearch = async (e) => {
         setSearchQuery(e.target.value);
         if (e.target.value.trim() !== '') {
-          try {
-            const response = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getAllUsers`);
-      
-            // Fetch the current chat users
-            const chatResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}`);
-            const existingChatUsers = chatResponse.data.users.map(user => user.userId);
-      
-            // Filter out users who are already in the chat
-            const filteredUsers = response.data.filter(user =>
-              !existingChatUsers.includes(user.userId) &&
-              `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
-            );
-      
-            setSearchResults(filteredUsers);
-          } catch (error) {
-            console.error('Error searching for users:', error);
-          }
+            setIsLoading(true);  // Start loading here
+            try {
+                const response = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getAllUsers`);
+
+                // Fetch the current chat users
+                const chatResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}`);
+                const existingChatUsers = chatResponse.data.users.map(user => user.userId);
+
+                // Filter out users who are already in the chat
+                const filteredUsers = response.data.filter(user =>
+                    !existingChatUsers.includes(user.userId) &&
+                    `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
+                );
+
+                setSearchResults(filteredUsers);
+            } catch (error) {
+                console.error('Error searching for users:', error);
+            } finally {
+                setIsLoading(false);  // Stop loading when the request completes
+            }
         } else {
-          setSearchResults([]);
+            setSearchResults([]);
         }
-      };
-      
+    };
+
     const handleUserSelect = (userId) => {
         setSelectedUserId(userId);
     };
 
     const handleAddUserToChat = async () => {
         if (selectedUserId && adminSelectedChatId) {
-          try {
-            await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}/addUser`, null, {
-              params: { userId: selectedUserId }
-            });
-            closeAddMemberModal();
-            alert("User added successfully!");
-          } catch (error) {
-            console.error('Error adding user to chat:', error);
-          }
-
+            try {
+                await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}/addUser`, null, {
+                    params: { userId: selectedUserId }
+                });
+                closeAddMemberModal();
+                alert("User added successfully!");
+            } catch (error) {
+                console.error('Error adding user to chat:', error);
+            }
         }
-      };
-      
+    };
 
     const renderAdminMessages = () => {
         return adminMessages.map((message, index) => (
@@ -221,17 +220,21 @@ export const AdminPageReports = () => {
                             onChange={handleSearch}
                             className="search-input"
                         />
-                        <ul className="search-results">
-                            {searchResults.map((user) => (
-                                <li
-                                    key={user.userId}
-                                    onClick={() => handleUserSelect(user.userId)}
-                                    className={`search-item ${selectedUserId === user.userId ? 'selected' : ''}`}
-                                >
-                                    {user.fName} {user.lName}
-                                </li>
-                            ))}
-                        </ul>
+                        {isLoading ? (
+                            <Loading />
+                        ) : (
+                            <ul className="search-results">
+                                {searchResults.map((user) => (
+                                    <li
+                                        key={user.userId}
+                                        onClick={() => handleUserSelect(user.userId)}
+                                        className={`search-item ${selectedUserId === user.userId ? 'selected' : ''}`}
+                                    >
+                                        {user.fName} {user.lName}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                         <div className="modal-actions">
                             <button className="btn-add" onClick={handleAddUserToChat}>Add User</button>
                             <button className="btn-cancel" onClick={closeAddMemberModal}>Cancel</button>

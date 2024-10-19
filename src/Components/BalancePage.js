@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import '../Css/BalancePage.css'; // For styling
 import Header from "../Components/Header"; // Import Header component
+
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
     credit: 0,
@@ -19,6 +20,7 @@ const BalancePage = () => {
   const [accountNumber, setAccountNumber] = useState(''); // Account number for Bank request
   const [amount, setAmount] = useState(''); // Amount to request
   const [formError, setFormError] = useState(null); // To display form errors
+
   // Fetch user data from localStorage when the component loads
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -30,25 +32,26 @@ const BalancePage = () => {
       console.log('No user data found in localStorage');
     }
   }, []);
+
   // Fetch wallet data from the backend API using Axios
   const fetchWalletData = useCallback(async (id) => {
     try {
       setIsLoading(true);  // Show loading state
-      const [creditRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/credit/${id}`),  // Fetch current balance without recalculation
+      const [walletRes, debitRes, refundableRes] = await Promise.all([
+        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/${id}`),
         axios.get(`https://tender-curiosity-production.up.railway.app/wallet/debit/${id}`),
         axios.get(`https://tender-curiosity-production.up.railway.app/wallet/refundable/${id}`)
       ]);
 
       // Update the state with fetched data
       setWalletData({
-        credit: creditRes.data,
+        credit: walletRes.data.credit,
         debit: debitRes.data,
         refundable: refundableRes.data,
       });
   
       console.log("Updated walletData state:", {
-        credit: creditRes.data,
+        credit: walletRes.data.credit,
         debit: debitRes.data,
         refundable: refundableRes.data,
       });
@@ -58,7 +61,6 @@ const BalancePage = () => {
       setIsLoading(false);  // Hide loading state
     }
   }, []);
-
 
   // Fetch wallet data without recalculating when page loads
   useEffect(() => {
@@ -73,52 +75,61 @@ const BalancePage = () => {
     console.log('Toggling request form visibility. Current state:', isFormOpen);
     setIsFormOpen(!isFormOpen);
   };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null); // Reset any previous error
     console.log('Form submitted with requestType:', requestType);
+
     // Validate the form based on request type
     if (!userId || !requestType || !amount) {
       setFormError("Please fill in all required fields.");
       console.log('Form validation error: missing fields.');
       return;
     }
+    
     // GCash request validation
     if (requestType === 'gcash' && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
       console.log('GCash validation error: missing fields.');
       return;
     }
+    
     // Bank request validation
     if (requestType === 'bank' && (!accountName || !bankName || !accountNumber || accountNumber.length < 10 || accountNumber.length > 12)) {
       setFormError("Please fill in the required Bank fields and ensure the account number is between 10 and 12 digits.");
       console.log('Bank validation error: invalid fields.');
       return;
     }
+
     // Prepare data for submission
     let requestData = {
       userId,
       requestType,
       amount: parseFloat(amount),
     };
+
     // Add GCash-specific fields
     if (requestType === 'gcash') {
       requestData.fullName = fullName;
       requestData.gcashNumber = gcashNumber;
     }
+
     // Add Bank-specific fields
     if (requestType === 'bank') {
       requestData.accountName = accountName;  // Account Name field for Bank requests
       requestData.bankName = bankName;
       requestData.accountNumber = accountNumber;
     }
+
     console.log('Submitting request data:', requestData);
+
     // Send the request to the backend
     try {
       await axios.post('https://tender-curiosity-production.up.railway.app/wallet/request-funds', requestData);
 
-      // Fetch updated wallet data after submitting a request without recalculation
+      // Fetch updated wallet data after submitting a request
       await fetchWalletData(userId);
 
       alert('Request submitted successfully!');
@@ -128,20 +139,14 @@ const BalancePage = () => {
       alert('Failed to submit the request.');
     }
   };
-  // Handle approve request
-  const handleApprove = async (requestId) => {
-    try {
-      await axios.put(`https://tender-curiosity-production.up.railway.app/wallet/approveRequest/${requestId}`);
 
-      // Fetch updated wallet data after approval without recalculating
+  // Fetch wallet data after admin approval or any update in the backend
+  const refreshWalletData = async () => {
+    if (userId) {
       await fetchWalletData(userId);
-
-      alert('Request approved successfully!');
-    } catch (error) {
-      console.error('Error approving request:', error);
-      alert('Failed to approve request.');
     }
   };
+
   return (
     <div className="balance-page">
       <Header />
@@ -166,11 +171,13 @@ const BalancePage = () => {
           </>
         )}
       </div>
+
       {/* Request Funds Button & Form */}
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
           {isFormOpen ? 'Close Request Form' : 'Request Funds'}
         </button>
+
         {/* Show form when isFormOpen is true */}
         {isFormOpen && (
           <form onSubmit={handleSubmit} className="request-funds-form">
@@ -188,6 +195,7 @@ const BalancePage = () => {
                 <option value="bank">Bank</option>
               </select>
             </div>
+
             {/* GCash Fields */}
             {requestType === 'gcash' && (
               <>
@@ -213,6 +221,7 @@ const BalancePage = () => {
                 </div>
               </>
             )}
+
             {/* Bank Fields */}
             {requestType === 'bank' && (
               <>
@@ -256,6 +265,7 @@ const BalancePage = () => {
                 </div>
               </>
             )}
+
             <div className="form-group">
               <label htmlFor="amount">Amount:</label>
               <input
@@ -271,6 +281,7 @@ const BalancePage = () => {
           </form>
         )}
       </div>
+
       {/* Wallet Balance Table */}
       <div className="balance-container">
         <h1>User Wallet Balance</h1>
@@ -295,7 +306,9 @@ const BalancePage = () => {
           </table>
         )}
       </div>
+      <button onClick={refreshWalletData} className="refresh-btn">Refresh Balance</button>
     </div>
   );
 };
+
 export default BalancePage;
