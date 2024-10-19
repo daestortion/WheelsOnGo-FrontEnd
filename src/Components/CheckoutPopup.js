@@ -1,14 +1,14 @@
+import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../Css/CheckoutPopup.css";
+import barangaysData from '../Data/refbrgy.json';
+import citiesData from '../Data/refcitymun.json';
+import provincesData from '../Data/refprovince.json';
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
 import PaymentPopup from "./PaymentPopup";
-import axios from 'axios';
-import provincesData from '../Data/refprovince.json';
-import citiesData from '../Data/refcitymun.json';
-import barangaysData from '../Data/refbrgy.json';
 
 export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDate, setStartDate] = useState(null);
