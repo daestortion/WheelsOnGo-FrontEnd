@@ -25,8 +25,10 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
 
   return (
     <div className="apply-as-owner-popup">
-      <div className="overlap-wrapper">
-        <div className="overlap">
+
+      <div className="overlap-wrapper211">
+        
+        <div className="overlap11">
           <div className="ao-overlap-group">
             <p className="do-you-want-to-apply">
               Do you want to <br /> apply as owner?
