@@ -156,15 +156,17 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
   return (
     <div className="checkout-popup">
-      <div className="overlap-wrapper">
+=
 
         <div className="cp-overlap">
 
+      <div className='head'>
+      <div className="spacer"></div>
+      <div className="text-wrapper">Checkout</div>
         <button className="close" onClick={closePopup}>
             <img className="imgs" alt="Close" src={close} />
           </button>
-
-          <div className="text-wrapper">Checkout</div>
+        </div>
 
         <div className="finale">
           <div className="overall1">
@@ -301,7 +303,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             </div>
           )}
 
-            <div className="wew1">
+            <div className="wew11">
               <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
               
               {!startDateOpen && !endDateOpen && (
@@ -350,7 +352,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
       
 
-        </div>
+        
       </div>
       {showPaymentPopup && (
         <PaymentPopup
