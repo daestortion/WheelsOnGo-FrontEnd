@@ -5,6 +5,7 @@ import ProfileUpdatePopup from '../Components/ProfileUpdatePopup';
 import "../Css/EditProfile.css";
 import profile from "../Images/profile.png";
 import sidelogo from "../Images/sidelogo.png";
+import Loading from './Loading'; // Import Loading component
 
 export const EditProfile = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
@@ -13,6 +14,7 @@ export const EditProfile = () => {
     const [profilePic, setProfilePic] = useState(null);
     const [profilePicUrl, setProfilePicUrl] = useState(user.profilePic || 'path_to_default_image.png');
     const [showPopup, setShowPopup] = useState(false); // State to control the popup visibility
+    const [isLoading, setIsLoading] = useState(false); // State to control loading
 
     const navigate = useNavigate(); // Setup useNavigate
 
@@ -57,6 +59,8 @@ export const EditProfile = () => {
     };
 
     const handleUpdateProfile = async () => {
+        setIsLoading(true); // Start loading when the update starts
+
         const formData = new FormData();
         formData.append('userId', user.userId); // Assuming `userId` is stored in your user object
         formData.append('pNum', phoneNumber);
@@ -76,9 +80,11 @@ export const EditProfile = () => {
             // Update user data in local storage
             localStorage.setItem('user', JSON.stringify({ ...user, pNum: phoneNumber, email, profilePic: profilePicUrl }));
             
-            setShowPopup(true); // Show the popup
+            setIsLoading(false); // Stop loading once the update is complete
+            setShowPopup(true); // Show the popup to confirm the update
         } catch (error) {
             console.error('Failed to update profile:', error);
+            setIsLoading(false); // Stop loading if there's an error
         }
     };
 
@@ -125,6 +131,8 @@ export const EditProfile = () => {
                     </div>
                 </div>
             </div>
+
+            {isLoading && <Loading />} {/* Conditionally render the loading indicator */}
             {showPopup && <ProfileUpdatePopup />} {/* Conditionally render the popup */}
         </div>
     );
