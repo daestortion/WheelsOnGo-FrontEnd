@@ -89,27 +89,14 @@ const AdminOwnerPayments = () => {
 
       <div className="admin-owner-dashboard-wrapper">
         <div className="admin-owner-dashboard-sidebar">
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-dashboard")}>
-            Dashboard
-          </button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminusers")}>
-            Users
-          </button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admincars")}>
-            Cars
-          </button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminverify")}>
-            Verifications
-          </button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminorder")}>
-            Transactions
-          </button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminreport")}>
-            Reports
-          </button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>
-            Payments
-          </button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-dashboard")}>Dashboard</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminusers")}>Users</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admincars")}>Cars</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminverify")}>Verifications</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminorder")}>Transactions</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminreport")}>Reports</button>
+          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
         </div>
 
         <div className="admin-owner-dashboard-content">
