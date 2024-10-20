@@ -185,8 +185,6 @@ const UserProfile = () => {
         navigate('/messages');
     };
 
-    console.log(currentUser);
-    
     return (
         <div className="profile-not-verified">
             {isLoading && <Loading />}
@@ -256,14 +254,21 @@ const UserProfile = () => {
 
                     {/* Register a Car Button Moved Here */}
                     {currentUser.verificationStatus === 1 && currentUser.isOwner && (
-                        <button className="div-wrappercar" onClick={handleAddCar}>
-                            Register a Car
-                        </button>
+                        <>
+                            <button className="div-wrappercar" onClick={handleAddCar}>
+                                Register a Car
+                            </button>
+
+                            {/* Conditionally render the Balance Page button */}
+                            <button className="text-wrapper-55" onClick={() => navigate('/balance-page')}>
+                                Balance Page
+                            </button>
+                        </>
                     )}
                 </div>
             </div>
 
-           {/* Register as Owner Section */}
+            {/* Register as Owner Section */}
             {!currentUser.isOwner && currentUser.verificationStatus === 1 && (
                 <div className="register-owner-container">
                     <div className="group1">
@@ -283,32 +288,30 @@ const UserProfile = () => {
                 <div className="overlap-33">
                     {currentUser.cars && currentUser.cars.length > 0 ? (
                         currentUser.cars.filter(car => car.approved).map(car => (
-                                <div key={car.carId} className="car-frame">
-                                    <button
-                                        className="carbutton"
-                                        onClick={() => handleUpdateCar(car.carId)}
-                                    >
-                                        <img
-                                            className="car-imagee"
-                                            alt="Car"
-                                            src={`data:image/jpeg;base64,${car.carImage}`}
-                                        />
-                                    </button>
+                            <div key={car.carId} className="car-frame">
+                                <button
+                                    className="carbutton"
+                                    onClick={() => handleUpdateCar(car.carId)}
+                                >
                                     <img
-                                        className="icon-trashhh"
-                                        alt="Icon trash"
-                                        src={trash}
-                                        onClick={() => handleDeleteCar(car.carId)}
+                                        className="car-imagee"
+                                        alt="Car"
+                                        src={`data:image/jpeg;base64,${car.carImage}`}
                                     />
-                                </div>
+                                </button>
+                                <img
+                                    className="icon-trashhh"
+                                    alt="Icon trash"
+                                    src={trash}
+                                    onClick={() => handleDeleteCar(car.carId)}
+                                />
+                            </div>
                         ))
                     ) : (
                         <span className="no-cars-message">NO CARS REGISTERED</span>
                     )}
                 </div>
             )}
-
-            
 
             {/* Popups */}
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
@@ -327,9 +330,7 @@ const UserProfile = () => {
             )}
             {showReportPopup && <Report />}
         </div>
-
     );
-    
 };
 
 export default UserProfile;
