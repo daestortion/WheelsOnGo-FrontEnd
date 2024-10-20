@@ -38,7 +38,6 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(true); // Start loading when fetching booked dates
         const response = await axios.get(`https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
-        console.log(response.data);
         const bookedRanges = orders.map(order => ({
           start: new Date(order.startDate),  
           end: new Date(order.endDate)       
@@ -73,15 +72,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   };  
 
   const toggleStartDatePicker = () => {
-    setLoading(true); // Start loading when opening the start date picker
     setStartDateOpen(!startDateOpen);
-    setLoading(false); // Stop loading after the date picker opens
   };
 
   const toggleEndDatePicker = () => {
-    setLoading(true); // Start loading when opening the end date picker
+    if (!startDate) {
+      setErrorMessage("Please select a pick-up date first."); // Show message if start date is not selected
+      return;
+    }
     setEndDateOpen(!endDateOpen);
-    setLoading(false); // Stop loading after the date picker opens
   };
 
   const clearErrorMessage = () => {
@@ -145,10 +144,17 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   // Logic to disable both booked dates and the day after endDate
   const isDateBooked = (date) => {
     return bookedDates.some(({ start, end }) => {
-      const oneDayAfterEndDate = new Date(end.getTime() + 24 * 60 * 60 * 1000); // One day after the booked end date
-      return date >= start && date <= oneDayAfterEndDate;  // Disable the day after the end date as well
+      const startDateOnly = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      const endDateOnly = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+      const oneDayAfterEndDate = new Date(endDateOnly.getTime() + 24 * 60 * 60 * 1000); // One day after the booked end date
+  
+      const dateToCheck = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  
+      // Ensure that the start date and all days between start and end, including one day after, are disabled
+      return dateToCheck >= startDateOnly && dateToCheck <= oneDayAfterEndDate;
     });
   };
+  
 
   const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
   const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
@@ -244,7 +250,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                         inline
                         shouldCloseOnSelect
                         minDate={new Date()}
-                        filterDate={(date) => !isDateBooked(date)}
+                        filterDate={(date) => !isDateBooked(date)}  // Apply isDateBooked to disable booked dates
                       />
                     </>
                   )}
@@ -265,8 +271,8 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                         onChange={handleEndDateChange}
                         inline
                         shouldCloseOnSelect
-                        minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
-                        filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
+                        minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}  // Ensure end date is after start date with 1-day allowance
+                        filterDate={(date) => !isDateBooked(date)}  // Apply isDateBooked for end date validation
                       />
                     </>
                   )}

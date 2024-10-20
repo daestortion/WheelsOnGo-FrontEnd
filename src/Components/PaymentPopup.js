@@ -39,6 +39,14 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const [showBookingPopup, setBookingPopup] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
 
+  const calculateDays = () => {
+    if (!startDate || !endDate) return 0;
+    const oneDay = 24 * 60 * 60 * 1000; // Hours*minutes*seconds*milliseconds
+    return Math.round(Math.abs((new Date(endDate) - new Date(startDate)) / oneDay));
+  };
+  const days = calculateDays();
+
+
   useEffect(() => {
     const paymentOption = uploadedFile ? "GCash" : "Cash";
     const newOrder = {
@@ -288,18 +296,86 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     setBookingPopup(false);
   };
 
-  const generateReceipt = () => {
-    const doc = new jsPDF();
-    doc.text("Receipt", 20, 20);
-    doc.text(`Car: ${car.carBrand} ${car.carModel} ${car.carYear}`, 20, 30);
-    doc.text(`Pick-up Date: ${startDate ? startDate.toLocaleDateString() : "N/A"}`, 20, 40);
-    doc.text(`Return Date: ${endDate ? endDate.toLocaleDateString() : "N/A"}`, 20, 50);
-    doc.text(`Total: ₱${totalPrice.toFixed(2)}`, 20, 60);
-    if (order && order.referenceNumber) {
-      doc.text(`Reference Number: ${order.referenceNumber}`, 20, 70);
+  const generateReceipt = async () => {
+    try {
+        // Fetch renter information (user)
+        const renterResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`);
+        const renter = renterResponse.data;
+
+        // Fetch owner information (owner of the car)
+        const ownerResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${car.owner.userId}`);
+        const owner = ownerResponse.data;
+
+        const doc = new jsPDF();
+
+        // Add Company Name and Receipt Title
+        doc.setFontSize(24);
+        doc.setFont("helvetica", "bold");
+        doc.text("Official Receipt", 105, 20, { align: "center" });
+        doc.setFontSize(16);
+        doc.text("Wheels On Go", 105, 30, { align: "center" });
+
+        // Add Receipt Metadata (like Date, Receipt No.)
+        doc.setFontSize(12);
+        const currentDate = new Date().toLocaleDateString();
+        doc.text(`Date: ${currentDate}`, 150, 20); // Move the date to the left
+        doc.text(`Receipt No: R-${Math.floor(Math.random() * 100000)}`, 150, 30); // Move the receipt number to the left
+
+        // Add a line separator
+        doc.setLineWidth(0.5);
+        doc.line(20, 35, 190, 35);
+
+        // Received From Section (Renter Details)
+        doc.setFont("helvetica", "bold");
+        doc.text("RECEIVED BY", 20, 45);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Renter Name: ${renter.fName} ${renter.lName}`, 20, 55);
+        doc.text(`Phone: ${renter.pNum || "N/A"}`, 20, 65);
+        doc.text(`Email: ${renter.email || "N/A"}`, 20, 75);
+        doc.text(`Address: ${deliveryOption === "Delivery" ? deliveryAddress : car.address}`, 20, 85);
+
+        // Add another line separator
+        doc.setLineWidth(0.5);
+        doc.line(20, 90, 190, 90);
+
+        // Order Details Section
+        doc.setFont("helvetica", "bold");
+        doc.text("ORDER DETAILS", 20, 100);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Car Name: ${car.carBrand} ${car.carModel} ${car.carYear}`, 20, 110);
+        doc.text(`Car Owner: ${owner.fName} ${owner.lName}`, 20, 120);
+        doc.text(`Renter Name: ${renter.fName} ${renter.lName}`, 20, 130);
+        doc.text(`Start Date: ${startDate ? startDate.toLocaleDateString() : "N/A"}`, 20, 140);
+        doc.text(`End Date: ${endDate ? endDate.toLocaleDateString() : "N/A"}`, 20, 150);
+        doc.text(`Number of Days: ${days}`, 20, 160);  // Use the calculated days here
+
+        if (deliveryOption === "Pickup") {
+            doc.text(`Pick-up Location: ${car.address}`, 20, 170);
+        } else {
+            doc.text(`Delivery Location: ${deliveryAddress}`, 20, 170);
+        }
+        
+        doc.text(`Rent Price per Day: ₱${car.rentPrice.toFixed(2)}`, 20, 180);
+
+        // Add another line separator
+        doc.setLineWidth(0.5);
+        doc.line(20, 185, 190, 185);
+
+        // Total Amount
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text(`Total Amount: ₱${totalPrice.toFixed(2)}`, 20, 195);
+
+        // Signature
+        doc.text("Signature: _____________________", 20, 210);
+
+        // Save PDF
+        doc.save("receipt.pdf");
+
+    } catch (error) {
+        console.error("Error generating receipt:", error);
     }
-    doc.save("receipt.pdf");
-  };
+};
 
       const ImageSlider = () => {
         // Array of image URLs
