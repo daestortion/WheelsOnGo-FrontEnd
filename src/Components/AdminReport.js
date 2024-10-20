@@ -27,59 +27,41 @@ export const AdminPageReports = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [socket, setSocket] = useState(null); // WebSocket state
 
     const navigate = useNavigate();
     const messagePollInterval = useRef(null);
 
-    // Fetch reports on mount
     useEffect(() => {
         fetchAdminReports();
     }, []);
 
-    // Set up WebSocket connection when a chat is selected
     useEffect(() => {
         if (adminSelectedChatId) {
-            const ws = new WebSocket(`ws://localhost:8080/ws/chat/${adminSelectedChatId}`);
-            setSocket(ws);
-
-            ws.onopen = () => {
-                console.log('WebSocket connection established for admin chat');
-            };
-
-            ws.onmessage = (event) => {
-                const newMessage = JSON.parse(event.data);
-                setAdminMessages((prevMessages) => [...prevMessages, newMessage]);
-                console.log('New message received:', newMessage);
-            };
-
-            ws.onclose = () => {
-                console.log('WebSocket connection closed for admin chat');
-            };
+            messagePollInterval.current = setInterval(() => {
+                fetchAdminMessages(adminSelectedChatId);
+            }, 1000);
 
             return () => {
-                ws.close();
+                clearInterval(messagePollInterval.current);
             };
         }
     }, [adminSelectedChatId]);
 
     const fetchAdminReports = () => {
-        setIsLoading(true);
+        setIsLoading(true);  // Start loading
         axios.get('https://tender-curiosity-production.up.railway.app/report/getAll')
             .then(response => {
-                console.log("Fetched Reports:", response.data); // Log fetched reports
                 if (Array.isArray(response.data)) {
                     setAdminReports(response.data);
                 } else {
-                    setAdminReports([]);
+                    setAdminReports([]);  // If data is not an array, set an empty list
                 }
             })
-            .catch(error => {
-                console.error("Error fetching reports:", error); // Log error if fetching fails
-                setAdminReports([]);
+            .catch(() => {
+                setAdminReports([]);  // In case of error, set an empty list
             })
             .finally(() => {
-                setIsLoading(false);
+                setIsLoading(false);  // Stop loading after the request completes (either success or error)
             });
     };
 
@@ -91,15 +73,13 @@ export const AdminPageReports = () => {
     const checkAdminForExistingGroupChat = async (reportId) => {
         try {
             const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/check?reportId=${reportId}`);
-            console.log("Group Chat Check Response for Report ID:", reportId, response.data); // Log the response for chat check
-
             if (response.data && response.data.chatId) {
                 setAdminSelectedChatId(response.data.chatId);
                 setAdminChatExists(true);
                 await fetchAdminMessages(response.data.chatId);
             } else {
                 setAdminChatExists(false);
-                clearInterval(messagePollInterval.current);
+                clearInterval(messagePollInterval.current); // Stop polling if no chat exists
             }
         } catch (error) {
             console.error('Failed to check for existing admin group chat:', error);
@@ -122,7 +102,6 @@ export const AdminPageReports = () => {
                 const chatId = response.data.chatId;
                 setAdminSelectedChatId(chatId);
                 setAdminChatExists(true);
-                console.log("Group chat created:", response.data);
                 await fetchAdminMessages(chatId);
             } catch (error) {
                 console.error('Failed to create admin group chat:', error);
@@ -133,24 +112,27 @@ export const AdminPageReports = () => {
     const fetchAdminMessages = async (chatId) => {
         try {
             const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages`);
-            console.log("Fetched Messages for Chat ID:", chatId, response.data); // Log fetched messages
             setAdminMessages(response.data);
         } catch (error) {
-            console.error('Error fetching admin chat messages:', error); // Log error
+            console.error('Error fetching admin chat messages:', error);
         }
     };
 
-    const sendAdminMessage = () => {
-        if (socket && adminNewMessage) {
-            const adminId = localStorage.getItem('adminId');
-            const messagePayload = {
-                adminId: adminId,
-                messageContent: adminNewMessage,
-                chatId: adminSelectedChatId,
-            };
-            console.log("Sending Message:", messagePayload); // Log the message payload before sending
-            socket.send(JSON.stringify(messagePayload)); // Send the message through WebSocket
-            setAdminNewMessage(''); // Clear input after sending
+    const sendAdminMessage = async () => {
+        if (adminSelectedChatId && adminNewMessage) {
+            try {
+                const adminId = localStorage.getItem('adminId');
+                await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}/send`, null, {
+                    params: {
+                        adminId: adminId,
+                        messageContent: adminNewMessage
+                    }
+                });
+                setAdminNewMessage('');
+                await fetchAdminMessages(adminSelectedChatId);
+            } catch (error) {
+                console.error('Error sending admin message:', error);
+            }
         }
     };
 
@@ -167,24 +149,25 @@ export const AdminPageReports = () => {
     const handleSearch = async (e) => {
         setSearchQuery(e.target.value);
         if (e.target.value.trim() !== '') {
-            setIsLoading(true);
+            setIsLoading(true);  // Start loading here
             try {
                 const response = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getAllUsers`);
 
+                // Fetch the current chat users
                 const chatResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${adminSelectedChatId}`);
                 const existingChatUsers = chatResponse.data.users.map(user => user.userId);
 
+                // Filter out users who are already in the chat
                 const filteredUsers = response.data.filter(user =>
                     !existingChatUsers.includes(user.userId) &&
                     `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
                 );
 
-                console.log("Search results for adding members:", filteredUsers); // Log the search results
                 setSearchResults(filteredUsers);
             } catch (error) {
                 console.error('Error searching for users:', error);
             } finally {
-                setIsLoading(false);
+                setIsLoading(false);  // Stop loading when the request completes
             }
         } else {
             setSearchResults([]);
