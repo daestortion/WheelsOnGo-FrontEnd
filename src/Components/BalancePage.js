@@ -26,10 +26,7 @@ const BalancePage = () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      console.log('Fetched user data from localStorage:', parsedUser);
       setUserId(parsedUser.userId); // Set the user ID from local storage
-    } else {
-      console.log('No user data found in localStorage');
     }
   }, []);
 
@@ -38,22 +35,16 @@ const BalancePage = () => {
     try {
       setIsLoading(true);  // Show loading state
       const [walletRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/${id}`),
+        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/credit/${id}`),
         axios.get(`https://tender-curiosity-production.up.railway.app/wallet/debit/${id}`),
         axios.get(`https://tender-curiosity-production.up.railway.app/wallet/refundable/${id}`)
       ]);
 
       // Update the state with fetched data
       setWalletData({
-        credit: walletRes.data.credit,
-        debit: debitRes.data,
-        refundable: refundableRes.data,
-      });
-  
-      console.log("Updated walletData state:", {
-        credit: walletRes.data.credit,
-        debit: debitRes.data,
-        refundable: refundableRes.data,
+        credit: walletRes.data || 0,  // Fetch recalculated credit directly
+        debit: debitRes.data || 0,
+        refundable: refundableRes.data || 0,
       });
     } catch (error) {
       console.error('Error fetching wallet data:', error);
@@ -65,14 +56,12 @@ const BalancePage = () => {
   // Fetch wallet data without recalculating when page loads
   useEffect(() => {
     if (userId) {
-      console.log('User ID available, fetching wallet data without recalculation...');
       fetchWalletData(userId);  // Fetch wallet data directly
     }
   }, [userId, fetchWalletData]);
 
   // Toggle form visibility
   const toggleForm = () => {
-    console.log('Toggling request form visibility. Current state:', isFormOpen);
     setIsFormOpen(!isFormOpen);
   };
 
@@ -80,67 +69,45 @@ const BalancePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null); // Reset any previous error
-    console.log('Form submitted with requestType:', requestType);
 
-    // Validate the form based on request type
     if (!userId || !requestType || !amount) {
       setFormError("Please fill in all required fields.");
-      console.log('Form validation error: missing fields.');
       return;
     }
-    
-    // GCash request validation
+
     if (requestType === 'gcash' && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
-      console.log('GCash validation error: missing fields.');
       return;
     }
-    
-    // Bank request validation
+
     if (requestType === 'bank' && (!accountName || !bankName || !accountNumber || accountNumber.length < 10 || accountNumber.length > 12)) {
-      setFormError("Please fill in the required Bank fields and ensure the account number is between 10 and 12 digits.");
-      console.log('Bank validation error: invalid fields.');
+      setFormError("Please fill in the required Bank fields.");
       return;
     }
 
-    // Prepare data for submission
-    let requestData = {
-      userId,
-      requestType,
-      amount: parseFloat(amount),
-    };
+    let requestData = { userId, requestType, amount: parseFloat(amount) };
 
-    // Add GCash-specific fields
     if (requestType === 'gcash') {
       requestData.fullName = fullName;
       requestData.gcashNumber = gcashNumber;
     }
 
-    // Add Bank-specific fields
     if (requestType === 'bank') {
-      requestData.accountName = accountName;  // Account Name field for Bank requests
+      requestData.accountName = accountName;
       requestData.bankName = bankName;
       requestData.accountNumber = accountNumber;
     }
 
-    console.log('Submitting request data:', requestData);
-
-    // Send the request to the backend
     try {
       await axios.post('https://tender-curiosity-production.up.railway.app/wallet/request-funds', requestData);
-
-      // Fetch updated wallet data after submitting a request
       await fetchWalletData(userId);
-
       alert('Request submitted successfully!');
       setIsFormOpen(false); // Close the form after submission
     } catch (error) {
-      console.error('Error submitting request:', error);
       alert('Failed to submit the request.');
     }
   };
 
-  // Fetch wallet data after admin approval or any update in the backend
   const refreshWalletData = async () => {
     if (userId) {
       await fetchWalletData(userId);
@@ -158,27 +125,25 @@ const BalancePage = () => {
           <>
             <div className="card">
               <h2>Total Credit</h2>
-              <p>₱{walletData.credit.toFixed(2)}</p>
+              <p>₱{walletData.credit?.toFixed(2) || '0.00'}</p>
             </div>
             <div className="card">
               <h2>Total Debit</h2>
-              <p>₱{walletData.debit.toFixed(2)}</p>
+              <p>₱{walletData.debit?.toFixed(2) || '0.00'}</p>
             </div>
             <div className="card">
               <h2>Total Refundable</h2>
-              <p>₱{walletData.refundable.toFixed(2)}</p>
+              <p>₱{walletData.refundable?.toFixed(2) || '0.00'}</p>
             </div>
           </>
         )}
       </div>
 
-      {/* Request Funds Button & Form */}
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
           {isFormOpen ? 'Close Request Form' : 'Request Funds'}
         </button>
 
-        {/* Show form when isFormOpen is true */}
         {isFormOpen && (
           <form onSubmit={handleSubmit} className="request-funds-form">
             {formError && <p className="form-error">{formError}</p>}
@@ -196,7 +161,6 @@ const BalancePage = () => {
               </select>
             </div>
 
-            {/* GCash Fields */}
             {requestType === 'gcash' && (
               <>
                 <div className="form-group">
@@ -222,7 +186,6 @@ const BalancePage = () => {
               </>
             )}
 
-            {/* Bank Fields */}
             {requestType === 'bank' && (
               <>
                 <div className="form-group">
@@ -275,38 +238,18 @@ const BalancePage = () => {
                 onChange={(e) => setAmount(e.target.value)}
                 required
               />
-              <small>Available Balance: ₱{walletData.credit.toFixed(2)}</small> {/* Show Credit Balance */}
+              <small>Available Balance: ₱{walletData.credit?.toFixed(2) || '0.00'}</small>
             </div>
             <button type="submit" className="submit-btn">Submit Request</button>
           </form>
         )}
       </div>
 
-      {/* Wallet Balance Table */}
-      <div className="balance-container">
-        <h1>User Wallet Balance</h1>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <table className="balance-table">
-            <thead>
-              <tr>
-                <th>Credit</th>
-                <th>Debit</th>
-                <th>Refundable</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>₱{walletData.credit.toFixed(2)}</td>
-                <td>₱{walletData.debit.toFixed(2)}</td>
-                <td>₱{walletData.refundable.toFixed(2)}</td>
-              </tr>
-            </tbody>
-          </table>
-        )}
+      <div className="refresh-container">
+        <button onClick={refreshWalletData} className="refresh-btn">
+          Refresh Balance
+        </button>
       </div>
-      <button onClick={refreshWalletData} className="refresh-btn">Refresh Balance</button>
     </div>
   );
 };
