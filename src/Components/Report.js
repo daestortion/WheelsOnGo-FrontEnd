@@ -22,7 +22,7 @@ export const Report = () => {
       const userId = JSON.parse(storedUser).userId;
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`);
+          const response = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
           if (response.status === 200) {
             const userData = response.data;
             setCurrentUser({
@@ -62,7 +62,7 @@ export const Report = () => {
       },
     }; // Adjust the user object according to your backend requirements
     try {
-      await axios.post("https://tender-curiosity-production.up.railway.app/report", report); // Adjust the URL according to your backend setup
+      await axios.post("http://localhost:8080/report", report); // Adjust the URL according to your backend setup
       setIsVisible(false);
     } catch (error) {
       console.error("There was an error submitting the report!", error);

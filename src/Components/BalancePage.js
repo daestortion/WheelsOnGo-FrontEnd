@@ -35,9 +35,9 @@ const BalancePage = () => {
     try {
       setIsLoading(true);  // Show loading state
       const [walletRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/credit/${id}`),
-        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/debit/${id}`),
-        axios.get(`https://tender-curiosity-production.up.railway.app/wallet/refundable/${id}`)
+        axios.get(`http://localhost:8080/wallet/credit/${id}`),
+        axios.get(`http://localhost:8080/wallet/debit/${id}`),
+        axios.get(`http://localhost:8080/wallet/refundable/${id}`)
       ]);
 
       // Update the state with fetched data
@@ -99,7 +99,7 @@ const BalancePage = () => {
     }
 
     try {
-      await axios.post('https://tender-curiosity-production.up.railway.app/wallet/request-funds', requestData);
+      await axios.post('http://localhost:8080/wallet/request-funds', requestData);
       await fetchWalletData(userId);
       alert('Request submitted successfully!');
       setIsFormOpen(false); // Close the form after submission

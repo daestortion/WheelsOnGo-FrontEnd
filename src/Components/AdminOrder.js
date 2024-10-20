@@ -22,7 +22,7 @@ const AdminPageOrder = () => {
   const fetchOrders = async () => {
     setIsLoading(true);  // Start loading
     try {
-      const response = await fetch('https://tender-curiosity-production.up.railway.app/order/getAllOrders');
+      const response = await fetch('http://localhost:8080/order/getAllOrders');
       const data = await response.json();
       console.log(data);
   
@@ -52,7 +52,7 @@ const AdminPageOrder = () => {
 
   const fetchUser = async (userId) => {
     try {
-      const response = await fetch(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`);
+      const response = await fetch(`http://localhost:8080/user/getUserById/${userId}`);
       const data = await response.json();
       setUsers(prevUsers => ({ ...prevUsers, [userId]: data }));
     } catch (error) {
@@ -62,7 +62,7 @@ const AdminPageOrder = () => {
 
   const fetchProofOfPayment = async (orderId) => {
     try {
-      const response = await fetch(`https://tender-curiosity-production.up.railway.app/order/getProofOfPayment/${orderId}`);
+      const response = await fetch(`http://localhost:8080/order/getProofOfPayment/${orderId}`);
       if (response.ok) {
         const imageBlob = await response.blob();
         setProofImage(URL.createObjectURL(imageBlob));
@@ -76,7 +76,7 @@ const AdminPageOrder = () => {
   const handleApprove = async (orderId) => {
     setIsLoading(true);  // Start loading
     try {
-        const response = await fetch(`https://tender-curiosity-production.up.railway.app/order/approveOrder/${orderId}`, { method: 'PUT' });
+        const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, { method: 'PUT' });
         if (response.ok) {
             // Update the frontend to mark the order as paid
             setOrders(prevOrders => prevOrders.map(order =>
@@ -94,7 +94,7 @@ const AdminPageOrder = () => {
   const handleDeny = async (orderId) => {
     setIsLoading(true);  // Start loading
     try {
-        const response = await fetch(`https://tender-curiosity-production.up.railway.app/order/denyOrder/${orderId}`, { method: 'PUT' });
+        const response = await fetch(`http://localhost:8080/order/denyOrder/${orderId}`, { method: 'PUT' });
         if (response.ok) {
             fetchOrders();  // Refetch orders to reflect the changes
         }

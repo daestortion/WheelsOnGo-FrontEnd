@@ -36,7 +36,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     const fetchBookedDates = async () => {
       try {
         setLoading(true); // Start loading when fetching booked dates
-        const response = await axios.get(`https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${car.carId}`);
+        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
         const bookedRanges = orders.map(order => ({
           start: new Date(order.startDate),  

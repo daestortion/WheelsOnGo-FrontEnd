@@ -17,7 +17,7 @@ const AdminPageUsers = () => {
 
   const fetchUsers = () => {
     setIsLoading(true);
-    axios.get('https://tender-curiosity-production.up.railway.app/user/getAllUsers')
+    axios.get('http://localhost:8080/user/getAllUsers')
       .then(response => {
         console.log("Fetched Users:", response.data); // Log fetched users
         setUsers(response.data);
@@ -44,7 +44,7 @@ const AdminPageUsers = () => {
 
   const handleDelete = (userId) => {
     setIsLoading(true);
-    axios.put(`https://tender-curiosity-production.up.railway.app/user/deleteUser/${userId}`)
+    axios.put(`http://localhost:8080/user/deleteUser/${userId}`)
       .then(() => fetchUsers())
       .catch(error => console.error('Error deleting user:', error))
       .finally(() => setIsLoading(false)); // Stop loading after the request is done
@@ -52,7 +52,7 @@ const AdminPageUsers = () => {
 
 const handleReactivate = (userId) => {
     setIsLoading(true);
-    axios.put(`https://tender-curiosity-production.up.railway.app/user/reactivateUser/${userId}`)
+    axios.put(`http://localhost:8080/user/reactivateUser/${userId}`)
       .then(() => fetchUsers())
       .catch(error => console.error('Error reactivating user:', error))
       .finally(() => setIsLoading(false)); // Stop loading after the request is done
