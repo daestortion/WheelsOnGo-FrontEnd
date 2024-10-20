@@ -364,113 +364,122 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
   return (
     <div className="payment-popup">
-      <div className="overlap-wrapperpopup">
+      
+
         <div className="overlap11">
-          <div className="text-wrapper">Payment</div>
-          <button className="back" onClick={onBack}>
+
+      <div className='groups88'>
+        <button className="back" onClick={onBack}>
             <img className="vector" alt="Vector" src={back} />
           </button>
-          <p className="pp">Choose Payment Method</p>
-          <p className="ppp">____________________________________________________</p>
-          <p className="divv">by clicking, you are confirming that you have read,</p>
-          <p className="understood-and-agree">
-            <span className="span">understood and agree to the </span>
-            <a href={TAC} target="_blank" rel="noopener noreferrer" className="text-wrapper-22">terms and conditions</a>
-            <span className="span">.</span>
-          </p>
-          <input
-            type="checkbox"
-            className="rectangle11"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
-          <div className="rectangle-2">
-            <img src={car.carImage} alt="Car" className="car-image" />
-          </div>
-          <div className="text-wrapper-33">{car.carBrand} {car.carModel} {car.carYear}</div>
-          <div className="overlap-groupp">
-            <div className="text-wrapper-444">₱{car.rentPrice}</div>
-            <div className="text-wrapper-55">{car.owner.pNum}</div>
-            <img className="img" alt="Vector" src={line1} />
-          </div>
-          <div className="text-wrapper-61">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-77">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-          <div className="text-wrapper-8">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-          <div className="text-wrapper-99">Pick-up Location: {car.address}</div>
 
-          <div
-            style={{
-              pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
-              opacity: isChecked && !paypalPaid ? 1 : 0.5,
-              position: 'relative'
-            }}
-          >
-            <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
-            {paypalPaid && (
-              <div style={{
-                position: 'absolute',
-                top: '530px',
-                left: '85px',
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <span style={{ color: 'green', fontSize: '2rem' }}>✔</span>
-              </div>
-            )}
-          </div>
+          <div className="text-wrapper">Payment</div>
 
-          <div className="overlap-group-wrapper">
-            <button
-              className="overlap-33"
-              onClick={handleClick}
-              disabled={!isChecked}
-              style={{
-                pointerEvents: isChecked ? 'auto' : 'none',
-                opacity: isChecked ? 1 : 0.5
-              }}
-            >
-              <div className="text-wrapper-11">Book</div>
-            </button>
-
-            <button
-              onClick={createPaymentLink}
-              className="paymongo-button"
-              disabled={!isChecked}  // Disable PayMongo button if not checked
-              style={{
-                pointerEvents: isChecked ? 'auto' : 'none',
-                opacity: isChecked ? 1 : 0.5,
-              }}
-            >
-              <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
-            </button>
-
-
-
-            <button
-              className='cashbackground'
-              onClick={handleCash}
-              style={{
-                pointerEvents: isChecked ? 'auto' : 'none',
-                opacity: isChecked ? 1 : 0.5
-              }}
-            >
-              <div className="text-wrapper-321">Cash</div>
-            </button>
-            
-          </div>
-          <button className="close" onClick={onClose}>
+          <button className="closes" onClick={onClose}>
             <img className="vector-2" alt="Vector" src={close} />
           </button>
+        </div>
+          
+          
 
-          <div className="image">
-            <ImageSlider />
+      <div className='groups77'>
+        <div className='groups44'>
+            <div className='groups22'>
+              <div className="rectangle-2">
+                <img src={car.carImage} alt="Car" className="car-images" />
+              </div>
+
+              <div className='groups11'>
+                <div className="text-wrapper-33">{car.carBrand} {car.carModel} {car.carYear}</div>
+
+                <div className="overlap-groupp">
+                  <div className="text-wrapper-444">₱{car.rentPrice}</div>
+                  <img className="imgs" alt="Vector" src={line1} />
+                  <div className="text-wrapper-555">{car.owner.pNum}</div>  
+                </div>
+              </div>
+            </div>
+
+          <div className='groups33'>
+              <div className="text-wrapper-611">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
+              <div className="text-wrapper-81">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
+              <div className="text-wrapper-77">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+              <div className="text-wrapper-99">Pick-up Location: {car.address}</div>
           </div>
 
+          <div className='groups55'>
+            <input
+              type="checkbox"
+              className="rectangle11"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+
+            <div className="understood-and-agrees">
+              <p className="divv">by clicking, you are confirming that you have read,</p>
+              <span className="spans">understood and agree to the <a href={TAC} target="_blank" rel="noopener noreferrer" className="text-wrapper-22">terms and conditions</a> </span>
+            </div>
+          </div> 
+
         </div>
-      </div>
+
+      <div className='groups66'>
+          <div className="image">
+              <ImageSlider />
+            </div>
+
+            <p className="pp">Choose Payment Method</p>
+
+            <button
+                className='cashbackground'
+                onClick={handleCash}
+                style={{
+                  pointerEvents: isChecked ? 'auto' : 'none',
+                  opacity: isChecked ? 1 : 0.5
+                }}
+              >
+              Cash
+              </button>
+
+              <button
+                onClick={createPaymentLink}
+                className="paymongo-button"
+                disabled={!isChecked}  // Disable PayMongo button if not checked
+                style={{
+                  pointerEvents: isChecked ? 'auto' : 'none',
+                  opacity: isChecked ? 1 : 0.5,
+                }}
+              >
+                <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
+              </button>
+
+
+            <div
+              style={{
+                pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
+                opacity: isChecked && !paypalPaid ? 1 : 0.5,
+                position: 'relative'
+              }}
+            >
+              <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+              {paypalPaid && (
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                  <span style={{ color: 'green', fontSize: '2rem' }}>✔</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+          
+        </div>
+      
       {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
