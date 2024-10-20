@@ -8,6 +8,7 @@ import citiesData from '../Data/refcitymun.json';
 import provincesData from '../Data/refprovince.json';
 import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
+import Loading from "./Loading"; // Import Loading component
 import PaymentPopup from "./PaymentPopup";
 
 export const CheckoutPopup = ({ car, closePopup }) => {
@@ -25,6 +26,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const [selectedBarangay, setSelectedBarangay] = useState('');
   const [houseNumberStreet, setHouseNumberStreet] = useState('');
   const [days, setDays] = useState(0);
+  const [loading, setLoading] = useState(false); // Loading state for calendar
 
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
@@ -33,6 +35,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   useEffect(() => {
     const fetchBookedDates = async () => {
       try {
+        setLoading(true); // Start loading when fetching booked dates
         const response = await axios.get(`https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
         console.log(response.data);
@@ -44,6 +47,8 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setBookedDates(bookedRanges);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
+      } finally {
+        setLoading(false); // Stop loading after fetching
       }
     };
 
@@ -68,11 +73,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   };  
 
   const toggleStartDatePicker = () => {
+    setLoading(true); // Start loading when opening the start date picker
     setStartDateOpen(!startDateOpen);
+    setLoading(false); // Stop loading after the date picker opens
   };
 
   const toggleEndDatePicker = () => {
+    setLoading(true); // Start loading when opening the end date picker
     setEndDateOpen(!endDateOpen);
+    setLoading(false); // Stop loading after the date picker opens
   };
 
   const clearErrorMessage = () => {
@@ -120,7 +129,6 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         referenceNumber: '',
         payment: null
       };
-      // Pass the newOrder to the PaymentPopup
       console.log(newOrder);
       setOrder(newOrder);
       setShowPaymentPopup(true);
@@ -228,14 +236,17 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                     {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
                   </div>
                   {startDateOpen && (
-                    <DatePicker
-                      selected={startDate}
-                      onChange={handleStartDateChange}
-                      inline
-                      shouldCloseOnSelect
-                      minDate={new Date()}
-                      filterDate={(date) => !isDateBooked(date)}
-                    />
+                    <>
+                      {loading && <Loading />} {/* Show loading when fetching dates */}
+                      <DatePicker
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        inline
+                        shouldCloseOnSelect
+                        minDate={new Date()}
+                        filterDate={(date) => !isDateBooked(date)}
+                      />
+                    </>
                   )}
                 </div>
               </div>
@@ -247,14 +258,17 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                     {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
                   </div>
                   {endDateOpen && (
-                    <DatePicker
-                      selected={endDate}
-                      onChange={handleEndDateChange}
-                      inline
-                      shouldCloseOnSelect
-                      minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
-                      filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
-                    />
+                    <>
+                      {loading && <Loading />} {/* Show loading when fetching dates */}
+                      <DatePicker
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        inline
+                        shouldCloseOnSelect
+                        minDate={startDate ? new Date(startDate.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                        filterDate={(date) => !isDateBooked(date)}  // Filter out booked dates and the day after
+                      />
+                    </>
                   )}
                 </div>
               </div>
