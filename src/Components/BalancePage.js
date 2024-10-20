@@ -125,15 +125,15 @@ const BalancePage = () => {
           <>
             <div className="card">
               <h2>Total Credit</h2>
-              <p>₱{walletData.credit?.toFixed(2) || '0.00'}</p>
+              <p>₱{walletData.credit?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
             </div>
             <div className="card">
               <h2>Total Debit</h2>
-              <p>₱{walletData.debit?.toFixed(2) || '0.00'}</p>
+              <p>₱{walletData.debit?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
             </div>
             <div className="card">
               <h2>Total Refundable</h2>
-              <p>₱{walletData.refundable?.toFixed(2) || '0.00'}</p>
+              <p>₱{walletData.refundable?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
             </div>
           </>
         )}

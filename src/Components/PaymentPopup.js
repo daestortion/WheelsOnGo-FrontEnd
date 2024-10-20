@@ -469,7 +469,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 <div className="text-wrapper-33">{car.carBrand} {car.carModel} {car.carYear}</div>
 
                 <div className="overlap-groupp">
-                  <div className="text-wrapper-444">₱{car.rentPrice}</div>
+                  <div className="text-wrapper-444">₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                   <img className="imgs" alt="Vector" src={line1} />
                   <div className="text-wrapper-555">{car.owner.pNum}</div>  
                 </div>

@@ -193,6 +193,7 @@ export const OrderHistoryPage = () => {
   };
 
   const handleTerminate = async (orderId) => {
+    setIsLoading(true);
     try {
       const response = await axios.put(
         `http://localhost:8080/order/terminateOrder/${orderId}`
@@ -211,10 +212,13 @@ export const OrderHistoryPage = () => {
       }
     } catch (error) {
       console.error("Error terminating the order:", error.response?.data || error.message);
+    } finally {
+      setIsLoading(false); // Ensure loading is stopped after the operation
     }
   };
-
+  
   const handleCarReturned = async (orderId) => {
+    setIsLoading(true);
     try {
       const response = await axios.put(
         `http://localhost:8080/order/markAsReturned/${orderId}`
@@ -227,10 +231,13 @@ export const OrderHistoryPage = () => {
         "Error processing car return:",
         error.response?.data || error.message
       );
+    } finally {
+      setIsLoading(false); // Ensure loading is stopped after the operation
     }
   };
-
+  
   const handleApprove = async (orderId) => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `http://localhost:8080/order/approveOrder/${orderId}`,
@@ -246,8 +253,10 @@ export const OrderHistoryPage = () => {
       }
     } catch (error) {
       console.error("Error approving order:", error);
+    } finally {
+      setIsLoading(false); // Ensure loading is stopped after the operation
     }
-  };
+  };  
 
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);

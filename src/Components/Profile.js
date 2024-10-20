@@ -261,7 +261,7 @@ const UserProfile = () => {
 
                             {/* Conditionally render the Balance Page button */}
                             <button className="text-wrapper-55" onClick={() => navigate('/balance-page')}>
-                                Balance Page
+                                Balance
                             </button>
                         </>
                     )}

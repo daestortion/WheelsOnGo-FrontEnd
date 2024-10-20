@@ -38,11 +38,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(true); // Start loading when fetching booked dates
         const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
-        const bookedRanges = orders.map(order => ({
-          start: new Date(order.startDate),  
-          end: new Date(order.endDate)       
-        }));
-
+  
+        // Filter out returned orders and map the booked dates
+        const bookedRanges = orders
+          .filter(order => !order.returned) // Exclude returned orders
+          .map(order => ({
+            start: new Date(order.startDate),
+            end: new Date(order.endDate)
+          }));
+  
         setBookedDates(bookedRanges);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
@@ -50,9 +54,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(false); // Stop loading after fetching
       }
     };
-
+  
     fetchBookedDates();
-  }, [car.carId]);
+  }, [car.carId]);  
 
   const handleStartDateChange = (date) => {
     const normalizedDate = new Date(date.getTime());
@@ -147,14 +151,13 @@ export const CheckoutPopup = ({ car, closePopup }) => {
       const startDateOnly = new Date(start.getFullYear(), start.getMonth(), start.getDate());
       const endDateOnly = new Date(end.getFullYear(), end.getMonth(), end.getDate());
       const oneDayAfterEndDate = new Date(endDateOnly.getTime() + 24 * 60 * 60 * 1000); // One day after the booked end date
-  
+
       const dateToCheck = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  
+
       // Ensure that the start date and all days between start and end, including one day after, are disabled
       return dateToCheck >= startDateOnly && dateToCheck <= oneDayAfterEndDate;
     });
   };
-  
 
   const filteredCities = citiesData.RECORDS.filter(city => city.provCode === selectedProvince);
   const filteredBarangays = barangaysData.RECORDS.filter(barangay => barangay.citymunCode === selectedCity);
