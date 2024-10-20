@@ -61,6 +61,7 @@ const AdminVerify = () => {
   };
 
   const handleApprove = (vId) => {
+    setIsLoading(true);  // Start loading
     axios.put(`https://tender-curiosity-production.up.railway.app/verification/changeStatus/${vId}?newStatus=1`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
@@ -69,10 +70,14 @@ const AdminVerify = () => {
       })
       .catch(error => {
         console.error(`Error approving verification ${vId}:`, error);
+      })
+      .finally(() => {
+        setIsLoading(false);  // Stop loading after the request is complete
       });
-  };
+  };  
 
   const handleDeny = (vId) => {
+    setIsLoading(true);  // Start loading
     axios.put(`https://tender-curiosity-production.up.railway.app/verification/changeStatus/${vId}?newStatus=2`)
       .then(response => {
         setVerifications(prevVerifications => prevVerifications.map(verification =>
@@ -81,8 +86,12 @@ const AdminVerify = () => {
       })
       .catch(error => {
         console.error(`Error denying verification ${vId}:`, error);
+      })
+      .finally(() => {
+        setIsLoading(false);  // Stop loading after the request is complete
       });
   };
+  
 
   const handleLogout = () => {
     navigate('/adminlogin');
@@ -186,7 +195,13 @@ const AdminVerify = () => {
                     <td>{new Date(verification.timeStamp).toLocaleString()}</td>
                     <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
                     <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
-                    <td>{verification.status === 1 ? 'Verified' : 'Pending'}</td>
+                    <td>
+                      {verification.status === 1 
+                        ? 'Verified' 
+                        : verification.status === 2 
+                          ? 'Denied' 
+                          : 'Pending'}
+                    </td>
                     <td>{verification.govId ? <button onClick={() => handleShowImage(verification.govId)} className="button-show-image">Show Image</button> : 'Not Uploaded'}</td>
                     <td>{verification.driversLicense ? <button onClick={() => handleShowImage(verification.driversLicense)} className="button-show-image">Show Image</button> : 'Not Uploaded'}</td>
                     <td>

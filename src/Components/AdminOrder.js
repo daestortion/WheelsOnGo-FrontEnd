@@ -74,6 +74,7 @@ const AdminPageOrder = () => {
   };
 
   const handleApprove = async (orderId) => {
+    setIsLoading(true);  // Start loading
     try {
         const response = await fetch(`https://tender-curiosity-production.up.railway.app/order/approveOrder/${orderId}`, { method: 'PUT' });
         if (response.ok) {
@@ -83,22 +84,27 @@ const AdminPageOrder = () => {
             ));
             fetchOrders(); // Optionally refetch orders to reflect the changes
         }
-      } catch (error) {
-          console.error(error);
-      }
-  };
-
-  const handleDeny = async (orderId) => {
-    try {
-      const response = await fetch(`https://tender-curiosity-production.up.railway.app/order/denyOrder/${orderId}`, { method: 'PUT' });
-      if (response.ok) {
-        fetchOrders();
-      }
     } catch (error) {
-      console.error(error);
+        console.error(error);
+    } finally {
+        setIsLoading(false);  // Stop loading after request completion
     }
   };
 
+  const handleDeny = async (orderId) => {
+    setIsLoading(true);  // Start loading
+    try {
+        const response = await fetch(`https://tender-curiosity-production.up.railway.app/order/denyOrder/${orderId}`, { method: 'PUT' });
+        if (response.ok) {
+            fetchOrders();  // Refetch orders to reflect the changes
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        setIsLoading(false);  // Stop loading after request completion
+    }
+  };
+  
   const handleSearch = () => {
     setSearchQuery(searchTerm);
   };

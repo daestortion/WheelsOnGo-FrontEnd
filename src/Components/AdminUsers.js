@@ -43,16 +43,21 @@ const AdminPageUsers = () => {
   });
 
   const handleDelete = (userId) => {
+    setIsLoading(true);
     axios.put(`https://tender-curiosity-production.up.railway.app/user/deleteUser/${userId}`)
       .then(() => fetchUsers())
-      .catch(error => console.error('Error deleting user:', error));
-  };
+      .catch(error => console.error('Error deleting user:', error))
+      .finally(() => setIsLoading(false)); // Stop loading after the request is done
+};
 
-  const handleReactivate = (userId) => {
+const handleReactivate = (userId) => {
+    setIsLoading(true);
     axios.put(`https://tender-curiosity-production.up.railway.app/user/reactivateUser/${userId}`)
       .then(() => fetchUsers())
-      .catch(error => console.error('Error reactivating user:', error));
-  };
+      .catch(error => console.error('Error reactivating user:', error))
+      .finally(() => setIsLoading(false)); // Stop loading after the request is done
+};
+
 
   const handleLogout = () => {
     navigate('/adminlogin');
