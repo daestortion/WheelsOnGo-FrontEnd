@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "../Css/Messages.css";
 import Header from "./Header.js";
-import Loading from './Loading'; // Assuming you have a Loading component like in the login
+import Loading from './Loading';
 
 // Helper function to format the timestamp for messages
 const formatMessageTimestamp = (timestamp) => {
@@ -23,9 +23,8 @@ export const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-  const [lastMessageId, setLastMessageId] = useState(null); // Track the last message ID
-  const [messageIds, setMessageIds] = useState(new Set()); // Track unique message IDs
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [socket, setSocket] = useState(null); // WebSocket state
+  const [isLoading, setIsLoading] = useState(true);
 
   // Set up current user and fetch chats when the component is mounted
   useEffect(() => {
@@ -38,19 +37,30 @@ export const Messages = () => {
     fetchUserChats();
   }, []);
 
-  // Poll for new messages every 5 seconds if a chat is selected
+  // Set up WebSocket connection when a chat is selected
   useEffect(() => {
     if (selectedChat) {
-      console.log(`Started polling for chatId: ${selectedChat.chatId}`);
-      const intervalId = setInterval(() => {
-        fetchNewMessages(selectedChat.chatId);
-      }, 5000); // Set interval to 5 seconds
+      const ws = new WebSocket(`ws://localhost:8080/ws/chat/${selectedChat.chatId}`);
+      setSocket(ws);
+
+      ws.onopen = () => {
+        console.log('WebSocket connection established');
+      };
+
+      ws.onmessage = (event) => {
+        const newMessage = JSON.parse(event.data);
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+      };
+
       return () => {
-        clearInterval(intervalId);
-        console.log(`Stopped polling for chatId: ${selectedChat.chatId}`);
+        ws.close(); // Close the WebSocket when the component is unmounted or chat is changed
       };
     }
-  }, [selectedChat, lastMessageId]);
+  }, [selectedChat]);
 
   const fetchUserChats = async () => {
     setIsLoading(true); // Start loading
@@ -58,6 +68,7 @@ export const Messages = () => {
       const storedUser = localStorage.getItem('user');
       const userId = JSON.parse(storedUser).userId;
       console.log("Fetching chats for userId: ", userId);
+      
       const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/user/${userId}/chats`);
       setChats(response.data);
       console.log("Chats fetched: ", response.data);
@@ -67,6 +78,7 @@ export const Messages = () => {
       setIsLoading(false); // Stop loading once chats are fetched
     }
   };
+  
 
   const handleChatClick = async (chat) => {
     setIsLoading(true); // Start loading when switching chats
@@ -74,7 +86,6 @@ export const Messages = () => {
       console.log("Chat clicked: ", chat);
       setSelectedChat(chat);
       setMessages([]); // Reset messages when switching chats
-      setMessageIds(new Set()); // Reset message tracking when switching chats
       await fetchMessages(chat.chatId);
     } catch (error) {
       console.error('Error selecting chat:', error);
@@ -83,56 +94,27 @@ export const Messages = () => {
     }
   };
 
-  // Fetches only new messages since the last message ID
-  const fetchNewMessages = async (chatId) => {
-    try {
-      console.log(`Fetching new messages for chatId: ${chatId}, after messageId: ${lastMessageId}`);
-      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages?lastMessageId=${lastMessageId}`);
-      const newMessages = response.data;
-      const uniqueMessages = newMessages.filter(msg => !messageIds.has(msg.messageId)); // Avoid duplicates
-
-      if (uniqueMessages.length > 0) {
-        console.log("New messages fetched: ", uniqueMessages);
-        setMessages((prevMessages) => [...prevMessages, ...uniqueMessages]);
-        setMessageIds((prevIds) => new Set([...prevIds, ...uniqueMessages.map(msg => msg.messageId)])); // Update unique IDs
-        setLastMessageId(uniqueMessages[uniqueMessages.length - 1].messageId); // Update last message ID
-      } else {
-        console.log("No new messages.");
-      }
-    } catch (error) {
-      console.error('Failed to fetch new messages', error);
-    }
-  };
-
   const fetchMessages = async (chatId) => {
     try {
       console.log(`Fetching messages for chatId: ${chatId}`);
-      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages?limit=50`); // Limit the number of messages
+      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages?limit=50`);
       const initialMessages = response.data;
       setMessages(initialMessages);
-      setMessageIds(new Set(initialMessages.map(msg => msg.messageId))); // Track unique message IDs
-      setLastMessageId(initialMessages[initialMessages.length - 1]?.messageId); // Track the last message ID
       console.log("Initial messages fetched: ", initialMessages);
     } catch (error) {
       console.error('Failed to fetch messages', error);
     }
   };
 
-  const sendMessage = async () => {
-    if (selectedChat && newMessage && currentUser) {
-      try {
-        console.log("Sending message: ", newMessage);
-        await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${selectedChat.chatId}/send`, null, {
-          params: {
-            userId: currentUser.userId,
-            messageContent: newMessage
-          }
-        });
-        setNewMessage('');
-        fetchNewMessages(selectedChat.chatId); // Fetch new messages after sending
-      } catch (error) {
-        console.error('Failed to send message', error);
-      }
+  const sendMessage = () => {
+    if (socket && newMessage && currentUser) {
+      const messagePayload = {
+        userId: currentUser.userId,
+        messageContent: newMessage,
+        chatId: selectedChat.chatId,
+      };
+      socket.send(JSON.stringify(messagePayload)); // Send the message through WebSocket
+      setNewMessage(''); // Clear input after sending
     }
   };
 
