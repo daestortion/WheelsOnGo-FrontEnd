@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../Css/ApplyOwnerPopup.css";
 import close from "../Images/close.svg";
+import TAC from "../Images/WheelsOnGoTACR.pdf"; // Import the new PDF
 
 const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -52,7 +53,7 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
           </p>
           <p className="ao-understood-and-agree">
             <span className="span">understood and agree to the </span>
-            <a className="ao-text-wrapper-2" href="../Images/WheelsOnGoTAC.pdf" target="_blank" rel="noopener noreferrer">terms and conditions</a>
+            <a className="ao-text-wrapper-2" href={TAC} target="_blank" rel="noopener noreferrer">terms and conditions</a>
             <span className="span">.</span>
           </p>
           <div className="ao-rectangle">
