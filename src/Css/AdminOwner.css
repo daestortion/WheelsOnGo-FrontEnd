@@ -140,5 +140,98 @@
     cursor: not-allowed;
     }
 
+    /* Request Log Table */
+.request-log {
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.request-log h3 {
+  color: #e32128;
+  margin-bottom: 15px;
+}
+
+.request-log table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.request-log th, .request-log td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.request-log th {
+  background-color: #e32128;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.request-log td {
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+.request-log tr:nth-child(even) td {
+  background-color: #f7f7f7;
+}
+
+.request-log td span.status-pending {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.request-log td span.status-approved {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.request-log td span.status-denied {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Button Styling */
+.request-funds-btn, .refresh-btn {
+  background-color: #e32128;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.request-funds-btn:hover, .refresh-btn:hover {
+  background-color: #c81620;
+}
+
+.submit-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background-color: #45a049;
+}
+
+.form-error {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+
   
   

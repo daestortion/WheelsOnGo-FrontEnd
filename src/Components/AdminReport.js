@@ -22,10 +22,6 @@ export const AdminPageReports = () => {
     const [adminMessages, setAdminMessages] = useState([]);
     const [adminNewMessage, setAdminNewMessage] = useState('');
     const [adminChatExists, setAdminChatExists] = useState(false);
-    const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [selectedUserId, setSelectedUserId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -136,62 +132,6 @@ export const AdminPageReports = () => {
         }
     };
 
-    const openAddMemberModal = () => {
-        setIsAddMemberModalOpen(true);
-    };
-
-    const closeAddMemberModal = () => {
-        setIsAddMemberModalOpen(false);
-        setSearchResults([]);
-        setSearchQuery('');
-    };
-
-    const handleSearch = async (e) => {
-        setSearchQuery(e.target.value);
-        if (e.target.value.trim() !== '') {
-            setIsLoading(true);  // Start loading here
-            try {
-                const response = await axios.get(`http://localhost:8080/user/getAllUsers`);
-
-                // Fetch the current chat users
-                const chatResponse = await axios.get(`http://localhost:8080/chat/${adminSelectedChatId}`);
-                const existingChatUsers = chatResponse.data.users.map(user => user.userId);
-
-                // Filter out users who are already in the chat
-                const filteredUsers = response.data.filter(user =>
-                    !existingChatUsers.includes(user.userId) &&
-                    `${user.fName} ${user.lName}`.toLowerCase().includes(e.target.value.toLowerCase())
-                );
-
-                setSearchResults(filteredUsers);
-            } catch (error) {
-                console.error('Error searching for users:', error);
-            } finally {
-                setIsLoading(false);  // Stop loading when the request completes
-            }
-        } else {
-            setSearchResults([]);
-        }
-    };
-
-    const handleUserSelect = (userId) => {
-        setSelectedUserId(userId);
-    };
-
-    const handleAddUserToChat = async () => {
-        if (selectedUserId && adminSelectedChatId) {
-            try {
-                await axios.post(`http://localhost:8080/chat/${adminSelectedChatId}/addUser`, null, {
-                    params: { userId: selectedUserId }
-                });
-                closeAddMemberModal();
-                alert("User added successfully!");
-            } catch (error) {
-                console.error('Error adding user to chat:', error);
-            }
-        }
-    };
-
     const renderAdminMessages = () => {
         return adminMessages.map((message, index) => (
             <div key={index} className={`admin-chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
@@ -209,40 +149,6 @@ export const AdminPageReports = () => {
     return (
         <div className="admin-report-page">
             {isLoading && <Loading />}
-            {isAddMemberModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h3>Add a Member</h3>
-                        <input
-                            type="text"
-                            placeholder="Search by name"
-                            value={searchQuery}
-                            onChange={handleSearch}
-                            className="search-input"
-                        />
-                        {isLoading ? (
-                            <Loading />
-                        ) : (
-                            <ul className="search-results">
-                                {searchResults.map((user) => (
-                                    <li
-                                        key={user.userId}
-                                        onClick={() => handleUserSelect(user.userId)}
-                                        className={`search-item ${selectedUserId === user.userId ? 'selected' : ''}`}
-                                    >
-                                        {user.fName} {user.lName}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        <div className="modal-actions">
-                            <button className="btn-add" onClick={handleAddUserToChat}>Add User</button>
-                            <button className="btn-cancel" onClick={closeAddMemberModal}>Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
             <div className="admin-dashboard-topbar">
                 <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
                 <button className="admin-dashboard-logout" onClick={() => navigate('/adminlogin')}>Logout</button>
@@ -297,7 +203,6 @@ export const AdminPageReports = () => {
                                     {adminSelectedChatId && (
                                         <div className="admin-chat-section">
                                             <h3>Group Chat</h3>
-                                            <button onClick={openAddMemberModal} className="add-member-btn">Add Member</button>
                                             <div className="admin-chat-messages">
                                                 {renderAdminMessages()}
                                             </div>

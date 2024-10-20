@@ -20,6 +20,7 @@ const BalancePage = () => {
   const [accountNumber, setAccountNumber] = useState(''); // Account number for Bank request
   const [amount, setAmount] = useState(''); // Amount to request
   const [formError, setFormError] = useState(null); // To display form errors
+  const [requests, setRequests] = useState([]); // To store the user's request logs
 
   // Fetch user data from localStorage when the component loads
   useEffect(() => {
@@ -53,12 +54,27 @@ const BalancePage = () => {
     }
   }, []);
 
+  // Fetch user requests from the backend
+  const fetchUserRequests = useCallback(async (id) => {
+    try {
+      setIsLoading(true); // Show loading state
+      const response = await axios.get(`http://localhost:8080/wallet/getAllRequests`); // Modify if using specific endpoint
+      const userRequests = response.data.filter((request) => request.user.userId === id); // Filter requests for the logged-in user
+      setRequests(userRequests); // Store the requests for the user
+    } catch (error) {
+      console.error('Error fetching user requests:', error);
+    } finally {
+      setIsLoading(false); // Hide loading state
+    }
+  }, []);
+
   // Fetch wallet data without recalculating when page loads
   useEffect(() => {
     if (userId) {
       fetchWalletData(userId);  // Fetch wallet data directly
+      fetchUserRequests(userId); // Fetch user requests
     }
-  }, [userId, fetchWalletData]);
+  }, [userId, fetchWalletData, fetchUserRequests]);
 
   // Toggle form visibility
   const toggleForm = () => {
@@ -101,6 +117,7 @@ const BalancePage = () => {
     try {
       await axios.post('http://localhost:8080/wallet/request-funds', requestData);
       await fetchWalletData(userId);
+      await fetchUserRequests(userId); // Fetch updated requests after submission
       alert('Request submitted successfully!');
       setIsFormOpen(false); // Close the form after submission
     } catch (error) {
@@ -111,6 +128,7 @@ const BalancePage = () => {
   const refreshWalletData = async () => {
     if (userId) {
       await fetchWalletData(userId);
+      await fetchUserRequests(userId); // Fetch updated requests on refresh
     }
   };
 
@@ -244,7 +262,61 @@ const BalancePage = () => {
           </form>
         )}
       </div>
-
+      {/* Table to display requests */}
+      <div className="request-log">
+        <h3>Your Requests</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Request Type</th>
+              <th>Details</th>
+              <th>Amount</th>
+              <th>Submitted On</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requests.length > 0 ? (
+              requests.map((request) => (
+                <tr key={request.requestId}>
+                  <td>{request.requestType}</td>
+                  <td>
+                    {request.requestType === 'gcash' ? (
+                      <>
+                        <strong>Full Name:</strong> {request.fullName}<br />
+                        <strong>GCash Number:</strong> {request.gcashNumber}
+                      </>
+                    ) : request.requestType === 'bank' ? (
+                      <>
+                        <strong>Account Name:</strong> {request.accountName}<br />
+                        <strong>Bank Name:</strong> {request.bankName}<br />
+                        <strong>Account Number:</strong> {request.accountNumber}
+                      </>
+                    ) : 'N/A'}
+                  </td>
+                  <td>₱{request.amount.toFixed(2)}</td>
+                  <td>{new Date(request.createdAt).toLocaleString()}</td>
+                  <td>
+                    <span className={
+                      request.status === 'approved'
+                        ? 'status-approved'
+                        : request.status === 'denied'
+                        ? 'status-denied'
+                        : 'status-pending'
+                    }>
+                      {request.status || 'pending'}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No requests found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
       <div className="refresh-container">
         <button onClick={refreshWalletData} className="refresh-btn">
           Refresh Balance

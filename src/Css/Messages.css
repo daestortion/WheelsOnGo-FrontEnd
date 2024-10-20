@@ -52,6 +52,7 @@
 /* Chat Section Styling */
 .chat-section {
   padding: 20px;
+  margin-top: 45px;
   background-color: white;
   flex-grow: 1;
   display: flex;
