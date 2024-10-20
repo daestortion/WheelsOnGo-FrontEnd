@@ -480,7 +480,13 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
               <div className="text-wrapper-611">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
               <div className="text-wrapper-81">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
               <div className="text-wrapper-77">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-              <div className="text-wrapper-99">Pick-up Location: {car.address}</div>
+              <div className="text-wrapper-99">
+                {deliveryOption === "Pickup" ? (
+                  <>Pick-up Location: {car.address}</>
+                ) : (
+                  <>Delivery Location: {deliveryAddress}</>
+                )}
+              </div>
           </div>
 
           <div className='groups55'>
