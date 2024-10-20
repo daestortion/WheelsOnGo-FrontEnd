@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Css/AdminOwner.css";
 import sidelogo from "../Images/sidelogo.png";
+import Loading from './Loading';
 
 const AdminOwnerPayments = () => {
   const [requests, setRequests] = useState([]);
@@ -78,6 +79,7 @@ const AdminOwnerPayments = () => {
 
   return (
     <div className="admin-owner-payments-page">
+      {loading && <Loading />}
       <div className="admin-owner-dashboard-topbar">
         <img className="admin-owner-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
         <button className="admin-owner-dashboard-logout" onClick={handleLogout}>

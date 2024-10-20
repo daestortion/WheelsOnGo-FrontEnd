@@ -288,32 +288,25 @@ export const OrderHistoryPage = () => {
     }
   };
 
-  // Function to handle extending the rent
-  const handleExtendRent = async (orderId, endDate) => {
-    if (!selectedDate || selectedDate <= new Date(endDate)) {
-      alert("Please select a valid date after the current end date.");
-      return;
-    }
+  // Handle extend rent action
+  const handleExtendRent = (orderId, endDate) => {
+    // Check if a date has been selected and it's valid (after the current end date)
+    if (showDatePicker === orderId && selectedDate && selectedDate > new Date(endDate)) {
+      // Adjust the date if needed
+      const adjustedDate = new Date(selectedDate);
+      adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
+      const newEndDate = adjustedDate.toISOString().split("T")[0]; // Format the date as YYYY-MM-DD
 
-    const adjustedDate = new Date(selectedDate);
-    adjustedDate.setHours(12, 0, 0, 0); // Set the time to avoid timezone issues
-    const newEndDate = adjustedDate.toISOString().split("T")[0]; // Format the date as YYYY-MM-DD
+      // Set the selected order details and show the ExtendPaymentPopup
+      setSelectedOrder({
+        orderId: orderId,
+        endDate: newEndDate,
+      });
 
-    try {
-      const response = await axios.put(
-        `https://tender-curiosity-production.up.railway.app/order/extendOrder/${orderId}`,
-        {
-          endDate: newEndDate, // Send the new end date to the server
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Rent extended successfully:", response.data);
-      } else {
-        console.error("Error extending rent:", response.data);
-      }
-    } catch (error) {
-      console.error("Failed to extend rent:", error);
+      setExtendShowPaymentPopup(true); // Open the payment popup
+    } else {
+      // If "Extend" is clicked the first time or no valid date has been selected yet, show DatePicker
+      setShowDatePicker(orderId); 
     }
   };
 
@@ -439,67 +432,42 @@ export const OrderHistoryPage = () => {
                                 <div>
                                   <button
                                     className="extend"
-                                    onClick={() =>
-                                      setShowDatePicker(order.orderId)
-                                    }
+                                    onClick={() => handleExtendRent(order.orderId, order.endDate)}
                                   >
-                                    Extend
+                                    {showDatePicker === order.orderId ? "Submit" : "Extend"}
                                   </button>
                                   {showDatePicker === order.orderId && (
                                     <div>
                                       <DatePicker
                                         selected={selectedDate}
                                         onChange={(date) =>
-                                          handleDateChange(
-                                            date,
-                                            order.endDate,
-                                            order.car.carId
-                                          )
+                                          handleDateChange(date, order.endDate, order.car.carId)
                                         }
                                         minDate={
                                           new Date(
-                                            new Date(order.endDate).getTime() +
-                                              24 * 60 * 60 * 1000
+                                            new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000
                                           )
                                         }
                                         excludeDates={disabledDates} // Disable already booked dates
                                         placeholderText="Select new end date"
                                       />
-                                      <button
-                                        onClick={() =>
-                                          handleExtendRent(
-                                            order.orderId,
-                                            order.endDate,
-                                            order.car.carId
-                                          )
-                                        }
-                                      >
-                                        Submit
-                                      </button>
                                       <div className="summary">
-                                        <h4>
-                                          Summary of the Cost for Extension:
-                                        </h4>
+                                        <h4>Summary of the Cost for Extension:</h4>
                                         <p>Days: {priceSummary.days}</p>
                                         <p>
-                                          Price per day: ₱
-                                          {priceSummary.pricePerDay.toFixed(2)}
+                                          Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}
                                         </p>
-                                        <p>
-                                          Total Remaining Balance: ₱
-                                          {priceSummary.total.toFixed(2)}
-                                        </p>
+                                        <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
                                       </div>
                                     </div>
                                   )}
                                 </div>
                               )}
-                              <button
-                                className="terminate"
-                                onClick={() => handleTerminate(order.orderId)}
-                              >
-                                Terminate
-                              </button>
+                              {showDatePicker !== order.orderId && (
+                                <button className="terminate" onClick={() => handleTerminate(order.orderId)}>
+                                  Terminate
+                                </button>
+                              )}
                             </td>
                           )}
                         </tr>

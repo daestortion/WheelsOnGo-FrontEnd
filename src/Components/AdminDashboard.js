@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import Loading from './Loading';
 import { Bar, Pie, Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -38,6 +39,8 @@ const AdminDashboard = () => {
   const [incomeData, setIncomeData] = useState(0);
   const [rentsPerCar, setRentsPerCar] = useState({ labels: [], datasets: [] });
   const [rentOverTime, setRentOverTime] = useState({ labels: [], datasets: [] });
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasFetchedOnce, setHasFetchedOnce] = useState(false);
 
   const navigate = useNavigate();
 
@@ -207,14 +210,27 @@ const AdminDashboard = () => {
 
   // Poll the API every 5 seconds
   useEffect(() => {
-    fetchData(); 
-    const intervalId = setInterval(fetchData, 5000); 
+    setIsLoading(true);  // Start loading
+    const fetchDataWithLoading = async () => {
+      try {
+        await fetchData();  // Wait for the fetch to complete
+      } catch (error) {
+        console.error("Error fetching data:", error);  // Handle error appropriately
+      } finally {
+        setIsLoading(false);  // Stop loading after fetch is done (success or error)
+      }
+    };
 
-    return () => clearInterval(intervalId); 
-  }, [fetchData]); 
+    fetchDataWithLoading(); // Call the wrapped function
+    const intervalId = setInterval(fetchDataWithLoading, 5000);  // Repeat fetch every 5 seconds
+
+    return () => clearInterval(intervalId);  // Clean up the interval on unmount
+}, [fetchData]);
+
 
   return (
     <div className="admin-dashboard-page">
+      {isLoading && <Loading />}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
         <button className="admin-dashboard-logout" onClick={handleLogout}>

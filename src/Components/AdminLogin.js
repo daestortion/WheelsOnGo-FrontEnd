@@ -43,7 +43,7 @@ export const AdminLogin = () => {
         adminLogin(adminId); // Call adminLogin and pass adminId to store it
         localStorage.setItem('adminId', adminId); // Store the adminId in localStorage
         console.log('Stored adminId:', localStorage.getItem('adminId')); // Verify it's stored
-        navigate("/adminusers");
+        navigate("/admin-dashboard");
       } else {
         alert(`Login failed: ${responseData.message}`);
       }

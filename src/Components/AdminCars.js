@@ -37,23 +37,29 @@ const AdminPageCars = () => {
 
   // Approve a car
   const handleApprove = async (carId) => {
+    setIsLoading(true);  // Start loading
     try {
       await axios.put(`https://tender-curiosity-production.up.railway.app/car/approveCar/${carId}`);
       console.log(`Approved Car ID: ${carId}`); // Log approved car ID
       fetchCars(); // Refresh the list of cars after approval
     } catch (error) {
       console.error('Error approving car:', error); // Log error if approval fails
+    } finally {
+      setIsLoading(false);  // Stop loading after fetching is complete
     }
   };
 
   // Delete a car
   const handleDeleteCar = async (carId) => {
+    setIsLoading(true);  // Start loading
     try {
       await axios.put(`https://tender-curiosity-production.up.railway.app/car/deleteCar/${carId}`);
       console.log(`Deleted Car ID: ${carId}`); // Log deleted car ID
       fetchCars(); // Refresh the list of cars after deletion
     } catch (error) {
       console.error('Error deleting car:', error); // Log error if deletion fails
+    } finally {
+      setIsLoading(false);  // Stop loading after fetching is complete
     }
   };
 

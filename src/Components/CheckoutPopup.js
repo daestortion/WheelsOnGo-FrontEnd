@@ -107,7 +107,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     if (daysCount > 0) {
       const rentTotal = car.rentPrice * daysCount;
       const systemFee = car.rentPrice * 0.15;
-      const total = rentTotal + systemFee;
+      const total = rentTotal;
       setTotalPrice(total);
     } else {
       setTotalPrice(0);
