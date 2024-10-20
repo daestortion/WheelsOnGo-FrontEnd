@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import '../Css/BalancePage.css'; // For styling
 import Header from "../Components/Header"; // Import Header component
-
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
     credit: 0,
@@ -30,7 +29,6 @@ const BalancePage = () => {
       setUserId(parsedUser.userId); // Set the user ID from local storage
     }
   }, []);
-
   // Fetch wallet data from the backend API using Axios
   const fetchWalletData = useCallback(async (id) => {
     try {
@@ -40,7 +38,6 @@ const BalancePage = () => {
         axios.get(`http://localhost:8080/wallet/debit/${id}`),
         axios.get(`http://localhost:8080/wallet/refundable/${id}`)
       ]);
-
       // Update the state with fetched data
       setWalletData({
         credit: walletRes.data || 0,  // Fetch recalculated credit directly
@@ -80,40 +77,32 @@ const BalancePage = () => {
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
   };
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null); // Reset any previous error
-
     if (!userId || !requestType || !amount) {
       setFormError("Please fill in all required fields.");
       return;
     }
-
     if (requestType === 'gcash' && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
       return;
     }
-
     if (requestType === 'bank' && (!accountName || !bankName || !accountNumber || accountNumber.length < 10 || accountNumber.length > 12)) {
       setFormError("Please fill in the required Bank fields.");
       return;
     }
-
     let requestData = { userId, requestType, amount: parseFloat(amount) };
-
     if (requestType === 'gcash') {
       requestData.fullName = fullName;
       requestData.gcashNumber = gcashNumber;
     }
-
     if (requestType === 'bank') {
       requestData.accountName = accountName;
       requestData.bankName = bankName;
       requestData.accountNumber = accountNumber;
     }
-
     try {
       await axios.post('http://localhost:8080/wallet/request-funds', requestData);
       await fetchWalletData(userId);
@@ -124,7 +113,6 @@ const BalancePage = () => {
       alert('Failed to submit the request.');
     }
   };
-
   const refreshWalletData = async () => {
     if (userId) {
       await fetchWalletData(userId);
@@ -156,12 +144,10 @@ const BalancePage = () => {
           </>
         )}
       </div>
-
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
           {isFormOpen ? 'Close Request Form' : 'Request Funds'}
         </button>
-
         {isFormOpen && (
           <form onSubmit={handleSubmit} className="request-funds-form">
             {formError && <p className="form-error">{formError}</p>}
@@ -178,7 +164,6 @@ const BalancePage = () => {
                 <option value="bank">Bank</option>
               </select>
             </div>
-
             {requestType === 'gcash' && (
               <>
                 <div className="form-group">
@@ -203,7 +188,6 @@ const BalancePage = () => {
                 </div>
               </>
             )}
-
             {requestType === 'bank' && (
               <>
                 <div className="form-group">
@@ -246,7 +230,6 @@ const BalancePage = () => {
                 </div>
               </>
             )}
-
             <div className="form-group">
               <label htmlFor="amount">Amount:</label>
               <input
@@ -325,5 +308,4 @@ const BalancePage = () => {
     </div>
   );
 };
-
 export default BalancePage;
