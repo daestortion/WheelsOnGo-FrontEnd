@@ -27,8 +27,6 @@ import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import { CashOptionPopup } from "../Components/BookingPopup";
 
-
-
 const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -38,6 +36,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const [showPayPalError, setShowPayPalError] = useState(false);
   const [showBookingPopup, setBookingPopup] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
+  const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false); // New state for PayMongo webhook confirmation
 
   const calculateDays = () => {
     if (!startDate || !endDate) return 0;
@@ -45,7 +44,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     return Math.round(Math.abs((new Date(endDate) - new Date(startDate)) / oneDay));
   };
   const days = calculateDays();
-
 
   useEffect(() => {
     const paymentOption = uploadedFile ? "GCash" : "Cash";
@@ -69,6 +67,26 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     setShowBookedPopup(false);
     onClose();
   };
+
+  // Polling for PayMongo webhook confirmation every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (order && order.orderId) {
+        try {
+          const response = await fetch(`https://tender-curiosity-production.up.railway.app/api/payment/check-status?orderId=${order.orderId}`);
+          const data = await response.json();
+          if (data.status === "paid") {
+            setIsPaymentConfirmed(true);
+            clearInterval(interval);  // Stop polling once payment is confirmed
+          }
+        } catch (error) {
+          console.error("Error checking payment status:", error);
+        }
+      }
+    }, 10000); // Poll every 10 seconds
+
+    return () => clearInterval(interval); // Cleanup when component unmounts
+  }, [order]);
 
   // Handle GCash Payment
   const handleClick = async () => {
@@ -142,6 +160,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',  // Ensure credentials are included in requests
         body: JSON.stringify({
           amount: amountInCentavos,
           description: `Payment for renting ${car.carBrand} ${car.carModel} ${car.carYear}`,
@@ -153,11 +172,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   
       if (data && data.data && data.data.attributes && data.data.attributes.checkout_url) {
         const paymentUrl = data.data.attributes.checkout_url;
-        
-        // Redirect the user to PayMongo payment page
         window.open(paymentUrl, '_blank');
-        
-        // Now, instead of immediately inserting the order, we will rely on the webhook
         console.log("Waiting for PayMongo webhook confirmation...");
       } else {
         console.error('Failed to create payment link');
@@ -165,9 +180,8 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     } catch (error) {
       console.error('Error creating payment link:', error);
     }
-  };
+};
 
-  
 
   const handlePayPalSuccess = async (details, data) => {
     try {
@@ -341,74 +355,73 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     } catch (error) {
         console.error("Error generating receipt:", error);
     }
-};
+  };
 
-      const ImageSlider = () => {
-        // Array of image URLs
-        const images = [
-          image1,
-          image2,
-          image3,
-          image4,
-          image5,
-          image6,
-          image7,
-          image8,
-          image9,
-          image10,
-          image11,
-          image12,
-          image13,
-          image14,
-        ];
-      
-        // State to track the current image index and shuffled images
-        const [currentImageIndex, setCurrentImageIndex] = useState(0);
-        const [shuffledImages, setShuffledImages] = useState([]);
-      
-        // Shuffle function (Fisher-Yates Shuffle)
-        const shuffleArray = (array) => {
-          const newArray = [...array];
-          for (let i = newArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  const ImageSlider = () => {
+    // Array of image URLs
+    const images = [
+      image1,
+      image2,
+      image3,
+      image4,
+      image5,
+      image6,
+      image7,
+      image8,
+      image9,
+      image10,
+      image11,
+      image12,
+      image13,
+      image14,
+    ];
+
+    // State to track the current image index and shuffled images
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [shuffledImages, setShuffledImages] = useState([]);
+
+    // Shuffle function (Fisher-Yates Shuffle)
+    const shuffleArray = (array) => {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    };
+
+    useEffect(() => {
+      // Shuffle the images when the component mounts
+      setShuffledImages(shuffleArray(images));
+    }, []);
+
+    useEffect(() => {
+      // Set up the interval to change the image every 2 seconds
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => {
+          const nextIndex = prevIndex + 1;
+
+          // If we've gone through all the images, reshuffle and reset
+          if (nextIndex >= shuffledImages.length) {
+            setShuffledImages(shuffleArray(images));
+            return 0; // Reset index to 0 after reshuffling
           }
-          return newArray;
-        };
-      
-        useEffect(() => {
-          // Shuffle the images when the component mounts
-          setShuffledImages(shuffleArray(images));
-        }, []);
-      
-        useEffect(() => {
-          // Set up the interval to change the image every 2 seconds
-          const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => {
-              const nextIndex = prevIndex + 1;
-      
-              // If we've gone through all the images, reshuffle and reset
-              if (nextIndex >= shuffledImages.length) {
-                setShuffledImages(shuffleArray(images));
-                return 0; // Reset index to 0 after reshuffling
-              }
-      
-              return nextIndex;
-            });
-          }, 1500); // Change image every 2 seconds
-      
-          // Clear the interval when the component unmounts
-          return () => clearInterval(interval);
-        }, [shuffledImages]);
 
-        return <img src={images[currentImageIndex]} alt="Slideshow"  width="500" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />;
-      };
+          return nextIndex;
+        });
+      }, 1500); // Change image every 2 seconds
+
+      // Clear the interval when the component unmounts
+      return () => clearInterval(interval);
+    }, [shuffledImages]);
+
+    return <img src={images[currentImageIndex]} alt="Slideshow"  width="500" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />;
+  };
 
   return (
     <div className="payment-popup">
-      
 
-        <div className="overlap11">
+      <div className="overlap11">
 
       <div className='groups88'>
         <button className="back" onClick={onBack}>
@@ -421,8 +434,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             <img className="vector-2" alt="Vector" src={close} />
           </button>
         </div>
-          
-          
 
       <div className='groups77'>
         <div className='groups44'>
@@ -501,7 +512,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
               </button>
 
-
             <div
               style={{
                 pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
@@ -525,8 +535,8 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             </div>
           </div>
         </div>
-          
-        </div>
+
+      </div>
       
       {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
