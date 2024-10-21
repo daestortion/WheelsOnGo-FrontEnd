@@ -85,7 +85,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
           referenceNumber: order.referenceNumber,
         })], { type: 'application/json' }));
 
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+        const response = await axios.post(`https://tender-curiosity-production.up.railway.app/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -117,7 +117,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
         console.log(formData);
         // Post order to backend
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+        const response = await axios.post(`https://tender-curiosity-production.up.railway.app/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -190,7 +190,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,  // Conditional delivery or pickup address
             })], { type: 'application/json' }));
 
-            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
+            const response = await axios.post(`https://tender-curiosity-production.up.railway.app/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -227,7 +227,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             paymentOption: "PayPal",  // Set payment option as PayPal
         };
 
-        const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
+        const paymentResponse = await axios.post(`https://tender-curiosity-production.up.railway.app/order/updatePaymentStatus`, paymentData, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -265,11 +265,11 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const generateReceipt = async () => {
     try {
         // Fetch renter information (user)
-        const renterResponse = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
+        const renterResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`);
         const renter = renterResponse.data;
 
         // Fetch owner information (owner of the car)
-        const ownerResponse = await axios.get(`http://localhost:8080/user/getUserById/${car.owner.userId}`);
+        const ownerResponse = await axios.get(`https://tender-curiosity-production.up.railway.app/user/getUserById/${car.owner.userId}`);
         const owner = ownerResponse.data;
 
         const doc = new jsPDF();

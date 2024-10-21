@@ -58,7 +58,7 @@ export const Messages = () => {
       const storedUser = localStorage.getItem('user');
       const userId = JSON.parse(storedUser).userId;
       console.log("Fetching chats for userId: ", userId);
-      const response = await axios.get(`http://localhost:8080/chat/user/${userId}/chats`);
+      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/user/${userId}/chats`);
       setChats(response.data);
       console.log("Chats fetched: ", response.data);
     } catch (error) {
@@ -87,7 +87,7 @@ export const Messages = () => {
   const fetchNewMessages = async (chatId) => {
     try {
       console.log(`Fetching new messages for chatId: ${chatId}, after messageId: ${lastMessageId}`);
-      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages?lastMessageId=${lastMessageId}`);
+      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages?lastMessageId=${lastMessageId}`);
       const newMessages = response.data;
       const uniqueMessages = newMessages.filter(msg => !messageIds.has(msg.messageId)); // Avoid duplicates
 
@@ -107,7 +107,7 @@ export const Messages = () => {
   const fetchMessages = async (chatId) => {
     try {
       console.log(`Fetching messages for chatId: ${chatId}`);
-      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages?limit=50`); // Limit the number of messages
+      const response = await axios.get(`https://tender-curiosity-production.up.railway.app/chat/${chatId}/messages?limit=50`); // Limit the number of messages
       const initialMessages = response.data;
       setMessages(initialMessages);
       setMessageIds(new Set(initialMessages.map(msg => msg.messageId))); // Track unique message IDs
@@ -122,7 +122,7 @@ export const Messages = () => {
     if (selectedChat && newMessage && currentUser) {
       try {
         console.log("Sending message: ", newMessage);
-        await axios.post(`http://localhost:8080/chat/${selectedChat.chatId}/send`, null, {
+        await axios.post(`https://tender-curiosity-production.up.railway.app/chat/${selectedChat.chatId}/send`, null, {
           params: {
             userId: currentUser.userId,
             messageContent: newMessage

@@ -55,7 +55,7 @@ export const EditProfile = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:8080/user/updateUser', {
+            const response = await fetch('https://tender-curiosity-production.up.railway.app/user/updateUser', {
                 method: 'PUT',
                 body: formData,
             });
