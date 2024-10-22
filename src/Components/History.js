@@ -18,6 +18,7 @@ export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const [allOrders, setAllOrders] = useState([]);
+  const [isCalendarLoading, setIsCalendarLoading] = useState(false); // Loading state for calendar
   const [showOwnedCars, setShowOwnedCars] = useState(false);
   const [showOngoingRents, setShowOngoingRents] = useState(false);
   const [showExtendPaymentPopup, setExtendShowPaymentPopup] = useState(false); // State to control PaymentPopup
@@ -47,7 +48,8 @@ export const OrderHistoryPage = () => {
 
   const navigate = useNavigate();
 
-  // Fetch orders for a user
+    // Fetch orders for a user
+
   const fetchOrders = async (userId) => {
     setIsLoading(true); // Start loading when fetching begins
     try {
@@ -55,7 +57,6 @@ export const OrderHistoryPage = () => {
         `https://tender-curiosity-production.up.railway.app/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
-        console.log("Fetched orders:", response.data); // Log orders fetched
         setAllOrders(response.data);
         setOrders(response.data); // Initially set all orders
       } else {
@@ -71,39 +72,38 @@ export const OrderHistoryPage = () => {
 
   // Fetch car details
   const fetchCarDetails = async (carId) => {
+    setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
         `https://tender-curiosity-production.up.railway.app/car/getCarById/${carId}`
       );
       if (response.status === 200) {
-        console.log("Fetched car details:", response.data);
         return response.data;
-      } else {
-        console.error("Error fetching car details");
       }
     } catch (error) {
       console.error("Error fetching car details:", error);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
     return null;
   };
 
   // Fetch orders by car ID
   const fetchOrdersByCarId = async (carId) => {
+    setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
         `https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
-        console.log("Fetched orders for car:", response.data);
         return response.data;
-      } else {
-        console.error("Error fetching car orders");
-        return [];
       }
     } catch (error) {
       console.error("Error fetching car orders:", error);
-      return [];
+    } finally {
+      setIsLoading(false); // Stop loading
     }
+    return [];
   };
 
   // Fetch car orders (owned cars)
@@ -114,17 +114,15 @@ export const OrderHistoryPage = () => {
         `https://tender-curiosity-production.up.railway.app/user/${userId}/carOrders`
       );
       if (response.status === 200) {
-        console.log("Fetched car orders for owned cars:", response.data);
         setOrders(response.data);
       } else {
-        console.error("No orders found for owned cars");
         setOrders([]);
       }
     } catch (error) {
       console.error("Error fetching car orders:", error);
       setOrders([]);
     } finally {
-      setIsLoading(false); // Stop loading after fetching
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -136,18 +134,16 @@ export const OrderHistoryPage = () => {
         `https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`
       );
       if (response.status === 200) {
-        console.log("Fetched user data:", response.data); // Log fetched user data
         setCurrentUser(response.data);
-        fetchOrders(response.data.userId);
+        await fetchOrders(response.data.userId);
       } else {
-        console.error("User not found");
         navigate("/login");
       }
     } catch (error) {
-      console.error("Server error when fetching user:", error);
+      console.error("Error fetching user data:", error);
       navigate("/login");
     } finally {
-      setIsLoading(false); // Stop loading after user data is fetched
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -179,19 +175,7 @@ export const OrderHistoryPage = () => {
     setTimeout(() => setIsLoading(false), 500); // Simulate slight delay
   };
 
-  // Navigation Handlers
-  const handleCarsClick = () => {
-    navigate("/cars");
-  };
-
-  const handleAboutClick = () => {
-    navigate("/aboutus");
-  };
-
-  const handleHomeClick = () => {
-    navigate("/home");
-  };
-
+  // Handle terminate order action
   const handleTerminate = async (orderId) => {
     setIsLoading(true);
     try {
@@ -199,7 +183,6 @@ export const OrderHistoryPage = () => {
         `https://tender-curiosity-production.up.railway.app/order/terminateOrder/${orderId}`
       );
       if (response.status === 200) {
-        console.log(`Order ${orderId} terminated successfully.`);
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.orderId === orderId
@@ -207,8 +190,6 @@ export const OrderHistoryPage = () => {
               : order
           )
         );
-      } else {
-        console.error("Failed to terminate order.");
       }
     } catch (error) {
       console.error("Error terminating the order:", error.response?.data || error.message);
@@ -216,7 +197,9 @@ export const OrderHistoryPage = () => {
       setIsLoading(false); // Ensure loading is stopped after the operation
     }
   };
+
   
+  // Handle car returned action
   const handleCarReturned = async (orderId) => {
     setIsLoading(true);
     try {
@@ -235,7 +218,8 @@ export const OrderHistoryPage = () => {
       setIsLoading(false); // Ensure loading is stopped after the operation
     }
   };
-  
+
+  // Handle approve order action
   const handleApprove = async (orderId) => {
     setIsLoading(true);
     try {
@@ -244,7 +228,6 @@ export const OrderHistoryPage = () => {
         { method: "PUT" }
       );
       if (response.ok) {
-        console.log("Order approved, orderId:", orderId);
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.orderId === orderId ? { ...order, active: 1 } : order
@@ -256,10 +239,11 @@ export const OrderHistoryPage = () => {
     } finally {
       setIsLoading(false); // Ensure loading is stopped after the operation
     }
-  };  
+  };
 
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);
+    setIsCalendarLoading(true); // Start loading for calendar
 
     const car = await fetchCarDetails(carId);
     const orders = await fetchOrdersByCarId(carId);
@@ -290,11 +274,12 @@ export const OrderHistoryPage = () => {
         (date - new Date(endDate)) / (1000 * 60 * 60 * 24)
       );
       const total = days * car.rentPrice;
-      console.log("Price summary:", { days, pricePerDay: car.rentPrice, total });
       setPriceSummary({ days, pricePerDay: car.rentPrice, total });
     } else {
       setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
     }
+
+    setIsCalendarLoading(false); // Stop loading for calendar after fetching
   };
 
   // Handle extend rent action
