@@ -244,43 +244,38 @@ export const OrderHistoryPage = () => {
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);
     setIsCalendarLoading(true); // Start loading for calendar
-
+  
+    // Fetch the car details and associated orders
     const car = await fetchCarDetails(carId);
     const orders = await fetchOrdersByCarId(carId);
-
-    // Filter out active orders and prepare booked dates
+  
+    // Prepare booked dates by filtering only active or non-returned orders
     const bookedDates = orders
-      .filter(
-        (order) =>
-          new Date(order.startDate) <= date && new Date(order.endDate) >= date
-      )
+      .filter((order) => !order.returned && new Date(order.startDate) <= date && new Date(order.endDate) >= date)
       .map((order) => {
         let dates = [];
         let currentDate = new Date(order.startDate);
-        const addDays = (date, days) =>
-          new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const addDays = (date, days) => new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
         while (currentDate <= new Date(order.endDate)) {
-          dates.push(new Date(currentDate));
+          dates.push(new Date(currentDate)); // Add each date in the range between startDate and endDate
           currentDate = addDays(currentDate, 1);
         }
         return dates;
       })
-      .flat();
-
-    setDisabledDates(bookedDates);
-
+      .flat(); // Flatten to a single array of dates
+  
+    setDisabledDates(bookedDates); // Set disabled dates in state
+  
     if (car && date > new Date(endDate)) {
-      const days = Math.ceil(
-        (date - new Date(endDate)) / (1000 * 60 * 60 * 24)
-      );
+      const days = Math.ceil((date - new Date(endDate)) / (1000 * 60 * 60 * 24));
       const total = days * car.rentPrice;
       setPriceSummary({ days, pricePerDay: car.rentPrice, total });
     } else {
       setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
     }
-
-    setIsCalendarLoading(false); // Stop loading for calendar after fetching
-  };
+  
+    setIsCalendarLoading(false); // Stop loading for calendar
+  };  
 
   // Handle extend rent action
   const handleExtendRent = (orderId, endDate) => {
@@ -437,20 +432,14 @@ export const OrderHistoryPage = () => {
                                         onChange={(date) =>
                                           handleDateChange(date, order.endDate, order.car.carId)
                                         }
-                                        minDate={
-                                          new Date(
-                                            new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000
-                                          )
-                                        }
+                                        minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
                                         excludeDates={disabledDates} // Disable already booked dates
                                         placeholderText="Select new end date"
                                       />
                                       <div className="summary">
                                         <h4>Summary of the Cost for Extension:</h4>
                                         <p>Days: {priceSummary.days}</p>
-                                        <p>
-                                          Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}
-                                        </p>
+                                        <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
                                         <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
                                       </div>
                                     </div>
