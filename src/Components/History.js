@@ -48,8 +48,41 @@ export const OrderHistoryPage = () => {
 
   const navigate = useNavigate();
 
-    // Fetch orders for a user
+  // Fetch all orders to disable booked dates
+  const fetchBookedDates = async () => {
+    setIsCalendarLoading(true); // Start loading calendar
+    try {
+      const response = await axios.get(
+        `https://tender-curiosity-production.up.railway.app/order/getAllOrders`
+      );
+      const orders = response.data;
 
+      // Filter orders that are not returned and extract booked dates
+      const bookedDates = orders
+        .filter(order => !order.returned) // Exclude returned orders
+        .map(order => {
+          let dates = [];
+          let currentDate = new Date(order.startDate);
+          const endDate = new Date(order.endDate);
+
+          // Push all dates between startDate and endDate
+          while (currentDate <= endDate) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1); // Move to next day
+          }
+          return dates;
+        })
+        .flat(); // Flatten array to get a list of all booked dates
+
+      setDisabledDates(bookedDates); // Store in state to disable these dates in the calendar
+    } catch (error) {
+      console.error("Error fetching booked dates:", error);
+    } finally {
+      setIsCalendarLoading(false); // Stop loading calendar
+    }
+  };
+
+  // Fetch orders for a user
   const fetchOrders = async (userId) => {
     setIsLoading(true); // Start loading when fetching begins
     try {
@@ -244,43 +277,38 @@ export const OrderHistoryPage = () => {
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);
     setIsCalendarLoading(true); // Start loading for calendar
-
+  
+    // Fetch the car details and associated orders
     const car = await fetchCarDetails(carId);
     const orders = await fetchOrdersByCarId(carId);
-
-    // Filter out active orders and prepare booked dates
+  
+    // Prepare booked dates by filtering only active or non-returned orders
     const bookedDates = orders
-      .filter(
-        (order) =>
-          new Date(order.startDate) <= date && new Date(order.endDate) >= date
-      )
+      .filter((order) => !order.returned && new Date(order.startDate) <= date && new Date(order.endDate) >= date)
       .map((order) => {
         let dates = [];
         let currentDate = new Date(order.startDate);
-        const addDays = (date, days) =>
-          new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const addDays = (date, days) => new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
         while (currentDate <= new Date(order.endDate)) {
-          dates.push(new Date(currentDate));
+          dates.push(new Date(currentDate)); // Add each date in the range between startDate and endDate
           currentDate = addDays(currentDate, 1);
         }
         return dates;
       })
-      .flat();
-
-    setDisabledDates(bookedDates);
-
+      .flat(); // Flatten array to get a list of all booked dates
+  
+    setDisabledDates(bookedDates); // Set disabled dates in state
+  
     if (car && date > new Date(endDate)) {
-      const days = Math.ceil(
-        (date - new Date(endDate)) / (1000 * 60 * 60 * 24)
-      );
+      const days = Math.ceil((date - new Date(endDate)) / (1000 * 60 * 60 * 24));
       const total = days * car.rentPrice;
       setPriceSummary({ days, pricePerDay: car.rentPrice, total });
     } else {
       setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
     }
-
-    setIsCalendarLoading(false); // Stop loading for calendar after fetching
-  };
+  
+    setIsCalendarLoading(false); // Stop loading for calendar
+  };  
 
   // Handle extend rent action
   const handleExtendRent = (orderId, endDate) => {
@@ -310,6 +338,7 @@ export const OrderHistoryPage = () => {
       const userId = JSON.parse(storedUser).userId;
       console.log("Stored user ID:", userId);
       fetchUserData(userId);
+      fetchBookedDates(); // Fetch booked dates for disabling calendar
     } else {
       navigate("/login");
     }
@@ -437,20 +466,14 @@ export const OrderHistoryPage = () => {
                                         onChange={(date) =>
                                           handleDateChange(date, order.endDate, order.car.carId)
                                         }
-                                        minDate={
-                                          new Date(
-                                            new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000
-                                          )
-                                        }
+                                        minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
                                         excludeDates={disabledDates} // Disable already booked dates
                                         placeholderText="Select new end date"
                                       />
                                       <div className="summary">
                                         <h4>Summary of the Cost for Extension:</h4>
                                         <p>Days: {priceSummary.days}</p>
-                                        <p>
-                                          Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}
-                                        </p>
+                                        <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
                                         <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
                                       </div>
                                     </div>
