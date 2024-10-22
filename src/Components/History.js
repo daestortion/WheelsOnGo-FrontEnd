@@ -295,7 +295,7 @@ export const OrderHistoryPage = () => {
         }
         return dates;
       })
-      .flat(); // Flatten array to get a list of all booked dates
+      .flat(); // Flatten to a single array of dates
   
     setDisabledDates(bookedDates); // Set disabled dates in state
   
