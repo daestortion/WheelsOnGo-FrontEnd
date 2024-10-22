@@ -265,94 +265,115 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
   return (
     <div className="extend-payment-popup">
-      <div className="overlap-wrapper-popup">
+
         <div className="content">
-          <div className="header">Extend Rent Payment</div>
 
-          <button className="close-button" onClick={onClose}>
-            <img className="vector-2" alt="Close" src={close} />
-          </button>
 
-          <div className="car-picture">
-            {car && (
-              <img
-                src={`data:image/png;base64,${car.carImage}`}
-                alt={`${car.carBrand} ${car.carModel}`}
-                className="car-image"
-                style={{ width: '100%', height: 'auto' }}
-              />
-            )}
-          </div>
-          {car && (
-            <div className="car-deets">{car.carBrand} {car.carModel} {car.carYear}</div>
-          )}
-          <div className="price-pnum">
-            <div className="price">₱{car?.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-            <div className="pnum">{car?.owner?.pNum}</div>
-            <img className="vertical" alt="Vector" src={line1} />
-          </div>
+        <div className='extend9'>
+          <div className="spacer1"></div>
+            <h1 className="header">Extend Rent Payment</h1>
 
-          <div className="ref-id">Reference Id: {referenceNumber}</div>
-          <div className="start-date">Start Date: {startDate ? new Date(startDate).toLocaleDateString() : "N/A"}</div>
-          <div className="end-date">New Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-          <div className="balance">Balance: ₱{priceSummary.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-
-          <p className="by-click">By clicking, you are confirming that you have read,</p>
-          <p className="understood-agree">
-            <span className="spanthis">understood and agree to the </span>
-            <a href={TAC} target="_blank" rel="noopener noreferrer" className="tac-link">terms and conditions</a>
-            <span className="spanthis">.</span>
-          </p>
-          <input
-            type="checkbox"
-            className="checkbox"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
-
-          <div className="image-slide">
-            <ImageSlider />
-          </div>
-
-          <div className="payment-options">
-            <p className="payment-methods">Choose Payment Method</p>
-            <button
-              onClick={createPaymentLink}
-              className="paymongo-option"
-              disabled={!isChecked}
-              style={{
-                pointerEvents: isChecked ? 'auto' : 'none',
-                opacity: isChecked ? 1 : 0.5,
-              }}
-            >
-              <img src={paymonggo} alt="PayMongo Logo" className="paymongologo" />
+            <button className="close-buttosn" onClick={onClose}>
+              <img className="vector-2" alt="Close" src={close} />
             </button>
-
-            <div
-              style={{
-                pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
-                opacity: isChecked && !paypalPaid ? 1 : 0.5,
-                position: 'relative'
-              }}
-            >
-              <PayPal totalPrice={priceSummary.total} onSuccess={handlePayPalSuccess} onError={() => setShowPayPalError(true)} />
-              {paypalPaid && (
-                <div style={{
-                  position: 'absolute',
-                  top: '530px',
-                  left: '85px',
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                  <span style={{ color: 'green', fontSize: '2rem' }}>✔</span>
-                </div>
-              )}
-            </div>
           </div>
-        </div>
+
+            <div className='extend8'>
+              <div className='extend4'>
+                <div className='extend2'>
+                    <div className="car-picture">
+                      {car && (
+                        <img
+                          src={`data:image/png;base64,${car.carImage}`}
+                          alt={`${car.carBrand} ${car.carModel}`}
+                          className="car-image"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      )}
+                    </div>
+
+
+                  <div className='extend1'>
+                      {car && (
+                        <div className="car-deets">{car.carBrand} {car.carModel} {car.carYear}</div>
+                      )}
+
+                      <div className="group-pnum">
+                        <div className="price">₱{car?.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <img className="vertical" alt="Vector" src={line1} />
+                        <div className="pnum">{car?.owner?.pNum}</div>
+                      </div>
+                  </div>
+              </div>
+
+                <div className='extend3'>
+                  <div className="ref-id">Reference Id: {referenceNumber}</div>
+                  <div className="start-date">Start Date: {startDate ? new Date(startDate).toLocaleDateString() : "N/A"}</div>
+                  <div className="end-date">New Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
+                  <div className="balance">Balance: ₱{priceSummary.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                </div>
+
+                <div className='extend5'>
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />
+
+                  <div className="understood-agree">
+                    <p className="by-click">by clicking, you are confirming that you have read,</p>
+                    <span className="spanthis">understood and agree to the <a href={TAC} target="_blank" rel="noopener noreferrer" className="tac-link">terms and conditions</a> </span>
+                  </div>
+                </div>
+              </div>
+                
+                
+              <div className='extend7'>
+                  <div className="image-slide">
+                    <ImageSlider />
+                  </div>
+
+                    <p className="payment-methods">Choose Payment Method</p>
+
+                    <button
+                      onClick={createPaymentLink}
+                      className="paymongo-option"
+                      disabled={!isChecked}
+                      style={{
+                        pointerEvents: isChecked ? 'auto' : 'none',
+                        opacity: isChecked ? 1 : 0.5,
+                      }}
+                    >
+                      <img src={paymonggo} alt="PayMongo Logo" className="paymongologo" />
+                    </button>
+
+                    <div
+                      style={{
+                        pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
+                        opacity: isChecked && !paypalPaid ? 1 : 0.5,
+                        position: 'relative'
+                      }}
+                    >
+                      <PayPal totalPrice={priceSummary.total} onSuccess={handlePayPalSuccess} onError={() => setShowPayPalError(true)} />
+                      {paypalPaid && (
+                        <div style={{
+                          position: 'relative',
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                          <span style={{ color: 'green', fontSize: '2rem' }}>✔</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+          </div>
+
+
+        
       </div>
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}

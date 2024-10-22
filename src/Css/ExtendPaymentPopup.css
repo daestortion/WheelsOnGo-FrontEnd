@@ -9,20 +9,24 @@
     justify-content: center;  
     background-color: rgba(0, 0, 0, 0.5);  
     z-index: 1050; 
-    overflow: hidden; /* Prevent scrolling */
-  }
-  
-  .extend-payment-popup .overlap-wrapper-popup {
-    width: 1502px;
   }
   
   .extend-payment-popup .content {
     background-color: #d7d1d1;
-    border-radius: 50px;
-    height: 724px;
+    border-radius: 30px;
+    height: auto;
     position: relative;
-    width: 1698px;
-    left: -75px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 50px;
+    gap: 50px;
+  }
+
+  .spacer1 {
+    flex: 1; /* Takes up the same space as the close button to balance the layout */
   }
   
     
@@ -45,13 +49,12 @@
       font-family: "Inter-SemiBold", Helvetica;
       font-size: 50px;
       font-weight: 600;
-      left: 164px;
       letter-spacing: 0.62px;
       line-height: normal;
-      position: absolute;
+      position: relative;
       text-align: center;
-      top: 33px;
-      width: 600px;
+      margin: 0;
+
     }
     
     .extend-payment-popup .back {
@@ -78,14 +81,9 @@
       font-family: "Inter-Medium", Helvetica;
       font-size: 20px;
       font-weight: 500;
-      height: 34px;
-      left: 239px;
-      letter-spacing: 0.25px;
-      line-height: 140px;
-      position: absolute;
-      top: 500px;
+      position: relative;
       white-space: nowrap;
-      width: 608px;
+      margin: 0;
     }
     
     .extend-payment-popup .payment-methods {
@@ -93,17 +91,85 @@
       font-family: "Inter-Medium", Helvetica;
       font-size: 18px;
       font-weight: 500;
-      height: 34px;
-      left: 975px;
-      letter-spacing: 0.23px;
-      line-height: 140px;
-      position: absolute;
+      position: relative;
       text-align: center;
-      top: 265px;
       white-space: nowrap;
-      width: 560px;
+      margin: 0;
+    }
+
+    .extend1 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .extend2 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .extend3 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .extend4 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .extend5 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .extend6 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .extend7 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .extend8 {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 150px;
     }
     
+    .extend9 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+    }
+
     .extend-payment-popup .pppp {
       color: #e32128;
       font-family: "Inter-Medium", Helvetica;
@@ -137,35 +203,43 @@
     }
   
     .extend-payment-popup .understood-agree {
-      color: #e32128;
+      
       font-family: "Inter-Medium", Helvetica;
       font-size: 20px;
       font-weight: 500;
-      height: 34px;
-      left: 239px;
-      letter-spacing: 0.25px;
-      line-height: 140px;
-      position: absolute;
-      top: 530px;
+      position: relative;
       white-space: nowrap;
-      width: 608px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
     
     .extend-payment-popup .spanthis {
       letter-spacing: 0.05px;
+      color: #e32128;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 20px;
+      font-weight: 500;
+      position: relative;
+      white-space: nowrap;
     }
     
     .extend-payment-popup .tac-link {
       letter-spacing: 0.05px;
       text-decoration: underline;
+      font-family: "Inter-Medium", Helvetica;
+      font-size: 20px;
+      font-weight: 500;
+      position: relative;
+      white-space: nowrap;
     }
     
     .extend-payment-popup .checkbox {
       background-color: #ffffff;
       height: 35px;
-      left: 181px;
-      position: absolute;
-      top: 588px;
+      position: relative;
       width: 35px;
       border: none;
     }
@@ -175,9 +249,7 @@
       border-radius: 40px; 
       height: 200px;  /* Adjusted height to fit the image */
       width: 200px;   /* Adjusted width to fit the image */
-      left: 95px; 
-      position: absolute; 
-      top: 148px; 
+      position: relative; 
       display: flex;          /* Use flexbox to center the image */
       align-items: center;    /* Vertically center the image */
       justify-content: center; /* Horizontally center the image */
@@ -189,20 +261,17 @@
       font-family: "Inter-SemiBold", Helvetica;
       font-size: 40px;
       font-weight: 600;
-      left: 335px;
-      letter-spacing: 0.5px;
       line-height: normal;
-      position: absolute;
-      top: 196px;
-      width: 575px;
+      position: relative;
     }
     
-    .extend-payment-popup .price-pnum {
-      height: 43px;
-      left: 297px;
-      position: absolute;
-      top: 254px;
-      width: 590px;
+    .extend-payment-popup .group-pnum {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
     }
     
     .extend-payment-popup .price {
@@ -210,14 +279,8 @@
       font-family: "Inter-Medium", Helvetica;
       font-size: 30px;
       font-weight: 500;
-      height: 34px;
-      left: 40px;
-      letter-spacing: 0.38px;
-      line-height: 140px;
-      position: absolute;
-      top: -48px;
+      position: relative;
       white-space: nowrap;
-      width: 418px;
     }
     
     .extend-payment-popup .pnum {
@@ -225,22 +288,12 @@
       font-family: "Inter-Medium", Helvetica;
       font-size: 30px;
       font-weight: 500;
-      height: 34px;
-      left: 197px;
-      letter-spacing: 0.38px;
-      line-height: 140px;
-      position: absolute;
-      top: -48px;
+      position: relative;
       white-space: nowrap;
-      width: 418px;
     }
     
     .extend-payment-popup .vertical {
-      height: 43px;
-      left: 188px;
-      position: absolute;
-      top: 0;
-      width: 2px;
+      position: relative;
     }
     
     .extend-payment-popup .end-date {
@@ -248,12 +301,9 @@
       font-family: "Inter-SemiBold", Helvetica;
       font-size: 25px;
       font-weight: 600;
-      left: 110px;
       letter-spacing: 0;
       line-height: normal;
-      position: absolute;
-      top: 459px;
-      width: 500px;
+      position: relative;
     }
     
     .extend-payment-popup .balance {
@@ -261,12 +311,9 @@
       font-family: "Inter-SemiBold", Helvetica;
       font-size: 25px;
       font-weight: 600;
-      left: 111px;
       letter-spacing: 0;
       line-height: normal;
-      position: absolute;
-      top: 499px;
-      width: 250px;
+      position: relative;
     }
     
     .extend-payment-popup .start-date {
@@ -274,12 +321,9 @@
       font-family: "Inter-SemiBold", Helvetica;
       font-size: 25px;
       font-weight: 600;
-      left: 111px;
       letter-spacing: 0;
       line-height: normal;
-      position: absolute;
-      top: 419px;
-      width: 500px;
+      position: relative;
     }
     
     .extend-payment-popup .ref-id {
@@ -287,12 +331,9 @@
       font-family: "Inter-SemiBold", Helvetica;
       font-size: 25px;
       font-weight: 600;
-      left: 111px;
       letter-spacing: 0;
       line-height: normal;
-      position: absolute;
-      top: 379px;
-      width: 825px;
+      position: relative;
     }
     
     .extend-payment-popup .overlap-2 {
@@ -389,33 +430,27 @@
       width: 160px;
     }
     
-    .extend-payment-popup .close-button {
-      background-color: #e32128;
-      border-radius: 9px;
-      height: 50px;
-      left: 1580px;
-      position: absolute;
-      top: 34px;
-      width: 50px;
+    .extend-payment-popup .close-buttosn {
+      position: relative;
       border: none;
+      background: none;
+      flex: 1; /* Ensure it takes space to balance the layout */
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
     
     .extend-payment-popup .vector-2 {
-      height: 30px;
-      left: 10px;
-      position: absolute;
-      top: 10px;
-      width: 30px;
+      position: relative;
+      border-radius: 9px;
     }
     
     .extend-payment-popup .image-slide {
       height: 280px;
-      left: 1115px;
       max-width: 100%;  /* Ensure the image doesn't exceed the container's width */
       max-height: 100%; /* Ensure the image doesn't exceed the container's height */
       object-fit: contain; /* Fit the image inside the container while preserving aspect ratio */
-      position: absolute;
-      top: 30px;
+      position: relative;
       width: 280px;
     }
     
@@ -467,6 +502,4 @@
       width: 570px;
       height: 55px;
       border-radius: 30px;
-      left: 970px;
-      top: 520px;
     }
