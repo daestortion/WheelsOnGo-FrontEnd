@@ -28,7 +28,7 @@ export const AdminLogin = () => {
     };
 
     try {
-      const response = await fetch("https://tender-curiosity-production.up.railway.app/admin/login", {
+      const response = await fetch("http://localhost:8080/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

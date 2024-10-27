@@ -53,7 +53,7 @@ export const OrderHistoryPage = () => {
     setIsCalendarLoading(true); // Start loading calendar
     try {
       const response = await axios.get(
-        `https://tender-curiosity-production.up.railway.app/order/getAllOrders`
+        `http://localhost:8080/order/getAllOrders`
       );
       const orders = response.data;
 
@@ -87,7 +87,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching begins
     try {
       const response = await axios.get(
-        `https://tender-curiosity-production.up.railway.app/user/getAllOrdersFromUser/${userId}`
+        `http://localhost:8080/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
         setAllOrders(response.data);
@@ -108,7 +108,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `https://tender-curiosity-production.up.railway.app/car/getCarById/${carId}`
+        `http://localhost:8080/car/getCarById/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -126,7 +126,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `https://tender-curiosity-production.up.railway.app/order/getOrdersByCarId/${carId}`
+        `http://localhost:8080/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -144,7 +144,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `https://tender-curiosity-production.up.railway.app/user/${userId}/carOrders`
+        `http://localhost:8080/user/${userId}/carOrders`
       );
       if (response.status === 200) {
         setOrders(response.data);
@@ -164,7 +164,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching user data
     try {
       const response = await axios.get(
-        `https://tender-curiosity-production.up.railway.app/user/getUserById/${userId}`
+        `http://localhost:8080/user/getUserById/${userId}`
       );
       if (response.status === 200) {
         setCurrentUser(response.data);
@@ -213,7 +213,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.put(
-        `https://tender-curiosity-production.up.railway.app/order/terminateOrder/${orderId}`
+        `http://localhost:8080/order/terminateOrder/${orderId}`
       );
       if (response.status === 200) {
         setOrders((prevOrders) =>
@@ -237,7 +237,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.put(
-        `https://tender-curiosity-production.up.railway.app/order/markAsReturned/${orderId}`
+        `http://localhost:8080/order/markAsReturned/${orderId}`
       );
       if (response.status === 200) {
         console.log("Car return processed successfully, orderId:", orderId);
@@ -257,7 +257,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://tender-curiosity-production.up.railway.app/order/approveOrder/${orderId}`,
+        `http://localhost:8080/order/approveOrder/${orderId}`,
         { method: "PUT" }
       );
       if (response.ok) {

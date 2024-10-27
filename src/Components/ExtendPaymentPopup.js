@@ -48,7 +48,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`https://tender-curiosity-production.up.railway.app/order/getOrderById/${orderId}`);
+        const response = await axios.get(`http://localhost:8080/order/getOrderById/${orderId}`);
         if (response.status === 200 && response.data) {
           setOrderDetails(response.data);
           const { car, endDate: orderEndDate } = response.data;
@@ -145,7 +145,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     if (!orderDetails) return;
 
     const amountInCentavos = Math.round(priceSummary.total * 100);
-    const response = await fetch('https://tender-curiosity-production.up.railway.app/api/payment/create-link', {
+    const response = await fetch('http://localhost:8080/api/payment/create-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -186,7 +186,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   
       // Make request to extend the order with the new end date
       const updateResponse = await axios.put(
-        `https://tender-curiosity-production.up.railway.app/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
+        `http://localhost:8080/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
         updatedOrderData,
         {
           headers: {
@@ -206,7 +206,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
         };
   
         // Update the payment status
-        const paymentResponse = await axios.post(`https://tender-curiosity-production.up.railway.app/order/updatePaymentStatus`, paymentData, {
+        const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
           headers: {
             'Content-Type': 'application/json',
           },

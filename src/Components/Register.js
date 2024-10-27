@@ -44,7 +44,7 @@ export const Registration = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("https://tender-curiosity-production.up.railway.app/user/insertUser", {
+      const response = await axios.post("http://localhost:8080/user/insertUser", {
         username: userName,
         fName: firstName,
         lName: lastName,
