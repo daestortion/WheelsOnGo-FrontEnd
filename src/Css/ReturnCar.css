@@ -1,0 +1,187 @@
+.return-car {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    padding-top: 112px; /* Offset for the fixed header height */
+    }
+    
+    .return-car .overlap-wrapper {
+      background-color: #ffffff;
+      height: auto;
+      width: 1920px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 150px;
+      height: 100%; /* Adjust to 100% of parent's height */
+    }
+    
+    .return-car .overlap1211 {
+      background-image: url(../Images/homebackground.png);
+      background-position: 50% 50%;
+      background-size: cover;
+      height: 939px;
+      position: relative;
+    }
+    
+    .return-car .overlap-2 {
+      background-color: #d7d1d1;
+      border-radius: 40px;
+      height: auto;
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      padding: 40px;
+    }
+    
+    .return-car .text-wrapper-3 {
+      color: #848484;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 30px;
+      font-weight: 700;
+      left: 36px;
+      letter-spacing: 0;
+      line-height: normal;
+      position: absolute;
+      top: 15px;
+      white-space: nowrap;
+      width: 641px;
+    }
+    
+    .return-car .overlap-3 {
+      background-color: #ffffff;
+      border-radius: 35px;
+      height: 120px;
+      position: relative;
+      color: #848484;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      white-space: nowrap;
+      padding-left: 40px;
+      padding-right: 40px;
+      border: none;
+      width: 80%;
+    }
+    
+    .return-car .overlap-group-wrapper {
+      height: 71px;
+      left: 99px;
+      position: absolute;
+      top: 534px;
+      width: 714px;
+    }
+    
+    .return-car .overlap-4 {
+      background-color: #e80029;
+      border-radius: 35px;
+      height: 71px;
+      position: relative;
+      width: 90%;
+      border: none;
+      color: #ffffff;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+    
+    .return-car .new-profile-details {
+      color: #000000;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      position: relative;
+      white-space: nowrap;
+      margin: 0;
+    }
+    
+    .return-car .text-wrapper-6wq {
+      color: #000000;
+      font-family: "Inter-SemiBold", Helvetica;
+      font-size: 50px;
+      font-weight: 600;
+      line-height: normal;
+      position: relative;
+    }
+  
+    .return-car .rectangle12 {
+        border-radius: 40px;
+        height: 450px;
+        position: relative;
+        width: 450px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+  
+    
+    .return-car .group-222 {
+      height: 71px;
+      left: 196px;
+      position: absolute;
+      top: 750px;
+      width: 450px;
+    }
+    
+    .return-car .overlap-group-211 {
+      background-color: #e80029;
+      border-radius: 35px;
+      height: 71px;
+      position: relative;
+      width: 448px;
+      border: none;
+      color: #ffffff;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      text-align: center;
+    }
+  
+    .wew1{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      gap: 20px;
+    }
+    
+    .order-deets {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+      color: #000000;
+      font-family: "Inter-Bold", Helvetica;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: normal;
+      white-space: nowrap;
+      padding-left: 40px;
+      padding-right: 40px;
+      border: none;
+      width: 80%;
+    }
