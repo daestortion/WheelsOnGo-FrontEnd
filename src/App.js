@@ -32,11 +32,8 @@ import Messages from './Components/Messages.js'
 import AdminActivityLogs from './Components/AdminActivityLogs.js';
 import Balance from './Components/BalancePage.js'
 import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
-<<<<<<< HEAD
 import ReturnCarForm from './Components/ReturnCarForm.js'
-=======
 import ReturnCar from './Components/ReturnCar.js';
->>>>>>> 2421a9a121f76f55fbb84b0ccc8278c0fe2be732
 
 function DebugRoutes() {
     const location = useLocation();
