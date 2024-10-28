@@ -232,3 +232,14 @@
     text-align: center; /* Center the text */
     background-color: #009d40;
   }
+
+  .return-car {
+    padding: 8px 12px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;  /* Set a fixed width */
+    text-align: center; /* Center the text */
+    background-color: #009d40;
+  }

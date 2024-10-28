@@ -230,8 +230,11 @@ export const OrderHistoryPage = () => {
       setIsLoading(false); // Ensure loading is stopped after the operation
     }
   };
-
   
+  const handleReturnCar = (orderId) => {
+    navigate(`/returncar/${orderId}`);
+  };
+
   // Handle car returned action
   const handleCarReturned = async (orderId) => {
     setIsLoading(true);
@@ -375,122 +378,120 @@ export const OrderHistoryPage = () => {
             <div className="overlap-212">
               <div className="rectangle213">
                 <div className="table-container213">
-                  <table className="order-table213">
-                    <thead>
+                <table className="order-table213">
+                  <thead>
                       <tr>
-                        <th>Car</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Total Price</th>
-                        <th>Reference Number</th>
-                        <th>Car Address</th>
-                        <th>Owner</th>
-                        <th>Owner Phone</th>
-                        <th>Payment Option</th>
-                        {showOwnedCars && <th>Approve</th>}{" "}
-                        <th>Status</th>
-                        <th>Activity</th>
-                        <th>Termination</th>
-                        {showOwnedCars && <th>isReturned</th>}{" "}
-                        {showOngoingRents && <th>Actions</th>}
+                          <th>Car</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Total Price</th>
+                          <th>Reference Number</th>
+                          <th>Car Address</th>
+                          <th>Owner</th>
+                          <th>Owner Phone</th>
+                          <th>Payment Option</th>
+                          {showOwnedCars && <th>Approve</th>}
+                          <th>Status</th>
+                          <th>Activity</th>
+                          <th>Termination</th>
+                          {!showOwnedCars && !showOngoingRents && <th>Return</th>}
+                          {showOwnedCars && <th>isReturned</th>}
+                          {showOngoingRents && <th>Actions</th>}
                       </tr>
-                    </thead>
-                    <tbody>
+                  </thead>
+                  <tbody>
                       {orders.map((order) => (
-                        <tr key={order.orderId}>
-                          <td>
-                            {order.car.carBrand} {order.car.carModel}
-                          </td>
-                          <td>{formatDate(order.startDate)}</td>
-                          <td>{formatDate(order.endDate)}</td>
-                          <td>
-                            ₱
-                            {order.totalPrice.toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })}
-                          </td>
-                          <td>{order.referenceNumber}</td>
-                          <td>{order.car.address}</td>
-                          <td>{order.car.owner.username}</td>
-                          <td>{order.car.owner.pNum}</td>
-                          <td>{order.paymentOption}</td>
-                          {showOwnedCars &&
-                            (order.paymentOption === "Cash" ? (
+                          <tr key={order.orderId}>
+                              <td>{order.car.carBrand} {order.car.carModel}</td>
+                              <td>{formatDate(order.startDate)}</td>
+                              <td>{formatDate(order.endDate)}</td>
+                              <td>₱{order.totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                              <td>{order.referenceNumber}</td>
+                              <td>{order.car.address}</td>
+                              <td>{order.car.owner.username}</td>
+                              <td>{order.car.owner.pNum}</td>
+                              <td>{order.paymentOption}</td>
+                              {showOwnedCars && (order.paymentOption === "Cash" ? (
+                                  <td>
+                                      <button
+                                          className="button-approve"
+                                          onClick={() => handleApprove(order.orderId)}
+                                      >
+                                          Approve
+                                      </button>
+                                  </td>
+                              ) : (
+                                  <td></td>
+                              ))}
+                              <td>{getStatusText(order.status)}</td>
+                              <td>{getActivity(order.active)}</td>
                               <td>
-                                <button
-                                  className="button-approve"
-                                  onClick={() => handleApprove(order.orderId)}
-                                >
-                                  Approve
-                                </button>
+                                  {order.terminated
+                                      ? `Terminated on ${new Date(order.terminationDate).toISOString().split("T")[0]}`
+                                      : ""}
                               </td>
-                            ) : (
-                              <td></td>
-                            ))}
-                          <td>{getStatusText(order.status)}</td>
-                          <td>{getActivity(order.active)}</td>
-                          <td>
-                            {order.terminated
-                              ? `Terminated on ${new Date(
-                                  order.terminationDate
-                                )
-                                  .toISOString()
-                                  .split("T")[0]}`
-                              : ""}
-                          </td>
-                          {showOwnedCars && (
-                            <td>
-                              <button
-                                className="return"
-                                onClick={() => handleCarReturned(order.orderId)}
-                              >
-                                Returned
-                              </button>
-                            </td>
-                          )}
-                          {showOngoingRents && (
-                            <td>
-                              {order.active && (
-                                <div>
-                                  <button
-                                    className="extend"
-                                    onClick={() => handleExtendRent(order.orderId, order.endDate)}
-                                  >
-                                    {showDatePicker === order.orderId ? "Submit" : "Extend"}
-                                  </button>
-                                  {showDatePicker === order.orderId && (
-                                    <div>
-                                      <DatePicker
-                                        selected={selectedDate}
-                                        onChange={(date) =>
-                                          handleDateChange(date, order.endDate, order.car.carId)
-                                        }
-                                        minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
-                                        excludeDates={disabledDates} // Disable already booked dates
-                                        placeholderText="Select new end date"
-                                      />
-                                      <div className="summary">
-                                        <h4>Summary of the Cost for Extension:</h4>
-                                        <p>Days: {priceSummary.days}</p>
-                                        <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
-                                        <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
+                              {!showOwnedCars && !showOngoingRents && (
+                                  <td>
+                                      <button
+                                          className="return-car"
+                                          onClick={() => handleReturnCar(order.orderId)}
+                                      >
+                                          Return Car
+                                      </button>
+                                  </td>
                               )}
-                              {showDatePicker !== order.orderId && (
-                                <button className="terminate" onClick={() => handleTerminate(order.orderId)}>
-                                  Terminate
-                                </button>
+                              {showOwnedCars && (
+                                  <td>
+                                      <button
+                                          className="return"
+                                          onClick={() => handleCarReturned(order.orderId)}
+                                      >
+                                          Returned
+                                      </button>
+                                  </td>
                               )}
-                            </td>
-                          )}
-                        </tr>
+                              {showOngoingRents && (
+                                  <td>
+                                      {order.active && (
+                                          <div>
+                                              <button
+                                                  className="extend"
+                                                  onClick={() => handleExtendRent(order.orderId, order.endDate)}
+                                              >
+                                                  {showDatePicker === order.orderId ? "Submit" : "Extend"}
+                                              </button>
+                                              {showDatePicker === order.orderId && (
+                                                  <div>
+                                                      <DatePicker
+                                                          selected={selectedDate}
+                                                          onChange={(date) =>
+                                                              handleDateChange(date, order.endDate, order.car.carId)
+                                                          }
+                                                          minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
+                                                          excludeDates={disabledDates} // Disable already booked dates
+                                                          placeholderText="Select new end date"
+                                                      />
+                                                      <div className="summary">
+                                                          <h4>Summary of the Cost for Extension:</h4>
+                                                          <p>Days: {priceSummary.days}</p>
+                                                          <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
+                                                          <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
+                                                      </div>
+                                                  </div>
+                                              )}
+                                          </div>
+                                      )}
+                                      {showDatePicker !== order.orderId && (
+                                          <button className="terminate" onClick={() => handleTerminate(order.orderId)}>
+                                              Terminate
+                                          </button>
+                                      )}
+                                  </td>
+                              )}
+                          </tr>
                       ))}
-                    </tbody>
-                  </table>
+                  </tbody>
+              </table>
                 </div>
               </div>
               <img className="vector212" alt="Vector" src={vector} />

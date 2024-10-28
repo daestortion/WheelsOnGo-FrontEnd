@@ -32,7 +32,11 @@ import Messages from './Components/Messages.js'
 import AdminActivityLogs from './Components/AdminActivityLogs.js';
 import Balance from './Components/BalancePage.js'
 import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
+<<<<<<< HEAD
 import ReturnCarForm from './Components/ReturnCarForm.js'
+=======
+import ReturnCar from './Components/ReturnCar.js';
+>>>>>>> 2421a9a121f76f55fbb84b0ccc8278c0fe2be732
 
 function DebugRoutes() {
     const location = useLocation();
@@ -75,6 +79,8 @@ function AuthRoutes() {
             <Route path="/balance-page" element={<PrivateRoute><Balance/></PrivateRoute>} />
             <Route path="/return-car-form" element={<PrivateRoute><ReturnCarForm /></PrivateRoute>} />
 
+            <Route path="/returncar/:orderId" element={<PrivateRoute><ReturnCar/></PrivateRoute>} />
+            
             <Route path="/adminorder" element={<AdminOrder />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/messages" element={<Messages />} />
