@@ -60,7 +60,7 @@ export const ReturnCar = () => {
 
                     {(proofOfReturnURL || !proofOfReturnURL) && (
                         <div
-                            className="rectangle12"
+                            className="proofOfReturn"
                             style={{
                                 backgroundImage: proofOfReturnURL
                                     ? `url(${proofOfReturnURL})`
@@ -78,14 +78,14 @@ export const ReturnCar = () => {
                     )}
 
                     <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-                    <button className="overlap-group-211" onClick={handleClickUpload}>
+                    <button className="upload" onClick={handleClickUpload}>
                         Upload
                     </button>
                 </div>
 
                 <div className="overlap-2">
                     {/* Display carBrand and carModel inside the <h1> */}
-                    <h1 className="new-profile-details">
+                    <h1 className="rented-car">
                         {orderDetails ? `${orderDetails.car.carBrand} ${orderDetails.car.carModel}` : "Loading car details..."}
                     </h1>
 
@@ -95,9 +95,9 @@ export const ReturnCar = () => {
                         <div className="end-date">End Date: {orderDetails?.endDate ? new Date(orderDetails.endDate).toLocaleDateString() : "N/A"}</div>
                     </div>
 
-                    <input className="overlap-3" type="text" placeholder="Assessment"/>
+                    <input className="assessment" type="text" placeholder="Assessment"/>
 
-                    <button className="overlap-4" onClick={handleReturnCar}>
+                    <button className="button-return" onClick={handleReturnCar}>
                         Return Car
                     </button>
                 </div>

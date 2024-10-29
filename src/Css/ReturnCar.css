@@ -60,7 +60,7 @@
       width: 641px;
     }
     
-    .return-car .overlap-3 {
+    .return-car .assessment {
       background-color: #ffffff;
       border-radius: 35px;
       height: 120px;
@@ -89,7 +89,7 @@
       width: 714px;
     }
     
-    .return-car .overlap-4 {
+    .return-car .button-return {
       background-color: #e80029;
       border-radius: 35px;
       height: 71px;
@@ -105,7 +105,7 @@
       text-align: center;
     }
     
-    .return-car .new-profile-details {
+    .return-car .rented-car {
       color: #000000;
       font-family: "Inter-Bold", Helvetica;
       font-size: 40px;
@@ -126,7 +126,7 @@
       position: relative;
     }
   
-    .return-car .rectangle12 {
+    .return-car .proofOfReturn {
         color: #000000;
         border-radius: 40px;
         height: 450px;
@@ -146,7 +146,7 @@
       width: 450px;
     }
     
-    .return-car .overlap-group-211 {
+    .return-car .upload {
       background-color: #e80029;
       border-radius: 35px;
       height: 71px;
