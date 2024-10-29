@@ -32,6 +32,7 @@ import Messages from './Components/Messages.js'
 import AdminActivityLogs from './Components/AdminActivityLogs.js';
 import Balance from './Components/BalancePage.js'
 import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
+import ReturnCarForm from './Components/ReturnCarForm.js'
 import ReturnCar from './Components/ReturnCar.js';
 
 function DebugRoutes() {
@@ -73,6 +74,8 @@ function AuthRoutes() {
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             <Route path="/balance-page" element={<PrivateRoute><Balance/></PrivateRoute>} />
+            <Route path="/return-car-form" element={<PrivateRoute><ReturnCarForm /></PrivateRoute>} />
+
             <Route path="/returncar/:orderId" element={<PrivateRoute><ReturnCar/></PrivateRoute>} />
             
             <Route path="/adminorder" element={<AdminOrder />} />
