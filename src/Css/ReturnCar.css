@@ -76,6 +76,9 @@
       padding-right: 40px;
       border: none;
       width: 80%;
+      overflow: hidden; /* Hide the scrollbar */
+      overflow-y: scroll; /* Enable vertical scrolling without showing the scrollbar */
+      scrollbar-width: none;
     }
     
     .return-car .overlap-group-wrapper {
@@ -124,6 +127,7 @@
     }
   
     .return-car .rectangle12 {
+        color: #000000;
         border-radius: 40px;
         height: 450px;
         position: relative;
