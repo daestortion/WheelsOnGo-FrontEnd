@@ -1,27 +1,35 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .order-history-page {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Disable vertical scrolling */
-    height: 100vh; /* Limit the height to the viewport height */
-  }
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding-top: 112px;
+}
   
   .order-history-page .overlap-wrapper213 {
-    background-color: #ffffff;
-    height: 100%; /* Adjust to 100% of parent's height */
-    height: 939px;
-    width: 1920px;
-  }
-  
-  .order-history-page .overlap213 {
-    background-image: url(../Images/homebackground.png);
-    background-position: 50% 50%;
-    background-size: cover;
-    height: 939px;
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: auto;
     position: relative;
+    padding: 40px;
+    gap: 40px;
   }
   
   .order-history-page .overlap-group213 {
@@ -74,11 +82,7 @@
   .order-history-page .rectangle213 {
     background-color: #d7d1d1;
     border-radius: 10px;
-    height: 681px;
-    left: 143px;
-    position: absolute;
-    top: 0;
-    width: 1634px;
+    position: relative;
   }
   
   .order-history-page .vector212 {
@@ -103,20 +107,13 @@
     height: 50px;
     position: relative;
     width: 148px;
-  }
-  
-  .order-history-page .text-wrapper-3213 {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 16px;
     font-weight: 700;
-    left: 15px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
     text-align: center;
-    top: 15px;
-    width: 120px;
+    border: none;
+    cursor: pointer;
   }
   
   .order-history-page .group-2213 {
@@ -127,20 +124,6 @@
     width: 150px;
   }
   
-  .order-history-page .text-wrapper-4213 {
-    color: #ffffff;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 16px;
-    font-weight: 700;
-    left: 18px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 15px;
-    width: 112px;
-  }
-  
   .order-history-page .group-3213 {
     height: 50px;
     left: 1455px;
@@ -148,21 +131,31 @@
     top: 161px;
     width: 150px;
   }
+
+  .grouping1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 30px;
+  }
+
+  .grouping2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+
+  }
   
   .order-history-page .text-wrapper-5213 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
     font-size: 50px;
     font-weight: 600;
-    height: 34px;
-    left: 143px;
-    letter-spacing: 0.62px;
-    line-height: 140px;
-    position: absolute;
+    position: relative;
     text-align: center;
-    top: 120px;
-    white-space: nowrap;
-    width: 344px;
   }
 
   .table-container213 {
@@ -180,6 +173,7 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    text-align: center;
   }
   
   .order-table213 th {
