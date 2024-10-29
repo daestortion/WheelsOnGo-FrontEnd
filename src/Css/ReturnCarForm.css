@@ -90,7 +90,7 @@
     margin-right: 10px;
   }
   
-  .submit-button {
+  .submit-buttons {
     padding: 12px;
     background-color: #4CAF50;
     color: white;
@@ -104,7 +104,7 @@
     margin-top: 20px;
   }
   
-  .submit-button:hover {
+  .submit-buttons:hover {
     background-color: #45a049;
   }
   
@@ -136,7 +136,7 @@
       height: 60px;
     }
   
-    .submit-button {
+    .submit-buttons {
       font-size: 16px;
       padding: 10px;
     }
