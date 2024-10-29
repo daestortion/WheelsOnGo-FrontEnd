@@ -88,7 +88,7 @@ function AcknowledgementForm() {
             </div>
           )}
           
-          <button type="submit" className="submit-button">Submit</button>
+          <button type="submit" className="submit-buttons">Submit</button>
         </form>
       </div>
     </div>

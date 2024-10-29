@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import "../Css/History.css";
-import vector from "../Images/adminvector.png";
 import ExtendPaymentPopup from "./ExtendPaymentPopup";
 import Header from "./Header.js";
 import Loading from "./Loading"; // Import Loading component
@@ -369,13 +368,46 @@ export const OrderHistoryPage = () => {
   return (
     <div className="order-history-page">
       <Header />
+      
       <div className="overlap-wrapper213">
+
+    <div className="grouping2">
+      <div className="text-wrapper-5213">Transaction History</div>
+      
+      <div className="grouping1">
+                <button
+                  className="div-wrapper213"
+                  onClick={handleOngoingRentClick}
+                >
+                  Ongoing Rent
+                </button>
+
+              {currentUser.owner ? (
+                  <button
+                    className="div-wrapper213"
+                    onClick={handleOwnedCarsClick}
+                  >
+                    Owned Cars
+                  </button>
+              ) : null}
+
+
+                <button
+                  className="div-wrapper213"
+                  onClick={handleRentHistoryClick}
+                >
+                Rent History
+                </button>
+            </div>
+    </div>
+
         {isLoading ? (
           <Loading /> // Show loading spinner while loading
         ) : (
           <div className="overlap213">
-            <div className="overlap-group123"></div>
-            <div className="overlap-212">
+
+         
+
               <div className="rectangle213">
                 <div className="table-container213">
                 <table className="order-table213">
@@ -494,35 +526,12 @@ export const OrderHistoryPage = () => {
               </table>
                 </div>
               </div>
-              <img className="vector212" alt="Vector" src={vector} />
-            </div>
-            <div className="overlap-group-wrapper213">
-              <button
-                className="div-wrapper213"
-                onClick={handleOngoingRentClick}
-              >
-                <div className="text-wrapper-3213">Ongoing Rent</div>
-              </button>
-            </div>
-            {currentUser.owner ? (
-              <div className="group-2213">
-                <button
-                  className="div-wrapper213"
-                  onClick={handleOwnedCarsClick}
-                >
-                  <div className="text-wrapper-4213">Owned Cars</div>
-                </button>
-              </div>
-            ) : null}
-            <div className="group-3213">
-              <button
-                className="div-wrapper213"
-                onClick={handleRentHistoryClick}
-              >
-                <div className="text-wrapper-4213">Rent History</div>
-              </button>
-            </div>
-            <div className="text-wrapper-5213">Transaction History</div>
+              
+         
+  
+
+            
+            
           </div>
         )}
       </div>
