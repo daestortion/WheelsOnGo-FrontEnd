@@ -7,9 +7,10 @@ import "../Css/ReturnCar.css";
 
 export const ReturnCar = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [proofOfReturnURL, setproofOfReturnURL] = useState('');
-    const [proofOfReturn, setproofOfReturn] = useState(null);
     const [orderDetails, setOrderDetails] = useState(null);
+    const [proofURL, setproofURL] = useState('');
+    const [proof, setProof] = useState(null);
+    const [remarks, setRemarks] = useState('');
     const { orderId } = useParams(); // Get orderId from URL params
 
     useEffect(() => {
@@ -35,8 +36,8 @@ export const ReturnCar = () => {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setproofOfReturn(file);
-            setproofOfReturnURL(URL.createObjectURL(file));
+            setProof(file);
+            setproofURL(URL.createObjectURL(file));
         }
     };
 
@@ -47,8 +48,36 @@ export const ReturnCar = () => {
         }
     };
     
-    const handleReturnCar = () => {
-        // Handle car return logic here
+    const handleReturnCar = async () => {
+        if (!proof || !remarks) {
+            alert("Please upload proof of return and provide remarks.");
+            return;
+        }
+
+        setIsLoading(true);
+        const formData = new FormData();
+        formData.append("proof", proof);
+        formData.append("remarks", remarks);
+        formData.append("returnDate", new Date().toISOString().split("T")[0]); // Current date as return date
+        formData.append("orderId", orderId);
+
+        try {
+            const response = await axios.post(`http://localhost:8080/returnProof/createReturnProof`,formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+            if (response.status === 200) {
+                alert("Car returned successfully processed.");
+                // You may want to redirect or update the page after a successful return
+            }
+        } catch (error) {
+            console.error("Error returning car:", error);
+            alert("An error occurred while processing the return.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -58,17 +87,17 @@ export const ReturnCar = () => {
                 <div className="wew1">
                     <div className="text-wrapper-6wq">Return Car</div>
 
-                    {(proofOfReturnURL || !proofOfReturnURL) && (
+                    {(proofURL || !proofURL) && (
                         <div
                             className="proofOfReturn"
                             style={{
-                                backgroundImage: proofOfReturnURL
-                                    ? `url(${proofOfReturnURL})`
+                                backgroundImage: proofURL
+                                    ? `url(${proofURL})`
                                     : `url('path/to/default/background/image.jpg')`, // Replace with your default background image path
-                                backgroundColor: proofOfReturnURL ? 'transparent' : '#d7d1d1' // Set background color when no image is uploaded
+                                backgroundColor: proofURL ? 'transparent' : '#d7d1d1' // Set background color when no image is uploaded
                             }}
                         >
-                            {!proofOfReturnURL && (
+                            {!proofURL && (
                                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                                     <p>Proof of Return <br />                    
                                     (You, owner, rented car)</p>
@@ -95,7 +124,7 @@ export const ReturnCar = () => {
                         <div className="end-date">End Date: {orderDetails?.endDate ? new Date(orderDetails.endDate).toLocaleDateString() : "N/A"}</div>
                     </div>
 
-                    <input className="assessment" type="text" placeholder="Assessment"/>
+                    <input className="assessment" type="text" placeholder="Remarks" onChange={(e) => setRemarks(e.target.value)} />
 
                     <button className="button-return" onClick={handleReturnCar}>
                         Return Car
