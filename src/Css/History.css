@@ -229,11 +229,10 @@ body {
 
   .return-car {
     padding: 8px 12px;
+    background-color: #00c04b;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 80px;  /* Set a fixed width */
-    text-align: center; /* Center the text */
-    background-color: #009d40;
+    margin: 2px;
   }

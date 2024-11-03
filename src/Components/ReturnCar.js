@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../Components/Header";
 import Loading from "../Components/Loading.js";
 import "../Css/ReturnCar.css";
+import ReturnSuccessPopup from './ReturnSuccessPopup';
 
 export const ReturnCar = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +13,7 @@ export const ReturnCar = () => {
     const [proof, setProof] = useState(null);
     const [remarks, setRemarks] = useState('');
     const { orderId } = useParams(); // Get orderId from URL params
+    const [showReturnSuccessPopup, setShowReturnSuccessPopup] = useState(false);
 
     useEffect(() => {
         const fetchOrderDetails = async () => {
@@ -53,32 +55,39 @@ export const ReturnCar = () => {
             alert("Please upload proof of return and provide remarks.");
             return;
         }
-
+    
+        console.log("Initiating return with orderId:", orderId); // Debug orderId
+    
         setIsLoading(true);
         const formData = new FormData();
         formData.append("proof", proof);
         formData.append("remarks", remarks);
         formData.append("returnDate", new Date().toISOString().split("T")[0]); // Current date as return date
         formData.append("orderId", orderId);
-
+    
+        // Debug log formData
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+    
         try {
-            const response = await axios.post(`http://localhost:8080/returnProof/createReturnProof`,formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
-
+            const response = await axios.post(`http://localhost:8080/returnProof/createReturnProof`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+    
             if (response.status === 200) {
-                alert("Car returned successfully processed.");
-                // You may want to redirect or update the page after a successful return
+                console.log("Car return processed successfully.");
+                setShowReturnSuccessPopup(true);
             }
         } catch (error) {
             console.error("Error returning car:", error);
-            alert("An error occurred while processing the return.");
+            console.log("An error occurred while processing the return.");
         } finally {
             setIsLoading(false);
         }
-    };
+    };   
 
     return (
         <div className="return-car">
@@ -113,6 +122,21 @@ export const ReturnCar = () => {
                 </div>
 
                 <div className="overlap-2">
+                    <div className="order-carImage">
+                        {/* Display the car image correctly */}
+                        {orderDetails?.car?.carImage && (
+                            <img
+                                src={
+                                    orderDetails.car.carImage.startsWith("data:")
+                                        ? orderDetails.car.carImage // If already in base64 format
+                                        : `data:image/jpeg;base64,${orderDetails.car.carImage}` // Else assume it's base64 without prefix
+                                }
+                                alt="Car"
+                                className="car-image"
+                            />
+                        )}
+                    </div>
+
                     {/* Display carBrand and carModel inside the <h1> */}
                     <h1 className="rented-car">
                         {orderDetails ? `${orderDetails.car.carBrand} ${orderDetails.car.carModel}` : "Loading car details..."}
@@ -133,6 +157,7 @@ export const ReturnCar = () => {
             </div>
 
             {isLoading && <Loading />}
+            {showReturnSuccessPopup && <ReturnSuccessPopup />}
         </div>
     );
 };
