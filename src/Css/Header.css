@@ -12,7 +12,8 @@
   justify-content: space-between; /* Space between logo and other items */
   z-index: 1000; /* Ensure it stays above other content */
   box-sizing: border-box;
-  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .sideview {
@@ -114,8 +115,9 @@
 }
 
 @media (max-width: 1024px) {
+
   .overlap-233 {
-    height: 90px;
+    height: 75px;
     flex-direction: row;
     display: flex;
     align-items: center;
@@ -135,7 +137,9 @@
   }
 
   .sideview {
-    justify-self: center;
+    height: 60px;
+    width: auto;
+    cursor: pointer;
   }
 
   .side-nav {
@@ -174,6 +178,31 @@
   .auth-buttons{
     display: none;
   }
+}
+
+@media (max-width: 800px) {
+
+  .sideview{
+    height: 60px;
+  }
+
+  .overlap-233{
+    height: 70px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .sideview{
+    height: 50px;
+  }
+
+  .overlap-233{
+    height: 60px;
+  }
+
 }
 
 
