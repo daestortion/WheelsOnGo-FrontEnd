@@ -143,7 +143,7 @@ export const Login = () => {
     
           {errorMessage && (
             <div className="error">
-              <p className="error-message">{errorMessage}</p>
+              <p className="error-messages">{errorMessage}</p>
             </div>
           )}
   

@@ -20,16 +20,16 @@ body {
 
 .login .div {
   background-color: #ffffff;
-  height: auto;
   width: 100%;
-  position: relative;
   max-width: 1920px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: row; /* Stack elements vertically */
   align-items: center;
+  justify-content: center;
   padding: 10px;
-  gap: 20px;
+  overflow-y: auto; /* Enables vertical scrolling */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box;
 }
 
 .login .overlap11 {
@@ -40,8 +40,7 @@ body {
   background-color: #d7d1d1;
   border-radius: 20px;
   width: 100%;
-  max-width: 800px;
-  height: auto;
+  max-width: 700px;
   padding: 30px;
   box-sizing: border-box;
 }
@@ -109,35 +108,28 @@ body {
 .login .wheels-on-go {
   max-width: 550px;
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: 550px;
 }
 
-.login .error {
-  border-radius: 5px;
-  color: #721c24;
-  text-align: center;
-  width: 80%;
-  box-sizing: border-box;
-}
-
-.login .error-message {
+.login .error-messages {
   color: red;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
-  margin: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 @media (max-width: 1024px) {
 
   .login .div {
     flex-direction: column;
-    gap: 15px;
+    justify-content: flex-start;
   }
 
   .login .wheels-on-go{
-    height: 220px;
+    height: 500px;
     max-width: 500px;
   }
 
@@ -173,6 +165,10 @@ body {
     margin-bottom: 20px;
   }
 
+  .login .error-messages{
+    font-size: 20px;
+  }
+
   .login .forgot-passwords{
     font-size: 20px;
   }
@@ -186,12 +182,8 @@ body {
 @media (max-width: 800px) {
 
   .login .wheels-on-go{
-    height: 170px;
+    height: 400px;
     max-width: 400px;
-  }
-
-  .login .div{
-    gap: 15px;
   }
 
   .login .text-wrapper{
@@ -224,6 +216,10 @@ body {
     margin-bottom: 20px;
   }
 
+  .login .error-messages{
+    font-size: 18px;
+  }
+
   .login .forgot-passwords{
     font-size: 18px;
   }
@@ -237,12 +233,8 @@ body {
 @media (max-width: 600px) {
 
   .login .wheels-on-go{
-    height: 170px;
+    height: 400px;
     max-width: 400px;
-  }
-
-  .login .div{
-    gap: 15px;
   }
 
   .login .text-wrapper{
@@ -275,6 +267,10 @@ body {
     margin-bottom: 20px;
   }
 
+  .login .error-messages{
+    font-size: 14px;
+  }
+
   .login .forgot-passwords{
     font-size: 14px;
   }
@@ -288,12 +284,8 @@ body {
 @media (max-width: 400px) {
 
   .login .wheels-on-go{
-    height: 120px;
+    height: 250px;
     max-width: 250px;
-  }
-
-  .login .div{
-    gap: 10px;
   }
 
   .login .text-wrapper{
@@ -324,6 +316,10 @@ body {
   .login .not-registered{
     font-size: 12px;
     margin-bottom: 10px;
+  }
+
+  .login .error-messages{
+    font-size: 12px;
   }
 
   .login .forgot-passwords{

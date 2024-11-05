@@ -20,7 +20,7 @@ body {
 
 .registration .div {
   background-color: #ffffff;
-  height: auto;
+  height: 100vh;
   width: 100%;
   position: relative;
   max-width: 1920px;
@@ -29,14 +29,14 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
-  gap: 40px;
+  overflow-y: auto;
 }
 
-.registration .overlap {
+.registration .overlapss {
   background-color: #d7d1d1;
   border-radius: 40px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -81,8 +81,8 @@ body {
   font-size: 20px;
   font-weight: 700;
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .registration .span {
@@ -104,21 +104,29 @@ body {
   background-color: #ffffff;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
   border-radius: 35px;
-  height: 50px;
+  height: 60px;
   width: 100%;
   max-width: 600px;
   border: none;
   padding: 10px 20px;
   box-sizing: border-box;
   margin-bottom: 8px;
+  position: relative;
+  -moz-appearance: textfield; /* Firefox */
 }
 
 .registration .overlap-5,
 .registration .overlap-6 {
-  padding-right: 70px;
+  margin-bottom: 0
+}
+
+.registration .overlap-4::-webkit-outer-spin-button,
+.registration .overlap-4::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+  margin: 0;
 }
 
 .registration .error-message {
@@ -126,23 +134,28 @@ body {
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  margin: 10px auto;
+  margin: 15px auto;
   text-align: center;
   width: 100%;
   max-width: 600px;
 }
 
 .registration .wheels-on-go {
-  height: auto;
-  max-width: 600px;
+  max-width: 550px;
   width: 100%;
-  object-fit: cover;
+  height: 550px;
 }
 
 .password-input-wrapper {
   position: relative;
   width: 100%;
   max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+  margin-bottom: 8px;
 }
 
 .password-input-wrapper input {
@@ -154,47 +167,58 @@ body {
   border-radius: 35px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  position: relative;
 }
 
 .password-input-wrapper .toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 43%;
-  transform: translateY(-50%);
+  position: relative;
   background-color: #e80029;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 19px;
   color: #ffffff;
   border-radius: 20px;
-  padding: 2%;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 1024px) {
   .registration {
       flex-direction: column;
-      padding: 10px;
   }
 
   .registration .div {
       flex-direction: column;
-      gap: 0;
+      justify-content: flex-start;
+      gap: 0px;
   }
 
-  .registration .wheels-on-go {
-    max-width: 400px;
-    height: 200px;
-  }
-
-  .registration .overlap {
-      padding: 20px;
+  .registration .overlapss {
+    border-radius: 20px;
+    max-width: 710px;
+    padding: 30px;
   }
 
   .registration .text-wrapper {
-      font-size: 30px;
+      font-size: 40px;
   }
 
-  .registration .overlap-group,
+  .registration .already-have-an{
+    font-size: 20px;
+    margin: 35px;
+  }
+
+  .registration .error-message {
+    font-size: 20px;
+  }
+
+  .registration .wheels-on-go {
+    height: 500px;
+    max-width: 500px;
+  }
+
   .registration .div-wrapper,
   .registration .overlap-2,
   .registration .last,
@@ -202,35 +226,114 @@ body {
   .registration .overlap-4,
   .registration .overlap-5,
   .registration .overlap-6 {
-      font-size: 18px;
-      height: 45px;
+    font-size: 28px;
+    height: 60px;
+    max-width: 650px;
+    margin-bottom: 15px;
   }
 
-  .password-input-wrapper input {
-      height: 45px;
-      font-size: 18px;
+  .registration .overlap-5,
+  .registration .overlap-6 {
+    margin-bottom: 0;
+  }
+
+  .registration .overlap-group{
+    font-size: 20px;
+    height: 55px;
+    max-width: 650px;
+  }
+
+  .password-input-wrapper{
+    margin-bottom: 15px;
+    max-width: 650px;
+  }
+
+  .password-input-wrapper .toggle-password {
+    font-size: 19px;
+    padding: 18px;
   }
 }
 
-@media (max-width: 768px) {
-  .registration {
-      padding: 5px;
+@media (max-width: 800px) {
+
+  .registration .overlapss {
+    border-radius: 20px;
+    max-width: 650px;
+    padding: 30px;
   }
 
-  .registration .overlap {
-      padding: 15px;
+  .registration .text-wrapper {
+      font-size: 35px;
+  }
+
+  .registration .already-have-an{
+    font-size: 18px;
+    margin: 30px;
+  }
+
+  .registration .error-message {
+    font-size: 18px;
+  }
+
+  .registration .wheels-on-go {
+    height: 400px;
+    max-width: 400px;
+  }
+
+  .registration .div-wrapper,
+  .registration .overlap-2,
+  .registration .last,
+  .registration .overlap-3,
+  .registration .overlap-4,
+  .registration .overlap-5,
+  .registration .overlap-6 {
+    font-size: 25px;
+    height: 55px;
+    margin-bottom: 10px;
+  }
+
+  .registration .overlap-5,
+  .registration .overlap-6 {
+    margin-bottom: 0;
+  }
+
+  .registration .overlap-group{
+    font-size: 20px;
+    height: 55px;
+  }
+
+  .password-input-wrapper .toggle-password {
+    font-size: 15px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .registration .overlapss {
+    border-radius: 20px;
+    max-width: 500px;
+    padding: 20px;
   }
 
   .registration .text-wrapper {
       font-size: 25px;
   }
 
-  .registration .wheels-on-go {
-    max-width: 400px;
-    height: 200px;
+  .registration .already-have-an{
+    font-size: 14px;
+    margin: 25px;
   }
 
-  .registration .overlap-group,
+  .registration .error-message {
+    font-size: 14px;
+  }
+
+  .registration .wheels-on-go {
+    height: 400px;
+    max-width: 400px;
+  }
+
   .registration .div-wrapper,
   .registration .overlap-2,
   .registration .last,
@@ -238,16 +341,78 @@ body {
   .registration .overlap-4,
   .registration .overlap-5,
   .registration .overlap-6 {
-      font-size: 16px;
-      height: 40px;
+    font-size: 17px;
+    height: 45px;
+    margin-bottom: 10px;
   }
 
-  .password-input-wrapper input {
-      height: 40px;
-      font-size: 16px;
+  .registration .overlap-5,
+  .registration .overlap-6 {
+    margin-bottom: 0;
+  }
+
+  .registration .overlap-group{
+    font-size: 17px;
+    height: 50px;
   }
 
   .password-input-wrapper .toggle-password {
-      font-size: 12px;
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .registration .overlapss {
+    border-radius: 20px;
+    max-width: 350px;
+    padding: 15px;
+  }
+
+  .registration .text-wrapper {
+      font-size: 25px;
+  }
+
+  .registration .already-have-an{
+    font-size: 12px;
+    margin-bottom: 20px;
+    margin: 20px;
+  }
+
+  .registration .error-message {
+    font-size: 12px;
+  }
+
+  .registration .wheels-on-go {
+    height: 250px;
+    max-width: 250px;
+  }
+
+  .registration .div-wrapper,
+  .registration .overlap-2,
+  .registration .last,
+  .registration .overlap-3,
+  .registration .overlap-4,
+  .registration .overlap-5,
+  .registration .overlap-6 {
+    font-size: 15px;
+    height: 35px;
+    margin-bottom: 10px;
+  }
+
+  .registration .overlap-5,
+  .registration .overlap-6 {
+    margin-bottom: 0;
+  }
+
+  .registration .overlap-group{
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .password-input-wrapper .toggle-password {
+    font-size: 11px;
+    padding: 10px;
   }
 }
