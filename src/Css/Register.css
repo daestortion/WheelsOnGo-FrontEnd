@@ -306,6 +306,10 @@ body {
     font-size: 15px;
     padding: 15px;
   }
+
+  .password-input-wrapper{
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -415,4 +419,6 @@ body {
     font-size: 11px;
     padding: 10px;
   }
+
+  
 }
