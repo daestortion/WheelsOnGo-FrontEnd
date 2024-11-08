@@ -168,8 +168,8 @@ body {
   }
 
   .rectangle,
-  .dashboard .img,
-  .dashboard .rectangle-2 {
+ .img,
+ .rectangle-2 {
     max-height: 400px;
 
   }
