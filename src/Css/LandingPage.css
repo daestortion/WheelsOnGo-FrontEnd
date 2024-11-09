@@ -16,26 +16,13 @@ body {
   min-height: 100vh;
   overflow-x: auto;
   overflow-y: auto;
-  padding-top: 112px; /* Offset for the fixed header height */
-}
-
-.content-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow-x: auto;
-  overflow-y: auto;
+  padding-top: 90px; /* Offset for the fixed header height */
 }
 
 .landing-page .overlap-wrapper31 {
   background-color: #ffffff;
   width: 100%;
   max-width: 1920px;
-  height: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -44,23 +31,24 @@ body {
   box-sizing: border-box;
   gap: 50px;
   position: relative;
+  overflow-y: auto;
 }
 
 .landing-page .overlap-group31 {
   width: 100%;
   height: auto;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 .landing-page .find-book-and-rent-a31 {
   color: transparent;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 64px;
+  font-size: 55px;
   font-weight: 600;
   letter-spacing: 0.8px;
   line-height: normal;
   position: relative;
-  width: 575px;
+  width: 500px;
   margin: 0;
   padding-bottom: 20px;
 }
@@ -76,11 +64,11 @@ body {
 }
 
 .landing-page .vector31 {
-  height: 45px;
+  height: 35px;
   position: relative;
-  width: 157px;
+  width: 130px;
   top: -10px;
-  left: 220px;
+  left: 190px;
 }
 
 .landing-page .div31 {
@@ -93,7 +81,6 @@ body {
   white-space: nowrap;
   margin: 0;
   text-align: left;
-  width: 500px;
   display: flex;
   padding-bottom: 20px;
 }
@@ -122,8 +109,6 @@ body {
 }
 
 .landing-page .overlap-231 {
-  width: 100%;
-  max-width: 930px;
   height: auto;
   display: flex;
   flex-direction: row;
@@ -136,35 +121,32 @@ body {
   display: flex;
   flex-direction: row;
   gap: 10px; /* Space between images */
-  width: 100%;
-  max-width: 930px;
-  height: auto;
+  justify-content: center;
+  align-items: center;
 }
 
-.landing-page .rectangle31,
-.landing-page .img31,
-.landing-page .rectangle-231 {
-  width: 100%;
-  height: auto;
-  max-height: 600px;
-  box-sizing: border-box;
+.rectangle31,
+.img31,
+.rectangle-231 {
   border-radius: 20px;
-  object-fit: cover; /* Ensures the image fills the available space while maintaining aspect ratio */
+  max-height: 350px;
 }
+
 
 
 @media (max-width: 1024px) {
   .landing-page {
-    padding-top: 90px;
+    padding-top: 75px;
   }
 
   .landing-page .overlap-group31{
-    max-width: 480px;
+    max-width: 550px;
   }
 
   .landing-page .overlap-wrapper31 {
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
+    padding: 10px;
   }
 
   .landing-page .div-wrapper31 {
@@ -174,22 +156,164 @@ body {
   }
 
   .landing-page .find-book-and-rent-a31 {
-    font-size: 53px; /* Further reduce font size for even smaller screens */
-    width: 475px; /* Further reduce width */
+    font-size: 60px; 
+    width: 550px; 
     padding-bottom: 20px;
   }
 
   .landing-page .vector31 {
-    height: 30px; /* Further reduce height */
-    width: 120px; /* Further reduce width */
-    top: -15px; /* Adjust positioning */
-    left: 190px; /* Adjust positioning */
+    height: 30px; 
+    width: 120px; 
+    top: -15px; 
+    left: 190px;
+  }
+
+  .rectangle31,
+  .landing-page .img31,
+  .landing-page .rectangle-231 {
+    max-height: 400px;
+
+  }
+}
+
+@media (max-width: 800px){
+
+  .landing-page .find-book-and-rent-a31{
+    font-size: 52px;
+    width: 480px;
+    padding-top: 20px;
+  }
+
+  .landing-page .vector31{
+    height: 35px;
+    width: 120px;
+    top: -10px;
+    left: 185px;
+  }
+
+  .landing-page .div31{
+    font-size: 20px;
+  }
+
+  .landing-page .div-wrapper31{
+    height: 60px;
+    width: 180px;
+    font-size: 18px;
+  }
+
+  .landing-page .overlap-group31{
+    max-width: 480px;
+  }
+
+  .landing-page{
+    padding-top: 70px;
   }
 
   .landing-page .rectangle31,
   .landing-page .img31,
   .landing-page .rectangle-231 {
-    max-height: 300px;
-    max-width: 300px; /* Set a max width to avoid excessive enlargement */
+    max-height: 335px;
+  }
+
+  .landing-page .overlap-wrapper31{
+    gap: 20px;
+    padding: 10px;
+    padding-top: 0;
+  }
+
+  .content-wrapper{
+    height: 70px;
+  }
+}
+
+@media (max-width: 500px){
+
+  .landing-page .find-book-and-rent-a31{
+    font-size: 40px;
+    width: 380px;
+    padding-top: 20px;
+  }
+
+  .landing-page .vector31{
+    height: 35px;
+    width: 100px;
+    top: 3px;
+    left: 140px;
+  }
+
+  .landing-page .div31{
+    font-size: 16px;
+  }
+
+  .landing-page .div-wrapper31{
+    height: 50px;
+    width: 150px;
+    font-size: 18px;
+  }
+
+  .landing-page .overlap-group31{
+    max-width: 390px;
+  }
+
+  .landing-page{
+    padding-top: 60px;
+  }
+
+  .landing-page .rectangle31,
+  .landing-page .img31,
+  .landing-page .rectangle-231 {
+    max-height: 250px;
+  }
+
+  .landing-page .overlap-wrapper31{
+    gap: 20px;
+    padding: 10px;
+    padding-top: 0;
+  }
+}
+
+  @media (max-width: 400px){
+
+  .landing-page .find-book-and-rent-a31{
+    font-size: 30px;
+    width: 300px;
+    padding-top: 20px;
+  }
+
+  .landing-page .vector31{
+    height: 20px;
+    width: 80px;
+    top: -5px;
+    left: 100px;
+  }
+
+  .landing-page .div31{
+    font-size: 14px;
+  }
+
+  .landing-page .div-wrapper31{
+    height: 50px;
+    width: 150px;
+    font-size: 18px;
+  }
+
+  .landing-page .overlap-group31{
+    max-width: 300px;
+  }
+
+  .landing-page{
+    padding-top: 50px;
+  }
+
+  .landing-page .rectangle31,
+  .landing-page .img31,
+  .landing-page .rectangle-231 {
+    max-height: 200px;
+  }
+
+  .landing-page .overlap-wrapper31{
+    gap: 20px;
+    padding: 10px;
+    padding-top: 0;
   }
 }

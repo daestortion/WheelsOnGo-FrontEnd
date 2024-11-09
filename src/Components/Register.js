@@ -85,7 +85,7 @@ export const Registration = () => {
       {isLoading && <Loading />}
       <div className="div">
         <img className="wheels-on-go" alt="Wheels on go" src={logo} />
-        <div className="overlap">
+        <div className="overlapss">
           <p className="text-wrapper">Registration</p>
           <form onSubmit={handleSubmit} className="registration-form">
             <input

@@ -110,7 +110,7 @@ export const Login = () => {
       {isLoading && <Loading />}
       <div className="div">
         <img className="wheels-on-go" alt="Wheels on go" src={logo} />
-        <div className="overlap">
+        <div className="overlap11">
           <div className="text-wrapper">LOGIN</div>
     
           <input
@@ -143,7 +143,7 @@ export const Login = () => {
     
           {errorMessage && (
             <div className="error">
-              <p className="error-message">{errorMessage}</p>
+              <p className="error-messages">{errorMessage}</p>
             </div>
           )}
   
@@ -160,7 +160,7 @@ export const Login = () => {
             </Link>
           </div>
     
-          <button className="overlap-group-2" onClick={handleLogin}>
+          <button className="overlap-group-2as" onClick={handleLogin}>
             Login
           </button>
       </div>

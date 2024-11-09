@@ -17,7 +17,7 @@ export const LandingPage = () => {
       return (
         <div className="landing-page">
           <Header />
-          <div className="content-wrapper">
+          
             <div className="overlap-wrapper31">
               <div className="overlap-group31">
                 <div className="find-book-and-rent-a31">
@@ -40,7 +40,7 @@ export const LandingPage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          
         </div>
       );
       

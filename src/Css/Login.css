@@ -20,29 +20,28 @@ body {
 
 .login .div {
   background-color: #ffffff;
-  height: auto;
   width: 100%;
-  position: relative;
   max-width: 1920px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: row; /* Stack elements vertically */
   align-items: center;
+  justify-content: center;
   padding: 10px;
-  gap: 40px;
+  overflow-y: auto; /* Enables vertical scrolling */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box;
 }
 
-.login .overlap {
+.login .overlap11 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #d7d1d1;
-  border-radius: 40px;
+  border-radius: 20px;
   width: 100%;
-  max-width: 600px;
-  height: auto;
-  padding: 40px;
+  max-width: 700px;
+  padding: 30px;
   box-sizing: border-box;
 }
 
@@ -51,8 +50,8 @@ body {
   font-family: "Inter-Bold", Helvetica;
   font-size: 40px;
   font-weight: 700;
-  margin-bottom: 60px;
   text-align: center;
+  margin-bottom: 40px
 }
 
 .login .overlap-group,
@@ -61,24 +60,24 @@ body {
   color: #848484;
   border-radius: 35px;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 35px;
   font-weight: 700;
-  height: 71px;
+  height: 80px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   border: none;
   padding: 0 35px;
-  margin-bottom: 20px;
   box-sizing: border-box;
+  margin-bottom: 30px;
 }
 
 .login .not-registered,
 .login .forgot-passwords {
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
-  margin: 20px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .login .span {
@@ -91,7 +90,7 @@ body {
   cursor: pointer;
 }
 
-.login .overlap-group-2 {
+.login .overlap-group-2as {
   background-color: #e80029;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
@@ -100,109 +99,235 @@ body {
   border-radius: 35px;
   height: 71px;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   border: none;
   margin-top: 20px;
   cursor: pointer;
 }
 
 .login .wheels-on-go {
-  max-width: 600px;
+  max-width: 550px;
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: 550px;
 }
 
-.login .error {
-  border-radius: 5px;
-  color: #721c24;
-  text-align: center;
-  width: 80%;
-  box-sizing: border-box;
-}
-
-.login .error-message {
+.login .error-messages {
   color: red;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
-  margin: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 @media (max-width: 1024px) {
-  .login {
-    flex-direction: column;
-    padding: 10px;
-  }
 
   .login .div {
     flex-direction: column;
-    gap: 20px;
+    justify-content: flex-start;
   }
 
-  .login .overlap {
-    padding: 20px;
+  .login .wheels-on-go{
+    height: 500px;
+    max-width: 500px;
   }
 
-  .login .text-wrapper {
-    font-size: 30px;
+  .login .text-wrapper{
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+
+  .login .overlap-group{
+    font-size: 28px;
+    height: 60px;
     margin-bottom: 30px;
+    padding: 0 20px;
+    max-width: 650px;
   }
 
-  .login .overlap-group,
-  .login .div-wrapper {
-    font-size: 24px;
+  .login .div-wrapper{
+    font-size: 28px;
     height: 60px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+    max-width: 650px;
   }
 
-  .login .not-registered,
-  .login .forgot-passwords {
-    font-size: 18px;
+  .login .overlap11{
+    border-radius: 20px;
+    max-width: 710px;
+    padding: 30px;
   }
 
-  .login .overlap-group-2 {
-    font-size: 18px;
-    height: 60px;
+  .login .not-registered{
+    font-size: 20px;
+    margin-bottom: 20px;
   }
 
-  .login .wheels-on-go {
-    max-width: 400px;
-    height: 200px;
+  .login .error-messages{
+    font-size: 20px;
+  }
+
+  .login .forgot-passwords{
+    font-size: 20px;
+  }
+
+  .login .overlap-group-2as{
+    font-size: 20px;
+    height: 55px;
   }
 }
 
-@media (max-width: 768px) {
-  .login {
-    padding: 5px;
+@media (max-width: 800px) {
+
+  .login .wheels-on-go{
+    height: 400px;
+    max-width: 400px;
   }
 
-  .login .overlap {
+  .login .text-wrapper{
+    font-size: 35px;
+    margin-bottom: 20px;
+  }
+
+  .login .overlap-group{
+    font-size: 25px;
+    height: 55px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+
+  .login .div-wrapper{
+    font-size: 25px;
+    height: 55px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+  }
+
+  .login .overlap11{
+    border-radius: 20px;
+    max-width: 650px;
+    padding: 30px;
+  }
+
+  .login .not-registered{
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .login .error-messages{
+    font-size: 18px;
+  }
+
+  .login .forgot-passwords{
+    font-size: 18px;
+  }
+
+  .login .overlap-group-2as{
+    font-size: 20px;
+    height: 55px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .login .wheels-on-go{
+    height: 400px;
+    max-width: 400px;
+  }
+
+  .login .text-wrapper{
+    font-size: 25px;
+    margin-bottom: 15px;
+  }
+
+  .login .overlap-group{
+    font-size: 17px;
+    height: 45px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+
+  .login .div-wrapper{
+    font-size: 17px;
+    height: 45px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+  }
+
+  .login .overlap11{
+    border-radius: 20px;
+    max-width: 500px;
+    padding: 25px;
+  }
+
+  .login .not-registered{
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .login .error-messages{
+    font-size: 14px;
+  }
+
+  .login .forgot-passwords{
+    font-size: 14px;
+  }
+
+  .login .overlap-group-2as{
+    font-size: 17px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .login .wheels-on-go{
+    height: 250px;
+    max-width: 250px;
+  }
+
+  .login .text-wrapper{
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .login .overlap-group{
+    font-size: 15px;
+    height: 35px;
+    margin-bottom: 10px;
+    padding: 0 20px;
+  }
+
+  .login .div-wrapper{
+    font-size: 15px;
+    height: 35px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+
+  .login .overlap11{
+    border-radius: 20px;
+    max-width: 350px;
     padding: 15px;
   }
 
-  .login .text-wrapper {
-    font-size: 25px;
-    margin-bottom: 30px;
+  .login .not-registered{
+    font-size: 12px;
+    margin-bottom: 10px;
   }
 
-  .login .overlap-group,
-  .login .div-wrapper {
-    font-size: 20px;
-    height: 50px;
+  .login .error-messages{
+    font-size: 12px;
   }
 
-  .login .not-registered,
-  .login .forgot-passwords {
-    font-size: 16px;
+  .login .forgot-passwords{
+    font-size: 12px;
   }
 
-  .login .overlap-group-2 {
-    font-size: 16px;
-    height: 50px;
-  }
-
-  .login .wheels-on-go {
-    max-width: 400px;
-    height: 200px;
+  .login .overlap-group-2as{
+    font-size: 14px;
+    height: 40px;
   }
 }
