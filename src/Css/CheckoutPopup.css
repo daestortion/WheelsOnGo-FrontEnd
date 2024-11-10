@@ -615,3 +615,102 @@
   position: relative;
   z-index: 1; /* Set lower z-index to ensure date picker is on top */
 }
+
+.checkout-terms-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.checkout-terms-content {
+  width: 60%;
+  max-width: 1500px;
+  max-height: 80vh; /* Ensures the popup doesn’t exceed 80% of the viewport height */
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.checkout-terms-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.checkout-terms-header h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.checkout-close-icon {
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.checkout-terms-body {
+  padding: 20px;
+  overflow-y: auto;
+  font-size: 20px;
+  line-height: 1.6;
+  max-height: calc(80vh - 150px); /* Adjusts body height to ensure it fits within the popup */
+}
+
+.checkout-terms-body h3 {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.checkout-terms-body ul {
+  padding-left: 20px;
+}
+
+.checkout-terms-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 15px;
+  gap: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.checkout-terms-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.checkout-terms-button.accept {
+  background-color: #20ba44;
+  color: white;
+}
+
+.checkout-terms-button.accept.active {
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+.checkout-terms-button.accept.inactive {
+  background-color: #a9a9a9;
+  color: white;
+  cursor: not-allowed;
+}
