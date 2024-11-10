@@ -149,20 +149,25 @@ export const Cars = () => {
       <div className="div">
 
       <div className="filter-container2121">
+
+          <div className="lower">
               <input
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="search-bar"
+                className="search-bars"
               />
-              <select onChange={e => setFilter(e.target.value)} value={filter} className="user-filter">
+              <select onChange={e => setFilter(e.target.value)} value={filter} className="user-filters">
                 <option value="all">All Cars</option>
                 <option value="lowest">Lowest Price</option>
                 <option value="highest">Highest Price</option>
                 <option value="capacity">Seat Capacity</option>
               </select>
-              <button onClick={handleSearch} className="submit-button">Search</button>
+          </div>
+              
+                <button onClick={handleSearch} className="submit-buttonss">Search</button>
+              
             </div>
 
           <div className="frame">
