@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
   overflow-x: auto;
   overflow-y: auto;
-  padding-top: 112px; /* Offset for the fixed header height */
+  padding-top: 90px; /* Offset for the fixed header height */
 }
 
 .cars .div {
@@ -29,6 +29,8 @@ body {
   flex-grow: 1;
   padding: 20px;
   box-sizing: border-box;
+  gap: 10px;
+  padding-bottom: 0;
 }
 
 .cars .overlap211 {
@@ -84,17 +86,17 @@ body {
   .cars-grid > div {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center children horizontally */
+    align-items: center; 
   }
 
 .filter-container2121 {
-    width: 100%; /* Take full width to align children inside */
+    width: 100%; 
     display: flex;
-    justify-content: flex-start; /* Distribute space between elements */
-    align-items: center; /* Center items vertically */
-    padding: 20px; /* Padding for some breathing room */
-    padding-top: 0;
+    justify-content: center;
+    align-items: center; 
     box-sizing: border-box;
+    gap: 10px;
+    flex-direction: row;
 }
 
 .cars .overlap-group {
@@ -131,9 +133,7 @@ body {
 }
 
 .cars .overlap-group img {
-  position: absolute;
-  top: 0; /* Align to the top */
-  left: 0; /* Align to the left */
+  position: relative;
   width: 100%; /* Fill the entire width of the container */
   height: 100%; /* Fill the entire height of the container */
   object-fit: fill; /* Stretch the image to fit the container */
@@ -249,3 +249,158 @@ body {
   text-align: center;
   width: 100%;
 }
+
+ .submit-buttonss{
+    background-color: #e80029;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 35px;
+    font-size: 14px;
+    font-weight: 400;
+    width: 100px;
+ }
+
+  .lower {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+}
+
+  .search-bars, .user-filters{
+    background-color: #e1e1e1;
+    color: #848484;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 12px;
+    font-weight: 300;
+    border-radius: 10px;
+    height: 40px;
+    max-width: 400px;
+    border: none;
+    padding: 8px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  @media (max-width: 1024px) {
+
+    .cars{
+      padding-top: 75px;
+    }
+  
+    .cars .overlap-group{
+      height: 300px;
+      width: 300px;
+    }
+    
+    .cars .div-wrapper{
+      height: 25px;
+      font-size: 12px;
+    }
+  
+    .car-details{
+      font-size: 18px;
+    }
+  
+    .car-price{
+      font-size: 12px;
+    }
+  
+    .cars .cars-grid{
+      max-height: calc(100vh - 125px);
+    }
+  }
+
+  @media (max-width: 800px) {
+
+    .cars{
+      padding-top: 70px;
+    }
+  
+    .cars .overlap-group{
+      height: 300px;
+      width: 300px;
+    }
+    
+    .cars .div-wrapper{
+      height: 25px;
+      font-size: 12px;
+    }
+  
+    .car-details{
+      font-size: 18px;
+    }
+  
+    .car-price{
+      font-size: 12px;
+    }
+  
+    .cars .cars-grid{
+      max-height: calc(100vh - 125px);
+    }
+  }
+
+  @media (max-width: 600px) {
+
+    .cars{
+      padding-top: 60px;
+    }
+  
+    .cars .overlap-group{
+      height: 275px;
+      width: 275px;
+    }
+    
+    .cars .div-wrapper{
+      height: 25px;
+      font-size: 12px;
+    }
+  
+    .car-details{
+      font-size: 18px;
+    }
+  
+    .car-price{
+      font-size: 12px;
+    }
+  
+    .cars .cars-grid{
+      max-height: calc(100vh - 125px);
+    }
+  }
+
+  @media (max-width: 400px) {
+
+    .cars{
+      padding-top: 50px;
+    }
+
+    .cars .overlap-group{
+      height: 250px;
+      width: 250px;
+    }
+    
+    .cars .div-wrapper{
+      height: 25px;
+      font-size: 12px;
+    }
+
+    .car-details{
+      font-size: 18px;
+    }
+
+    .car-price{
+      font-size: 12px;
+    }
+
+    .cars .cars-grid{
+      max-height: calc(100vh - 165px);
+    }
+
+    .filter-container2121{
+      flex-direction: column;
+    }
+  }
