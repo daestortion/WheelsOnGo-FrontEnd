@@ -11,6 +11,42 @@
   z-index: 1050;  /* Ensure it's above all other content */
 }
 
+.terms-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.terms-content {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.terms-pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.close img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
 .apply-as-owner-popup .overlap-wrapper211 {
   background-color: #ffffff;
   height: 473px;
@@ -88,9 +124,9 @@
   background-color: #e32128;
   border-radius: 9px;
   height: 50px;
-  left: 818px;
+  left: 1582px;
   position: absolute;
-  top: 29px;
+  top: 4px;
   width: 50px;
 }
 
@@ -182,3 +218,101 @@
   border-width: 0 4px 4px 0;
   transform: rotate(45deg);
 }
+
+.terms-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.terms-content {
+  width: 60%;
+  max-width: 1500px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.terms-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.terms-header h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px; /* Position from the top of the modal */
+  right: 10px; /* Position from the right edge */
+  width: 30px; /* Increase icon size */
+  height: 30px; /* Increase icon size */
+  cursor: pointer;
+}
+
+.terms-body {
+  padding: 0 20px; /* Removed top and bottom padding */
+  flex-grow: 1; /* Ensures body takes up available space */
+  overflow-y: auto;
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.terms-body h3 {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.terms-body ul {
+  padding-left: 20px;
+}
+
+.terms-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 15px; /* Reduced padding for a smaller footer height */
+  gap: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.terms-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.terms-button.accept {
+  background-color: #20ba44;
+  color: white;
+}
+
+.terms-button.accept.active {
+  background-color: #28a745; /* Brighter color when enabled */
+  color: white;
+  cursor: pointer;
+}
+
+.terms-button.accept.inactive {
+  background-color: #a9a9a9; /* Darker gray when disabled */
+  color: white;
+  cursor: not-allowed;
+}
+
