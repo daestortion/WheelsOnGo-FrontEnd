@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { jsPDF } from "jspdf";
+import React, { useEffect, useState } from 'react';
+import { CashOptionPopup } from "../Components/BookingPopup";
+import PayPal from "../Components/PayPal";
+import PayPalError from "../Components/PaypalError";
+import PayPalSuccessful from "../Components/PaypalSuccessful";
 import "../Css/PaymentPopup.css";
-import line1 from "../Images/line11.png";
+import back from "../Images/back.png";
 import close from "../Images/close.png";
 import image1 from "../Images/image1.jpg";
+import image10 from "../Images/image10.png";
+import image11 from "../Images/image11.svg";
+import image12 from "../Images/image12.png";
+import image13 from "../Images/image13.jpg";
+import image14 from "../Images/image14.jpg";
 import image2 from "../Images/image2.jpg";
 import image3 from "../Images/image3.jpg";
 import image4 from "../Images/image4.png";
@@ -12,29 +22,18 @@ import image6 from "../Images/image6.png";
 import image7 from "../Images/image7.jpg";
 import image8 from "../Images/image8.png";
 import image9 from "../Images/image9.png";
-import image10 from "../Images/image10.png";
-import image11 from "../Images/image11.svg";
-import image12 from "../Images/image12.png";
-import image13 from "../Images/image13.jpg";
-import image14 from "../Images/image14.jpg";
-import back from "../Images/back.png";
+import line1 from "../Images/line11.png";
 import paymonggo from "../Images/paymongo.svg";
 import BookedPopup from './BookedPopup';
-import TAC from "../Images/WheelsOnGoTAC.pdf";
-import axios from 'axios';
-import PayPal from "../Components/PayPal";
-import PayPalError from "../Components/PaypalError";
-import PayPalSuccessful from "../Components/PaypalSuccessful";
-import { CashOptionPopup } from "../Components/BookingPopup";
 
 const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [order, setOrder] = useState(null);
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
   const [showBookingPopup, setBookingPopup] = useState(false);
   const [paypalPaid, setPaypalPaid] = useState(false);
+  const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
 
   const calculateDays = () => {
     if (!startDate || !endDate) return 0;
@@ -56,17 +55,33 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     setOrder(newOrder);
   }, [startDate, endDate, totalPrice]);
 
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
-  };
-
   const handleBookedPopupClose = () => {
     setShowBookedPopup(false);
     onClose();
   };
 
+  // Polling for PayMongo webhook confirmation every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (order && order.orderId) {
+        try {
+          const response = await fetch(`http://localhost:8080/api/payment/check-status?orderId=${order.orderId}`);
+          const data = await response.json();
+          if (data.status === "paid") {
+            setIsPaymentConfirmed(true);
+            clearInterval(interval);
+          }
+        } catch (error) {
+          console.error("Error checking payment status:", error);
+        }
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [order]);
+
   const handleCash = async () => {
-    if (order && isChecked) {
+    if (order) {
       try {
         const orderPayload = {
           ...order,
@@ -118,65 +133,55 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     }
   };
 
-  const handlePayPalSuccess = async (details) => {
+  const handlePayPalSuccess = async (details, data) => {
     try {
       setPaypalPaid(true);
-      let newOrder = order;
-
-      if (!newOrder || !newOrder.orderId) {
-        const formData = new FormData();
-        formData.append('order', new Blob([JSON.stringify({
-          startDate: startDate,
-          endDate: endDate,
-          totalPrice: totalPrice,
-          paymentOption: "PayPal",
-          isDeleted: false,
-          referenceNumber: '',
-          deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
-        })], { type: 'application/json' }));
-
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-
-        if (response.data) {
-          newOrder = response.data;
-          setOrder(newOrder);
-        } else {
-          throw new Error("Failed to create order before PayPal success.");
-        }
-      }
-
       const transactionId = details.id;
       if (!transactionId) {
         console.error("PayPal transaction ID is missing.");
         return;
       }
+      
+      if (!order || !order.orderId) {
+        const newOrder = {
+          startDate,
+          endDate,
+          totalPrice,
+          paymentOption: "PayPal",
+          isDeleted: false,
+          deliveryOption,
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address
+        };
+
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.data) {
+          setOrder(response.data);
+          console.log("Order created successfully:", response.data);
+        } else {
+          throw new Error("Failed to create order before PayPal success.");
+        }
+      }
 
       const paymentData = {
-        orderId: newOrder.orderId,
+        orderId: order.orderId,
         transactionId: transactionId,
         paymentOption: "PayPal",
+        amount: totalPrice,
+        status: 1
       };
 
-      const paymentResponse = await axios.post(`http://localhost:8080/order/updatePaymentStatus`, paymentData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
+        headers: { 'Content-Type': 'application/json' }
       });
 
       if (paymentResponse.data) {
         generateReceipt();
         setShowBookedPopup(true);
-        setOrder({
-          ...newOrder,
-          referenceNumber: transactionId
-        });
+        console.log("Payment status updated successfully.");
       }
-
     } catch (error) {
       console.error("Error updating payment status:", error.message);
     }
@@ -344,18 +349,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 )}
               </div>
             </div>
-            <div className='groups55'>
-              <input
-                type="checkbox"
-                className="rectangle11"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
-              <div className="understood-and-agrees">
-                <p className="divv">by clicking, you are confirming that you have read,</p>
-                <span className="spans">understood and agree to the <a href={TAC} target="_blank" rel="noopener noreferrer" className="text-wrapper-22">terms and conditions</a> </span>
-              </div>
-            </div> 
           </div>
           <div className='groups66'>
             <div className="image">
@@ -363,33 +356,18 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             </div>
             <p className="pp">Choose Payment Method</p>
             <button
-                className='cashbackground'
-                onClick={handleCash}
-                style={{
-                  pointerEvents: isChecked ? 'auto' : 'none',
-                  opacity: isChecked ? 1 : 0.5
-                }}
-              >
-              Cash
-              </button>
-              <button
-                onClick={createPaymentLink}
-                className="paymongo-button"
-                disabled={!isChecked}
-                style={{
-                  pointerEvents: isChecked ? 'auto' : 'none',
-                  opacity: isChecked ? 1 : 0.5,
-                }}
-              >
-                <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
-              </button>
-            <div
-              style={{
-                pointerEvents: isChecked && !paypalPaid ? 'auto' : 'none',
-                opacity: isChecked && !paypalPaid ? 1 : 0.5,
-                position: 'relative'
-              }}
+              className='cashbackground'
+              onClick={handleCash}
             >
+              Cash
+            </button>
+            <button
+              onClick={createPaymentLink}
+              className="paymongo-button"
+            >
+              <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
+            </button>
+            <div style={{ position: 'relative' }}>
               <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
               {paypalPaid && (
                 <div style={{
