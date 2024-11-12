@@ -193,6 +193,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
                 orderId: extensionResponse.data.orderId,  // Use the new order ID from response
                 transactionId: details.id,               // Use the PayPal transaction ID from details
                 paymentOption: "PayPal",                 // Set payment option as PayPal
+                status: 1
             };
 
             // Update the payment status
