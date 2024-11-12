@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Dropdown from "../Components/Dropdown.js";
 import sidelogo from "../Images/sidelogo.png";
 import profile from "../Images/profile.png";
+import home from "../Images/home.svg";
+import cars from "../Images/cars.svg";
+import about from "../Images/about.svg";
+import profiles from "../Images/profile.svg";
+import logouts from "../Images/logout.svg";
 import "../Css/Header.css";
 import { useAuth } from '../AuthContext';  // Adjust path to match your folder structure
 
@@ -71,12 +76,27 @@ const Header = () => {
       {isAuthenticated && (
         <div ref={sideNavRef} className={`side-nav ${sideNavOpen ? 'open' : ''}`}>
           <div className="close-btn" onClick={closeSideNav}>&times;</div>
-          <a href="#home" onClick={handleHomeClick} className="home-link">Home</a>
-          <a href="#cars" onClick={handleCarsClick} className="cars-link">Cars</a>
-          <a href="#about" onClick={handleAboutClick} className="about-link">About</a>
-          <a href="#userprofile" onClick={goToProfile} className="profile-link">Profile</a>
-          <a href="#logout" onClick={handleLogout} className="logout-link">Logout</a>
+        <div className="top-links">
+        <a href="#home" onClick={handleHomeClick} className="home-link">
+          <img src={home} alt="Home Icon" className="link-icon" /> Home
+        </a>
+        <a href="#cars" onClick={handleCarsClick} className="cars-link">
+          <img src={cars} alt="Cars Icon" className="link-icon" /> Cars
+        </a>
+        <a href="#about" onClick={handleAboutClick} className="about-link">
+          <img src={about} alt="About Icon" className="link-icon" /> About
+        </a>
+
         </div>
+        <div className="bottom-links">
+        <a href="#userprofile" onClick={goToProfile} className="profile-link">
+          <img src={profiles} alt="Profile Icon" className="link-icon" /> Profile
+        </a>
+        <a href="#logout" onClick={handleLogout} className="logout-link">
+          <img src={logouts} alt="Logout Icon" className="link-icon" /> Logout
+        </a>
+        </div>
+          </div>
       )}
 
       {/* Conditionally render based on isAuthenticated */}
