@@ -44,7 +44,9 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const handleScroll = () => {
     if (termsBodyRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = termsBodyRef.current;
-      if (scrollTop + clientHeight >= scrollHeight) {
+      // Check if user has scrolled to the bottom
+      const isBottom = scrollTop + clientHeight >= scrollHeight - 5; // Use a small buffer to ensure precision
+      if (isBottom) {
         setIsAcceptEnabled(true);
       }
     }

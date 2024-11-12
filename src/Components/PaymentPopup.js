@@ -141,8 +141,10 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         console.error("PayPal transaction ID is missing.");
         return;
       }
-      
-      if (!order || !order.orderId) {
+  
+      // Ensure the order has an orderId before updating the payment status
+      let currentOrder = order;
+      if (!currentOrder || !currentOrder.orderId) {
         const newOrder = {
           startDate,
           endDate,
@@ -150,33 +152,35 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
           paymentOption: "PayPal",
           isDeleted: false,
           deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
         };
-
+  
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
           headers: { 'Content-Type': 'application/json' }
         });
         
         if (response.data) {
-          setOrder(response.data);
+          currentOrder = response.data;  // Set the new order with orderId
+          setOrder(currentOrder);  // Update state with the newly created order
           console.log("Order created successfully:", response.data);
         } else {
           throw new Error("Failed to create order before PayPal success.");
         }
       }
-
+  
+      // Update payment status for the order
       const paymentData = {
-        orderId: order.orderId,
+        orderId: currentOrder.orderId,
         transactionId: transactionId,
         paymentOption: "PayPal",
         amount: totalPrice,
         status: 1
       };
-
+  
       const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
         headers: { 'Content-Type': 'application/json' }
       });
-
+  
       if (paymentResponse.data) {
         generateReceipt();
         setShowPayPalSuccess(true);
@@ -186,6 +190,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
       console.error("Error updating payment status:", error.message);
     }
   };
+  
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);
