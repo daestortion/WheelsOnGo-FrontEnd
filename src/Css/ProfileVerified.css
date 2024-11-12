@@ -12,16 +12,16 @@ body {
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  padding-top: 112px;
+  padding-top: 90px;
   box-sizing: border-box;
   overflow-x: auto;
   overflow-y: auto;
   background-color: #ffffff;
 }
 
-.profile-not-verified .rectangle {
+.profile-not-verified .rectangles {
   background-color: #d7d1d1;
-  border-radius: 40px;
+  border-radius: 20px;
   height: 200px;
   width: 200px;
   flex-shrink: 0;
@@ -42,12 +42,10 @@ body {
   display: flex;
   align-items: center;
   gap: 30px;
-  width: 70%;
+  width: 100%;
   padding: 20px;
   position: relative;
   background: none;
-  flex-shrink: 0;
-  padding-left: 40px;
 }
 
 .profile-not-verified .overlap-2 {
@@ -56,7 +54,7 @@ body {
   justify-content: center;
   gap: 15px;
   height: auto;
-  max-width: 600px;
+  position: relative;
 }
 
 .profile-not-verified .text-wrapper-3 {
@@ -66,33 +64,34 @@ body {
   gap: 10px;
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 600;
   letter-spacing: 0.62px;
   line-height: normal;
   position: relative;
-  width: 970px;
+  width: 100%;
 }
 
 .profile-not-verified .div-wrapper {
   background-color: #e80029;
   color: #ffffff;
-  border-radius: 35px;
-  height: 62px;
-  width: 200px;
+  border-radius: 10px;
+  height: 30px;
+  width: 80px;
   border: none;
   cursor: pointer;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
+  position: relative;
 }
 
 .profile-not-verified .text-wrapper-69, .reverify {
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   text-align: center;
-  white-space: nowrap;
+  position: relative;
 }
 
 .reverify-link {
@@ -103,12 +102,12 @@ body {
 .profile-not-verified .p {
   color: #e32128;
   font-family: "Inter-Medium", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.25px;
   margin: 0;
-  white-space: nowrap;
   width: 100%;
+  position: relative;
 }
 
 .profile-not-verified .button-group {
@@ -124,20 +123,22 @@ body {
 }
 
 .profile-not-verified .vector {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
+  position: relative;
 }
 
 .profile-not-verified .join-our-car-rental {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 35px;
+  font-size: 25px;
   font-weight: 600;
   letter-spacing: 0.44px;
   line-height: normal;
   text-align: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
+  padding: 20px;
 }
 
 .profile-not-verified .overlap-5 {
@@ -150,19 +151,19 @@ body {
   font-size: 16px;
   font-weight: 700;
   color: #ffffff;
-  align-self: flex-start;
+  position: relative;
 }
 
 .profile-not-verified .overlap-6 {
   background-color: #e80029;
-  border-radius: 35px;
-  height: 71px;
-  width: 300px;
+  border-radius: 10px;
+  height: 50px;
+  width: 200px;
   border: none;
   cursor: pointer;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: #ffffff;
   text-align: center;
 }
@@ -178,7 +179,7 @@ body {
   padding: 0;
   gap: 30px;
   overflow-y: auto;
-  max-height: calc(100vh - 420px);
+  max-height: calc(100vh - 220px);
   padding-bottom: 20px;
 }
 
@@ -232,14 +233,11 @@ body {
 }
 
 
-.profile-not-verified .submitbackground,
-.div-wrappercar,
-.text-wrapper-55,
-.messages {
+.profile-not-verified .button1 {
   background-color: #e32128;
   border-radius: 9px;
   height: 50px;
-  width: 250px;
+  width: 200px;
   border: none;
   font-family: "Inter-Bold", Helvetica;
   font-size: 16px;
@@ -271,6 +269,7 @@ body {
   width: 100%;
   max-width: 1200px;
   box-sizing: border-box;
+  padding-bottom: 20px;
 }
 
 .profile-not-verified .no-cars-message {
@@ -284,4 +283,248 @@ body {
   text-align: center;
   width: 100%;
   max-width: 1200px;
+}
+
+@media (max-width: 1024px) {
+
+  .profile-not-verified{
+    padding-top: 75px;
+  }
+
+  .profile-not-verified .overlap-wrapper{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .profile-not-verified .overlap213{
+    justify-content: center;  
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .profile-not-verified .text-wrapper-3{
+    font-size: 35px;
+  }
+
+  .profile-not-verified .button-group {
+    flex-direction: row;
+    gap: 10px;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-not-verified .button1 {
+    width: 148px;
+    font-size: 12px;
+  }
+
+  .profile-not-verified .car-frame{
+    width: 250px;
+    height: 250px;
+  }
+
+  
+  .profile-not-verified .text-wrapper-69{
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 800px) {
+
+  .profile-not-verified{
+    padding-top: 70px;
+  }
+
+  .profile-not-verified .rectangles{
+    height: 150px;
+    width: 150px;
+  }
+
+  .profile-not-verified .text-wrapper-3{
+    font-size: 25px;
+  }
+
+  .profile-not-verified .p{
+    font-size: 15px;
+  }
+
+  .profile-not-verified .vector{
+    height: 30px;
+    width: 30px;
+  }
+
+  .profile-not-verified .overlap-5{
+    height: 40px;
+    width: 150px;
+    font-size: 14px;
+  }
+
+  .profile-not-verified .overlap213{
+    gap: 15px;
+  }
+
+  .profile-not-verified .button1 {
+    width: 130px;
+    font-size: 12px;
+  }
+
+  .profile-not-verified .car-frame{
+    width: 200px;
+    height: 200px;
+  }
+
+  
+  .profile-not-verified .text-wrapper-69{
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .profile-not-verified{
+    padding-top: 50px;
+  }
+
+  .profile-not-verified .rectangles{
+    height: 200px;
+    width: 200px;
+  }
+
+  .profile-not-verified .text-wrapper-3{
+    font-size: 22px;
+    gap: 5px;
+  }
+
+  .profile-not-verified .p{
+    font-size: 14px;
+  }
+
+  .profile-not-verified .overlap-6{
+    height: 40px;
+    width: 150px;
+    font-size: 12px;
+  }
+
+  .profile-not-verified .join-our-car-rental{
+    font-size: 18px;
+  }
+
+  .profile-not-verified .overlap-2 {
+    align-items: center; 
+    text-align: center; 
+    gap: 10px;
+  }
+
+  .profile-not-verified .text-wrapper-3{
+    justify-content: center;
+  }
+
+  
+  .profile-not-verified .text-wrapper-69{
+    font-size: 12px;
+  }
+
+  .profile-not-verified .vector{
+    height: 20px;
+    width: 20px;
+  }
+
+  .profile-not-verified .overlap-5{
+    height: 40px;
+    width: 120px;
+    font-size: 12px;
+  }
+
+  .profile-not-verified .overlap213{
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .profile-not-verified .button1 {
+    width: 130px;
+    font-size: 12px;
+    height: 40px;
+  }
+
+  .profile-not-verified .overlap-33{
+    gap: 10px;
+  }
+
+  .profile-not-verified .car-frame{
+    width: 180px;
+    height: 180px;
+  }
+
+  .profile-not-verified .div-wrapper{
+    font-size: 10px;
+    height: 20px;
+    width: 50px;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .profile-not-verified{
+    padding-top: 50px;
+  }
+
+  .profile-not-verified .rectangles{
+    height: 200px;
+    width: 200px;
+  }
+
+  .profile-not-verified .text-wrapper-3{
+    font-size: 16px;
+    gap: 5px;
+  }
+
+  .profile-not-verified .p{
+    font-size: 12px;
+  }
+
+  .profile-not-verified .overlap-2 {
+    align-items: center; 
+    width: 100%; 
+    text-align: center; 
+  }
+
+  .profile-not-verified .text-wrapper-3{
+    justify-content: center;
+  }
+
+  .profile-not-verified .vector{
+    height: 20px;
+    width: 20px;
+  }
+
+  .profile-not-verified .overlap-5{
+    height: 40px;
+    width: 120px;
+    font-size: 12px;
+  }
+
+  .profile-not-verified .overlap213{
+    gap: 15px;
+  
+  }
+
+  .profile-not-verified .button1 {
+    width: 130px;
+    font-size: 12px;
+    height: 40px;
+  }
+
+  .profile-not-verified .overlap-33{
+    gap: 10px;
+  }
+
+  .profile-not-verified .car-frame{
+    width: 150px;
+    height: 150px;
+  }
+
 }

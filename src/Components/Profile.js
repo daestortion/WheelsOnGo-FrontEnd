@@ -193,7 +193,7 @@ const UserProfile = () => {
             <div className="overlap-wrapper">
                 <div className="overlap213">
                     <div
-                        className="rectangle"
+                        className="rectangles"
                         style={{
                             backgroundImage: `url(${currentUser.profilePic})`,
                             backgroundSize: 'cover',
@@ -208,7 +208,7 @@ const UserProfile = () => {
                             {currentUser.verificationStatus === 1 ? (
                                 <img className="vector" alt="Verified" src={check} />
                             ) : currentUser.verificationStatus === 0 ? (
-                                <div className="text-wrapper-69">( Pending Verification )</div>
+                                <div className="text-wrapper-69">(Pending)</div>
                             ) : currentUser.verificationStatus === 2 ? (
                                 <div className="reverify">
                                     ( Verification denied, please&nbsp;
@@ -221,7 +221,7 @@ const UserProfile = () => {
                                 </div>
                             ) : (
                                 <button className="div-wrapper" onClick={toggleVerifyPopup}>
-                                    Verify Account
+                                    Verify
                                 </button>
                             )}
                         </div>
@@ -238,16 +238,16 @@ const UserProfile = () => {
 
                 {/* Button Group Section */}
                 <div className="button-group">
-                    <button onClick={handleMessagesClick} className="messages">
+                    <button onClick={handleMessagesClick} className="button1">
                         Messages
                     </button>
 
-                    <button onClick={toggleReportPopup} className="submitbackground">
+                    <button onClick={toggleReportPopup} className="button1">
                         Submit a Report
                     </button>
 
                     {currentUser.verificationStatus === 1 && (
-                        <button className="text-wrapper-55" onClick={handleRentHistory}>
+                        <button className="button1" onClick={handleRentHistory}>
                             Transaction History
                         </button>
                     )}
@@ -255,12 +255,12 @@ const UserProfile = () => {
                     {/* Register a Car Button Moved Here */}
                     {currentUser.verificationStatus === 1 && currentUser.isOwner && (
                         <>
-                            <button className="div-wrappercar" onClick={handleAddCar}>
+                            <button className="button1" onClick={handleAddCar}>
                                 Register a Car
                             </button>
 
                             {/* Conditionally render the Balance Page button */}
-                            <button className="text-wrapper-55" onClick={() => navigate('/balance-page')}>
+                            <button className="button1" onClick={() => navigate('/balance-page')}>
                                 Balance
                             </button>
                         </>

@@ -148,6 +148,7 @@
     justify-content: space-between; /* Ensures content is distributed between top and bottom */
     height: 100vh; /* Full viewport height */
     box-shadow: 0px 4px 4px #00000040;
+    overflow-y: auto;
   }
 
   .side-nav.open {

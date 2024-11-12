@@ -75,7 +75,7 @@ body {
   box-sizing: border-box; /* Padding included in width */
   position: relative; /* Positioned relative to its normal flow */
   overflow-y: auto; /* Allows vertical scrolling */
-  max-height: calc(100vh - 185px); /* Example: Subtract the total height of other elements */
+  max-height: calc(100vh - 85px); /* Example: Subtract the total height of other elements */
 }
 
 .cars .cars-grid::-webkit-scrollbar {
