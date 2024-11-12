@@ -415,7 +415,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               <h3>1. Definitions</h3>
               <ul>
                 <li><b>LENDER:</b> Wheels On Go</li>
-                <li><b>BORROWER:</b> The individual renting the vehivle form Wheels On Go</li>
+                <li><b>BORROWER:</b> The individual renting the vehicle form Wheels On Go</li>
               </ul>
               
               <h3>2. General Terms</h3>

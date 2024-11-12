@@ -179,7 +179,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
       if (paymentResponse.data) {
         generateReceipt();
-        setShowBookedPopup(true);
+        setShowPayPalSuccess(true);
         console.log("Payment status updated successfully.");
       }
     } catch (error) {
