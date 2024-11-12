@@ -114,6 +114,7 @@ const AdminOwnerPayments = () => {
                   <th>Submitted On</th>
                   <th>Status</th>
                   <th>Action</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,6 +142,9 @@ const AdminOwnerPayments = () => {
                     <td>₱{request.amount.toFixed(2)}</td>
                     <td>{new Date(request.createdAt).toLocaleString()}</td>
                     <td>{request.status || "pending"}</td>
+                    <td>
+                      <button>Send Funds</button>
+                    </td>
                     <td>
                       <button
                         className="button-approve"

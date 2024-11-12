@@ -184,7 +184,7 @@ export const Cars = () => {
                   </div>
                   <div className="car-info-outside">
                     <div className="car-details">
-                      {car.carBrand} {car.carModel} ({car.carYear})
+                      {car.carBrand} {car.carModel} {car.carYear}
                     </div>
                     <div className="car-price">
                       ₱{car.rentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / day
