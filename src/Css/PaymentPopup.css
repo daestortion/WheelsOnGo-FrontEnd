@@ -24,6 +24,16 @@
   padding: 60px;
 }
 
+.paymongo-button {
+  background-color: #8ef5a2; /* Original color */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.paymongo-button:hover {
+  background-color: #23c245; /* Darker shade for hover effect */
+}
+
+
   
   .payment-popup .text-wrapper {
     color: #000000;
@@ -490,3 +500,123 @@
     border-radius: 30px;
     cursor: pointer;
   }
+
+  .paypal-button {
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    background-color: #f7c600; /* Yellow background */
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .paypal-button:hover {
+    background-color: #e5b700; /* Darker yellow on hover */
+  }
+  
+  .paymongo-button:hover {
+    background-color: #45d089; /* Custom hover effect for PayMongo button */
+  }
+  
+
+  .payment-terms-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .payment-terms-content {
+    width: 60%;
+    max-width: 1500px;
+    max-height: 80vh;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .payment-terms-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .payment-terms-header h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+    flex-grow: 1;
+  }
+  
+  .payment-close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+  
+  .payment-terms-body {
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 20px;
+    line-height: 1.6;
+    max-height: calc(80vh - 150px);
+  }
+  
+  .payment-terms-body h3 {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .payment-terms-body ul {
+    padding-left: 20px;
+  }
+  
+  .payment-terms-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 15px;
+    gap: 10px;
+    border-top: 1px solid #ddd;
+  }
+  
+  .payment-terms-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .payment-terms-button.accept {
+    background-color: #20ba44;
+    color: white;
+  }
+  
+  .payment-terms-button.accept.active {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .payment-terms-button.accept.inactive {
+    background-color: #a9a9a9;
+    color: white;
+    cursor: not-allowed;
+  }
+  
