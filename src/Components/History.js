@@ -502,6 +502,8 @@ export const OrderHistoryPage = () => {
                                                           minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
                                                           excludeDates={disabledDates} // Disable already booked dates
                                                           placeholderText="Select new end date"
+                                                          popperPlacement="bottom-middle" // Position the calendar above and to the left of the input
+                                                          popperClassName="custom-datepicker-popper" // Custom class for styling
                                                       />
                                                       <div className="summary">
                                                           <h4>Summary of the Cost for Extension:</h4>
