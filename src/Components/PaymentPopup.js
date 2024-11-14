@@ -124,72 +124,81 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
   const handlePayPalSuccess = async (details, data) => {
     if (isProcessing) return;
+    console.log("handlePayPalSuccess called"); // Debugging log
     setIsProcessing(true);
-
+  
     try {
-        const transactionId = details.id;
-        if (!transactionId) {
-            console.error("PayPal transaction ID is missing.");
-            return;
-        }
-
-        let currentOrder = order;
-
-        // Check if the order is already created to prevent duplicate entries
-        if (!currentOrder || !currentOrder.orderId) {
-            const newOrder = {
-                startDate,
-                endDate,
-                totalPrice,
-                paymentOption: "PayPal",
-                isDeleted: false,
-                deliveryOption,
-                deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
-                status: 1 // Set initial status to 1 for successful payment
-            };
-
-            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            if (response.data) {
-                currentOrder = response.data;
-                setOrder(currentOrder);
-                console.log("Order created successfully:", response.data);
-            } else {
-                throw new Error("Failed to create order before PayPal success.");
-            }
-        }
-
-        // Update payment status and wallet for online payment
-        const paymentData = {
-            orderId: currentOrder.orderId,
-            transactionId: transactionId,
-            paymentOption: "PayPal",
-            amount: totalPrice,
-            status: 1 // Set status to 1 to mark as paid
+      const transactionId = details.id;
+      if (!transactionId) {
+        console.error("PayPal transaction ID is missing.");
+        return;
+      }
+  
+      let currentOrder = order;
+  
+      // Check if the order is already created to prevent duplicate entries
+      if (!currentOrder || !currentOrder.orderId) {
+        const newOrder = {
+          startDate,
+          endDate,
+          totalPrice,
+          paymentOption: "PayPal",
+          isDeleted: false,
+          deliveryOption,
+          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+          status: 1 // Set initial status to 1 for successful payment
         };
-
-        const paymentResponse = await axios.put("http://localhost:8080/order/updatePaymentStatus", paymentData, {
-            headers: { 'Content-Type': 'application/json' }
+  
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
+          headers: { 'Content-Type': 'application/json' }
         });
-
-        if (paymentResponse.data) {
-            // Update wallet with 85% of the total amount using PUT to avoid duplicate records
-            await axios.put(`http://localhost:8080/ownerWallet/addToOnlineEarnings/${car.owner.userId}`, null, {
-                params: { amount: totalPrice * 0.85 }
-            });
-
-            generateReceipt();
-            setShowPayPalSuccess(true);  // Show the success message
-            console.log("Payment status updated and wallet credited successfully.");
+  
+        if (response.data) {
+          currentOrder = response.data;
+          setOrder(currentOrder);
+          console.log("Order created successfully:", response.data);
+        } else {
+          throw new Error("Failed to create order before PayPal success.");
         }
+      }
+  
+      // Check if a payment with the transaction ID already exists to prevent duplicates
+      const existingPayments = await axios.get(`http://localhost:8080/order/checkExistingPayment?transactionId=${transactionId}`);
+      if (existingPayments.data.exists) {
+        console.warn("Payment with this transaction ID already exists, skipping duplicate entry.");
+        setShowPayPalSuccess(true);  // Show the success message
+        return;
+      }
+  
+      // Update payment status and wallet for online payment
+      const paymentData = {
+        orderId: currentOrder.orderId,
+        transactionId: transactionId,
+        paymentOption: "PayPal",
+        amount: totalPrice,
+        status: 1 // Set status to 1 to mark as paid
+      };
+  
+      const paymentResponse = await axios.put("http://localhost:8080/order/updatePaymentStatus", paymentData, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+  
+      if (paymentResponse.data) {
+        // Update wallet with 85% of the total amount using PUT to avoid duplicate records
+        await axios.put(`http://localhost:8080/ownerWallet/addToOnlineEarnings/${car.owner.userId}`, null, {
+          params: { amount: totalPrice * 0.85 }
+        });
+  
+        generateReceipt();
+        setShowPayPalSuccess(true);  // Show the success message
+        console.log("Payment status updated and wallet credited successfully.");
+      }
     } catch (error) {
-        console.error("Error updating payment status:", error.message);
+      console.error("Error updating payment status:", error.message);
     }
     setIsProcessing(false);
-};
-
+  };
+  
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);
     setShowPayPalError(true);
