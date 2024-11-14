@@ -34,6 +34,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const termsBodyRef = useRef(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const calculateDays = () => {
     if (!startDate || !endDate) return 0;
@@ -75,13 +76,18 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
         paymentOption: "Cash"
       };
-
+  
       const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
-      
+  
       if (response.data) {
         setOrder(response.data);
         setShowBookedPopup(true);
         console.log("Cash order created successfully:", response.data);
+  
+        // Update the owner's wallet for cash payments
+        await axios.put(`http://localhost:8080/ownerWallet/addToCashEarnings/${car.owner.userId}`, {
+          amount: totalPrice
+        });
       }
     } catch (error) {
       console.error('Error submitting cash order:', error);
@@ -117,61 +123,72 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   };
 
   const handlePayPalSuccess = async (details, data) => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
     try {
-      setShowPayPalSuccess(true);
-      const transactionId = details.id;
+        const transactionId = details.id;
+        if (!transactionId) {
+            console.error("PayPal transaction ID is missing.");
+            return;
+        }
 
-      if (!transactionId) {
-        console.error("PayPal transaction ID is missing.");
-        return;
-      }
+        let currentOrder = order;
 
-      let currentOrder = order;
-      if (!currentOrder || !currentOrder.orderId) {
-        const newOrder = {
-          startDate,
-          endDate,
-          totalPrice,
-          paymentOption: "PayPal",
-          isDeleted: false,
-          deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+        // Check if the order is already created to prevent duplicate entries
+        if (!currentOrder || !currentOrder.orderId) {
+            const newOrder = {
+                startDate,
+                endDate,
+                totalPrice,
+                paymentOption: "PayPal",
+                isDeleted: false,
+                deliveryOption,
+                deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+                status: 1 // Set initial status to 1 for successful payment
+            };
+
+            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.data) {
+                currentOrder = response.data;
+                setOrder(currentOrder);
+                console.log("Order created successfully:", response.data);
+            } else {
+                throw new Error("Failed to create order before PayPal success.");
+            }
+        }
+
+        // Update payment status and wallet for online payment
+        const paymentData = {
+            orderId: currentOrder.orderId,
+            transactionId: transactionId,
+            paymentOption: "PayPal",
+            amount: totalPrice,
+            status: 1 // Set status to 1 to mark as paid
         };
 
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
-          headers: { 'Content-Type': 'application/json' }
+        const paymentResponse = await axios.put("http://localhost:8080/order/updatePaymentStatus", paymentData, {
+            headers: { 'Content-Type': 'application/json' }
         });
-        
-        if (response.data) {
-          currentOrder = response.data;
-          setOrder(currentOrder);
-          console.log("Order created successfully:", response.data);
-        } else {
-          throw new Error("Failed to create order before PayPal success.");
+
+        if (paymentResponse.data) {
+            // Update wallet with 85% of the total amount using PUT to avoid duplicate records
+            await axios.put(`http://localhost:8080/ownerWallet/addToOnlineEarnings/${car.owner.userId}`, null, {
+                params: { amount: totalPrice * 0.85 }
+            });
+
+            generateReceipt();
+            setShowPayPalSuccess(true);  // Show the success message
+            console.log("Payment status updated and wallet credited successfully.");
         }
-      }
-
-      const paymentData = {
-        orderId: currentOrder.orderId,
-        transactionId: transactionId,
-        paymentOption: "PayPal",
-        amount: totalPrice,
-        status: 1
-      };
-
-      const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (paymentResponse.data) {
-        generateReceipt();
-        setShowPayPalSuccess(true);
-        console.log("Payment status updated successfully.");
-      }
     } catch (error) {
-      console.error("Error updating payment status:", error.message);
+        console.error("Error updating payment status:", error.message);
     }
-  };
+    setIsProcessing(false);
+};
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);
@@ -355,9 +372,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     </a>.
   </label>
 </div>
-
-
-
           </div>
           <div className='groups66'>
             <div className="image">
@@ -407,6 +421,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
       {showBookedPopup && <BookedPopup order={order} onClose={handleCloseCash} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
+      {showPayPalSuccess && <PayPalSuccessful onClose={onClose} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
 
       {showTermsPopup && (
