@@ -355,9 +355,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     </a>.
   </label>
 </div>
-
-
-
           </div>
           <div className='groups66'>
             <div className="image">
@@ -405,8 +402,26 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         </div>
       </div>
 
+<<<<<<< Updated upstream
       {showBookedPopup && <BookedPopup order={order} onClose={handleCloseCash} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
+=======
+      {showBookedPopup && (
+        <BookedPopup
+          order={order}
+          onClose={() => {
+            setShowBookedPopup(false); // Close the BookedPopup
+            onClose(); // Close the PaymentPopup
+          }}
+        />
+      )}
+      {showPayPalSuccess && (
+        <PayPalSuccessful
+          onClose={handleClosePayPalPopup} // Closes the PayPal success popup
+          closePaymentPopup={onClose}     // Closes the entire payment popup
+        />
+      )}
+>>>>>>> Stashed changes
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
 
       {showTermsPopup && (
