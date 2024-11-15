@@ -83,16 +83,17 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             setShowBookedPopup(true);
             console.log("Cash order created successfully:", response.data);
 
-            // Here, create the payment with 'pending' status
+            // Now use the order object directly from the state
             const paymentData = {
-                orderId: response.data.orderId,
+                orderId: response.data.orderId, // Use orderId from the response
                 transactionId: null,  // No transaction ID for cash payments
                 paymentOption: "Cash",
-                amount: totalPrice,
-                status: 0  // '0' indicates pending status for cash payments
+                amount: parseFloat(totalPrice),  // Ensure this is a float
+                status: 0 // Indicate 'pending' status for Cash payment
             };
+            console.log("Payment Data being sent to the backend:", paymentData);
 
-            // Create the payment with pending status
+            // Create the payment with 'pending' status for cash
             const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -134,7 +135,12 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
     }
   };
 
-  const handlePayPalSuccess = async (details, data) => {
+  let isProcessingPayment = false;
+
+const handlePayPalSuccess = async (details, data) => {
+    if (isProcessingPayment) return; // Prevent duplicate submissions
+    isProcessingPayment = true;
+
     try {
         setShowPayPalSuccess(true);
         const transactionId = details.id;
@@ -169,18 +175,16 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             }
         }
 
-        // Log the payment data
         const paymentData = {
             orderId: currentOrder.orderId,
             transactionId: transactionId,
             paymentOption: "PayPal",
             amount: totalPrice,
-            status: 1 // Indicate a successful payment
+            status: 1
         };
 
-        console.log("Payment Data being sent to the backend:", paymentData); // Log the payment data to check
+        console.log("Payment Data being sent to the backend:", paymentData);
 
-        // Create the payment and automatically update order status in the backend
         const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
             headers: { 'Content-Type': 'application/json' }
         });
@@ -192,8 +196,12 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         }
     } catch (error) {
         console.error("Error processing payment:", error.message);
+    } finally {
+        isProcessingPayment = false; // Reset flag after processing
     }
 };
+
+
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);
@@ -411,6 +419,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 </div>
               )}
               {showPayPalSuccess && (
+                
                 <div style={{
                   position: 'relative',
                   width: '100%',
@@ -428,7 +437,12 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
       </div>
 
       {showBookedPopup && <BookedPopup order={order} onClose={handleCloseCash} />}
-      {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
+      {showPayPalSuccess && (
+        <PayPalSuccessful
+          onClose={handleClosePayPalPopup} // Closes the PayPal success popup
+          closePaymentPopup={onClose}     // Closes the entire payment popup
+        />
+      )}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
 
       {showTermsPopup && (
