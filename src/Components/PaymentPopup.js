@@ -118,60 +118,60 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
   const handlePayPalSuccess = async (details, data) => {
     try {
-      setShowPayPalSuccess(true);
-      const transactionId = details.id;
+        setShowPayPalSuccess(true);
+        const transactionId = details.id;
 
-      if (!transactionId) {
-        console.error("PayPal transaction ID is missing.");
-        return;
-      }
+        if (!transactionId) {
+            console.error("PayPal transaction ID is missing.");
+            return;
+        }
 
-      let currentOrder = order;
-      if (!currentOrder || !currentOrder.orderId) {
-        const newOrder = {
-          startDate,
-          endDate,
-          totalPrice,
-          paymentOption: "PayPal",
-          isDeleted: false,
-          deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+        let currentOrder = order;
+        if (!currentOrder || !currentOrder.orderId) {
+            const newOrder = {
+                startDate,
+                endDate,
+                totalPrice,
+                paymentOption: "PayPal",
+                isDeleted: false,
+                deliveryOption,
+                deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+            };
+
+            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (response.data) {
+                currentOrder = response.data;
+                setOrder(currentOrder);
+                console.log("Order created successfully:", response.data);
+            } else {
+                throw new Error("Failed to create order before PayPal success.");
+            }
+        }
+
+        const paymentData = {
+            orderId: currentOrder.orderId,
+            transactionId: transactionId,
+            paymentOption: "PayPal",
+            amount: totalPrice,
+            status: 1 // Mark as successful payment
         };
 
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
-          headers: { 'Content-Type': 'application/json' }
+        const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
+            headers: { 'Content-Type': 'application/json' }
         });
-        
-        if (response.data) {
-          currentOrder = response.data;
-          setOrder(currentOrder);
-          console.log("Order created successfully:", response.data);
-        } else {
-          throw new Error("Failed to create order before PayPal success.");
+
+        if (paymentResponse.data) {
+            generateReceipt();
+            setShowPayPalSuccess(true);
+            console.log("Payment status updated successfully.");
         }
-      }
-
-      const paymentData = {
-        orderId: currentOrder.orderId,
-        transactionId: transactionId,
-        paymentOption: "PayPal",
-        amount: totalPrice,
-        status: 1
-      };
-
-      const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (paymentResponse.data) {
-        generateReceipt();
-        setShowPayPalSuccess(true);
-        console.log("Payment status updated successfully.");
-      }
     } catch (error) {
-      console.error("Error updating payment status:", error.message);
+        console.error("Error updating payment status:", error.message);
     }
-  };
+};
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);

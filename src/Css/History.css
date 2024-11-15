@@ -236,9 +236,3 @@ body {
     cursor: pointer;
     margin: 2px;
   }
-
-  .custom-datepicker-popper {
-    z-index: 1000; /* Ensure it stays on top */
-    margin-left: -120px; /* Adjust this based on your layout */
-  }
-  
