@@ -1,9 +1,6 @@
 import React from "react";
 import "../Css/PaypalSuccessful.css";
 
-<<<<<<< Updated upstream
-const PayPalSuccessful = ({ onClose }) => {
-=======
 const PayPalSuccessful = ({ onClose, closePaymentPopup }) => {
   const handleOkClick = () => {
     // First, close the PayPal success popup
@@ -11,8 +8,6 @@ const PayPalSuccessful = ({ onClose, closePaymentPopup }) => {
     // Then, close the payment popup
     closePaymentPopup();
   };
-
->>>>>>> Stashed changes
   return (
     <div className="payment-successful">
       <div className="overlap-wrapper232">
