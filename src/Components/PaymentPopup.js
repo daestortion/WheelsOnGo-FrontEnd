@@ -67,26 +67,44 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
   const handleCash = async () => {
     try {
-      const orderPayload = {
-        startDate,
-        endDate,
-        totalPrice,
-        deliveryOption,
-        deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
-        paymentOption: "Cash"
-      };
+        const orderPayload = {
+            startDate,
+            endDate,
+            totalPrice,
+            deliveryOption,
+            deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+            paymentOption: "Cash"
+        };
 
-      const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
-      
-      if (response.data) {
-        setOrder(response.data);
-        setShowBookedPopup(true);
-        console.log("Cash order created successfully:", response.data);
-      }
+        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
+
+        if (response.data) {
+            setOrder(response.data);
+            setShowBookedPopup(true);
+            console.log("Cash order created successfully:", response.data);
+
+            // Here, create the payment with 'pending' status
+            const paymentData = {
+                orderId: response.data.orderId,
+                transactionId: null,  // No transaction ID for cash payments
+                paymentOption: "Cash",
+                amount: totalPrice,
+                status: 0  // '0' indicates pending status for cash payments
+            };
+
+            // Create the payment with pending status
+            const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (paymentResponse.data) {
+                console.log("Payment created with 'pending' status.");
+            }
+        }
     } catch (error) {
-      console.error('Error submitting cash order:', error);
+        console.error("Error submitting cash order:", error);
     }
-  };
+};
 
   const createPaymentLink = async () => {
     const amountInCentavos = Math.round(totalPrice * 100);
@@ -141,7 +159,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
                 headers: { 'Content-Type': 'application/json' }
             });
-            
+
             if (response.data) {
                 currentOrder = response.data;
                 setOrder(currentOrder);
@@ -151,25 +169,29 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             }
         }
 
+        // Log the payment data
         const paymentData = {
             orderId: currentOrder.orderId,
             transactionId: transactionId,
             paymentOption: "PayPal",
             amount: totalPrice,
-            status: 1 // Mark as successful payment
+            status: 1 // Indicate a successful payment
         };
 
-        const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
+        console.log("Payment Data being sent to the backend:", paymentData); // Log the payment data to check
+
+        // Create the payment and automatically update order status in the backend
+        const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
             headers: { 'Content-Type': 'application/json' }
         });
 
         if (paymentResponse.data) {
             generateReceipt();
             setShowPayPalSuccess(true);
-            console.log("Payment status updated successfully.");
+            console.log("Payment created successfully.");
         }
     } catch (error) {
-        console.error("Error updating payment status:", error.message);
+        console.error("Error processing payment:", error.message);
     }
 };
 
