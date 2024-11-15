@@ -503,3 +503,120 @@
       height: 55px;
       border-radius: 30px;
     }
+
+    .extend-terms-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .extend-terms-content {
+      width: 60%;
+      max-width: 1500px; /* Limit the max width */
+      max-height: 80vh; /* Limit the max height to 80% of the viewport */
+      background-color: white;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden; /* Ensure content does not exceed modal */
+    }
+    
+    .extend-terms-header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .extend-terms-header h2 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: bold;
+      flex-grow: 1;
+    }
+    
+    .extend-close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .extend-close-button img {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .extend-terms-body {
+      padding: 0 20px;
+      flex-grow: 1;
+      overflow-y: auto; /* Make body scrollable */
+      font-size: 20px;
+      line-height: 1.6;
+    }
+    
+    .extend-terms-body h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    
+    .extend-terms-body ul {
+      padding-left: 20px;
+    }
+    
+    .extend-terms-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 20px;
+      border-top: 1px solid #ddd;
+    }
+    
+    .extend-terms-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    
+    .extend-terms-button.accept {
+      background-color: #20ba44;
+      color: white;
+    }
+    
+    .extend-terms-button.accept.active {
+      background-color: #28a745; /* Brighter color when enabled */
+      color: white;
+      cursor: pointer;
+    }
+    
+    .extend-terms-button.accept.inactive {
+      background-color: #a9a9a9; /* Darker gray when disabled */
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .tac-link {
+      color: blue; /* Change text color to blue */
+      background-color: transparent; /* Remove white background */
+      text-decoration: underline; /* Optional: underline to indicate it's a link */
+      border: none; /* Remove any borders */
+      cursor: pointer;
+    }
+    
+    .tac-link:hover {
+      color: darkblue; /* Optional: darker blue on hover */
+    }
+    
+    

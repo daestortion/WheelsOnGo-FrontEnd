@@ -1,86 +1,81 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import '../Css/BalancePage.css'; // For styling
-import Header from "../Components/Header"; // Import Header component
+import '../Css/BalancePage.css';
+import Header from "../Components/Header";
+
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
     credit: 0,
     debit: 0,
     refundable: 0,
   });
-  const [userId, setUserId] = useState(null); // Store user ID
-  const [isLoading, setIsLoading] = useState(true); // Loading state to show loading indicator
-  const [isFormOpen, setIsFormOpen] = useState(false); // State to toggle form visibility
-  const [requestType, setRequestType] = useState(''); // For the dropdown value
-  const [fullName, setFullName] = useState(''); // Full name for GCash
-  const [gcashNumber, setGcashNumber] = useState(''); // GCash number
-  const [bankName, setBankName] = useState(''); // Bank name for Bank request
-  const [accountName, setAccountName] = useState(''); // Account name for Bank request
-  const [accountNumber, setAccountNumber] = useState(''); // Account number for Bank request
-  const [amount, setAmount] = useState(''); // Amount to request
-  const [formError, setFormError] = useState(null); // To display form errors
-  const [requests, setRequests] = useState([]); // To store the user's request logs
+  const [userId, setUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [requestType, setRequestType] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [gcashNumber, setGcashNumber] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [accountName, setAccountName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [amount, setAmount] = useState('');
+  const [formError, setFormError] = useState(null);
+  const [requests, setRequests] = useState([]);
 
-  // Fetch user data from localStorage when the component loads
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      setUserId(parsedUser.userId); // Set the user ID from local storage
+      setUserId(parsedUser.userId);
     }
   }, []);
-  // Fetch wallet data from the backend API using Axios
+
   const fetchWalletData = useCallback(async (id) => {
     try {
-      setIsLoading(true);  // Show loading state
-      const [walletRes, debitRes, refundableRes] = await Promise.all([
-        axios.get(`http://localhost:8080/wallet/credit/${id}`),
-        axios.get(`http://localhost:8080/wallet/debit/${id}`),
-        axios.get(`http://localhost:8080/wallet/refundable/${id}`)
-      ]);
-      // Update the state with fetched data
+      setIsLoading(true);
+      const response = await axios.get(`http://localhost:8080/ownerWallet/getWalletByUserId/${id}`);
+      const { onlineEarning, cashEarning, cashRefundable } = response.data;
+
+      // Set wallet data with calculated credit and debit based on the new requirements
       setWalletData({
-        credit: walletRes.data || 0,  // Fetch recalculated credit directly
-        debit: debitRes.data || 0,
-        refundable: refundableRes.data || 0,
+        credit: cashEarning,
+        debit: onlineEarning,
+        refundable: cashRefundable,
       });
     } catch (error) {
       console.error('Error fetching wallet data:', error);
     } finally {
-      setIsLoading(false);  // Hide loading state
+      setIsLoading(false);
     }
   }, []);
 
-  // Fetch user requests from the backend
   const fetchUserRequests = useCallback(async (id) => {
     try {
-      setIsLoading(true); // Show loading state
-      const response = await axios.get(`http://localhost:8080/wallet/getAllRequests`); // Modify if using specific endpoint
-      const userRequests = response.data.filter((request) => request.user.userId === id); // Filter requests for the logged-in user
-      setRequests(userRequests); // Store the requests for the user
+      setIsLoading(true);
+      const response = await axios.get(`http://localhost:8080/wallet/getAllRequests`);
+      const userRequests = response.data.filter((request) => request.user.userId === id);
+      setRequests(userRequests);
     } catch (error) {
       console.error('Error fetching user requests:', error);
     } finally {
-      setIsLoading(false); // Hide loading state
+      setIsLoading(false);
     }
   }, []);
 
-  // Fetch wallet data without recalculating when page loads
   useEffect(() => {
     if (userId) {
-      fetchWalletData(userId);  // Fetch wallet data directly
-      fetchUserRequests(userId); // Fetch user requests
+      fetchWalletData(userId);
+      fetchUserRequests(userId);
     }
   }, [userId, fetchWalletData, fetchUserRequests]);
 
-  // Toggle form visibility
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
   };
-  // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormError(null); // Reset any previous error
+    setFormError(null);
     if (!userId || !requestType || !amount) {
       setFormError("Please fill in all required fields.");
       return;
@@ -93,6 +88,7 @@ const BalancePage = () => {
       setFormError("Please fill in the required Bank fields.");
       return;
     }
+
     let requestData = { userId, requestType, amount: parseFloat(amount) };
     if (requestType === 'gcash') {
       requestData.fullName = fullName;
@@ -103,43 +99,44 @@ const BalancePage = () => {
       requestData.bankName = bankName;
       requestData.accountNumber = accountNumber;
     }
+
     try {
       await axios.post('http://localhost:8080/wallet/request-funds', requestData);
       await fetchWalletData(userId);
-      await fetchUserRequests(userId); // Fetch updated requests after submission
+      await fetchUserRequests(userId);
       alert('Request submitted successfully!');
-      setIsFormOpen(false); // Close the form after submission
+      setIsFormOpen(false);
     } catch (error) {
       alert('Failed to submit the request.');
     }
   };
+
   const refreshWalletData = async () => {
     if (userId) {
       await fetchWalletData(userId);
-      await fetchUserRequests(userId); // Fetch updated requests on refresh
+      await fetchUserRequests(userId);
     }
   };
 
   return (
     <div className="balance-page">
       <Header />
-      {/* Dashboard cards */}
       <div className="dashboard-cards-container">
         {isLoading ? (
           <p>Loading...</p>
         ) : (
           <>
             <div className="card">
-              <h2>Total Credit</h2>
-              <p>₱{walletData.credit?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
+              <h2>Total Credit (15%)</h2>
+              <p>₱{walletData.credit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
             </div>
             <div className="card">
-              <h2>Total Debit</h2>
-              <p>₱{walletData.debit?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
+              <h2>Total Debit (85%)</h2>
+              <p>₱{walletData.debit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
             </div>
             <div className="card">
               <h2>Total Refundable</h2>
-              <p>₱{walletData.refundable?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
+              <p>₱{walletData.refundable.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
             </div>
           </>
         )}
@@ -245,7 +242,6 @@ const BalancePage = () => {
           </form>
         )}
       </div>
-      {/* Table to display requests */}
       <div className="request-log">
         <h3>Your Requests</h3>
         <table>
@@ -308,4 +304,5 @@ const BalancePage = () => {
     </div>
   );
 };
+
 export default BalancePage;

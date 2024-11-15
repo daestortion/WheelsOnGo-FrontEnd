@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { jsPDF } from "jspdf";
-import React, { useEffect, useState } from 'react';
-import { CashOptionPopup } from "../Components/BookingPopup";
+import React, { useEffect, useRef, useState } from 'react';
 import PayPal from "../Components/PayPal";
 import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
@@ -31,9 +30,10 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const [order, setOrder] = useState(null);
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
-  const [showBookingPopup, setBookingPopup] = useState(false);
-  const [paypalPaid, setPaypalPaid] = useState(false);
-  const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
+  const [showTermsPopup, setShowTermsPopup] = useState(false);
+  const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+  const termsBodyRef = useRef(null);
 
   const calculateDays = () => {
     if (!startDate || !endDate) return 0;
@@ -42,66 +42,49 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   };
   const days = calculateDays();
 
-  useEffect(() => {
-    const paymentOption = "Cash";
-    const newOrder = {
-      startDate,
-      endDate,
-      totalPrice,
-      paymentOption,
-      isDeleted: false,
-      referenceNumber: '',
-    };
-    setOrder(newOrder);
-  }, [startDate, endDate, totalPrice]);
-
-  const handleBookedPopupClose = () => {
-    setShowBookedPopup(false);
-    onClose();
+  const toggleTermsPopup = () => {
+    setShowTermsPopup(!showTermsPopup);
+    setIsAcceptEnabled(false);
   };
 
-  // Polling for PayMongo webhook confirmation every 10 seconds
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      if (order && order.orderId) {
-        try {
-          const response = await fetch(`http://localhost:8080/api/payment/check-status?orderId=${order.orderId}`);
-          const data = await response.json();
-          if (data.status === "paid") {
-            setIsPaymentConfirmed(true);
-            clearInterval(interval);
-          }
-        } catch (error) {
-          console.error("Error checking payment status:", error);
-        }
-      }
-    }, 10000);
+  const handleAcceptTerms = () => {
+    setIsTermsAccepted(true);
+    setShowTermsPopup(false);
+  };
 
-    return () => clearInterval(interval);
-  }, [order]);
+  const handleTermsCheckbox = () => {
+    if (isTermsAccepted) {
+      setIsTermsAccepted(!isTermsAccepted);
+    } else {
+      toggleTermsPopup();
+    }
+  };
+
+  const handleScroll = () => {
+    const isBottom = termsBodyRef.current.scrollHeight - termsBodyRef.current.scrollTop === termsBodyRef.current.clientHeight;
+    setIsAcceptEnabled(isBottom);
+  };
 
   const handleCash = async () => {
-    if (order) {
-      try {
-        const orderPayload = {
-          ...order,
-          startDate,
-          endDate,
-          totalPrice,
-          deliveryOption,
-          deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
-          paymentOption: "Cash"
-        };
+    try {
+      const orderPayload = {
+        startDate,
+        endDate,
+        totalPrice,
+        deliveryOption,
+        deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
+        paymentOption: "Cash"
+      };
 
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
-
-        if (response.data) {
-          setOrder(response.data);
-          setShowBookedPopup(true);
-        }
-      } catch (error) {
-        console.error('Error submitting cash order:', error);
+      const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
+      
+      if (response.data) {
+        setOrder(response.data);
+        setShowBookedPopup(true);
+        console.log("Cash order created successfully:", response.data);
       }
+    } catch (error) {
+      console.error('Error submitting cash order:', error);
     }
   };
 
@@ -135,14 +118,14 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
   const handlePayPalSuccess = async (details, data) => {
     try {
-      setPaypalPaid(true);
+      setShowPayPalSuccess(true);
       const transactionId = details.id;
+
       if (!transactionId) {
         console.error("PayPal transaction ID is missing.");
         return;
       }
-  
-      // Ensure the order has an orderId before updating the payment status
+
       let currentOrder = order;
       if (!currentOrder || !currentOrder.orderId) {
         const newOrder = {
@@ -154,21 +137,20 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
           deliveryOption,
           deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
         };
-  
+
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
           headers: { 'Content-Type': 'application/json' }
         });
         
         if (response.data) {
-          currentOrder = response.data;  // Set the new order with orderId
-          setOrder(currentOrder);  // Update state with the newly created order
+          currentOrder = response.data;
+          setOrder(currentOrder);
           console.log("Order created successfully:", response.data);
         } else {
           throw new Error("Failed to create order before PayPal success.");
         }
       }
-  
-      // Update payment status for the order
+
       const paymentData = {
         orderId: currentOrder.orderId,
         transactionId: transactionId,
@@ -176,11 +158,11 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         amount: totalPrice,
         status: 1
       };
-  
+
       const paymentResponse = await axios.post("http://localhost:8080/order/updatePaymentStatus", paymentData, {
         headers: { 'Content-Type': 'application/json' }
       });
-  
+
       if (paymentResponse.data) {
         generateReceipt();
         setShowPayPalSuccess(true);
@@ -190,7 +172,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
       console.error("Error updating payment status:", error.message);
     }
   };
-  
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);
@@ -203,7 +184,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   };
 
   const handleCloseCash = () => {
-    setBookingPopup(false);
+    setShowBookedPopup(false);
   };
 
   const generateReceipt = async () => {
@@ -354,6 +335,29 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 )}
               </div>
             </div>
+
+            <div className="terms-conditions" style={{ marginTop: '15px' }}>
+  <input
+    type="checkbox"
+    id="termsCheckbox"
+    checked={isTermsAccepted}
+    onChange={handleTermsCheckbox} // Only toggle check state here
+    style={{ width: '30px', height: '30px', marginRight: '10px' }}
+  />
+  <label htmlFor="termsCheckbox" style={{ color: 'red', fontSize: '18px', lineHeight: '1.2', display: 'inline-block' }}>
+    <span>by clicking, you are confirming that you have read,</span><br />
+    <span>understood and agree to the </span>
+    <a
+      onClick={toggleTermsPopup} // Open modal only when the link is clicked
+      style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+    >
+      terms and conditions
+    </a>.
+  </label>
+</div>
+
+
+
           </div>
           <div className='groups66'>
             <div className="image">
@@ -363,18 +367,28 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             <button
               className='cashbackground'
               onClick={handleCash}
+              disabled={!isTermsAccepted}
+              style={{ opacity: isTermsAccepted ? 1 : 0.5 }}
             >
               Cash
             </button>
             <button
               onClick={createPaymentLink}
               className="paymongo-button"
+              disabled={!isTermsAccepted}
+              style={{ opacity: isTermsAccepted ? 1 : 0.5 }}
             >
               <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
             </button>
-            <div style={{ position: 'relative' }}>
-              <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
-              {paypalPaid && (
+            <div style={{ position: 'relative', opacity: isTermsAccepted ? 1 : 0.5 }}>
+              {isTermsAccepted ? (
+                <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+              ) : (
+                <div className="paypal-placeholder" style={{ cursor: "not-allowed" }}>
+                  Pay with PayPal
+                </div>
+              )}
+              {showPayPalSuccess && (
                 <div style={{
                   position: 'relative',
                   width: '100%',
@@ -390,11 +404,105 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
           </div>
         </div>
       </div>
-      
-      {showBookedPopup && <BookedPopup order={order} onClose={handleBookedPopupClose} />}
+
+      {showBookedPopup && <BookedPopup order={order} onClose={handleCloseCash} />}
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
-      {showBookingPopup && <CashOptionPopup onClose={handleCloseCash} />}
+
+      {showTermsPopup && (
+        <div className="payment-terms-modal">
+          <div className="payment-terms-content">
+            <div className="payment-terms-header">
+              <h2>Terms and Conditions</h2>
+              <img
+                src={close}
+                alt="Close"
+                onClick={toggleTermsPopup}
+                className="payment-close-icon"
+              />
+            </div>
+            <div
+              className="payment-terms-body"
+              ref={termsBodyRef}
+              onScroll={handleScroll}
+            >
+              {/* Terms content */}
+              <p>Welcome to Wheels On Go. By using our services, you agree to comply with and be bound by the following terms and conditions. Please review the following terms carefully. If you do not agree to these terms, you should not use this site or our services.</p>
+              
+              <h3>1. Definitions</h3>
+              <ul>
+                <li><b>LENDER:</b> Wheels On Go</li>
+                <li><b>BORROWER:</b> The individual renting the vehicle form Wheels On Go</li>
+              </ul>
+              
+              <h3>2. General Terms</h3>
+              <ul>
+                <li>The BORROWER must handle the unit/car with care and respect and must return the vehicle in good running condition.</li>
+                <li>In the event of loss, damage, or impoundment of the vehicle, the BORROWER is liable to pay the LENDER.  </li>
+                <li>The vehicle must not be taken outside the designated area without prior notice.  </li>
+                <li>The vehicle must not be used for illegal activities.  </li>
+                <li>Non-compliance with the terms of this agreement may result in legal action. Any complaints should be filed in the court of the city where the rental took place. </li>
+              </ul>
+              
+              <h3>3. Fuel and Maintenance</h3>
+              <ul>
+                <li>The vehicle must be refueled to the same level as at the start of the rental.</li>
+                <li>Fuel type: <b>Gasoline Unleaded</b>  </li>
+                <li>Tire pressure: <b>40 PSI</b>  </li>
+              </ul>
+
+              <h3>4. Vehicle Use and Restrictions</h3>
+              <ul>
+                <li>The BORROWER must use the vehicle responsibly and in accordance with all local laws.  </li>
+                <li>The vehicle must not be used for racing, towing, or any other unauthorized purposes. </li>
+              </ul>
+
+              <h3>5. Insurance and Liability</h3>
+              <ul>
+                <li>The BORROWER is responsible for any damage or loss to the vehicle during the rental period. </li>
+                <li>The BORROWER must pay for any traffic violations or parking tickets incurred during the rental period.  </li>
+              </ul>
+
+              <h3>6. Termination</h3>
+              <ul>
+                <li>The LENDER reserves the right to terminate the rental agreement at any time for breach of any terms.  </li>
+                <li>If you withdraw your booking <b>at least 3 days before the rental start date, you will receive a full refund.</b> </li>
+                <li>If the withdrawal is made <b>less than 3 days before the rental start date, 20% of your payment will be deducted.</b> </li>
+                <li>If the withdrawal is made <b>on the start date of the rental, no refund will be issued.</b> </li>
+              </ul>
+
+              <h3>7. Termination</h3>
+              <ul>
+                <li>An excess fee of <b>P150/hour</b> will be charged for exceeding the contracted rental period.  </li>
+                <li>The BORROWER must refill the fuel consumed. Excess fuel is non-refundable.  </li>
+                <li>The vehicle must be returned clean. A penalty of <b>P200</b> and a cleaning fee of P500 will be charged for smoke and other unacceptable odors.  </li>
+                <li>A fee of <b>P250-800</b> will be charged depending on the distance for drop-off or pick-up points outside the designated area.  </li>
+                <li>In case of an accident, the BORROWER must pay a participation fee of <b>P15,000</b> plus additional fees depending on the severity of the damage as advised by the insurance company.  </li>
+              </ul>
+
+              <h3>8. Governing Law</h3>
+              <ul>
+                <li>This agreement is governed by the laws of the Philippines. Any disputes arising from this agreement shall be resolved in the courts of the city where the rental took place.  </li>
+              </ul>
+
+              <p>By agreeing to these terms and conditions, the BORROWER acknowledges that they have read, understood, and agreed to abide by all the terms and conditions stated above.</p>
+              <p><b>IN WITNESS WHEREOF</b>, the parties hereto have hereunto set their hands the day, year, and place above written.</p>
+              
+              {/* Additional terms sections */}
+
+            </div>
+            <div className="payment-terms-footer">
+              <button
+                className={`payment-terms-button accept ${isAcceptEnabled ? "active" : "inactive"}`}
+                onClick={handleAcceptTerms}
+                disabled={!isAcceptEnabled}
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
