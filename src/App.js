@@ -34,6 +34,7 @@ import Balance from './Components/BalancePage.js'
 import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
 import ReturnCarForm from './Components/ReturnCarForm.js'
 import ReturnCar from './Components/ReturnCar.js';
+import AdminSendFunds from './Components/AdminSendFunds.js';
 
 function DebugRoutes() {
     const location = useLocation();
@@ -69,7 +70,7 @@ function AuthRoutes() {
             <Route path="/admin-dashboard" element={<AdminPrivateRoute><AdminDashboard /></AdminPrivateRoute>} />
             <Route path="/chats/:chatId" element={<AdminPrivateRoute><ChatPage /></AdminPrivateRoute>} />
             <Route path="/admin-payments" element={<AdminPrivateRoute><AdminOwnerPayments /></AdminPrivateRoute>} />
-
+            <Route path="/sendfunds" element={<AdminPrivateRoute><AdminSendFunds /></AdminPrivateRoute>} />
 
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />

@@ -73,6 +73,10 @@ const AdminOwnerPayments = () => {
       .finally(() => setLoading(false));
   };
 
+  const handleSendFunds = () => {
+    navigate("/sendfunds");
+  };
+
   const handleLogout = () => {
     navigate("/adminlogin");
   };
@@ -143,7 +147,12 @@ const AdminOwnerPayments = () => {
                     <td>{new Date(request.createdAt).toLocaleString()}</td>
                     <td>{request.status || "pending"}</td>
                     <td>
-                      <button>Send Funds</button>
+                      <button
+                        className="send-funds"
+                        onClick={() => handleSendFunds()}
+                      >
+                        Send Funds
+                      </button>
                     </td>
                     <td>
                       <button
