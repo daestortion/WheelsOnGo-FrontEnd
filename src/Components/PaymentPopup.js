@@ -433,10 +433,6 @@ const handlePayPalSuccess = async (details, data) => {
         </div>
       </div>
 
-<<<<<<< Updated upstream
-      {showBookedPopup && <BookedPopup order={order} onClose={handleCloseCash} />}
-      {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
-=======
       {showBookedPopup && (
         <BookedPopup
           order={order}
@@ -452,7 +448,6 @@ const handlePayPalSuccess = async (details, data) => {
           closePaymentPopup={onClose}     // Closes the entire payment popup
         />
       )}
->>>>>>> Stashed changes
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
 
       {showTermsPopup && (
