@@ -73,7 +73,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             totalPrice,
             deliveryOption,
             deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
-            paymentOption: "Cash"
+            paymentOption: "Cash",
         };
 
         const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
@@ -83,29 +83,46 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             setShowBookedPopup(true);
             console.log("Cash order created successfully:", response.data);
 
-            // Now use the order object directly from the state
             const paymentData = {
-                orderId: response.data.orderId, // Use orderId from the response
-                transactionId: null,  // No transaction ID for cash payments
+                orderId: response.data.orderId,
+                transactionId: null, // No transaction ID for cash payments
                 paymentOption: "Cash",
-                amount: parseFloat(totalPrice),  // Ensure this is a float
-                status: 0 // Indicate 'pending' status for Cash payment
+                amount: parseFloat(totalPrice), // Ensure this is a float
+                status: 0, // Indicate 'pending' status for Cash payment
             };
+
             console.log("Payment Data being sent to the backend:", paymentData);
 
             // Create the payment with 'pending' status for cash
             const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
             });
 
             if (paymentResponse.data) {
                 console.log("Payment created with 'pending' status.");
+
+                // Update cash earnings for the owner
+                await updateCashEarnings(car.owner.userId, totalPrice);
             }
         }
     } catch (error) {
         console.error("Error submitting cash order:", error);
     }
 };
+
+const updateCashEarnings = async (ownerId, amount) => {
+  try {
+      const response = await axios.put(
+          `http://localhost:8080/ownerWallet/addToCashEarnings/${ownerId}`,
+          null,
+          { params: { amount } }
+      );
+      console.log("Cash earnings updated:", response.data);
+  } catch (error) {
+      console.error("Error updating cash earnings:", error);
+  }
+};
+
 
   const createPaymentLink = async () => {
     const amountInCentavos = Math.round(totalPrice * 100);
@@ -137,7 +154,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 
   let isProcessingPayment = false;
 
-const handlePayPalSuccess = async (details, data) => {
+  const handlePayPalSuccess = async (details, data) => {
     if (isProcessingPayment) return; // Prevent duplicate submissions
     isProcessingPayment = true;
 
@@ -163,7 +180,7 @@ const handlePayPalSuccess = async (details, data) => {
             };
 
             const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
             });
 
             if (response.data) {
@@ -180,19 +197,22 @@ const handlePayPalSuccess = async (details, data) => {
             transactionId: transactionId,
             paymentOption: "PayPal",
             amount: totalPrice,
-            status: 1
+            status: 1, // Indicate success
         };
 
         console.log("Payment Data being sent to the backend:", paymentData);
 
         const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
         });
 
         if (paymentResponse.data) {
+            // Add to online earnings after successful PayPal payment
+            await updateOnlineEarnings(car.owner.userId, totalPrice);
+
             generateReceipt();
             setShowPayPalSuccess(true);
-            console.log("Payment created successfully.");
+            console.log("Payment created successfully, and online earnings updated.");
         }
     } catch (error) {
         console.error("Error processing payment:", error.message);
@@ -201,7 +221,18 @@ const handlePayPalSuccess = async (details, data) => {
     }
 };
 
-
+const updateOnlineEarnings = async (ownerId, amount) => {
+  try {
+      const response = await axios.put(
+          `http://localhost:8080/ownerWallet/addToOnlineEarnings/${ownerId}`,
+          null,
+          { params: { amount } }
+      );
+      console.log("Online earnings updated:", response.data);
+  } catch (error) {
+      console.error("Error updating online earnings:", error);
+  }
+};
 
   const handlePayPalError = (error) => {
     console.error("Handling PayPal error:", error);
