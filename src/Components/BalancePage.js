@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import '../Css/BalancePage.css';
-import Header from "../Components/Header";
+import Header from '../Components/Header';
 
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
@@ -33,10 +33,11 @@ const BalancePage = () => {
   const fetchWalletData = useCallback(async (id) => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`http://localhost:8080/ownerWallet/getWalletByUserId/${id}`);
+      const response = await axios.get(
+        `http://localhost:8080/ownerWallet/getWalletByUserId/${id}`
+      );
       const { onlineEarning, cashEarning, cashRefundable } = response.data;
 
-      // Set wallet data with calculated credit and debit based on the new requirements
       setWalletData({
         credit: cashEarning,
         debit: onlineEarning,
@@ -52,22 +53,24 @@ const BalancePage = () => {
   const fetchUserRequests = useCallback(async (id) => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`http://localhost:8080/wallet/getAllRequests`);
-      const userRequests = response.data.filter((request) => request.user.userId === id);
-      setRequests(userRequests);
+      const response = await axios.get(
+        `http://localhost:8080/request-form/getUserRequests/${id}`
+      );
+      setRequests(response.data);
     } catch (error) {
       console.error('Error fetching user requests:', error);
     } finally {
       setIsLoading(false);
     }
   }, []);
+  
 
   useEffect(() => {
     if (userId) {
       fetchWalletData(userId);
       fetchUserRequests(userId);
     }
-  }, [userId, fetchWalletData, fetchUserRequests]);
+  }, [userId, fetchWalletData, fetchUserRequests]);  
 
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
@@ -76,20 +79,31 @@ const BalancePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null);
+
     if (!userId || !requestType || !amount) {
-      setFormError("Please fill in all required fields.");
+      setFormError('Please fill in all required fields.');
       return;
     }
     if (requestType === 'gcash' && (!fullName || !gcashNumber)) {
-      setFormError("Please fill in the required GCash fields.");
+      setFormError('Please fill in the required GCash fields.');
       return;
     }
-    if (requestType === 'bank' && (!accountName || !bankName || !accountNumber || accountNumber.length < 10 || accountNumber.length > 12)) {
-      setFormError("Please fill in the required Bank fields.");
+    if (
+      requestType === 'bank' &&
+      (!accountName ||
+        !bankName ||
+        !accountNumber ||
+        accountNumber.length < 10 ||
+        accountNumber.length > 12)
+    ) {
+      setFormError('Please fill in the required Bank fields.');
       return;
     }
 
-    let requestData = { userId, requestType, amount: parseFloat(amount) };
+    let requestData = {
+      requestType,
+      amount: parseFloat(amount),
+    };
     if (requestType === 'gcash') {
       requestData.fullName = fullName;
       requestData.gcashNumber = gcashNumber;
@@ -101,13 +115,17 @@ const BalancePage = () => {
     }
 
     try {
-      await axios.post('http://localhost:8080/wallet/request-funds', requestData);
+      await axios.post(
+        `http://localhost:8080/request-form/request-funds?userId=${userId}`,
+        requestData
+      );
       await fetchWalletData(userId);
       await fetchUserRequests(userId);
       alert('Request submitted successfully!');
       setIsFormOpen(false);
     } catch (error) {
       alert('Failed to submit the request.');
+      console.error(error);
     }
   };
 
@@ -127,16 +145,34 @@ const BalancePage = () => {
         ) : (
           <>
             <div className="card">
-              <h2>Total Credit (15%)</h2>
-              <p>₱{walletData.credit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
+              <h2>Total Cash Earnings</h2>
+              <p>
+                ₱
+                {walletData.credit.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) || '0.00'}
+              </p>
             </div>
             <div className="card">
-              <h2>Total Debit (85%)</h2>
-              <p>₱{walletData.debit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
+              <h2>Total Online Earnings (Withdrawable)</h2>
+              <p>
+                ₱
+                {walletData.debit.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) || '0.00'}
+              </p>
             </div>
             <div className="card">
-              <h2>Total Refundable</h2>
-              <p>₱{walletData.refundable.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}</p>
+              <h2>Cancelled Orders</h2>
+              <p>
+                ₱
+                {walletData.refundable.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) || '0.00'}
+              </p>
             </div>
           </>
         )}
@@ -236,9 +272,13 @@ const BalancePage = () => {
                 onChange={(e) => setAmount(e.target.value)}
                 required
               />
-              <small>Available Balance: ₱{walletData.credit?.toFixed(2) || '0.00'}</small>
+              <small>
+                Available Balance: ₱{walletData.credit?.toFixed(2) || '0.00'}
+              </small>
             </div>
-            <button type="submit" className="submit-btn">Submit Request</button>
+            <button type="submit" className="submit-btn">
+              Submit Request
+            </button>
           </form>
         )}
       </div>
@@ -262,27 +302,37 @@ const BalancePage = () => {
                   <td>
                     {request.requestType === 'gcash' ? (
                       <>
-                        <strong>Full Name:</strong> {request.fullName}<br />
+                        <strong>Full Name:</strong> {request.fullName}
+                        <br />
                         <strong>GCash Number:</strong> {request.gcashNumber}
                       </>
                     ) : request.requestType === 'bank' ? (
                       <>
-                        <strong>Account Name:</strong> {request.accountName}<br />
-                        <strong>Bank Name:</strong> {request.bankName}<br />
-                        <strong>Account Number:</strong> {request.accountNumber}
+                        <strong>Account Name:</strong> {request.accountName}
+                        <br />
+                        <strong>Bank Name:</strong> {request.bankName}
+                        <br />
+                        <strong>Account Number:</strong>{' '}
+                        {request.accountNumber}
                       </>
-                    ) : 'N/A'}
+                    ) : (
+                      'N/A'
+                    )}
                   </td>
                   <td>₱{request.amount.toFixed(2)}</td>
-                  <td>{new Date(request.createdAt).toLocaleString()}</td>
                   <td>
-                    <span className={
-                      request.status === 'approved'
-                        ? 'status-approved'
-                        : request.status === 'denied'
-                        ? 'status-denied'
-                        : 'status-pending'
-                    }>
+                    {new Date(request.createdAt).toLocaleString('en-US')}
+                  </td>
+                  <td>
+                    <span
+                      className={
+                        request.status === 'approved'
+                          ? 'status-approved'
+                          : request.status === 'denied'
+                          ? 'status-denied'
+                          : 'status-pending'
+                      }
+                    >
                       {request.status || 'pending'}
                     </span>
                   </td>

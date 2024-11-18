@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Css/AdminOwner.css";
 import sidelogo from "../Images/sidelogo.png";
-import Loading from './Loading';
+import Loading from "./Loading";
 
 const AdminOwnerPayments = () => {
   const [requests, setRequests] = useState([]);
@@ -17,7 +17,7 @@ const AdminOwnerPayments = () => {
   const fetchRequests = () => {
     setLoading(true);
     axios
-      .get("http://localhost:8080/wallet/getAllRequests")
+      .get("http://localhost:8080/request-form/getAllRequests")
       .then((response) => {
         console.log("Fetched payment requests:", response.data);
         setRequests(response.data);
@@ -29,48 +29,44 @@ const AdminOwnerPayments = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleApprove = async (requestId, userId, amountRequested) => {
+  const handleApprove = async (requestId) => {
     setLoading(true);
     try {
-      console.log("Approve button clicked");
-      console.log("Request ID:", requestId);
-      console.log("User ID:", userId);
-      console.log("Amount Requested:", amountRequested);
+      console.log("Approve button clicked for request ID:", requestId);
 
-      if (!userId) {
-        console.error("Invalid user ID");
-        throw new Error("Invalid user ID");
-      }
-
-      console.log("Sending approve request to backend...");
-      await axios.put(`http://localhost:8080/wallet/approveRequest/${requestId}`);
+      await axios.put(
+        `http://localhost:8080/request-form/approveRequest/${requestId}`
+      );
       console.log("Approve request sent successfully!");
 
-      console.log("Fetching updated requests...");
-      fetchRequests(); // Simply refetch the requests without recalculation
-
-      alert("Request approved and wallet updated successfully!");
+      fetchRequests(); // Refresh the requests after approval
+      alert("Request approved successfully!");
     } catch (error) {
-      console.error("Error approving request or updating wallet:", error);
+      console.error("Error approving request:", error);
       alert("Error processing approval: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDeny = (requestId) => {
+  const handleDeny = async (requestId) => {
     setLoading(true);
-    axios
-      .put(`http://localhost:8080/wallet/denyRequest/${requestId}`)
-      .then(() => {
-        fetchRequests();
-        alert("Request denied successfully!");
-      })
-      .catch((error) => {
-        console.error("Error denying request:", error);
-        alert("Error denying request: " + error.message);
-      })
-      .finally(() => setLoading(false));
+    try {
+      console.log("Deny button clicked for request ID:", requestId);
+
+      await axios.put(
+        `http://localhost:8080/request-form/denyRequest/${requestId}`
+      );
+      console.log("Deny request sent successfully!");
+
+      fetchRequests(); // Refresh the requests after denial
+      alert("Request denied successfully!");
+    } catch (error) {
+      console.error("Error denying request:", error);
+      alert("Error processing denial: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSendFunds = () => {
@@ -85,7 +81,11 @@ const AdminOwnerPayments = () => {
     <div className="admin-owner-payments-page">
       {loading && <Loading />}
       <div className="admin-owner-dashboard-topbar">
-        <img className="admin-owner-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
+        <img
+          className="admin-owner-dashboard-logo"
+          alt="Wheels On Go Logo"
+          src={sidelogo}
+        />
         <button className="admin-owner-dashboard-logout" onClick={handleLogout}>
           Logout
         </button>
@@ -93,14 +93,54 @@ const AdminOwnerPayments = () => {
 
       <div className="admin-owner-dashboard-wrapper">
         <div className="admin-owner-dashboard-sidebar">
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-dashboard")}>Dashboard</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminusers")}>Users</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admincars")}>Cars</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminverify")}>Verifications</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminorder")}>Transactions</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/adminreport")}>Reports</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
-          <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/admin-dashboard")}
+          >
+            Dashboard
+          </button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/adminusers")}
+          >
+            Users
+          </button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/admincars")}
+          >
+            Cars
+          </button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/adminverify")}
+          >
+            Verifications
+          </button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/adminorder")}
+          >
+            Transactions
+          </button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/adminreport")}
+          >
+            Reports
+          </button>
+          <button
+            className="admin-owner-dashboard-menu-item"
+            onClick={() => navigate("/admin-payments")}
+          >
+            Payments
+          </button>
+          <button
+            className="admin-dashboard-menu-item"
+            onClick={() => navigate("/activitylogs")}
+          >
+            Activity Logs
+          </button>
         </div>
 
         <div className="admin-owner-dashboard-content">
@@ -117,8 +157,7 @@ const AdminOwnerPayments = () => {
                   <th>Amount</th>
                   <th>Submitted On</th>
                   <th>Status</th>
-                  <th>Action</th>
-                  <th>Action</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,19 +167,26 @@ const AdminOwnerPayments = () => {
                     <td>{request.user.username}</td>
                     <td>{request.requestType}</td>
                     <td>
-                      {request.requestType === 'gcash' ? (
+                      {request.requestType === "gcash" ? (
                         <>
-                          <strong>Full Name:</strong> {request.fullName || 'N/A'}<br />
-                          <strong>GCash Number:</strong> {request.gcashNumber || 'N/A'}
+                          <strong>Full Name:</strong> {request.fullName || "N/A"}
+                          <br />
+                          <strong>GCash Number:</strong>{" "}
+                          {request.gcashNumber || "N/A"}
                         </>
-                      ) : request.requestType === 'bank' ? (
+                      ) : request.requestType === "bank" ? (
                         <>
-                          <strong>Account Name:</strong> {request.fullName || 'N/A'}<br />
-                          <strong>Bank Name:</strong> {request.bankName || 'N/A'}<br />
-                          <strong>Account Number:</strong> {request.accountNumber || 'N/A'}
+                          <strong>Account Name:</strong>{" "}
+                          {request.fullName || "N/A"}
+                          <br />
+                          <strong>Bank Name:</strong>{" "}
+                          {request.bankName || "N/A"}
+                          <br />
+                          <strong>Account Number:</strong>{" "}
+                          {request.accountNumber || "N/A"}
                         </>
                       ) : (
-                        'N/A'
+                        "N/A"
                       )}
                     </td>
                     <td>₱{request.amount.toFixed(2)}</td>
@@ -148,24 +194,16 @@ const AdminOwnerPayments = () => {
                     <td>{request.status || "pending"}</td>
                     <td>
                       <button
-                        className="send-funds"
-                        onClick={() => handleSendFunds()}
-                      >
-                        Send Funds
-                      </button>
-                    </td>
-                    <td>
-                      <button
                         className="button-approve"
-                        onClick={() => handleApprove(request.requestId, request.user.userId, request.amount)}
-                        disabled={loading || (request.status === "approved" || request.status === "denied")}
+                        onClick={() => handleApprove(request.requestId)}
+                        disabled={loading || request.status !== "pending"}
                       >
                         Approve
                       </button>
                       <button
                         className="button-deny"
                         onClick={() => handleDeny(request.requestId)}
-                        disabled={loading || (request.status === "approved" || request.status === "denied")}
+                        disabled={loading || request.status !== "pending"}
                       >
                         Deny
                       </button>
