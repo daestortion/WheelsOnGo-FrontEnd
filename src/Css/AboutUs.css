@@ -200,7 +200,6 @@ body {
   box-sizing: border-box;
   position: relative;
   overflow-y: auto;
-  max-height: calc(100vh - 185px);
 }
 
 .team-member {
