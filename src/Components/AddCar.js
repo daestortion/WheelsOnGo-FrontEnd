@@ -177,7 +177,7 @@ export const AddCar = () => {
   return (
     <div className="car-management-owner">
       <Header />
-      <div className="main">
+      
         <div className="overlap-wrapper">
           <div className="a13">
             <div className="text-wrapper-9">Car Registration</div>
@@ -386,7 +386,7 @@ export const AddCar = () => {
           )}
         
       </div>
-    </div>
+    
     </div>
   );  
 };

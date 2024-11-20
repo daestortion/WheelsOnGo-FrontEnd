@@ -8,20 +8,19 @@
   min-height: 100vh;
   overflow-x: auto;
   overflow-y: auto;
-  padding-top: 112px; /* Offset for the fixed header height */
+  padding-top: 90px; /* Offset for the fixed header height */
 }
 
 .car-management-owner .overlap-wrapper {
   background-color: #ffffff;
   width: 100%; /* Adjust width dynamically */
   max-width: 1920px; /* Limit maximum width */
-  height: auto; /* Adjust height dynamically */
-  max-height: 939px; /* Limit maximum height */
   display: flex;
   justify-content: center; /* Optional: Center content inside the overlap-wrapper horizontally */
   align-items: center;
   position: relative;
-  gap: 150px;
+  gap: 50px;
+  padding: 20px;
 }
 
 .main{
@@ -139,14 +138,14 @@
   background-color: #d7d1d1;
   border-radius: 40px;
   width: 100%; /* Full width inside overlap-wrapper */
-  max-width: 907px; /* Limit max width */
-  height: auto; /* Adjust height dynamically */
+  max-width: 1000px; /* Limit max width */
   padding: 30px;
   display: flex; /* Optional: to center content inside overlap-1 */
   justify-content: center; /* Optional: center content horizontally */
   align-items: center; /* Optional: center content vertically */
   flex-direction: column;
   gap: 10px;
+  overflow: hidden; /* Prevent overflow from children */
 
 }
 
@@ -161,12 +160,12 @@
 .car-management-owner .div-wrapper {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -179,12 +178,12 @@
 .car-management-owner .div-wrapper1 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -198,12 +197,12 @@
 .car-management-owner .div-wrapper2 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -215,16 +214,16 @@
 
 .car-management-owner .description-wrapper {
   background-color: #ffffff;
-  border-radius: 35px;
+  border-radius: 20px;
   width: 100%;
   flex-grow: 1;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   border: none;
   padding: 20px;
-  height: 230px;
+  height: 200px;
   resize: none;
   overflow: hidden; /* Hide the scrollbar */
   overflow-y: scroll; /* Enable vertical scrolling without showing the scrollbar */
@@ -251,12 +250,12 @@
 .car-management-owner .div-wrapper3 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -270,12 +269,12 @@
 .car-management-owner .div-wrapper31 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -289,12 +288,12 @@
 .car-management-owner .div-wrapper32 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -308,12 +307,12 @@
 .car-management-owner .div-wrapper4 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -326,12 +325,12 @@
 .car-management-owner .div-wrapper41 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -345,12 +344,12 @@
 .car-management-owner .div-wrapper42 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -364,12 +363,12 @@
 .car-management-owner .div-wrapper412 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -383,12 +382,12 @@
 .car-management-owner .div-wrapper43 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -429,15 +428,6 @@
   width: 0px;
 }
 
-.car-management-owner .group-4 {
-  height: 71px;
-  left: 99px;
-  position: absolute;
-  top: 320px;
-  width: 0px;
-
-}
-
 .car-management-owner .overlap-3 {
   height: 71px;
   left: 99px;
@@ -457,22 +447,23 @@
 .car-management-owner .overlap-4 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding-left: 20px;
   padding-right: 20px;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .car-management-owner .overlap-442 {
   background-color: #ffffff;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   display: flex;
@@ -487,12 +478,12 @@
 .car-management-owner .text-wrapper-44 {
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 25px;
+  font-weight: 600;
   letter-spacing: 0;
   width: 100%;
   line-height: normal;
-  white-space: nowrap;
+  white-space-collapse: collapse;
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
@@ -509,13 +500,13 @@
 .car-management-owner .overlap-5 {
   background-color: #e80029;
   border-radius: 35px;
-  height: 50px;
+  height: 45px;
   position: relative;
   width: 110px;
   border: none;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -526,13 +517,13 @@
 .car-management-owner .overlap-521 {
   background-color: #e80029;
   border-radius: 35px;
-  height: 50px;
+  height: 45px;
   position: relative;
   width: 110px;
   border: none;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -564,7 +555,7 @@
 .car-management-owner .text-wrapper-66 {
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -601,13 +592,13 @@
 .car-management-owner .overlap-7 {
   background-color: #e80029;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   border: none;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -617,13 +608,13 @@
 .car-management-owner .overlap-712 {
   background-color: #e80029;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 50%;
   border: none;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -633,13 +624,13 @@
 .car-management-owner .overlap-777 {
   background-color: #e80029;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 80%;
   border: none;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -662,7 +653,7 @@
 .car-management-owner .text-wrapper-9 {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 50px;
+  font-size: 35px;
   font-weight: 600;
   letter-spacing: 0.62px;
   line-height: normal;
@@ -674,7 +665,7 @@
 .car-management-owner .text-wrapper-912 {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 50px;
+  font-size: 35px;
   font-weight: 600;
   letter-spacing: 0.62px;
   line-height: normal;
@@ -696,9 +687,9 @@
 
 .car-management-owner .rectangle12 {
   border-radius: 40px;
-  height: 450px;
+  height: 350px;
   position: relative;
-  width: 450px;
+  width: 350px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -716,13 +707,13 @@
 .car-management-owner .overlap-group-221 {
   background-color: #e80029;
   border-radius: 35px;
-  height: 71px;
+  height: 60px;
   position: relative;
   width: 100%;
   border: none;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
@@ -775,5 +766,162 @@
   max-height: 80%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1024px) {
+
+  .car-management-owner{
+    padding-top: 75px;
+  }
+
+  .car-management-owner .overlap-wrapper{
+    flex-direction: column;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  
+  .car-management-owner{
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 600px) {
+  
+  .car-management-owner{
+    padding-top: 60px;
+  }
+
+  .car-management-owner .text-wrapper-912{
+    font-size: 25px;
+    padding-bottom: 20px;
+  }
+
+  .car-management-owner .overlap-1{
+    border-radius: 20px;
+    padding: 15px;
+  }
+
+  .car-management-owner .div-wrapper,
+  .car-management-owner .div-wrapper1,
+  .car-management-owner .div-wrapper2,
+  .car-management-owner .div-wrapper412,
+  .car-management-owner .div-wrapper42,
+  .car-management-owner .div-wrapper43,
+  .car-management-owner .div-wrapper3,
+  .car-management-owner .div-wrapper31,
+  .car-management-owner .div-wrapper32,
+  .car-management-owner .div-wrapper41,
+  .car-management-owner .div-wrapper4{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    font-size: 20px;
+    height: 50px;
+  }
+
+  .car-management-owner .overlap-4,
+  .car-management-owner .overlap-442{
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .car-management-owner .overlap-5,
+  .car-management-owner .overlap-521{
+    height: 35px;
+    font-size: 12px;
+  }
+
+  .car-management-owner .text-wrapper-44,
+  .car-management-owner .text-wrapper-66{
+    font-size: 20px;
+  }
+
+  .car-management-owner .description-wrapper{
+    padding: 10px;
+    font-size: 20px;
+    height: 170px;
+  }
+
+  .car-management-owner .overlap-wrapper{
+    padding: 10px;
+  }
+
+  .car-management-owner .overlap-777,
+  .car-management-owner .overlap-712,
+  .car-management-owner .overlap-7{
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .car-management-owner .overlap-777{
+    margin-top: 15px;
+  }
+
+  .car-management-owner .group-8{
+    margin-top: 15px;
+  }
+
+  .car-management-owner .overlap-wrapper{
+    gap: 50px;
+  }
+
+}
+
+@media (max-width: 400px) {
+  
+  .car-management-owner{
+    padding-top: 50px;
+  }
+
+  .car-management-owner .text-wrapper-9{
+    padding-bottom: 20px;
+    font-size: 28px;
+  }
+
+  .car-management-owner .overlap-group-221{
+    height: 40px;
+  }
+
+  .car-management-owner .rectangle12{
+    height: 270px;
+    width: 270px;
+  }
+
+  .car-management-owner .div-wrapper,
+  .car-management-owner .div-wrapper1,
+  .car-management-owner .div-wrapper2,
+  .car-management-owner .div-wrapper412,
+  .car-management-owner .div-wrapper42,
+  .car-management-owner .div-wrapper43,
+  .car-management-owner .div-wrapper3,
+  .car-management-owner .div-wrapper31,
+  .car-management-owner .div-wrapper32,
+  .car-management-owner .div-wrapper41,
+  .car-management-owner .div-wrapper4{
+    font-size: 15px;
+  }
+
+  .car-management-owner .description-wrapper{
+    font-size: 15px;
+  }
+
+  .car-management-owner .text-wrapper-44,
+  .car-management-owner .text-wrapper-66{
+    font-size: 15px;
+  }
+
+  .car-management-owner .overlap-5,
+  .car-management-owner .overlap-521{
+    height: 30px;
+    font-size: 10px;
+    width: 80px;
+  }
+
+  .car-management-owner .overlap-wrapper{
+    gap: 30px;
+  }
 }
 
