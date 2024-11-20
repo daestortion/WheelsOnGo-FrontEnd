@@ -1,96 +1,190 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Header from "../Components/Header"; // Import the Header component
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import axios from "axios";
+import Header from "../Components/Header";
+import Modal from "react-modal";
 import "../Css/ReturnCarForm.css";
 
-function AcknowledgementForm() {
-  const { register, handleSubmit, reset } = useForm();
-  const [images, setImages] = useState([]);
+Modal.setAppElement("#root");
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    reset(); // Reset form after submission
+function AcknowledgementForm() {
+  const { orderId } = useParams();
+  const navigate = useNavigate(); // Initialize useNavigate
+  const { register, handleSubmit, reset, setValue } = useForm();
+  const [renterProofURL, setRenterProofURL] = useState("");
+  const [ownerProof, setOwnerProof] = useState(null);
+  const [ownerProofPreviewURL, setOwnerProofPreviewURL] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchReturnDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/returnProof/getReturnDetails/${orderId}`
+        );
+        if (response.status === 200) {
+          setValue("carOwner", response.data.carOwner);
+          setValue("renter", response.data.renter);
+          setValue("rentStartDate", response.data.rentStartDate);
+          setValue("rentEndDate", response.data.rentEndDate);
+          setValue("carReturnDate", response.data.carReturnDate);
+          setValue("comments", response.data.remarks);
+
+          if (response.data.proof) {
+            setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);
+          }
+        }
+      } catch (err) {
+        setError("Failed to fetch renter details.");
+        console.error("Error fetching renter data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReturnDetails();
+  }, [orderId, setValue]);
+
+  const handleOwnerProofUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setOwnerProof(file);
+      setOwnerProofPreviewURL(URL.createObjectURL(file));
+    }
   };
 
-  // Function to handle file input
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const fileURLs = files.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...fileURLs]);
+  const toggleModal = () => {
+    setModalOpen(!isModalOpen);
+  };
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("ownerProof", ownerProof);
+    formData.append("ownerRemark", data.ownerRemark);
+    formData.append("ownerApproval", data.ownerApproval ? "true" : "false");
+
+    try {
+      await axios.put(
+        `http://localhost:8080/returnProof/updateReturnProof/${orderId}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      alert("Return details updated successfully!");
+      reset();
+      navigate("/history"); // Redirect to the History page
+    } catch (err) {
+      console.error("Error updating return details:", err);
+      alert("Failed to update return details.");
+    }
   };
 
   return (
     <div>
-      <Header /> {/* Display Header */}
+      <Header />
       <div className="acknowledgement-form-container">
-        <form className="acknowledgement-form" onSubmit={handleSubmit(onSubmit)}>
-          <h2>Acknowledgement Form</h2>
-          
-          <div className="form-row">
-            <div>
-              <label>Car Owner:</label>
-              <input type="text" {...register("carOwner")} placeholder="Enter Car Owner's Name" required />
-            </div>
-            <div>
-              <label>Renter:</label>
-              <input type="text" {...register("renter")} placeholder="Enter Renter's Name" required />
-            </div>
-          </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <form className="acknowledgement-form" onSubmit={handleSubmit(onSubmit)}>
+            <h2>Car Return Acknowledgement</h2>
 
-          <div className="form-row">
-            <div>
-              <label>Rent Start Date:</label>
-              <input type="date" {...register("rentStartDate")} required />
+            <div className="form-row">
+              <div>
+                <label>Car Owner:</label>
+                <input type="text" {...register("carOwner")} disabled />
+              </div>
+              <div>
+                <label>Renter:</label>
+                <input type="text" {...register("renter")} disabled />
+              </div>
             </div>
-            <div>
-              <label>Rent End Date:</label>
-              <input type="date" {...register("rentEndDate")} required />
-            </div>
-          </div>
 
-          <div className="form-row">
-            <div>
-              <label>Car Return Date:</label>
-              <input type="date" {...register("carReturnDate")} required />
+            <div className="form-row">
+              <div>
+                <label>Rent Start Date:</label>
+                <input type="date" {...register("rentStartDate")} disabled />
+              </div>
+              <div>
+                <label>Rent End Date:</label>
+                <input type="date" {...register("rentEndDate")} disabled />
+              </div>
             </div>
-            <div>
-              <label>Car:</label>
-              <input type="text" {...register("car")} placeholder="Enter Car Model or Name" required />
-            </div>
-          </div>
 
-          <div className="form-row">
-            <div>
-              <label>Total Price:</label>
-              <input type="number" {...register("totalPrice")} placeholder="Enter Total Price" required />
+            <div className="form-row">
+              <div>
+                <label>Car Return Date:</label>
+                <input type="date" {...register("carReturnDate")} disabled />
+              </div>
+              <div>
+                <label>Comments (Renter):</label>
+                <textarea {...register("comments")} disabled rows="4" />
+              </div>
             </div>
-            <div>
-              <label>Total Extension Cost:</label>
-              <input type="number" {...register("totalExtensionCost")} placeholder="Enter Total Extension Cost" required />
+
+            <div className="form-row">
+              <label>Proof of Return (Renter):</label>
+              {renterProofURL ? (
+                <img src={renterProofURL} alt="Renter Proof" className="uploaded-proof" />
+              ) : (
+                <p>No proof provided by renter.</p>
+              )}
             </div>
-          </div>
 
-          <div className="form-row">
-            <label>Comments:</label>
-            <textarea {...register("comments")} placeholder="Enter comments" rows="4" />
-          </div>
-
-          <div className="form-row">
-            <label>Car Images:</label>
-            <input type="file" {...register("carImages")} multiple onChange={handleImageUpload} accept="image/*" />
-          </div>
-
-          {images.length > 0 && (
-            <div className="image-carousel">
-              {images.map((img, index) => (
-                <img key={index} src={img} alt={`Uploaded ${index + 1}`} className="carousel-image" />
-              ))}
+            <div className="form-row">
+              <label>Owner's Remarks:</label>
+              <textarea {...register("ownerRemark")} placeholder="Enter your remarks" rows="4" required />
             </div>
-          )}
-          
-          <button type="submit" className="submit-buttons">Submit</button>
-        </form>
+
+            <div className="form-row">
+              <label>Owner's Proof:</label>
+              <input type="file" onChange={handleOwnerProofUpload} accept="image/*" required />
+              {ownerProofPreviewURL && (
+                <button type="button" className="show-image-button" onClick={toggleModal}>
+                  Show Image
+                </button>
+              )}
+            </div>
+
+            <div className="form-row">
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    {...register("ownerApproval", { required: true })}
+                  />
+                  &nbsp; I approve the return.
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" className="submit-buttons">
+              Submit
+            </button>
+          </form>
+        )}
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={toggleModal}
+        contentLabel="Owner Proof"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <button className="close-modal-button" onClick={toggleModal}>
+          Close
+        </button>
+        {ownerProofPreviewURL ? (
+          <img src={ownerProofPreviewURL} alt="Owner Proof Preview" className="modal-image" />
+        ) : (
+          <p>No image uploaded yet.</p>
+        )}
+      </Modal>
     </div>
   );
 }
