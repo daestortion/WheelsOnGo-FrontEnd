@@ -450,7 +450,7 @@ export const OrderHistoryPage = () => {
                               {!showOwnedCars && !showOngoingRents && (
                                   <td>
                                       <button
-                                          className="return-car"
+                                          className="return-cars"
                                           onClick={() => handleReturnCar(order.orderId)}
                                       >
                                           Return Car
