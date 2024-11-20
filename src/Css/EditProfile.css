@@ -8,19 +8,18 @@
   min-height: 100vh;
   overflow-x: auto;
   overflow-y: auto;
-  padding-top: 112px; /* Offset for the fixed header height */
+  padding-top: 90px; /* Offset for the fixed header height */
   }
   
   .edit-profile .overlap-wrapper {
     background-color: #ffffff;
-    height: auto;
-    width: 1920px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 150px;
-    height: 100%; /* Adjust to 100% of parent's height */
+    gap: 50px;
+    padding: 20px;
   }
   
   .edit-profile .overlap1211 {
@@ -31,29 +30,29 @@
     position: relative;
   }
   
-  .edit-profile .overlap-2 {
+  .edit-profile .overlap-2s {
     background-color: #d7d1d1;
-    border-radius: 40px;
+    border-radius: 20px;
     height: auto;
     position: relative;
     width: 100%;
-    max-width: 900px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 30px;
-    padding: 40px;
+    padding: 30px;
   }
   
   .edit-profile .div-wrapper {
     background-color: #ffffff;
-    border-radius: 35px;
-    height: 71px;
+    border-radius: 25px;
+    height: 60px;
     position: relative;
     color: #848484;
-    font-family: "Inter-Bold", Helvetica, sans-serif; /* Ensure sans-serif fallback */
-    font-size: 30px;
+    font-family: "Inter-Bold", Helvetica, sans-serif;
+    font-size: 25px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
@@ -61,12 +60,10 @@
     padding-left: 30px;
     padding-right: 30px;
     border: none;
-    width: 80%;
-    /* Remove spinners for Chrome, Safari, Edge, Opera */
-    -webkit-appearance: none; /* Removes the default styling of the spinner */
+    width: 100%;
+    -webkit-appearance: none;
 }
 
-/* Additional CSS to remove the spinners specifically for Firefox */
 .edit-profile .div-wrapper::-webkit-inner-spin-button,
 .edit-profile .div-wrapper::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -94,20 +91,20 @@
   
   .edit-profile .overlap-3 {
     background-color: #ffffff;
-    border-radius: 35px;
-    height: 71px;
+    border-radius: 25px;
+    height: 60px;
     position: relative;
     color: #848484;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
+    font-family: "Inter-Bold", Helvetica, sans-serif; /* Ensure sans-serif fallback */
+    font-size: 25px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
     white-space: nowrap;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
     border: none;
-    width: 80%;
+    width: 100%;
   }
   
   .edit-profile .overlap-group-wrapper {
@@ -120,14 +117,14 @@
   
   .edit-profile .overlap-4 {
     background-color: #e80029;
-    border-radius: 35px;
-    height: 71px;
+    border-radius: 25px;
+    height: 50px;
     position: relative;
-    width: 90%;
+    width: 100%;
     border: none;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
@@ -137,7 +134,7 @@
   .edit-profile .new-profile-details {
     color: #000000;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
@@ -149,20 +146,17 @@
   .edit-profile .p {
     color: #000000;
     font-family: "Inter-Regular", Helvetica;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 400;
-    height: 70px;
-    letter-spacing: 0;
-    line-height: 35px;
     position: relative;
     text-align: center;
-    width: 80%;
+    width: 100%;
   }
   
   .edit-profile .text-wrapper-6wq {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 35px;
     font-weight: 600;
     line-height: normal;
     position: relative;
@@ -172,9 +166,9 @@
     background-color: #d7d1d1;
     background-size: cover;
     border-radius: 40px;
-    height: 450px;
+    height: 350px;
     position: relative;
-    width: 450px;
+    width: 350px;
 }
 
 .edit-profile .rectangle11 .upload-placeholder {
@@ -197,9 +191,9 @@
   .edit-profile .overlap-group-211 {
     background-color: #e80029;
     border-radius: 35px;
-    height: 71px;
+    height: 50px;
     position: relative;
-    width: 448px;
+    width: 350px;
     border: none;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
@@ -219,3 +213,110 @@
     gap: 20px;
   }
   
+  @media (max-width: 1024px) {
+
+    .edit-profile{
+      padding-top: 75px;
+    }
+
+    .edit-profile .overlap-wrapper{
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 800px) {
+
+    .edit-profile{
+      padding-top: 70px;
+    }
+  }
+
+  @media (max-width: 600px) {
+
+    .edit-profile{
+      padding-top: 60px;
+    }
+
+    .edit-profile .rectangle11{
+      height: 300px;
+      width: 300px;
+    }
+
+    .edit-profile .overlap-group-211{
+      height: 40px;
+      width: 300px;
+      font-size: 18px;
+    }
+
+    .edit-profile .text-wrapper-6wq{
+      font-size: 30px;
+    }
+
+    .edit-profile .new-profile-details{
+      font-size: 30px;
+    }
+
+    .edit-profile .p{
+      font-size: 15px;
+    }
+
+    .edit-profile .overlap-2s{
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .edit-profile .div-wrapper{
+      font-size: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
+      height: 45px;
+    }
+
+    .edit-profile .overlap-3{
+      font-size: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
+      height: 45px;
+    }
+
+    .edit-profile .overlap-4{
+      height: 40px;
+      width: 100%;
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 400px) {
+
+    .edit-profile .rectangle11{
+      height: 280px;
+      width: 280px;
+    }
+
+    .edit-profile .text-wrapper-6wq{
+      font-size: 25px;
+    }
+
+    .edit-profile .new-profile-details{
+      font-size: 25px;
+    }
+
+    .edit-profile .p{
+      font-size: 13px;
+    }
+
+    .edit-profile .div-wrapper{
+      font-size: 15px;
+      height: 40px;
+    }
+
+    .edit-profile .overlap-3{
+      font-size: 15px;
+      height: 40px;
+    }
+
+    .edit-profile .overlap-4{
+      height: 35px;
+      font-size: 12px
+    }
+  }

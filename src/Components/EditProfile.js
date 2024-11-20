@@ -80,9 +80,9 @@ export const EditProfile = () => {
                 <div className="wew1">
                     <div className="text-wrapper-6wq">Update Profile</div>
 
-                    <div className="rectangle11" style={{ backgroundImage: `url(${profilePicUrl})`, backgroundSize: 'cover', position: 'relative' }}>
+                    <div className="rectangle11" style={{ backgroundImage: `url(${profilePicUrl})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', position: 'relative' }}>
                         {!profilePic && (
-                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>Upload Profile Image</div>
+                            <div style={{ position: 'relative', top: '50%', left: '50%', textAlign: 'center', transform: 'translate(-50%, -50%)' }}>Upload Profile Image</div>
                         )}
                     </div>
 
@@ -92,7 +92,7 @@ export const EditProfile = () => {
                     </button>
                 </div>
 
-                <div className="overlap-2">
+                <div className="overlap-2s">
                     <h1 className="new-profile-details">New Profile Details</h1>
                     <span className="p">
                         Please enter your new user details. Upon confirming, your user details will be updated.
