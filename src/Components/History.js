@@ -235,24 +235,9 @@ export const OrderHistoryPage = () => {
   };
 
   // Handle car returned action
-  const handleCarReturned = async (orderId) => {
-    setIsLoading(true);
-    try {
-      const response = await axios.put(
-        `http://localhost:8080/order/markAsReturned/${orderId}`
-      );
-      if (response.status === 200) {
-        console.log("Car return processed successfully, orderId:", orderId);
-      }
-    } catch (error) {
-      console.error(
-        "Error processing car return:",
-        error.response?.data || error.message
-      );
-    } finally {
-      setIsLoading(false); // Ensure loading is stopped after the operation
-    }
-  };
+  const handleCarReturned = (orderId) => {
+    navigate(`/return-car-form/${orderId}`);
+};
 
   // Handle approve order action
   const handleApprove = async (orderId) => {

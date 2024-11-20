@@ -33,22 +33,25 @@ const BalancePage = () => {
   const fetchWalletData = useCallback(async (id) => {
     try {
       setIsLoading(true);
+  
       const response = await axios.get(
-        `http://localhost:8080/ownerWallet/getWalletByUserId/${id}`
+        `http://localhost:8080/ownerWallet/getWalletDetails/${id}`
       );
+  
       const { onlineEarning, cashEarning, cashRefundable } = response.data;
-
+  
       setWalletData({
-        credit: cashEarning,
-        debit: onlineEarning,
-        refundable: cashRefundable,
+        credit: cashEarning, // Outstanding balance (15%)
+        debit: onlineEarning, // Withdrawable balance (85%)
+        refundable: cashRefundable, // Cancelled orders or refunds
       });
     } catch (error) {
-      console.error('Error fetching wallet data:', error);
+      console.error("Error fetching wallet data:", error);
     } finally {
       setIsLoading(false);
     }
   }, []);
+  
 
   const fetchUserRequests = useCallback(async (id) => {
     try {
