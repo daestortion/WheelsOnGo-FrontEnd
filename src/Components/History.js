@@ -140,23 +140,32 @@ export const OrderHistoryPage = () => {
 
   // Fetch car orders (owned cars)
   const fetchCarOrdersByUserId = async (userId) => {
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:8080/user/${userId}/carOrders`
-      );
-      if (response.status === 200) {
-        setOrders(response.data);
-      } else {
-        setOrders([]);
-      }
+        const response = await axios.get(
+            `http://localhost:8080/user/${userId}/carOrders`
+        );
+        if (response.status === 200) {
+            const ordersWithProofAndAcknowledgment = await Promise.all(
+                response.data.map(async (order) => ({
+                    ...order,
+                    returnProofExists: await checkReturnProofExists(order.orderId),
+                    ownerAcknowledged: await checkOwnerAcknowledgment(order.orderId),
+                }))
+            );
+            setOrders(ordersWithProofAndAcknowledgment);
+        } else {
+            setOrders([]);
+        }
     } catch (error) {
-      console.error("Error fetching car orders:", error);
-      setOrders([]);
+        console.error("Error fetching car orders:", error);
+        setOrders([]);
     } finally {
-      setIsLoading(false); // Stop loading
+        setIsLoading(false);
     }
-  };
+};
+
+
 
   // Fetch user data and orders
   const fetchUserData = async (userId) => {
@@ -350,6 +359,30 @@ export const OrderHistoryPage = () => {
     return activity ? "Active" : "Inactive";
   };
 
+  const checkReturnProofExists = async (orderId) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8080/returnProof/exists/${orderId}`
+        );
+        return response.data; // Return true if proof exists
+    } catch (error) {
+        console.error("Error checking return proof:", error);
+        return false; // Assume no proof if an error occurs
+    }
+};
+const checkOwnerAcknowledgment = async (orderId) => {
+  try {
+      const response = await axios.get(
+          `http://localhost:8080/returnProof/getAcknowledgmentStatus/${orderId}`
+      );
+      return response.data; // Return true if acknowledgment exists
+  } catch (error) {
+      console.error("Error checking acknowledgment status:", error);
+      return false; // Assume no acknowledgment if an error occurs
+  }
+};
+
+
   return (
     <div className="order-history-page">
       <Header />
@@ -459,12 +492,20 @@ export const OrderHistoryPage = () => {
                               )}
                               {showOwnedCars && (
                                   <td>
-                                      <button
-                                          className="return"
-                                          onClick={() => handleCarReturned(order.orderId)}
-                                      >
-                                          Returned
-                                      </button>
+                                      {order.returnProofExists ? ( // Check if the return proof exists
+                                          order.ownerAcknowledged ? ( // Check if the acknowledgment form has been submitted
+                                              "Acknowledged"
+                                          ) : (
+                                              <button
+                                                  className="return"
+                                                  onClick={() => handleCarReturned(order.orderId)}
+                                              >
+                                                  Returned
+                                              </button>
+                                          )
+                                      ) : (
+                                          "No Return Form"
+                                      )}
                                   </td>
                               )}
                               {showOngoingRents && (

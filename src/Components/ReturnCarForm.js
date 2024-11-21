@@ -67,19 +67,19 @@ function AcknowledgementForm() {
     formData.append("ownerApproval", data.ownerApproval ? "true" : "false");
 
     try {
-      await axios.put(
-        `http://localhost:8080/returnProof/updateReturnProof/${orderId}`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      alert("Return details updated successfully!");
-      reset();
-      navigate("/history"); // Redirect to the History page
+        await axios.put(
+            `http://localhost:8080/returnProof/updateReturnProof/${orderId}`,
+            formData,
+            { headers: { "Content-Type": "multipart/form-data" } }
+        );
+        alert("Acknowledgment submitted successfully!");
+        reset();
+        navigate("/history"); // Redirect to history page
     } catch (err) {
-      console.error("Error updating return details:", err);
-      alert("Failed to update return details.");
+        console.error("Error submitting acknowledgment:", err);
+        alert("Failed to submit acknowledgment.");
     }
-  };
+};
 
   return (
     <div>
