@@ -148,7 +148,7 @@ const BalancePage = () => {
         ) : (
           <>
             <div className="card">
-              <h2>Total Cash Earnings</h2>
+              <h2>Total Outstanding Balance</h2>
               <p>
                 ₱
                 {walletData.credit.toLocaleString('en-US', {
@@ -168,7 +168,7 @@ const BalancePage = () => {
               </p>
             </div>
             <div className="card">
-              <h2>Cancelled Orders</h2>
+              <h2>Cancelled/Terminated Orders</h2>
               <p>
                 ₱
                 {walletData.refundable.toLocaleString('en-US', {
