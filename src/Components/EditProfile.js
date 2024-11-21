@@ -80,11 +80,16 @@ export const EditProfile = () => {
                 <div className="wew1">
                     <div className="text-wrapper-6wq">Update Profile</div>
 
-                    <div className="rectangle11" style={{ backgroundImage: `url(${profilePicUrl})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', position: 'relative' }}>
-                        {!profilePic && (
-                            <div style={{ position: 'relative', top: '50%', left: '50%', textAlign: 'center', transform: 'translate(-50%, -50%)' }}>Upload Profile Image</div>
+                    <div className="rectangle11">
+                        {profilePicUrl ? (
+                            <img src={profilePicUrl} className="rectangle12" alt="" />
+                        ) : (
+                            <div className="upload-message">Upload Profile Image</div>
                         )}
-                    </div>
+                        </div>
+
+
+
 
                     <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
                     <button className="overlap-group-211" onClick={handleClickUpload}>
