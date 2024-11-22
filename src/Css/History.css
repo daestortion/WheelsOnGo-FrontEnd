@@ -16,7 +16,7 @@ body {
   min-height: 100vh;
   overflow-x: auto;
   overflow-y: auto;
-  padding-top: 112px;
+  padding-top: 90px;
 }
   
   .order-history-page .overlap-wrapper213 {
@@ -138,7 +138,7 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    gap: 30px;
+    gap: 15px;
   }
 
   .grouping2{
@@ -152,7 +152,7 @@ body {
   .order-history-page .text-wrapper-5213 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 600;
     position: relative;
     text-align: center;
@@ -235,4 +235,95 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin: 2px;
+  }
+
+  @media (max-width: 1024px) {
+
+    .order-history-page{
+      padding-top: 75px;
+    }
+
+    .order-history-page .overlap-wrapper213{
+      padding-left: 20px;
+      padding-right: 20px;
+      gap: 30px;
+    }
+
+    .order-history-page .text-wrapper-5213{
+      font-size: 35px;
+    }
+
+    .order-history-page .div-wrapper213{
+      height: 40px;
+      width: 120px;
+      font-size: 14px;
+    }
+
+    .order-table213 {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 800px) {
+
+    .order-history-page{
+      padding-top: 70px;
+    }
+
+    .order-history-page .grouping2{
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .order-history-page .overlap-wrapper213{
+      padding: 20px;
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+
+    .order-history-page{
+      padding-top: 60px;
+    }
+
+    .order-history-page .div-wrapper213{
+      height: 30px;
+      width: 120px;
+      font-size: 11px;
+    }
+
+    .order-history-page .text-wrapper-5213{
+      font-size: 30px;
+    }
+
+    .order-history-page .overlap-wrapper213{
+      padding: 15px;
+      gap: 20px;
+    }
+
+    .order-table213 {
+      font-size: 9px;
+    }
+  }
+
+  @media (max-width: 400px) {
+
+    .order-history-page{
+      padding-top: 50px
+    }
+
+    .order-history-page .text-wrapper-5213{
+      font-size: 25px;
+    }
+
+    .order-history-page .div-wrapper213{
+      height: 30px;
+      width: 120px;
+      font-size: 10px;
+    }
+
+    .order-table213 {
+      font-size: 9px;
+    }
   }
