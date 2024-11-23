@@ -172,61 +172,45 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
         const extendedEndDate = new Date(endDate).toISOString().split("T")[0]; // Format the extended end date
 
-        console.log("Updating order with new total price and extended end date...");
-
         // Make request to extend the order with the new end date
         const updateResponse = await axios.put(
             `http://localhost:8080/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
             {},
             {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             }
         );
 
-        if (!updateResponse.data) {
-            throw new Error("Failed to update the order with the extended date and total price.");
-        }
+        // Check if the order update was successful
+        if (updateResponse && updateResponse.data) {
+            const { updatedOrder, extensionCost } = updateResponse.data;
+            console.log("Order updated successfully:", updatedOrder);
+            console.log("Extension cost for payment:", extensionCost);
 
-        // Extract the updated order and extension cost from the response
-        const { updatedOrder, extensionCost } = updateResponse.data;
+            // Prepare and log payment data for receipt generation
+            const paymentData = {
+                orderId: updatedOrder.orderId,
+                transactionId: details.id,     // Use the PayPal transaction ID from details
+                paymentOption: "PayPal",       // Set payment option to PayPal
+                amount: extensionCost,         // Only the extension cost
+                status: 1                      // Mark payment as completed
+            };
+            console.log("Prepared payment data for receipt:", paymentData);
 
-        console.log("Order updated successfully:", updatedOrder);
-        console.log("Extension cost for payment:", extensionCost);
+            // Generate receipt
+            generateReceipt({ ...updatedOrder, referenceNumber: details.id });
 
-        // Prepare payment data with only the extension cost
-        const paymentData = {
-            orderId: updatedOrder.orderId,
-            transactionId: details.id,     // Use the PayPal transaction ID from details
-            paymentOption: "PayPal",       // Set payment option to PayPal
-            amount: extensionCost,         // Only the additional cost for the extension period
-            status: 1                      // Mark payment as completed
-        };
-
-        // Update the payment status
-        const paymentResponse = await axios.post(
-            `http://localhost:8080/order/updatePaymentStatus`,
-            paymentData,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-
-        if (paymentResponse.data) {
-            console.log("Payment status updated successfully.");
-            generateReceipt({ ...orderDetails, referenceNumber: details.id }); // Generate receipt using PayPal transaction ID
-            setShowExtendSuccessPopup(true); // Show success popup
+            // Show the success popup
+            setShowExtendSuccessPopup(true);
         } else {
-            throw new Error("Failed to update payment status.");
+            throw new Error("Failed to update the order with the extended date.");
         }
     } catch (error) {
+        // Handle error if order update fails
         console.error("Error during PayPal success handling:", error.message);
         setShowPayPalError(true); // Show PayPal error popup
     }
-};
+  };
 
   const generateReceipt = (updatedOrder) => {
     const doc = new jsPDF();
@@ -237,7 +221,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     if (updatedOrder?.referenceNumber) {
       doc.text(`Reference Number: ${updatedOrder.referenceNumber}`, 20, 60);
     }
-    doc.save("receipt.pdf");
+    doc.save("extendreceipt.pdf");
   };
 
   const handleClosePayPalPopup = () => {
