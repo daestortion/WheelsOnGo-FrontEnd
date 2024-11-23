@@ -69,8 +69,8 @@ const AdminOwnerPayments = () => {
     }
   };
 
-  const handleSendFunds = () => {
-    navigate("/sendfunds");
+  const handleSendFunds = (requestId) => {
+    navigate(`/sendfunds/${requestId}`);
   };
 
   const handleLogout = () => {
@@ -190,13 +190,13 @@ const AdminOwnerPayments = () => {
                         "N/A"
                       )}
                     </td>
-                    <td>₱{request.amount.toFixed(2)}</td>
+                    <td>₱{request.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>{new Date(request.createdAt).toLocaleString()}</td>
                     <td>{request.status || "pending"}</td>
                     <td>
                       <button
                         className="send-funds"
-                        onClick={() => handleSendFunds()}
+                        onClick={() => handleSendFunds(request.requestId)}
                       >
                         Send Funds
                       </button>
