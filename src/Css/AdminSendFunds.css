@@ -74,7 +74,7 @@
     margin-bottom: 20px;
   }
   
-  /* Activities */
+  /* Container */
   .send-funds {
     background-color: white;
     padding: 20px;
@@ -82,6 +82,17 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     max-height: 700px;
     overflow-y: auto;
+  }
+
+  .send-funds .request-profilePicture {
+    background-color: #ffffff; 
+      border-radius: 40px; 
+      height: 200px;  /* Adjusted height to fit the image */
+      width: 200px;   /* Adjusted width to fit the image */
+      position: relative; 
+      display: flex;          /* Use flexbox to center the image */
+      justify-content: center; /* Horizontally center the image */
+      overflow: hidden;       /* Hide overflow to maintain border radius */
   }
   
   

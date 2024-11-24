@@ -70,7 +70,7 @@ function AuthRoutes() {
             <Route path="/admin-dashboard" element={<AdminPrivateRoute><AdminDashboard /></AdminPrivateRoute>} />
             <Route path="/chats/:chatId" element={<AdminPrivateRoute><ChatPage /></AdminPrivateRoute>} />
             <Route path="/admin-payments" element={<AdminPrivateRoute><AdminOwnerPayments /></AdminPrivateRoute>} />
-            <Route path="/sendfunds" element={<AdminPrivateRoute><AdminSendFunds /></AdminPrivateRoute>} />
+            <Route path="/sendfunds/:requestId" element={<AdminPrivateRoute><AdminSendFunds /></AdminPrivateRoute>} />
 
             <Route path="/userprofile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/editprofile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />

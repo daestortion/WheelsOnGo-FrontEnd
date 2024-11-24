@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../Css/AdminReport.css';
 import sidelogo from '../Images/sidelogo.png';
-import Loading from './Loading'; // Make sure this is correctly imported
+import Loading from './Loading';
 
 const adminFormatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -44,20 +44,20 @@ export const AdminPageReports = () => {
     }, [adminSelectedChatId]);
 
     const fetchAdminReports = () => {
-        setIsLoading(true);  // Start loading
+        setIsLoading(true);
         axios.get('http://localhost:8080/report/getAll')
             .then(response => {
                 if (Array.isArray(response.data)) {
                     setAdminReports(response.data);
                 } else {
-                    setAdminReports([]);  // If data is not an array, set an empty list
+                    setAdminReports([]);
                 }
             })
             .catch(() => {
-                setAdminReports([]);  // In case of error, set an empty list
+                setAdminReports([]);
             })
             .finally(() => {
-                setIsLoading(false);  // Stop loading after the request completes (either success or error)
+                setIsLoading(false);
             });
     };
 
@@ -75,7 +75,7 @@ export const AdminPageReports = () => {
                 await fetchAdminMessages(response.data.chatId);
             } else {
                 setAdminChatExists(false);
-                clearInterval(messagePollInterval.current); // Stop polling if no chat exists
+                clearInterval(messagePollInterval.current);
             }
         } catch (error) {
             console.error('Failed to check for existing admin group chat:', error);
@@ -133,14 +133,30 @@ export const AdminPageReports = () => {
     };
 
     const renderAdminMessages = () => {
+        const adminId = parseInt(localStorage.getItem("adminId")); // Ensure adminId is an integer
         return adminMessages.map((message, index) => (
-            <div key={index} className={`admin-chat-message ${message.adminSender ? 'admin-message' : 'user-message'}`}>
-                <div className="admin-chat-bubble">
+            <div
+                key={index}
+                className={`admin-chat-message ${
+                    message.adminId === adminId || message.sender?.userId === adminId
+                        ? 'sender-message'
+                        : 'receiver-message'
+                }`}
+            >
+                <div
+                    className={`admin-chat-bubble ${
+                        message.adminId === adminId || message.sender?.userId === adminId
+                            ? 'bubble-right'
+                            : 'bubble-left'
+                    }`}
+                >
                     <div className="sender-name">
-                        {message.sender ? message.sender.username : message.adminSender ? "Admin" : "Unknown"}
+                        {message.senderLabel || "Unknown"}
                     </div>
                     {message.messageContent}
-                    <span className="admin-timestamp">{adminFormatTimestamp(message.sentAt)}</span>
+                    <span className="admin-timestamp">
+                        {adminFormatTimestamp(message.sentAt)}
+                    </span>
                 </div>
             </div>
         ));
@@ -174,7 +190,9 @@ export const AdminPageReports = () => {
                             {adminReports.map((report) => (
                                 <div
                                     key={report.reportId}
-                                    className={`admin-report-item ${report.status === 0 ? 'admin-unread' : 'admin-read'} ${adminSelectedReport && adminSelectedReport.reportId === report.reportId ? 'admin-selected' : ''}`}
+                                    className={`admin-report-item ${report.status === 0 ? 'admin-unread' : 'admin-read'} ${
+                                        adminSelectedReport && adminSelectedReport.reportId === report.reportId ? 'admin-selected' : ''
+                                    }`}
                                     onClick={() => handleAdminReportClick(report)}
                                 >
                                     <div className={`admin-report-title ${report.status === 0 ? 'admin-bold' : ''}`}>{report.title}</div>

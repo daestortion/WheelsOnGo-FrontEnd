@@ -1,21 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../Css/AdminSendFunds.css"; // Matching styling to AdminDashboard
 import sidelogo from "../Images/sidelogo.png"; // Logo image
 import Loading from './Loading';
 
 const AdminSendFunds = () => {
-  const [isLoading, setIsLoading] = useState(false); // State to show loading indicator
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
+  const [requestDetails, setRequestDetails] = useState(null); // State to store fetched request details
+  const { requestId } = useParams(); // Get requestId from the URL params
+  const navigate = useNavigate(); // Navigation handler
 
+  // Function to fetch request details
+  const fetchRequestDetails = async () => {
+    setIsLoading(true); // Start loading indicator
+    try {
+      // Fetch the request details from your API
+      const response = await axios.get(`http://localhost:8080/request-form/getRequestById/${requestId}`);
+      setRequestDetails(response.data); // Store the request details in state
+    } catch (err) {
+      console.error("Error fetching request details:", err); // Log any errors
+    } finally {
+      setIsLoading(false); // Stop loading indicator
+    }
+  };
+
+  // UseEffect to call the fetch function on component mount or when requestId changes
+  useEffect(() => {
+    if (requestId) {
+      fetchRequestDetails();
+    }
+  }, [requestId]); // Runs whenever requestId changes
+
+  // Logout handler
   const handleLogout = () => {
     navigate('/adminlogin');
   };
 
   return (
     <div className="admin-users-page">
-      {/* Show loading spinner only during the first fetch */}
+      {/* Show loading spinner during the fetch */}
       {isLoading && <Loading />}
 
       {/* Topbar */}
@@ -45,29 +69,50 @@ const AdminSendFunds = () => {
 
           {/* Container */}
           <div className="send-funds">
-            <div className="request-profilePicture">
-                Profile Picture
-            </div>
+            {requestDetails ? (
+              <>
+                {/* Profile Picture */}
+                <div className="request-profilePicture">
+                  {requestDetails?.user?.profilePic && (
+                    <img
+                      src={
+                        requestDetails.user.profilePic.startsWith("data:")
+                          ? requestDetails.user.profilePic // If already in base64 format
+                          : `data:image/jpeg;base64,${requestDetails.user.profilePic}` // Else assume it's base64 without prefix
+                      }
+                      alt="picture"
+                      className="user-image"
+                    />
+                  )}
+                </div>
 
-            <div className="request-userdeets">
-                Name of User
-                Contact Number
-            </div>
+                {/* User Details */}
+                <div className="request-userdeets">
+                  {`${requestDetails.user.fName} ${requestDetails.user.lName}`}
+                  {requestDetails.user.pNum}
+                </div>
 
-            <div className="request-deets">
-                <div className="total-funds">Total Funds: </div>
-                <div className="requested-amount">Requested Amount: </div>
-                <div className="request-type">Request Type: </div>                
-            </div>
+                {/* Request Details */}
+                <div className="request-deets">
+                  <p><strong>Total Funds:</strong> {requestDetails.user.ownerWallet.onlineEarning?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                  <p><strong>Requested Amount:</strong> ₱{requestDetails.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                  <p><strong>Request Type:</strong> {requestDetails.requestType}</p>
+                </div>
 
-            <div className="request-type-options">
-                Paymongo
-                Paypal
-            </div>
+                {/* Request Type Options */}
+                <div className="request-type-options">
+                  <button>Paymongo</button>
+                  <button>Paypal</button>
+                </div>
 
-            <div className="t-a-c">
-                Terms and Conditions
-            </div>
+                {/* Terms and Conditions */}
+                <div className="t-a-c">
+                  <p>Terms and Conditions</p>
+                </div>
+              </>
+            ) : (
+              !isLoading && <p>No request details available.</p>
+            )}
           </div>
         </div>
       </div>

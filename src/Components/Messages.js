@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "../Css/Messages.css";
 import Header from "./Header.js";
-import Loading from './Loading'; // Assuming you have a Loading component like in the login
+import Loading from "./Loading"; // Assuming you have a Loading component like in the login
 
-// Helper function to format the timestamp for messages
 const formatMessageTimestamp = (timestamp) => {
   const date = new Date(timestamp);
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const ampm = hours >= 12 ? "PM" : "AM";
   const formattedHours = hours % 12 || 12;
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
@@ -21,15 +20,14 @@ export const Messages = () => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
-  const [lastMessageId, setLastMessageId] = useState(null); // Track the last message ID
-  const [messageIds, setMessageIds] = useState(new Set()); // Track unique message IDs
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [lastMessageId, setLastMessageId] = useState(null);
+  const [messageIds, setMessageIds] = useState(new Set());
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Set up current user and fetch chats when the component is mounted
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setCurrentUser(parsedUser);
@@ -38,100 +36,101 @@ export const Messages = () => {
     fetchUserChats();
   }, []);
 
-  // Poll for new messages every 5 seconds if a chat is selected
   useEffect(() => {
     if (selectedChat) {
-      console.log(`Started polling for chatId: ${selectedChat.chatId}`);
       const intervalId = setInterval(() => {
         fetchNewMessages(selectedChat.chatId);
-      }, 5000); // Set interval to 5 seconds
-      return () => {
-        clearInterval(intervalId);
-        console.log(`Stopped polling for chatId: ${selectedChat.chatId}`);
-      };
+      }, 5000);
+      return () => clearInterval(intervalId);
     }
   }, [selectedChat, lastMessageId]);
 
   const fetchUserChats = async () => {
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
     try {
-      const storedUser = localStorage.getItem('user');
-      const userId = JSON.parse(storedUser).userId;
+      const storedUser = localStorage.getItem("user");
+      const userId = JSON.parse(storedUser)?.userId;
       console.log("Fetching chats for userId: ", userId);
-      const response = await axios.get(`http://localhost:8080/chat/user/${userId}/chats`);
+      const response = await axios.get(
+        `http://localhost:8080/chat/user/${userId}/chats`
+      );
       setChats(response.data);
       console.log("Chats fetched: ", response.data);
     } catch (error) {
       console.error("Failed to fetch user chats", error);
     } finally {
-      setIsLoading(false); // Stop loading once chats are fetched
+      setIsLoading(false);
     }
   };
 
   const handleChatClick = async (chat) => {
-    setIsLoading(true); // Start loading when switching chats
+    setIsLoading(true);
     try {
-      console.log("Chat clicked: ", chat);
       setSelectedChat(chat);
-      setMessages([]); // Reset messages when switching chats
-      setMessageIds(new Set()); // Reset message tracking when switching chats
+      setMessages([]);
+      setMessageIds(new Set());
       await fetchMessages(chat.chatId);
     } catch (error) {
-      console.error('Error selecting chat:', error);
+      console.error("Error selecting chat:", error);
     } finally {
-      setIsLoading(false); // Stop loading when messages are fetched
+      setIsLoading(false);
     }
   };
 
-  // Fetches only new messages since the last message ID
   const fetchNewMessages = async (chatId) => {
     try {
-      console.log(`Fetching new messages for chatId: ${chatId}, after messageId: ${lastMessageId}`);
-      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages?lastMessageId=${lastMessageId}`);
-      const newMessages = response.data;
-      const uniqueMessages = newMessages.filter(msg => !messageIds.has(msg.messageId)); // Avoid duplicates
-
-      if (uniqueMessages.length > 0) {
-        console.log("New messages fetched: ", uniqueMessages);
-        setMessages((prevMessages) => [...prevMessages, ...uniqueMessages]);
-        setMessageIds((prevIds) => new Set([...prevIds, ...uniqueMessages.map(msg => msg.messageId)])); // Update unique IDs
-        setLastMessageId(uniqueMessages[uniqueMessages.length - 1].messageId); // Update last message ID
-      } else {
-        console.log("No new messages.");
+      const response = await axios.get(
+        `http://localhost:8080/chat/${chatId}/messages?lastMessageId=${lastMessageId}`
+      );
+      const newMessages = response.data.filter(
+        (msg) => !messageIds.has(msg.messageId)
+      );
+      if (newMessages.length > 0) {
+        setMessages((prevMessages) => [...prevMessages, ...newMessages]);
+        setMessageIds(
+          (prevIds) =>
+            new Set([...prevIds, ...newMessages.map((msg) => msg.messageId)])
+        );
+        setLastMessageId(
+          newMessages[newMessages.length - 1].messageId
+        );
       }
     } catch (error) {
-      console.error('Failed to fetch new messages', error);
+      console.error("Failed to fetch new messages", error);
     }
   };
 
   const fetchMessages = async (chatId) => {
     try {
-      console.log(`Fetching messages for chatId: ${chatId}`);
-      const response = await axios.get(`http://localhost:8080/chat/${chatId}/messages?limit=50`); // Limit the number of messages
+      const response = await axios.get(
+        `http://localhost:8080/chat/${chatId}/messages?limit=50`
+      );
       const initialMessages = response.data;
       setMessages(initialMessages);
-      setMessageIds(new Set(initialMessages.map(msg => msg.messageId))); // Track unique message IDs
-      setLastMessageId(initialMessages[initialMessages.length - 1]?.messageId); // Track the last message ID
-      console.log("Initial messages fetched: ", initialMessages);
+      setMessageIds(new Set(initialMessages.map((msg) => msg.messageId)));
+      setLastMessageId(initialMessages[initialMessages.length - 1]?.messageId);
     } catch (error) {
-      console.error('Failed to fetch messages', error);
+      console.error("Failed to fetch messages", error);
     }
   };
 
   const sendMessage = async () => {
     if (selectedChat && newMessage && currentUser) {
       try {
-        console.log("Sending message: ", newMessage);
-        await axios.post(`http://localhost:8080/chat/${selectedChat.chatId}/send`, null, {
-          params: {
-            userId: currentUser.userId,
-            messageContent: newMessage
+        await axios.post(
+          `http://localhost:8080/chat/${selectedChat.chatId}/send`,
+          null,
+          {
+            params: {
+              userId: currentUser.userId,
+              messageContent: newMessage,
+            },
           }
-        });
-        setNewMessage('');
-        fetchNewMessages(selectedChat.chatId); // Fetch new messages after sending
+        );
+        setNewMessage("");
+        fetchNewMessages(selectedChat.chatId);
       } catch (error) {
-        console.error('Failed to send message', error);
+        console.error("Failed to send message", error);
       }
     }
   };
@@ -143,15 +142,18 @@ export const Messages = () => {
         <h1>Messages</h1>
       </div>
 
-      {/* Display the Loading component if loading */}
       {isLoading ? (
         <Loading />
       ) : (
         <>
           <div className="chats-list">
-            {chats.map(chat => (
-              <div key={chat.chatId} className="chat-item" onClick={() => handleChatClick(chat)}>
-                <h3>{chat.report ? chat.report.title : "Group Chat"}</h3>
+            {chats.map((chat) => (
+              <div
+                key={chat.chatId}
+                className="chat-item"
+                onClick={() => handleChatClick(chat)}
+              >
+                <h3>{chat.report?.title || "Group Chat"}</h3>
                 <p>{chat.status}</p>
               </div>
             ))}
@@ -163,15 +165,25 @@ export const Messages = () => {
                 {messages.map((message, index) => (
                   <div
                     key={index}
-                    className={`chat-message ${message.sender && message.sender.userId === currentUser.userId ? 'user-message' : 'admin-message'}`}
+                    className={`chat-message ${
+                      message.userId === currentUser?.userId
+                        ? "user-message"
+                        : "admin-message"
+                    }`}
                   >
-                    <div className="chat-bubble">
-                      {/* Display the message sender's name */}
+                    <div
+                      className={`chat-bubble ${
+                        message.userId === currentUser?.userId
+                          ? "bubble-right"
+                          : "bubble-left"
+                      }`}
+                    >
                       <div className="sender-name">
-                        {message.sender ? message.sender.username : message.adminSender ? "Admin" : "Unknown"}
+                        {message.userId === currentUser?.userId
+                          ? "You"
+                          : message.senderLabel || "Admin"}
                       </div>
                       {message.messageContent}
-                      {/* Timestamp will be shown on hover */}
                       <div className="timestamp">
                         {formatMessageTimestamp(message.sentAt)}
                       </div>
@@ -179,7 +191,6 @@ export const Messages = () => {
                   </div>
                 ))}
               </div>
-
               <div className="chat-input">
                 <textarea
                   placeholder="Type your message here..."

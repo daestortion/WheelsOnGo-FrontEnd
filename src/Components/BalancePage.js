@@ -276,7 +276,7 @@ const BalancePage = () => {
                 required
               />
               <small>
-                Available Balance: ₱{walletData.credit?.toFixed(2) || '0.00'}
+                Available Balance: ₱{walletData.credit?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
               </small>
             </div>
             <button type="submit" className="submit-btn">
