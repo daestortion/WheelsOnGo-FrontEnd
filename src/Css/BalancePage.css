@@ -1,6 +1,6 @@
 /* General Page Styling */
 .balance-page {
-  padding-top: 100px; /* Adjust padding to match the height of the header */
+  padding-top: 90px; /* Adjust padding to match the height of the header */
   background-color: #fff;
   min-height: 100vh;
   display: flex;
@@ -25,7 +25,7 @@ html, body {
   padding: 10px;
 }
 
-.card {
+.cards {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -38,14 +38,14 @@ html, body {
   border: 2px solid #d32f2f; /* Red border */
 }
 
-.card h2 {
+.cards h2 {
   color: #d32f2f; /* Red title */
-  font-size: 1.8em; /* Bigger title */
+  font-size: 22px; /* Bigger title */
   margin-bottom: 15px;
 }
 
-.card p {
-  font-size: 1.5em; /* Bigger text */
+.cards p {
+  font-size: 30px; /* Bigger text */
   color: #4CAF50; /* Green for positive numbers */
   font-weight: bold;
 }
@@ -54,6 +54,16 @@ html, body {
 .request-container {
   text-align: center;
   margin: 20px auto;
+}
+
+.request-log {
+  margin-top: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+  overflow-x: auto;
 }
 
 .request-funds-btn {
@@ -136,14 +146,19 @@ html, body {
   background-color: #c62828;
 }
 
-/* Mobile-Friendly Styles */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .balance-page{
+    padding-top: 75px;
+  }
+}
+
+@media (max-width: 800px) {
   .dashboard-cards-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .card {
+  .cards {
     width: 90%;
     margin: 10px 0;
   }
@@ -159,8 +174,14 @@ html, body {
 
   /* Ensure scrolling for mobile devices */
   .balance-page {
-    padding-top: 20px;
+    padding-top: 70px;
     min-height: 100%;
     overflow-y: auto; /* Enable scroll */
   }
+}
+
+@media (max-width: 600px) {
+  .balance-page{
+    padding-top: 60px;
+  }  
 }

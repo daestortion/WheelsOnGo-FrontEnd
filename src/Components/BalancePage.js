@@ -147,7 +147,7 @@ const BalancePage = () => {
           <p>Loading...</p>
         ) : (
           <>
-            <div className="card">
+            <div className="cards">
               <h2>Total Outstanding Balance</h2>
               <p>
                 ₱
@@ -157,7 +157,7 @@ const BalancePage = () => {
                 }) || '0.00'}
               </p>
             </div>
-            <div className="card">
+            <div className="cards">
               <h2>Total Online Earnings (Withdrawable)</h2>
               <p>
                 ₱
@@ -167,7 +167,7 @@ const BalancePage = () => {
                 }) || '0.00'}
               </p>
             </div>
-            <div className="card">
+            <div className="cards">
               <h2>Cancelled/Terminated Orders</h2>
               <p>
                 ₱
