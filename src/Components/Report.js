@@ -75,18 +75,21 @@ export const Report = () => {
 
   return (
     <div className="report">
-      <div className="overlap-wrapper456">
         <div className="overlap456">
+
+          <div className="groupp3">
           <div className="text-wrapper456">Submit a Report</div>
-          <form onSubmit={handleShowPopup}>
-            <div className="group456">
-              <button type="submit" className="overlap-group456">
-                <div className="div456">Submit</div>
-              </button>
-            </div>
-            <button className="close" type="button" onClick={handleClose}>
-              <img className="vector" alt="Vector" src={close} />
+            <button className="closes" type="button" onClick={handleClose}>
+              <img className="vectorsss" alt="Vector" src={close} />
             </button>
+          </div>
+
+          <form onSubmit={handleShowPopup}>
+
+          <div className="groupp2">
+          <div className="groupp1">
+            <div className="text-wrapper-2">Subject:</div>
+
             <input
               className="rectangle"
               placeholder="Title"
@@ -94,17 +97,24 @@ export const Report = () => {
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-            <div className="text-wrapper-2">Subject:</div>
+            </div>
+
             <textarea
-              className="div-wrapper"
+              className="div-wrappersa"
               placeholder="Write here"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
             />
+
+              <button type="submit" className="overlap-group456">
+                Submit
+              </button>
+            </div>
+
+
           </form>
         </div>
-      </div>
       {showPopup && <ReportSuccess onClose={handlePopupClose} />}
     </div>
   );

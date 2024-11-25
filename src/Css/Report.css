@@ -1,3 +1,11 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .report {
     position: fixed;  /* Use fixed positioning to stay in place during scrolling */
     top: 0;
@@ -9,136 +17,110 @@
     justify-content: center;  /* Center horizontally */
     background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
     z-index: 1050;  /* Ensure it's above all other content */
+    padding: 10px;
   }
-  
-  .report .overlap-wrapper456 {
-    height: 724px;
-    width: 1510px;
-  }
+
   
   .report .overlap456 {
     background-color: #d7d1d1;
     border-radius: 40px;
-    height: 724px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    padding: 30px;
+    width: 100%;
+    margin: 0 auto; /* Center horizontally for larger screens */
+    max-width: 700px;
+    overflow: hidden;
   }
   
   .report .text-wrapper456 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 35px;
     font-weight: 600;
-    left: 545px;
     letter-spacing: 0.62px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: center;
-    top: 66px;
-    width: 419px;
-  }
-  
-  .report .group456 {
-    height: 71px;
-    left: 469px;
-    position: absolute;
-    top: 563px;
-    width: 573px;
+    flex-grow: 1;
+    text-align: center; 
   }
   
   .report .overlap-group456 {
     background-color: #e80029;
-    border-radius: 35px;
-    height: 71px;
-    position: relative;
-    width: 571px;
+    border-radius: 25px;
+    height: 50px;
+    width: 100%;
     border: none;
-  }
-  
-  .report .div456 {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    left: 207px;
+    position: relative;
+    text-align: center;
     letter-spacing: 0;
     line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 22px;
-    width: 160px;
   }
   
-  .report .close {
-    background-color: #e32128;
-    border-radius: 9px;
-    height: 50px;
-    left: 1421px;
-    position: absolute;
-    top: 33px;
-    width: 50px;
+  .report .closes {
+    background: none;
     border: none;
   }
   
-  .report .vector {
-    height: 30px;
-    left: 10px;
-    position: absolute;
-    top: 10px;
-    width: 30px;
+  .report .vectorsss {
+    height: 40px;
+    width: 40px;
+    position: relative;
   }
   
   .report .rectangle {
     background-color: #ffffff;
-    border-radius: 35px;
-    height: 71px;
-    left: 301px;
-    position: absolute;
-    top: 157px;
-    width: 1055px;
+    border-radius: 25px;
+    height: 60px;
+    position: relative;
+    width: 100%;
     color: #848484;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
     white-space: nowrap;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
     border: none;
   }
   
   .report .text-wrapper-2 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
-    left: 114px;
     letter-spacing: 0.5px;
     line-height: normal;
-    position: absolute;
-    top: 167px;
-    width: 169px;
+    position: relative;
   }
   
-  .report .div-wrapper {
+  .report .div-wrappersa {
     background-color: #ffffff;
-    border-radius: 35px;
+    border-radius: 25px;
     height: 230px;
-    left: 114px;
-    position: absolute;
-    top: 257px;
-    width: 1250px;
+    position: relative;
+    width: 100%;
     color: #848484;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    white-space: nowrap;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    flex-grow: 1;
   }
   
   .report .text-wrapper-3 {
@@ -146,12 +128,195 @@
     font-family: "Inter-Bold", Helvetica;
     font-size: 30px;
     font-weight: 700;
-    left: 26px;
     letter-spacing: 0;
     line-height: normal;
-    position: absolute;
-    top: 10px;
+    position: relative;
     white-space: nowrap;
     width: 641px;
   }
+
+  .groupp1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .groupp2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 20px;
+    width: 100%;
+    flex-grow: 1;
+    flex-basis: 100%;
+    max-width: none; /* Ensure no restriction */
+    box-sizing: border-box;
+}
+
+
+  .groupp3{
+    display: flex;
+    flex-direction: row; /* Horizontal alignment */
+    justify-content: space-between; /* Text in the center, button on the right */
+    align-items: center; /* Align vertically */
+    position: relative; /* Allow relative positioning for child elements */
+    width: 100%; /* Ensure it spans the full width of its parent */
   
+  }
+  
+
+  @media (max-width: 1024px) {
+    
+    .report .overlap456{
+      max-width: 600px;
+    }
+  }
+
+  @media (max-width: 800px) {
+    
+    .report .overlap456{
+      max-width: 400px;
+      border-radius: 20px;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .report .text-wrapper456{
+      font-size: 25px;
+    }
+
+    
+    .groupp2{
+      gap: 10px;
+    }
+
+    .groupp1{
+      gap: 10px;
+    }
+
+    .report .text-wrapper-2{
+      font-size: 22px;
+    }
+
+    .report .rectangle{
+      font-size: 20px;
+      height: 50px;
+      border-radius: 20px;
+    }
+
+    .report .div-wrappersa{
+      height: 200px;
+      font-size: 20px;
+      border-radius: 20px;
+    }
+
+    .report .vectorsss{
+      height: 30px;
+      width: 30px;
+    }
+
+    .report .overlap-group456{
+      font-size: 15px;
+      border-radius: 20px;
+      height: 40px;
+    }
+
+  }
+
+  @media (max-width: 600px) {
+
+    .report .overlap456{
+      max-width: 350px;
+      gap: 20px;
+    }
+
+    .report .text-wrapper456{
+      font-size: 20px;
+    }
+
+    .report .vectorsss{
+      height: 20px;
+      width: 20px;
+    }
+
+    .report .text-wrapper-2{
+      font-size: 15px;
+    }
+
+    .report .rectangle{
+      font-size: 16px;
+      height: 40px;
+      border-radius: 15px;
+    }
+
+    .report .div-wrappersa{
+      border-radius: 15px;
+      font-size: 16px;
+    }
+
+    .groupp2{
+      gap: 10px;
+    }
+
+    .groupp1{
+      gap: 10px;
+    }
+
+    .report .overlap-group456{
+      border-radius: 15px;
+      height: 30px;
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+
+    .report .overlap456{
+      max-width: 280px;
+      gap: 20px;
+    }
+
+    .report .text-wrapper456{
+      font-size: 20px;
+    }
+
+    .report .vectorsss{
+      height: 20px;
+      width: 20px;
+    }
+
+    .report .text-wrapper-2{
+      font-size: 15px;
+    }
+
+    .report .rectangle{
+      font-size: 16px;
+      height: 40px;
+      border-radius: 15px;
+    }
+
+    .report .div-wrappersa{
+      border-radius: 15px;
+      font-size: 16px;
+    }
+
+    .groupp2{
+      gap: 10px;
+    }
+
+    .groupp1{
+      gap: 10px;
+    }
+
+    .report .overlap-group456{
+      border-radius: 15px;
+      height: 30px;
+      font-size: 12px;
+    }
+  }

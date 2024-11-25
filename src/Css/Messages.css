@@ -158,3 +158,58 @@
 .chat-input button:hover {
   background-color: #0056b3;
 }
+
+/* User-Side Chat Bubbles */
+.user-message .chat-bubble,
+.admin-message .admin-chat-bubble {
+  max-width: 100%;
+  padding: 12px 18px;
+  border-radius: 18px;
+  word-wrap: break-word;
+  position: relative;
+}
+
+/* Sender (right side - blue bubble) */
+.bubble-right {
+  align-self: flex-end;
+  background-color: #38a1f3;
+  color: white;
+  border-radius: 18px 18px 0 18px;
+}
+
+.bubble-left {
+  align-self: flex-start;
+  background-color: #e8e9ea;
+  color: black;
+  border-radius: 18px 18px 18px 0;
+}
+
+
+/* Message Alignment */
+.user-message {
+  align-self: flex-end;
+}
+
+.admin-message {
+  align-self: flex-start;
+}
+
+/* Sender Name */
+.sender-name {
+  font-size: 12px;
+  font-weight: bold;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+/* Timestamp on Hover */
+.timestamp {
+  display: none;
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+  text-align: right;
+}
+
+
+

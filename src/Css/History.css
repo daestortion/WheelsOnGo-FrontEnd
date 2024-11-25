@@ -227,6 +227,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
+    justify-self: center;
     font-size: 10px;
     background-color: #e32128;
   }
