@@ -69,12 +69,45 @@ const AdminOwnerPayments = () => {
     }
   };
 
-  const handleSendFunds = (requestId) => {
-    navigate(`/sendfunds/${requestId}`);
-  };
-
   const handleLogout = () => {
     navigate("/adminlogin");
+  };
+
+  const handleSendFunds = (requestId) => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.onchange = async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        try {
+          setLoading(true);
+          const formData = new FormData();
+          formData.append("proofImage", file); // Add the selected file
+          
+          // Call the backend API to upload the file
+          const response = await axios.put(
+            `http://localhost:8080/request-form/update/${requestId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          console.log("Proof image uploaded successfully:", response.data);
+          alert("Proof image uploaded successfully!");
+
+          fetchRequests(); // Refresh the requests after uploading the proof
+        } catch (error) {
+          console.error("Error uploading proof image:", error);
+          alert("Error uploading proof image. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    fileInput.click(); // Open the file picker dialog
   };
 
   return (
