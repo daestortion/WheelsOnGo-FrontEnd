@@ -29,7 +29,7 @@
 .checkout-popup .text-wrapper { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 50px; 
+  font-size: 30px; 
   font-weight: 600; 
   letter-spacing: 0.62px; 
   line-height: normal; 
@@ -155,7 +155,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  gap: 100px;
+  gap: 50px;
 }
 
 .wew11{
@@ -170,7 +170,7 @@
 .checkout-popup .text-wrapper-234 { 
   color: #000000; 
   font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 40px; 
+  font-size: 25px; 
   font-weight: 600; 
   line-height: normal; 
   position: relative; 
@@ -191,7 +191,7 @@
 .checkout-popup .text-wrapper-345 { 
   color: #e32128; 
   font-family: "Inter-Medium", Helvetica; 
-  font-size: 30px; 
+  font-size: 25px; 
   font-weight: 500; 
   height: 34px; 
   position: relative; 
@@ -202,7 +202,7 @@
 .checkout-popup .text-wrapper-412 { 
   color: #e32128; 
   font-family: "Inter-Medium", Helvetica; 
-  font-size: 30px; 
+  font-size: 25px; 
   font-weight: 500; 
   height: 34px; 
   position: relative;  
@@ -210,7 +210,7 @@
 }
 
 .checkout-popup .vector2 { 
-  height: 43px; 
+  height: 30px; 
   position: relative; 
 }
 
@@ -462,7 +462,7 @@
   text-decoration: underline; 
 }
 
-.checkout-popup .close { 
+.checkout-popup .closes { 
   background: none;
   border: none;
   display: flex;
@@ -476,11 +476,14 @@
   flex: 1; /* Takes up the same space as the close button to balance the layout */
 }
 
-.checkout-popup .imgs { 
+.checkout-popup .imgss { 
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   position: relative;
+  height: 40px;
+  width: 40px;
+  
 }
 
 .react-datepicker {

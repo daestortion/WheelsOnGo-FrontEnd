@@ -181,8 +181,8 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         <div className='head'>
           <div className="spacer"></div>
           <div className="text-wrapper">Checkout</div>
-          <button className="close" onClick={closePopup}>
-            <img className="imgs" alt="Close" src={close} />
+          <button className="closes" onClick={closePopup}>
+            <img className="imgss" alt="Close" src={close} />
           </button>
         </div>
 

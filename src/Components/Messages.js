@@ -136,73 +136,79 @@ export const Messages = () => {
   };
 
   return (
-    <div className="messages-container">
+    <div className="messages">
       <Header />
+
       <div className="title">
-        <h1>Messages</h1>
-      </div>
+          <h1>Messages</h1>
+        </div>
 
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="chats-list">
-            {chats.map((chat) => (
-              <div
-                key={chat.chatId}
-                className="chat-item"
-                onClick={() => handleChatClick(chat)}
-              >
-                <h3>{chat.report?.title || "Group Chat"}</h3>
-                <p>{chat.status}</p>
-              </div>
-            ))}
-          </div>
+      <div className="messages-container">
+        
 
-          {selectedChat && (
-            <div className="chat-section">
-              <div className="chat-messages">
-                {messages.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`chat-message ${
-                      message.userId === currentUser?.userId
-                        ? "user-message"
-                        : "admin-message"
-                    }`}
-                  >
+
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <div className="chats-list">
+              {chats.map((chat) => (
+                <div
+                  key={chat.chatId}
+                  className="chat-item"
+                  onClick={() => handleChatClick(chat)}
+                >
+                  <h3>{chat.report?.title || "Group Chat"}</h3>
+                  <p>{chat.status}</p>
+                </div>
+              ))}
+            </div>
+
+            {selectedChat && (
+              <div className="chat-section">
+                <div className="chat-messages">
+                  {messages.map((message, index) => (
                     <div
-                      className={`chat-bubble ${
+                      key={index}
+                      className={`chat-message ${
                         message.userId === currentUser?.userId
-                          ? "bubble-right"
-                          : "bubble-left"
+                          ? "user-message"
+                          : "admin-message"
                       }`}
                     >
-                      <div className="sender-name">
-                        {message.userId === currentUser?.userId
-                          ? "You"
-                          : message.senderLabel || "Admin"}
-                      </div>
-                      {message.messageContent}
-                      <div className="timestamp">
-                        {formatMessageTimestamp(message.sentAt)}
+                      <div
+                        className={`chat-bubble ${
+                          message.userId === currentUser?.userId
+                            ? "bubble-right"
+                            : "bubble-left"
+                        }`}
+                      >
+                        <div className="sender-name">
+                          {message.userId === currentUser?.userId
+                            ? "You"
+                            : message.senderLabel || "Admin"}
+                        </div>
+                        {message.messageContent}
+                        <div className="timestamp">
+                          {formatMessageTimestamp(message.sentAt)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="chat-input">
+                  <textarea
+                    placeholder="Type your message here..."
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                  />
+                  <button onClick={sendMessage}>Send</button>
+                </div>
               </div>
-              <div className="chat-input">
-                <textarea
-                  placeholder="Type your message here..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                />
-                <button onClick={sendMessage}>Send</button>
-              </div>
-            </div>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
