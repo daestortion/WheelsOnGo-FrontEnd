@@ -131,3 +131,21 @@
 .button-deactivate:hover {
   background-color: #ff0000;
 }
+
+/* Fetch Data Button Container */
+.fetch-data-container {
+  margin-bottom: 10px; /* Reduce the bottom margin */
+  text-align: center;
+  height: 10% !important;
+}
+
+/* Main Content */
+.admin-dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  gap: 15px; /* Add a consistent spacing between elements */
+}
