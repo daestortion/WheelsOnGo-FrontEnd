@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Css/AdminOwner.css";
@@ -8,11 +8,8 @@ import Loading from "./Loading";
 const AdminOwnerPayments = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hasFetchedOnce, setHasFetchedOnce] = useState(false); // Track if data has been fetched
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchRequests();
-  }, []);
 
   const fetchRequests = () => {
     setLoading(true);
@@ -21,10 +18,11 @@ const AdminOwnerPayments = () => {
       .then((response) => {
         console.log("Fetched payment requests:", response.data);
         setRequests(response.data);
+        setHasFetchedOnce(true); // Mark data as fetched
       })
       .catch((error) => {
         console.error("Error fetching payment requests:", error);
-        setRequests([]);
+        setRequests([]); // Clear requests on error
       })
       .finally(() => setLoading(false));
   };
@@ -32,13 +30,9 @@ const AdminOwnerPayments = () => {
   const handleApprove = async (requestId) => {
     setLoading(true);
     try {
-      console.log("Approve button clicked for request ID:", requestId);
-
       await axios.put(
         `http://localhost:8080/request-form/approveRequest/${requestId}`
       );
-      console.log("Approve request sent successfully!");
-
       fetchRequests(); // Refresh the requests after approval
       alert("Request approved successfully!");
     } catch (error) {
@@ -52,13 +46,9 @@ const AdminOwnerPayments = () => {
   const handleDeny = async (requestId) => {
     setLoading(true);
     try {
-      console.log("Deny button clicked for request ID:", requestId);
-
       await axios.put(
         `http://localhost:8080/request-form/denyRequest/${requestId}`
       );
-      console.log("Deny request sent successfully!");
-
       fetchRequests(); // Refresh the requests after denial
       alert("Request denied successfully!");
     } catch (error) {
@@ -67,10 +57,6 @@ const AdminOwnerPayments = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    navigate("/adminlogin");
   };
 
   const handleSendFunds = (requestId) => {
@@ -84,9 +70,7 @@ const AdminOwnerPayments = () => {
           setLoading(true);
           const formData = new FormData();
           formData.append("proofImage", file); // Add the selected file
-          
-          // Call the backend API to upload the file
-          const response = await axios.put(
+          await axios.put(
             `http://localhost:8080/request-form/update/${requestId}`,
             formData,
             {
@@ -95,9 +79,7 @@ const AdminOwnerPayments = () => {
               },
             }
           );
-          console.log("Proof image uploaded successfully:", response.data);
           alert("Proof image uploaded successfully!");
-
           fetchRequests(); // Refresh the requests after uploading the proof
         } catch (error) {
           console.error("Error uploading proof image:", error);
@@ -110,9 +92,14 @@ const AdminOwnerPayments = () => {
     fileInput.click(); // Open the file picker dialog
   };
 
+  const handleLogout = () => {
+    navigate("/adminlogin");
+  };
+
   return (
     <div className="admin-owner-payments-page">
       {loading && <Loading />}
+      {/* Topbar */}
       <div className="admin-owner-dashboard-topbar">
         <img
           className="admin-owner-dashboard-logo"
@@ -124,6 +111,7 @@ const AdminOwnerPayments = () => {
         </button>
       </div>
 
+      {/* Sidebar */}
       <div className="admin-owner-dashboard-wrapper">
         <div className="admin-owner-dashboard-sidebar">
           <button
@@ -176,9 +164,18 @@ const AdminOwnerPayments = () => {
           </button>
         </div>
 
+        {/* Main Content */}
         <div className="admin-owner-dashboard-content">
+          {/* Fetch Data Button */}
+          <div className="fetch-data-container">
+            <button className="fetch-data-btn" onClick={fetchRequests}>
+              Fetch Data
+            </button>
+          </div>
+
           <h2 className="admin-owner-content-title">Owner Payments Requests</h2>
 
+          {/* Payments Table */}
           <div className="owner-payments-table-container">
             <table className="owner-payments-table">
               <thead>
@@ -191,67 +188,83 @@ const AdminOwnerPayments = () => {
                   <th>Submitted On</th>
                   <th>Status</th>
                   <th>Actions</th>
-                  <th>Actions</th>
+                  <th>Send Funds</th>
                 </tr>
               </thead>
               <tbody>
-                {requests.map((request) => (
-                  <tr key={request.requestId}>
-                    <td>{request.requestId}</td>
-                    <td>{request.user.username}</td>
-                    <td>{request.requestType}</td>
-                    <td>
-                      {request.requestType === "gcash" ? (
-                        <>
-                          <strong>Full Name:</strong> {request.fullName || "N/A"}
-                          <br />
-                          <strong>GCash Number:</strong>{" "}
-                          {request.gcashNumber || "N/A"}
-                        </>
-                      ) : request.requestType === "bank" ? (
-                        <>
-                          <strong>Account Name:</strong>{" "}
-                          {request.fullName || "N/A"}
-                          <br />
-                          <strong>Bank Name:</strong>{" "}
-                          {request.bankName || "N/A"}
-                          <br />
-                          <strong>Account Number:</strong>{" "}
-                          {request.accountNumber || "N/A"}
-                        </>
-                      ) : (
-                        "N/A"
-                      )}
-                    </td>
-                    <td>₱{request.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td>{new Date(request.createdAt).toLocaleString()}</td>
-                    <td>{request.status || "pending"}</td>
-                    <td>
-                      <button
-                        className="send-funds"
-                        onClick={() => handleSendFunds(request.requestId)}
-                      >
-                        Send Funds
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        className="button-approve"
-                        onClick={() => handleApprove(request.requestId)}
-                        disabled={loading || request.status !== "pending"}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="button-deny"
-                        onClick={() => handleDeny(request.requestId)}
-                        disabled={loading || request.status !== "pending"}
-                      >
-                        Deny
-                      </button>
+                {requests.length > 0 ? (
+                  requests.map((request) => (
+                    <tr key={request.requestId}>
+                      <td>{request.requestId}</td>
+                      <td>{request.user.username}</td>
+                      <td>{request.requestType}</td>
+                      <td>
+                        {request.requestType === "gcash" ? (
+                          <>
+                            <strong>Full Name:</strong> {request.fullName || "N/A"}
+                            <br />
+                            <strong>GCash Number:</strong>{" "}
+                            {request.gcashNumber || "N/A"}
+                          </>
+                        ) : request.requestType === "bank" ? (
+                          <>
+                            <strong>Account Name:</strong>{" "}
+                            {request.fullName || "N/A"}
+                            <br />
+                            <strong>Bank Name:</strong>{" "}
+                            {request.bankName || "N/A"}
+                            <br />
+                            <strong>Account Number:</strong>{" "}
+                            {request.accountNumber || "N/A"}
+                          </>
+                        ) : (
+                          "N/A"
+                        )}
+                      </td>
+                      <td>
+                        ₱
+                        {request.amount.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </td>
+                      <td>{new Date(request.createdAt).toLocaleString()}</td>
+                      <td>{request.status || "pending"}</td>
+                      <td>
+                        <button
+                          className="button-approve"
+                          onClick={() => handleApprove(request.requestId)}
+                          disabled={loading || request.status !== "pending"}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="button-deny"
+                          onClick={() => handleDeny(request.requestId)}
+                          disabled={loading || request.status !== "pending"}
+                        >
+                          Deny
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className="send-funds"
+                          onClick={() => handleSendFunds(request.requestId)}
+                        >
+                          Send Funds
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="9" style={{ textAlign: "center" }}>
+                      {hasFetchedOnce
+                        ? "No payment requests found."
+                        : "Click 'Fetch Data' to load payment requests."}
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

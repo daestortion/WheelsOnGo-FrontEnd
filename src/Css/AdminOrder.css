@@ -171,3 +171,43 @@
   max-width: 100%;
   max-height: 80vh;
 }
+
+/* Fetch Data Button */
+.fetch-data-container {
+  text-align: center;
+  margin-bottom: 15px; /* Adjust spacing */
+}
+
+.fetch-data-btn {
+  padding: 10px 20px;
+  background-color: #e32128;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.fetch-data-btn:hover {
+  background-color: #c91722;
+}
+
+/* Table Styling */
+.order-table-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+.order-table th,
+.order-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.order-table th {
+  background-color: #e32128;
+  color: white;
+}

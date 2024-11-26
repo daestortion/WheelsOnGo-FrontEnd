@@ -104,3 +104,34 @@
     grid-template-columns: 1fr; /* Single column layout on smaller screens */
   }
 }
+
+/* Fetch Data Button */
+.fetch-data-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh; /* Center vertically on the screen */
+}
+
+.fetch-data-btn {
+  background-color: #d32f2f; /* Primary red color */
+  color: white;
+  font-size: 20px; /* Larger font size */
+  font-weight: bold;
+  padding: 15px 30px; /* Increase padding */
+  border: none;
+  border-radius: 8px; /* Rounded edges */
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+.fetch-data-btn:hover {
+  background-color: #c62828; /* Slightly darker red on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.fetch-data-btn:active {
+  background-color: #b71c1c; /* Even darker red when clicked */
+  transform: scale(0.98); /* Slightly shrink on click */
+}

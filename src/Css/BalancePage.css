@@ -185,3 +185,84 @@ html, body {
     padding-top: 60px;
   }  
 }
+
+/* Modal Background */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark, semi-transparent background */
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in effect */
+  left: 35%;
+  top: 35%;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+  max-width: 80%; /* Responsive size */
+  max-height: 80%; /* Prevent overflow */
+  width: 500px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  animation: scaleUp 0.3s ease-in-out; /* Subtle scale-up effect */
+}
+
+/* Image Styling */
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #ff4d4d;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.close-button:hover {
+  background-color: #ff1a1a;
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

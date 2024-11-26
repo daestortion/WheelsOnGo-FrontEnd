@@ -184,3 +184,58 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+/* Fetch Data Button */
+.fetch-data-container {
+  text-align: center;
+  margin-bottom: 15px; /* Spacing between Fetch Data and the table */
+}
+
+.fetch-data-btn {
+  padding: 10px 20px;
+  background-color: #e32128;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.fetch-data-btn:hover {
+  background-color: #c91722;
+}
+
+/* Main Content */
+.admin-dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Consistent spacing between sections */
+}
+
+/* Verifications Table */
+.verifications-table-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.verifications-table th,
+.verifications-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.verifications-table th {
+  background-color: #e32128;
+  color: white;
+}
+
+.verifications-table td {
+  text-align: center;
+}
+

@@ -232,6 +232,29 @@
   font-weight: bold;
 }
 
+/* Fetch Data Button */
+.fetch-data-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
 
-  
+.fetch-data-btn {
+  padding: 10px 20px;
+  background-color: #e32128;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.fetch-data-btn:hover {
+  background-color: #c91722;
+}
+
+/* Table Styling */
+.owner-payments-table-container {
+  margin-top: 15px;
+}
+
   

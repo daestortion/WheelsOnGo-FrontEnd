@@ -1,56 +1,61 @@
-import axios from 'axios';
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import Modal from 'react-modal';
-import "../Css/AdminVerify.css"; // Matching AdminDashboard CSS
-import sidelogo from "../Images/sidelogo.png"; // Logo image
-import Loading from './Loading';
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import "../Css/AdminVerify.css";
+import sidelogo from "../Images/sidelogo.png";
+import Loading from "./Loading";
 
 const AdminVerify = () => {
   const [verifications, setVerifications] = useState([]);
   const [users, setUsers] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [hasFetchedOnce, setHasFetchedOnce] = useState(false); // Track if data has been fetched
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoading(true);  // Start loading
+  const fetchVerifications = () => {
+    setIsLoading(true);
 
-    axios.get('http://localhost:8080/verification/getAllVerification')
-      .then(response => {
+    axios
+      .get("http://localhost:8080/verification/getAllVerification")
+      .then((response) => {
         const verificationsData = response.data;
         setVerifications(verificationsData);
+        setHasFetchedOnce(true);
 
         const userIds = verificationsData
-          .filter(verification => verification.user)
-          .map(verification => verification.user.userId);
+          .filter((verification) => verification.user)
+          .map((verification) => verification.user.userId);
 
         const uniqueUserIds = [...new Set(userIds)];
 
-        // Make all user requests using Promise.all
-        const userRequests = uniqueUserIds.map(userId =>
-          axios.get(`http://localhost:8080/user/getUserById/${userId}`)
-            .then(userResponse => {
-              setUsers(prevUsers => ({ ...prevUsers, [userId]: userResponse.data }));
+        const userRequests = uniqueUserIds.map((userId) =>
+          axios
+            .get(`http://localhost:8080/user/getUserById/${userId}`)
+            .then((userResponse) => {
+              setUsers((prevUsers) => ({
+                ...prevUsers,
+                [userId]: userResponse.data,
+              }));
             })
-            .catch(error => {
-              console.error(`Error fetching user data for userId ${userId}:`, error);
+            .catch((error) => {
+              console.error(
+                `Error fetching user data for userId ${userId}:`,
+                error
+              );
             })
         );
 
-        // Wait for all user requests to finish
         return Promise.all(userRequests);
       })
-      .then(() => {
-        setIsLoading(false);  // Stop loading when all fetching is done
+      .catch((error) => {
+        console.error("Error fetching verification data:", error);
+        setVerifications([]);
       })
-      .catch(error => {
-        console.error('Error fetching verification data:', error);
-        setIsLoading(false);  // Stop loading in case of error
-      });
-  }, []);
-
+      .finally(() => setIsLoading(false));
+  };
 
   const handleShowImage = (image) => {
     setSelectedImage(image);
@@ -61,75 +66,56 @@ const AdminVerify = () => {
   };
 
   const handleApprove = (vId) => {
-    setIsLoading(true);  // Start loading
-    axios.put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=1`)
-      .then(response => {
-        setVerifications(prevVerifications => prevVerifications.map(verification =>
-          verification.vId === vId ? { ...verification, status: 1 } : verification
-        ));
+    setIsLoading(true);
+    axios
+      .put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=1`)
+      .then(() => {
+        setVerifications((prev) =>
+          prev.map((verification) =>
+            verification.vId === vId
+              ? { ...verification, status: 1 }
+              : verification
+          )
+        );
       })
-      .catch(error => {
-        console.error(`Error approving verification ${vId}:`, error);
-      })
-      .finally(() => {
-        setIsLoading(false);  // Stop loading after the request is complete
-      });
-  };  
+      .catch((error) =>
+        console.error(`Error approving verification ${vId}:`, error)
+      )
+      .finally(() => setIsLoading(false));
+  };
 
   const handleDeny = (vId) => {
-    setIsLoading(true);  // Start loading
-    axios.put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=2`)
-      .then(response => {
-        setVerifications(prevVerifications => prevVerifications.map(verification =>
-          verification.vId === vId ? { ...verification, status: 2 } : verification
-        ));
+    setIsLoading(true);
+    axios
+      .put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=2`)
+      .then(() => {
+        setVerifications((prev) =>
+          prev.map((verification) =>
+            verification.vId === vId
+              ? { ...verification, status: 2 }
+              : verification
+          )
+        );
       })
-      .catch(error => {
-        console.error(`Error denying verification ${vId}:`, error);
-      })
-      .finally(() => {
-        setIsLoading(false);  // Stop loading after the request is complete
-      });
+      .catch((error) =>
+        console.error(`Error denying verification ${vId}:`, error)
+      )
+      .finally(() => setIsLoading(false));
   };
-  
 
   const handleLogout = () => {
-    navigate('/adminlogin');
-  };
-
-  const handleAdminDashboard = () => {
-    navigate('/admin-dashboard');
-  };
-
-  const handleAdminUser = () => {
-    navigate('/adminusers');
-  };
-
-  const handleAdminCars = () => {
-    navigate('/admincars');
-  };
-
-  const handleAdminVerify = () => {
-    navigate('/adminverify');
-  };
-
-  const handleOrder = () => {
-    navigate('/adminorder');
-  };
-
-  const handleReport = () => {
-    navigate('/adminreport');
+    navigate("/adminlogin");
   };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
 
-  const filteredVerifications = verifications.filter(verification => {
+  const filteredVerifications = verifications.filter((verification) => {
     switch (filter) {
-      case 'verified':
+      case "verified":
         return verification.status === 1;
-      case 'pending':
+      case "pending":
         return verification.status === 0;
       default:
         return true;
@@ -139,6 +125,7 @@ const AdminVerify = () => {
   return (
     <div className="admin-verify-page">
       {isLoading && <Loading />}
+
       {/* Topbar */}
       <div className="admin-dashboard-topbar">
         <img className="admin-dashboard-logo" alt="Wheels On Go Logo" src={sidelogo} />
@@ -150,18 +137,25 @@ const AdminVerify = () => {
       {/* Sidebar */}
       <div className="admin-dashboard-wrapper">
         <div className="admin-dashboard-sidebar">
-          <button className="admin-dashboard-menu-item" onClick={handleAdminDashboard}>Dashboard</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminUser}>Users</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminCars}>Cars</button>
-          <button className="admin-dashboard-menu-item" onClick={handleAdminVerify}>Verifications</button>
-          <button className="admin-dashboard-menu-item" onClick={handleOrder}>Transactions</button>
-          <button className="admin-dashboard-menu-item" onClick={handleReport}>Reports</button>
-          <button className="admin-owner-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
-          <button className="admin-dashboard-menu-item" onClick={() => navigate('/activitylogs')}>Activity Logs</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/admin-dashboard")}>Dashboard</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/adminusers")}>Users</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/admincars")}>Cars</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/adminverify")}>Verifications</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/adminorder")}>Transactions</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/adminreport")}>Reports</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/admin-payments")}>Payments</button>
+          <button className="admin-dashboard-menu-item" onClick={() => navigate("/activitylogs")}>Activity Logs</button>
         </div>
 
         {/* Main Content */}
         <div className="admin-dashboard-content">
+          {/* Fetch Data Button */}
+          <div className="fetch-data-container">
+            <button className="fetch-data-btn" onClick={fetchVerifications}>
+              Fetch Data
+            </button>
+          </div>
+
           <h2 className="content-title">Pending Verifications</h2>
 
           {/* Filter */}
@@ -189,27 +183,61 @@ const AdminVerify = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredVerifications.map(verification => (
-                  <tr key={verification.vId}>
-                    <td>{verification.vId}</td>
-                    <td>{new Date(verification.timeStamp).toLocaleString()}</td>
-                    <td>{verification.user ? (users[verification.user.userId] ? users[verification.user.userId].username : verification.user.userId) : 'N/A'}</td>
-                    <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : 'Name not available'}</td>
-                    <td>
-                      {verification.status === 1 
-                        ? 'Verified' 
-                        : verification.status === 2 
-                          ? 'Denied' 
-                          : 'Pending'}
-                    </td>
-                    <td>{verification.govId ? <button onClick={() => handleShowImage(verification.govId)} className="button-show-image">Show Image</button> : 'Not Uploaded'}</td>
-                    <td>{verification.driversLicense ? <button onClick={() => handleShowImage(verification.driversLicense)} className="button-show-image">Show Image</button> : 'Not Uploaded'}</td>
-                    <td>
-                      <button className="button-approve" onClick={() => handleApprove(verification.vId)}>Approve</button>
-                      <button className="button-deny" onClick={() => handleDeny(verification.vId)}>Deny</button>
+                {filteredVerifications.length > 0 ? (
+                  filteredVerifications.map((verification) => (
+                    <tr key={verification.vId}>
+                      <td>{verification.vId}</td>
+                      <td>{new Date(verification.timeStamp).toLocaleString()}</td>
+                      <td>
+                        {verification.user
+                          ? users[verification.user.userId]
+                            ? users[verification.user.userId].username
+                            : verification.user.userId
+                          : "N/A"}
+                      </td>
+                      <td>{verification.user ? `${verification.user.fName} ${verification.user.lName}` : "Name not available"}</td>
+                      <td>
+                        {verification.status === 1
+                          ? "Verified"
+                          : verification.status === 2
+                          ? "Denied"
+                          : "Pending"}
+                      </td>
+                      <td>
+                        {verification.govId ? (
+                          <button onClick={() => handleShowImage(verification.govId)} className="button-show-image">
+                            Show Image
+                          </button>
+                        ) : (
+                          "Not Uploaded"
+                        )}
+                      </td>
+                      <td>
+                        {verification.driversLicense ? (
+                          <button onClick={() => handleShowImage(verification.driversLicense)} className="button-show-image">
+                            Show Image
+                          </button>
+                        ) : (
+                          "Not Uploaded"
+                        )}
+                      </td>
+                      <td>
+                        <button className="button-approve" onClick={() => handleApprove(verification.vId)}>
+                          Approve
+                        </button>
+                        <button className="button-deny" onClick={() => handleDeny(verification.vId)}>
+                          Deny
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" style={{ textAlign: "center" }}>
+                      {hasFetchedOnce ? "No verifications match the filter." : "Click 'Fetch Data' to load verifications."}
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -226,7 +254,9 @@ const AdminVerify = () => {
           overlayClassName="image-modal-overlay"
         >
           <img src={`data:image/jpeg;base64,${selectedImage}`} alt="Verification Document" />
-          <button onClick={handleCloseModal} className="close-button">Close</button>
+          <button onClick={handleCloseModal} className="close-button">
+            Close
+          </button>
         </Modal>
       )}
     </div>
