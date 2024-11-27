@@ -218,26 +218,21 @@ export const OrderHistoryPage = () => {
 
   // Handle terminate order action
   const handleTerminate = async (orderId) => {
-    setIsLoading(true);
     try {
-      const response = await axios.put(
-        `http://localhost:8080/order/terminateOrder/${orderId}`
-      );
-      if (response.status === 200) {
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.orderId === orderId
-              ? { ...order, terminated: true, active: false, terminationDate: new Date().toISOString() }
-              : order
-          )
-        );
-      }
+        const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
+        if (response.status === 200) {
+            alert("Order terminated and refund processed successfully.");
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.orderId === orderId ? { ...order, terminated: true, active: false } : order
+                )
+            );
+        }
     } catch (error) {
-      console.error("Error terminating the order:", error.response?.data || error.message);
-    } finally {
-      setIsLoading(false); // Ensure loading is stopped after the operation
+        console.error("Error terminating order:", error.message);
+        alert("Failed to terminate the order. Please try again.");
     }
-  };
+};
   
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
@@ -482,6 +477,13 @@ const checkOwnerAcknowledgment = async (orderId) => {
                               </td>
                               {!showOwnedCars && !showOngoingRents && (
                                   <td>
+                                      <button
+                                          className="terminate"
+                                          onClick={() => handleTerminate(order.orderId)}
+                                          disabled={order.terminated}
+                                      >
+                                          Terminate
+                                      </button>
                                       <button
                                           className="return-cars"
                                           onClick={() => handleReturnCar(order.orderId)}
