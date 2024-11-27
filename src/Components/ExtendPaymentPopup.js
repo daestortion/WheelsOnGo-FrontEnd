@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jsPDF } from "jspdf";
+import React, { useEffect, useRef, useState } from 'react';
+import PayPal from "../Components/PayPal";
+import PayPalError from "../Components/PaypalError";
+import PayPalSuccessful from "../Components/PaypalSuccessful";
 import "../Css/ExtendPaymentPopup.css";
-import TAC from "../Images/WheelsOnGoTAC.pdf";
+
 import close from "../Images/close.png";
-import line1 from "../Images/line11.png";
+
 import image1 from "../Images/image1.jpg";
+import image10 from "../Images/image10.png";
+import image11 from "../Images/image11.svg";
+import image12 from "../Images/image12.png";
+import image13 from "../Images/image13.jpg";
+import image14 from "../Images/image14.jpg";
 import image2 from "../Images/image2.jpg";
 import image3 from "../Images/image3.jpg";
 import image4 from "../Images/image4.png";
@@ -13,20 +22,21 @@ import image6 from "../Images/image6.png";
 import image7 from "../Images/image7.jpg";
 import image8 from "../Images/image8.png";
 import image9 from "../Images/image9.png";
-import image10 from "../Images/image10.png";
-import image11 from "../Images/image11.svg";
-import image12 from "../Images/image12.png";
-import image13 from "../Images/image13.jpg";
-import image14 from "../Images/image14.jpg";
+import line1 from "../Images/line11.png";
+
+
+
+
 import paymonggo from "../Images/paymongo.svg";
-import PayPal from "../Components/PayPal";
-import PayPalError from "../Components/PaypalError";
-import PayPalSuccessful from "../Components/PaypalSuccessful";
+
+
+
 import ExtendSuccessPopup from './ExtendSuccessPopup';
-import { jsPDF } from "jspdf";
+
 
 const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [isCheckboxEnabled, setIsCheckboxEnabled] = useState(false); // Define isCheckboxEnabled here
   const [paypalPaid, setPaypalPaid] = useState(false);
   const [showPayPalSuccess, setShowPayPalSuccess] = useState(false);
   const [showPayPalError, setShowPayPalError] = useState(false);
@@ -38,6 +48,9 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     pricePerDay: 0,
     total: 0,
   });
+  const [showTermsPopup, setShowTermsPopup] = useState(false);
+  const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
+  const termsBodyRef = useRef(null);
 
   useEffect(() => {
     // Ensure orderId is valid before making the request
@@ -78,6 +91,31 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
+  };
+
+  const toggleTermsPopup = () => {
+    setShowTermsPopup(!showTermsPopup);
+    setIsAcceptEnabled(false); // Reset the accept button when the popup is opened
+    setIsCheckboxEnabled(false); // Disable the checkbox when opening the terms
+  };
+
+  const handleAcceptTerms = () => {
+    setIsChecked(true);
+    setIsCheckboxEnabled(true); // Enable and check the checkbox when terms are accepted
+    setShowTermsPopup(false);
+  };
+
+  const handleScroll = () => {
+    const element = termsBodyRef.current;
+    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 5) { 
+      // Use a tolerance to account for minor pixel differences
+      setIsAcceptEnabled(true); // Enable "Accept" button when scrolled to bottom
+    }
+  };
+  
+
+  const handleAccept = () => {
+    handleAcceptTerms(); // Check the checkbox and close modal
   };
 
   const ImageSlider = () => {
@@ -164,7 +202,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
   const handlePayPalSuccess = async (details) => {
     try {
-        setPaypalPaid(true); // Mark PayPal as paid
+        setPaypalPaid(true); // Set PayPal as paid
 
         if (!orderDetails || !orderDetails.orderId) {
             throw new Error("Order details are missing or invalid.");
@@ -172,41 +210,52 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
         const extendedEndDate = new Date(endDate).toISOString().split("T")[0]; // Format the extended end date
 
-        // Make request to extend the order with the new end date
-        const updateResponse = await axios.put(
+        console.log("Creating a new order extension with the new end date...");
+
+        // Make POST request to extend the order with the new end date
+        const extensionResponse = await axios.post(
             `http://localhost:8080/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
-            {},
+            {}, // POST request; no request body needed as per the new API
             {
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
         );
 
-        // Check if the order update was successful
-        if (updateResponse && updateResponse.data) {
-            const { updatedOrder, extensionCost } = updateResponse.data;
-            console.log("Order updated successfully:", updatedOrder);
-            console.log("Extension cost for payment:", extensionCost);
+        if (extensionResponse.data) {
+            console.log("New order extension created successfully:", extensionResponse.data);
 
-            // Prepare and log payment data for receipt generation
+            // Prepare payment data for updating the payment status
             const paymentData = {
-                orderId: updatedOrder.orderId,
-                transactionId: details.id,     // Use the PayPal transaction ID from details
-                paymentOption: "PayPal",       // Set payment option to PayPal
-                amount: extensionCost,         // Only the extension cost
-                status: 1                      // Mark payment as completed
+                orderId: extensionResponse.data.orderId,  // Use the new order ID from response
+                transactionId: details.id,               // Use the PayPal transaction ID from details
+                paymentOption: "PayPal",                 // Set payment option as PayPal
+                status: 1
             };
-            console.log("Prepared payment data for receipt:", paymentData);
 
-            // Generate receipt
-            generateReceipt({ ...updatedOrder, referenceNumber: details.id });
+            // Update the payment status
+            const paymentResponse = await axios.post(
+                `http://localhost:8080/order/updatePaymentStatus`,
+                paymentData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
-            // Show the success popup
-            setShowExtendSuccessPopup(true);
+            if (paymentResponse.data) {
+                console.log("Payment status updated successfully.");
+                generateReceipt({ ...orderDetails, orderId: extensionResponse.data.orderId, referenceNumber: details.id }); // Generate receipt using new order ID and PayPal transaction ID
+                setShowExtendSuccessPopup(true); // Show success popup
+            } else {
+                throw new Error("Failed to update payment status.");
+            }
         } else {
-            throw new Error("Failed to update the order with the extended date.");
+            throw new Error("Failed to create the new order extension.");
         }
     } catch (error) {
-        // Handle error if order update fails
         console.error("Error during PayPal success handling:", error.message);
         setShowPayPalError(true); // Show PayPal error popup
     }
@@ -221,7 +270,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     if (updatedOrder?.referenceNumber) {
       doc.text(`Reference Number: ${updatedOrder.referenceNumber}`, 20, 60);
     }
-    doc.save("extendreceipt.pdf");
+    doc.save("receipt.pdf");
   };
 
   const handleClosePayPalPopup = () => {
@@ -299,18 +348,23 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
                 <div className='extend5'>
                   <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
+                       type="checkbox"
+                       className="checkbox"
+                       checked={isChecked}
+                       disabled={!isCheckboxEnabled} // Disable checkbox unless terms are accepted
+                       onChange={handleCheckboxChange}
                   />
 
-                  <div className="understood-agree">
-                    <p className="by-click">by clicking, you are confirming that you have read,</p>
-                    <span className="spanthis">understood and agree to the <a href={TAC} target="_blank" rel="noopener noreferrer" className="tac-link">terms and conditions</a> </span>
-                  </div>
+              <div className="understood-agree">
+                <p className="by-click">by clicking, you are confirming that you have read,</p>
+                <span className="spanthis">
+                   understood and agree to the 
+              <button onClick={toggleTermsPopup} className="tac-link">terms and conditions.</button>
+                 </span>
+                 </div>
+                 </div>
                 </div>
-              </div>
+
                 
                 
               <div className='extend7'>
@@ -355,13 +409,107 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
                     </div>
                   </div>
           </div>
+ 
+           {/* Terms Modal Popup */}
+      {showTermsPopup && (
+        <div className="extend-terms-modal">
+          <div className="extend-terms-content">
+            <div className="extend-terms-header">
+              <h2>Terms and Conditions</h2>
+              <button onClick={toggleTermsPopup} className="extend-close-button">
+                <img src={close} alt="Close" />
+              </button>
+            </div>
+            <div
+              className="extend-terms-body"
+              ref={termsBodyRef}
+              onScroll={handleScroll}
+            >
+              {/* Terms content */}
+              <p>Welcome to Wheels On Go. By using our services, you agree to comply with and be bound by the following terms and conditions. Please review the following terms carefully. If you do not agree to these terms, you should not use this site or our services.</p>
+              
+              <h3>1. Definitions</h3>
+              <ul>
+                <li><b>LENDER:</b> Wheels On Go</li>
+                <li><b>BORROWER:</b> The individual renting the vehicle form Wheels On Go</li>
+              </ul>
+              
+              <h3>2. General Terms</h3>
+              <ul>
+                <li>The BORROWER must handle the unit/car with care and respect and must return the vehicle in good running condition.</li>
+                <li>In the event of loss, damage, or impoundment of the vehicle, the BORROWER is liable to pay the LENDER.  </li>
+                <li>The vehicle must not be taken outside the designated area without prior notice.  </li>
+                <li>The vehicle must not be used for illegal activities.  </li>
+                <li>Non-compliance with the terms of this agreement may result in legal action. Any complaints should be filed in the court of the city where the rental took place. </li>
+              </ul>
+              
+              <h3>3. Fuel and Maintenance</h3>
+              <ul>
+                <li>The vehicle must be refueled to the same level as at the start of the rental.</li>
+                <li>Fuel type: <b>Gasoline Unleaded</b>  </li>
+                <li>Tire pressure: <b>40 PSI</b>  </li>
+              </ul>
+
+              <h3>4. Vehicle Use and Restrictions</h3>
+              <ul>
+                <li>The BORROWER must use the vehicle responsibly and in accordance with all local laws.  </li>
+                <li>The vehicle must not be used for racing, towing, or any other unauthorized purposes. </li>
+              </ul>
+
+              <h3>5. Insurance and Liability</h3>
+              <ul>
+                <li>The BORROWER is responsible for any damage or loss to the vehicle during the rental period. </li>
+                <li>The BORROWER must pay for any traffic violations or parking tickets incurred during the rental period.  </li>
+              </ul>
+
+              <h3>6. Termination</h3>
+              <ul>
+                <li>The LENDER reserves the right to terminate the rental agreement at any time for breach of any terms.  </li>
+                <li>If you withdraw your booking <b>at least 3 days before the rental start date, you will receive a full refund.</b> </li>
+                <li>If the withdrawal is made <b>less than 3 days before the rental start date, 20% of your payment will be deducted.</b> </li>
+                <li>If the withdrawal is made <b>on the start date of the rental, no refund will be issued.</b> </li>
+              </ul>
+
+              <h3>7. Termination</h3>
+              <ul>
+                <li>An excess fee of <b>P150/hour</b> will be charged for exceeding the contracted rental period.  </li>
+                <li>The BORROWER must refill the fuel consumed. Excess fuel is non-refundable.  </li>
+                <li>The vehicle must be returned clean. A penalty of <b>P200</b> and a cleaning fee of P500 will be charged for smoke and other unacceptable odors.  </li>
+                <li>A fee of <b>P250-800</b> will be charged depending on the distance for drop-off or pick-up points outside the designated area.  </li>
+                <li>In case of an accident, the BORROWER must pay a participation fee of <b>P15,000</b> plus additional fees depending on the severity of the damage as advised by the insurance company.  </li>
+              </ul>
+
+              <h3>8. Governing Law</h3>
+              <ul>
+                <li>This agreement is governed by the laws of the Philippines. Any disputes arising from this agreement shall be resolved in the courts of the city where the rental took place.  </li>
+              </ul>
+
+              <p>By agreeing to these terms and conditions, the BORROWER acknowledges that they have read, understood, and agreed to abide by all the terms and conditions stated above.</p>
+              <p><b>IN WITNESS WHEREOF</b>, the parties hereto have hereunto set their hands the day, year, and place above written.</p>
+
+              {/* Additional terms content */}
+            </div>
+            <div className="extend-terms-footer">
+            <button
+              className={`extend-terms-button accept ${isAcceptEnabled ? "active" : "inactive"}`}
+              onClick={handleAcceptTerms}
+              disabled={!isAcceptEnabled}
+                >
+               Accept
+             </button>
+
+            </div>
+          </div>
+        </div>
+      )}
 
 
-        
+        {/* Popups */}
       </div>
       {showPayPalSuccess && <PayPalSuccessful onClose={handleClosePayPalPopup} />}
       {showPayPalError && <PayPalError onClose={handleClosePayPalPopup} />}
       {showExtendSuccessPopup && <ExtendSuccessPopup order={orderDetails} onClose={handleExtendSuccessPopupClose} />}
+
     </div>
   );
 };

@@ -332,3 +332,17 @@ body {
       font-size: 9px;
     }
   }
+
+  .order-history-page .react-datepicker {
+    font-family: inherit;
+    position: relative; /* Ensures proper placement without breaking */
+    margin: 0 auto; /* Centers the calendar */
+    top: auto; /* Removes the forced top offset */
+    z-index: 1000;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}

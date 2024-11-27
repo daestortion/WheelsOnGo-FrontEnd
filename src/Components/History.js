@@ -519,24 +519,26 @@ const checkOwnerAcknowledgment = async (orderId) => {
                                                   {showDatePicker === order.orderId ? "Submit" : "Extend"}
                                               </button>
                                               {showDatePicker === order.orderId && (
-                                                  <div>
-                                                      <DatePicker
-                                                          selected={selectedDate}
-                                                          onChange={(date) =>
-                                                              handleDateChange(date, order.endDate, order.car.carId)
-                                                          }
-                                                          minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
-                                                          excludeDates={disabledDates} // Disable already booked dates
-                                                          placeholderText="Select new end date"
-                                                      />
-                                                      <div className="summary">
-                                                          <h4>Summary of the Cost for Extension:</h4>
-                                                          <p>Days: {priceSummary.days}</p>
-                                                          <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
-                                                          <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
-                                                      </div>
-                                                  </div>
-                                              )}
+                                                <div className="datepicker-wrapper">
+                                                    <DatePicker
+                                                        selected={selectedDate}
+                                                        onChange={(date) =>
+                                                            handleDateChange(date, order.endDate, order.car.carId)
+                                                        }
+                                                        minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
+                                                        excludeDates={disabledDates} // Disable already booked dates
+                                                        placeholderText="Select new end date"
+                                                        className="custom-datepicker"
+                                                        calendarClassName="custom-calendar"
+                                                    />
+                                                    <div className="summary">
+                                                        <h4>Summary of the Cost for Extension:</h4>
+                                                        <p>Days: {priceSummary.days}</p>
+                                                        <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
+                                                        <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
+                                                    </div>
+                                                </div>
+                                            )}
                                           </div>
                                       )}
                                       {showDatePicker !== order.orderId && (
