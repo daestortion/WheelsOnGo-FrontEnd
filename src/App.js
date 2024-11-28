@@ -34,6 +34,8 @@ import Balance from './Components/BalancePage.js'
 import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
 import ReturnCarForm from './Components/ReturnCarForm.js'
 import ReturnCar from './Components/ReturnCar.js';
+import Refund from './Components/Refund.js'; 
+
 
 function DebugRoutes() {
     const location = useLocation();
@@ -53,6 +55,8 @@ function AuthRoutes() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/resetpassword" element={<NewPassword />} />
             <Route path="/home" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+            <Route path="/refund" element={<PrivateRoute><Refund /></PrivateRoute>} />
+
 
             <Route path="/cars" element={<PrivateRoute><Cars /></PrivateRoute>} />
             <Route path="/addcar" element={<AddCar />} />
