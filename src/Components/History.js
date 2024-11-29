@@ -219,18 +219,70 @@ export const OrderHistoryPage = () => {
   // Handle terminate order action
   const handleTerminate = async (orderId) => {
     try {
+        // Send the terminate request to the backend
         const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
-        if (response.status === 200) {
-            alert("Order terminated and refund processed successfully.");
-            setOrders((prevOrders) =>
-                prevOrders.map((order) =>
-                    order.orderId === orderId ? { ...order, terminated: true, active: false } : order
-                )
-            );
+
+        // Log the entire response data
+        console.log("Response Data:", response.data); // Logs the entire response data
+
+        // Check if the response is successful and contains the necessary data
+        if (response.status === 200 && response.data) {
+            const { updatedOrder } = response.data;
+
+            // Ensure updatedOrder exists before proceeding
+            if (updatedOrder) {
+                // Get the latest payment amount from the updated order's payments array
+                const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
+                    ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
+                    : 0;
+
+                // Calculate the date difference between start date and termination date
+                const startDate = new Date(updatedOrder.startDate);
+                const terminationDate = new Date(updatedOrder.terminationDate);
+                const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24)); // Difference in days
+
+                // Log the date difference for debugging
+                console.log(`Date difference: ${dateDifference} days`);
+                console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
+
+                // Calculate the refund percentage based on days
+                let refundPercentage = 0.0;
+                if (dateDifference >= 3) {
+                    refundPercentage = 0.85; // 85% refund for 3 or more days
+                } else if (dateDifference >= 1 && dateDifference <= 2) {
+                    refundPercentage = 0.50; // 50% refund for 1 or 2 days
+                } else {
+                    refundPercentage = 0.0; // No refund for 0 days (start date termination)
+                }
+
+                // Compute the refund amount
+                const refundAmount = latestPaymentAmount * refundPercentage;
+
+                // Log the calculated refund amount
+                console.log(`Refund Amount: ₱${refundAmount.toFixed(2)}`);
+
+                // Show success message with the refund amount
+                alert(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+                console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+
+                // Update the orders state with the new order details
+                setOrders((prevOrders) =>
+                    prevOrders.map((order) =>
+                        order.orderId === orderId
+                            ? { ...order, terminated: true, active: false }
+                            : order
+                    )
+                );
+            } else {
+                alert("Failed to process refund. Please try again.");
+            }
+        } else {
+            alert("Failed to terminate the order. Please try again.");
         }
     } catch (error) {
-        console.error("Error terminating order:", error.message);
-        alert("Failed to terminate the order. Please try again.");
+        // Log and show a detailed error message if the request fails
+        console.error("Error terminating order:", error);
+        alert("Error terminating the order. Please try again.");
     }
 };
   
