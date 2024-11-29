@@ -218,26 +218,7 @@ export const OrderHistoryPage = () => {
 
   // Handle terminate order action
   const handleTerminate = async (orderId) => {
-    setIsLoading(true);
     try {
-<<<<<<< Updated upstream
-      const response = await axios.put(
-        `http://localhost:8080/order/terminateOrder/${orderId}`
-      );
-      if (response.status === 200) {
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.orderId === orderId
-              ? { ...order, terminated: true, active: false, terminationDate: new Date().toISOString() }
-              : order
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error terminating the order:", error.response?.data || error.message);
-    } finally {
-      setIsLoading(false); // Ensure loading is stopped after the operation
-=======
         // Send the terminate request to the backend
         const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
 
@@ -302,7 +283,6 @@ export const OrderHistoryPage = () => {
         // Log and show a detailed error message if the request fails
         console.error("Error terminating order:", error);
         alert("Error terminating the order. Please try again.");
->>>>>>> Stashed changes
     }
   };
   
