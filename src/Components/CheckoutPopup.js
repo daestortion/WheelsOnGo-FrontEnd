@@ -38,15 +38,15 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(true); // Start loading when fetching booked dates
         const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
-
-        // Filter out returned orders and map the booked dates
+  
+        // Filter out returned or terminated orders and map the booked dates
         const bookedRanges = orders
-          .filter(order => !order.returned) // Exclude returned orders
+          .filter(order => !order.returned && !order.terminated) // Exclude returned or terminated orders
           .map(order => ({
             start: new Date(order.startDate),
             end: new Date(order.endDate)
           }));
-
+  
         setBookedDates(bookedRanges);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
@@ -54,9 +54,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(false); // Stop loading after fetching
       }
     };
-
+  
     fetchBookedDates();
   }, [car.carId]);
+  
 
   const handleStartDateChange = (date) => {
     const normalizedDate = new Date(date.getTime());

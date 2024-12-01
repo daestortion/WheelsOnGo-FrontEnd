@@ -346,3 +346,18 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
+
+.terminate {
+  padding: 8px 12px;
+  color: white;
+  background-color: #ff0000; /* Red for terminate */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 80px; /* Fixed width */
+  text-align: center;
+}
+
+.terminate:hover {
+  background-color: #cc0000; /* Darker red on hover */
+}

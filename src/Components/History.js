@@ -216,76 +216,86 @@ export const OrderHistoryPage = () => {
     setTimeout(() => setIsLoading(false), 500); // Simulate slight delay
   };
 
-  // Handle terminate order action
   const handleTerminate = async (orderId) => {
     try {
-        // Send the terminate request to the backend
-        const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
-
-        // Log the entire response data
-        console.log("Response Data:", response.data); // Logs the entire response data
-
-        // Check if the response is successful and contains the necessary data
-        if (response.status === 200 && response.data) {
-            const { updatedOrder } = response.data;
-
-            // Ensure updatedOrder exists before proceeding
-            if (updatedOrder) {
-                // Get the latest payment amount from the updated order's payments array
-                const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
-                    ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
-                    : 0;
-
-                // Calculate the date difference between start date and termination date
-                const startDate = new Date(updatedOrder.startDate);
-                const terminationDate = new Date(updatedOrder.terminationDate);
-                const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24)); // Difference in days
-
-                // Log the date difference for debugging
-                console.log(`Date difference: ${dateDifference} days`);
-                console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
-
-                // Calculate the refund percentage based on days
-                let refundPercentage = 0.0;
-                if (dateDifference >= 3) {
-                    refundPercentage = 0.85; // 85% refund for 3 or more days
-                } else if (dateDifference >= 1 && dateDifference <= 2) {
-                    refundPercentage = 0.50; // 50% refund for 1 or 2 days
-                } else {
-                    refundPercentage = 0.0; // No refund for 0 days (start date termination)
-                }
-
-                // Compute the refund amount
-                const refundAmount = latestPaymentAmount * refundPercentage;
-
-                // Log the calculated refund amount
-                console.log(`Refund Amount: ₱${refundAmount.toFixed(2)}`);
-
-                // Show success message with the refund amount
-                alert(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
-                console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
-
-                // Update the orders state with the new order details
-                setOrders((prevOrders) =>
-                    prevOrders.map((order) =>
-                        order.orderId === orderId
-                            ? { ...order, terminated: true, active: false }
-                            : order
-                    )
-                );
-            } else {
-                alert("Failed to process refund. Please try again.");
+      const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
+      console.log("Response Data:", response.data);
+  
+      if (response.status === 200 && response.data) {
+        const { updatedOrder } = response.data;
+  
+        if (updatedOrder) {
+          const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
+            ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
+            : 0;
+  
+          const startDate = new Date(updatedOrder.startDate);
+          const terminationDate = new Date(updatedOrder.terminationDate);
+          const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
+  
+          console.log(`Date difference: ${dateDifference} days`);
+          console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
+  
+          let refundPercentage = 0.0;
+          if (dateDifference >= 3) {
+            refundPercentage = 0.85;
+          } else if (dateDifference >= 1 && dateDifference <= 2) {
+            refundPercentage = 0.50;
+          } else {
+            refundPercentage = 0.0;
+          }
+  
+          const refundAmount = latestPaymentAmount * refundPercentage;
+  
+          console.log("Refund Amount:", refundAmount);
+  
+          alert(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+  
+          const userId = updatedOrder.user ? updatedOrder.user.userId : null;
+          if (userId) {
+            console.log("Sending to wallet API:", userId, refundAmount);
+            await axios.put('http://localhost:8080/wallet/addFunds', {
+              userId: userId,
+              amount: refundAmount
+            });
+          } else {
+            console.error("Error: User data is missing in updatedOrder");
+          }
+  
+          // Access the owner data correctly
+          const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+          if (ownerId) {
+            console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
+            const ownerWalletResponse = await axios.put(`http://localhost:8080/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`);
+  
+            console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
+  
+            if (ownerWalletResponse.status !== 200) {
+              console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
             }
+          } else {
+            console.error("Error: Owner data is missing in updatedOrder");
+          }
+  
+          setOrders((prevOrders) =>
+            prevOrders.map((order) =>
+              order.orderId === orderId
+                ? { ...order, terminated: true, active: false }
+                : order
+            )
+          );
         } else {
-            alert("Failed to terminate the order. Please try again.");
+          alert("Failed to process refund. Please try again.");
         }
+      } else {
+        alert("Failed to terminate the order. Please try again.");
+      }
     } catch (error) {
-        // Log and show a detailed error message if the request fails
-        console.error("Error terminating order:", error);
-        alert("Error terminating the order. Please try again.");
+      console.error("Error terminating order:", error);
+      alert("Error terminating the order. Please try again.");
     }
   };
-  
+
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
   };
@@ -428,8 +438,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
       return false; // Assume no acknowledgment if an error occurs
   }
 };
-
-
   return (
     <div className="order-history-page">
       <Header />
@@ -470,9 +478,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
           <Loading /> // Show loading spinner while loading
         ) : (
           <div className="overlap213">
-
-         
-
               <div className="rectangle213">
                 <div className="table-container213">
                 <table className="order-table213">
@@ -529,6 +534,13 @@ const checkOwnerAcknowledgment = async (orderId) => {
                               </td>
                               {!showOwnedCars && !showOngoingRents && (
                                   <td>
+                                      <button
+                                          className="terminate"
+                                          onClick={() => handleTerminate(order.orderId)}
+                                          disabled={order.terminated}
+                                      >
+                                          Terminate
+                                      </button>
                                       <button
                                           className="return-cars"
                                           onClick={() => handleReturnCar(order.orderId)}
@@ -601,12 +613,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
               </table>
                 </div>
               </div>
-              
-         
-  
-
-            
-            
           </div>
         )}
       </div>
