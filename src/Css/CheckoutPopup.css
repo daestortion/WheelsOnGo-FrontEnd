@@ -1,3 +1,11 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .checkout-popup { 
   position: fixed;  
   top: 0;
@@ -8,23 +16,59 @@
   align-items: center;  
   justify-content: center;  
   background-color: rgba(0, 0, 0, 0.5);  
-  z-index: 1050;  
+  z-index: 1050;
+  padding: 10px;
+  overflow: hidden; /* Prevents scrolling on the background */
 }
 
 .checkout-popup .cp-overlap { 
   background-color: #d7d1d1; 
-  border-radius: 40px; 
+  border-radius: 20px; 
   position: relative; 
   display: flex;
   width: 100%;
-  max-width: 1500px;
+  max-width: 1030px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 40px;
+  padding: 20px;
+  max-height: calc(100vh - 40px); /* Use almost full viewport height */
+  overflow-y: auto; /* Enable scrolling for the content inside the popup */
 }
 
+.checkout-popup .head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Ensures elements are spaced between */
+  align-items: center;
+  width: 100%; /* Stretch across the width of the parent */
+  position: relative;
+}
+
+.spacer {
+  flex: 1; /* Takes up the same space as the close button to balance the layout */
+}
+
+.checkout-popup .closes { 
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer; /* Changes cursor to pointer when hovering over the button */
+  flex: 1; /* Ensure it takes space to balance the layout */
+}
+
+.checkout-popup .imgss { 
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
+  height: 40px;
+  width: 40px;
+
+}
 
 .checkout-popup .text-wrapper { 
   color: #000000; 
@@ -35,7 +79,33 @@
   line-height: normal; 
   position: relative; 
   text-align: center; 
+}
 
+.finale {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 20px;
+}
+
+.overall1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  gap: 10px;
+}
+
+.groups2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  gap: 20px;
 }
 
 .checkout-popup .rectangle { 
@@ -58,113 +128,13 @@
   top: 0px;
 }
 
-
-.checkout-popup .div-checkbox {
-  background-color: #ffffff;
-  height: 35px;
-  width: 35px;
-  position: absolute;
-  left: 177px;
-  top: 574px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 2px solid #000;
-}
-
-.checkout-popup .div-checkbox.checked {
-  background-color: #000;
-}
-
-.groups1{
+.groups1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   gap: 10px;
-}
-
-.groups2{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  gap: 20px;
-}
-
-.groups3{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  gap: 10px;
-}
-
-.groups4{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  gap: 10px;
-}
-
-.head {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between; /* Ensures elements are spaced between */
-  align-items: center;
-  width: 100%; /* Stretch across the width of the parent */
-  position: relative;
-}
-
-.groups5{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  gap: 10px;
-}
-
-.overall1{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  gap: 10px;
-}
-
-.overall2{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  gap: 20px;
-}
-
-.finale{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  gap: 50px;
-}
-
-.wew11{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  gap: 30px;
 }
 
 .checkout-popup .text-wrapper-234 { 
@@ -191,9 +161,8 @@
 .checkout-popup .text-wrapper-345 { 
   color: #e32128; 
   font-family: "Inter-Medium", Helvetica; 
-  font-size: 25px; 
+  font-size: 20px; 
   font-weight: 500; 
-  height: 34px; 
   position: relative; 
   white-space: nowrap; 
   text-align: center;
@@ -202,181 +171,109 @@
 .checkout-popup .text-wrapper-412 { 
   color: #e32128; 
   font-family: "Inter-Medium", Helvetica; 
-  font-size: 25px; 
+  font-size: 20px; 
   font-weight: 500; 
-  height: 34px; 
   position: relative;  
   white-space: nowrap; 
 }
 
 .checkout-popup .vector2 { 
-  height: 30px; 
+  height: 25px; 
   position: relative; 
 }
 
-.checkout-popup .text-wrapper-51 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: relative; 
-  text-align: center; 
-  white-space: nowrap; 
-
-}
-
-.checkout-popup .text-wrapper-61 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: relative; 
-  text-align: center; 
-  white-space: nowrap; 
-}
-
-
-.checkout-popup .div-wrapper12 { 
-  background-color: #ffffff; 
-  border-radius: 35px; 
-  height: 71px; 
-  position: relative; 
-  width: 284px; 
+.groups3 {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-}
-
-
-
-.checkout-popup .text-wrapper-7 { 
-  color: #7c7c7c; 
-  font-family: "Inter-Regular", Helvetica; 
-  font-size: 25px; 
-  font-weight: 400; 
-  letter-spacing: 0; 
-  line-height: normal; 
+  align-items: flex-start;
   position: relative;
-
-}
-
-.checkout-popup .text-wrapper-8 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: relative; 
-  white-space: nowrap; 
-}
-
-.checkout-popup .text-wrapper-9 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  left: 1335px; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: absolute; 
-  top: 494px; 
-  white-space: nowrap; 
-  width: 150px; 
-}
-
-.checkout-popup .text-wrapper-10 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  left: 130px; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: absolute; 
-  top: 550px; 
-  white-space: nowrap; 
-  width: 257px; 
-}
-
-.checkout-popup .text-wrapper-102 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  left: 130px; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: absolute; 
-  top: 508px; 
-  white-space: nowrap; 
-  width: 257px; 
-}
-
-.checkout-popup .text-wrapper-103 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  left: 130px; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: absolute; 
-  top: 465px; 
-  white-space: nowrap; 
-  width: 257px; 
-}
-
-.checkout-popup .text-wrapper-104 { 
-  color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  left: 130px; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: absolute; 
-  top: 423px; 
-  white-space: nowrap; 
-  width: 257px; 
+  gap: 10px;
 }
 
 .checkout-popup .text-wrapper-101 { 
   color: #000000; 
-  font-family: "Inter-SemiBold", Helvetica; 
-  font-size: 30px; 
-  font-weight: 600; 
-  letter-spacing: 0; 
-  line-height: normal; 
-  position: relative; 
-  white-space: nowrap; 
-  height: 40px;
-}
-
-.checkout-popup .text-wrapper-11 { 
-  color: #e32128; 
   font-family: "Inter-SemiBold", Helvetica; 
   font-size: 20px; 
   font-weight: 600; 
   letter-spacing: 0; 
   line-height: normal; 
   position: relative; 
-  white-space: normal; 
-  height: 40px;
-  overflow-wrap: break-word;
-  text-align: center;
+  white-space: nowrap; 
 }
 
-.checkout-popup .overlap-2 { 
-  background-color: #ffffff; 
-  border-radius: 35px; 
-  height: 71px; 
+.checkout-popup .text-wrapper-11 { 
+  color: #e32128; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 18px; 
+  font-weight: 600; 
+  letter-spacing: 0; 
+  line-height: normal; 
   position: relative; 
-  width: 284px; 
+  white-space: normal; 
+  height: auto;
+  width: 500px;
+  overflow-wrap: break-word;
+  text-align: start;
+}
+
+.overall2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 20px;
+}
+
+.groups4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+}
+
+.checkout-popup .text-wrapper-51 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 20px; 
+  font-weight: 600; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: relative; 
+  text-align: center; 
+  white-space: nowrap; 
+}
+
+.checkout-popup .div-wrapper12 { 
+  background-color: #ffffff; 
+  border-radius: 20px; 
+  height: 50px; 
+  position: relative; 
+  width: 200px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout-popup .text-wrapper-7 { 
+  color: #7c7c7c; 
+  font-family: "Inter-Regular", Helvetica; 
+  font-size: 18px; 
+  font-weight: 400; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: relative;
+}
+
+.overlap-2 { 
+  background-color: #ffffff; 
+  border-radius: 20px; 
+  height: 50px; 
+  position: relative; 
+  width: 200px; 
   border: none;
   box-shadow: none;
   display: flex;
@@ -387,31 +284,126 @@
 .checkout-popup .text-wrapper-12 { 
   color: #7c7c7c; 
   font-family: "Inter-Regular", Helvetica; 
-  font-size: 25px; 
+  font-size: 18px; 
   font-weight: 400; 
   letter-spacing: 0; 
   line-height: normal; 
   position: relative; 
 }
 
-.checkout-popup .group { 
-  height: 71px; 
-  left: 960px; 
-  position: absolute; 
-  top: 551px; 
-  width: 645px; 
+.groups5 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+}
+
+.checkout-popup .error-messagea {
+  color: red;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 20px;
+  font-weight: 700;
+  position: relative;
+  text-align: center;
+}
+
+.wew11 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 20px;
+}
+
+.divide1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  gap: 20px;
+}
+
+.checkout-popup .text-wrapper-8 { 
+  color: #000000; 
+  font-family: "Inter-SemiBold", Helvetica; 
+  font-size: 20px; 
+  font-weight: 600; 
+  letter-spacing: 0; 
+  line-height: normal; 
+  position: relative; 
+  white-space: nowrap; 
+}
+
+.checkout-popup .delivery-options {
+  position: relative;
+  flex-direction: row;
+  gap: 20px; /* Add space between options */
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 25px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 10px; /* Add space between radio button and label */
+  transform: scale(1.2); /* Increase the size of radio buttons */
+}
+
+.checkout-popup .address-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between form elements */
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+}
+
+.address-dropdown, .address-input {
+  padding: 8px;
+  font-size: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.address-dropdown {
+  width: 450px;
+}
+
+.address-input {
+  width: 450px;
+  box-sizing: border-box;
 }
 
 .checkout-popup .overlap-group-2121 { 
   background-color: #e80029; 
   border-radius: 35px; 
-  height: 71px; 
+  height: 50px; 
   position: relative; 
-  width: 90%;
+  width: 300px;
   color: #ffffff; 
   font-family: "Inter-Bold", Helvetica; 
-  font-size: 20px; 
-  font-weight: 700; 
+  font-size: 18px; 
+  font-weight: 600; 
   letter-spacing: 0; 
   line-height: normal; 
   text-align: center; 
@@ -422,69 +414,9 @@
   cursor: pointer;
 }
 
-
-.checkout-popup .p { 
-  color: #e32128; 
-  font-family: "Inter-Medium", Helvetica; 
-  font-size: 20px; 
-  font-weight: 500; 
-  height: 34px; 
-  left: 239px; 
-  letter-spacing: 0.25px; 
-  line-height: 140px; 
-  position: absolute; 
-  top: 490px; 
-  white-space: nowrap; 
-  width: 608px; 
-}
-
-.checkout-popup .understood-and-agree { 
-  color: #e32128; 
-  font-family: "Inter-Medium", Helvetica; 
-  font-size: 20px; 
-  font-weight: 500; 
-  height: 34px; 
-  left: 239px; 
-  letter-spacing: 0.25px; 
-  line-height: 140px; 
-  position: absolute; 
-  top: 520px; 
-  white-space: nowrap; 
-  width: 608px; 
-}
-
-.checkout-popup .span { 
-  letter-spacing: 0.05px; 
-}
-
-.checkout-popup .text-wrapper-14 { 
-  letter-spacing: 0.05px; 
-  text-decoration: underline; 
-}
-
-.checkout-popup .closes { 
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  cursor: pointer; /* Changes cursor to pointer when hovering over the button */
-  flex: 1; /* Ensure it takes space to balance the layout */
-}
-
-.spacer {
-  flex: 1; /* Takes up the same space as the close button to balance the layout */
-}
-
-.checkout-popup .imgss { 
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  position: relative;
-  height: 40px;
-  width: 40px;
-  
-}
+.normal-text {
+  font-weight: normal;
+} 
 
 .react-datepicker {
   font-family: inherit;
@@ -524,98 +456,20 @@
   right: 10px;
   z-index: 1001;
 }
-.checkout-popup .error-messagea {
-  color: red;
-  font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
-  font-weight: 700;
-  position: relative;
-  text-align: center;
-}
-
-.normal-text {
-  font-weight: normal;
-} 
-
-.checkout-popup .delivery-options {
-  position: relative;
-  flex-direction: row;
-  gap: 20px; /* Add space between options */
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 25px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-}
-
-.radio-option input[type="radio"] {
-  margin-right: 10px; /* Add space between radio button and label */
-  transform: scale(1.2); /* Increase the size of radio buttons */
-}
-
-.radio-option {
-  display: flex;
-  align-items: center;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.radio-option input[type="radio"] {
-  margin-right: 10px; /* Add space between radio button and label */
-  transform: scale(1.2); /* Increase the size of radio buttons */
-}
-
-.setup-delivery-address-btn {
-  margin-left: 15px; /* Space between Delivery option and button */
-  padding: 8px 16px; /* Button padding */
-  background-color: #007bff; /* Button color */
-  color: white; /* Text color */
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.setup-delivery-address-btn:hover {
-  background-color: #0056b3; /* Button hover effect */
-}
-
-.checkout-popup .address-form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Space between form elements */
-  position: relative;
-  width: 100%;
-  margin-top: 0;
-}
-
-.address-dropdown, .address-input {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  border-radius: 30px;
-  padding-left: 20px;
-  padding-right: 20px;
-
-}
-
-.address-dropdown {
-  width: 100%;
-}
-
-.address-input {
-  width: 100%;
-  box-sizing: border-box;
-}
 
 .div-wrapper12, .overlap-2 {
   position: relative;
   z-index: 1; /* Set lower z-index to ensure date picker is on top */
 }
 
+@media (max-width: 1024px) {
+
+  .finale{
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .checkout-popup .cp-overlap{
+    max-width: 700px;
+  }
+}

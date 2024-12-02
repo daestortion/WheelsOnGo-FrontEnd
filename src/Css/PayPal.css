@@ -7,6 +7,7 @@
   
   .paypal-button-container > div {
     position: relative;
-    width: 571px;
+    width: 400px;
+    height: 50px;
   }
   

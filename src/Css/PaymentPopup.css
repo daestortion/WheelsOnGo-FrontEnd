@@ -8,7 +8,8 @@
   align-items: center;  
   justify-content: center;  
   background-color: rgba(0, 0, 0, 0.5);  
-  z-index: 1050;  
+  z-index: 1050;
+  padding: 10px;
 }
 
 .payment-popup .overlap11 {
@@ -21,7 +22,8 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 60px;
+  padding: 20px;
+  gap: 20px;
 }
 
 .paymongo-button {
@@ -38,7 +40,7 @@
   .payment-popup .text-wrapper {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 600;
     letter-spacing: 0.62px;
     line-height: normal;
@@ -68,9 +70,9 @@
   }
   
   .payment-popup .vector {
-    height: 50px;
+    height: 40px;
     position: relative;
-    width: 50px;
+    width: 40px;
     border-radius: 9px;
   }
   
@@ -184,7 +186,7 @@
   .payment-popup .text-wrapper-33 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 40px;
+    font-size: 25px;
     font-weight: 600;
     letter-spacing: 0.5px;
     line-height: normal;
@@ -261,7 +263,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    gap: 150px;
+    gap: 20px;
   }
 
   .groups88{
@@ -277,9 +279,8 @@
   .payment-popup .text-wrapper-444 {
     color: #e32128;
     font-family: "Inter-Medium", Helvetica;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 500;
-    height: 34px;
     position: relative;
     white-space: nowrap;
   }
@@ -287,15 +288,14 @@
   .payment-popup .text-wrapper-555 {
     color: #e32128;
     font-family: "Inter-Medium", Helvetica;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 500;
-    height: 34px;
     position: relative;
     white-space: nowrap;
   }
   
   .payment-popup .imgs {
-    height: 43px;
+    height: 30px;
     position: relative;
     width: 2px;
   }
@@ -303,7 +303,7 @@
   .payment-popup .text-wrapper-611 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: normal;
@@ -314,7 +314,7 @@
   .payment-popup .text-wrapper-77 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: normal;
@@ -324,7 +324,7 @@
   .payment-popup .text-wrapper-81 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: normal;
@@ -334,9 +334,11 @@
   .payment-popup .text-wrapper-99 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
+    width: 500px;
+    height: auto;
     line-height: normal;
     position: relative;
   }
@@ -435,7 +437,7 @@
     width: 160px;
   }
   
-  .payment-popup .closes {
+  .payment-popup .closess {
     position: relative;
     border: none;
     background: none;
@@ -443,38 +445,38 @@
   }
   
   .payment-popup .vector-2 {
-    height: 50px;
+    height: 40px;
     position: relative;
-    width: 50px;
+    width: 40px;
   }
   
   .payment-popup .image {
-    height: 280px;
+    height: 200px;
     max-width: 100%;  /* Ensure the image doesn't exceed the container's width */
     max-height: 100%; /* Ensure the image doesn't exceed the container's height */
     object-fit: contain; /* Fit the image inside the container while preserving aspect ratio */
     position: relative;
-    width: 280px;
+    width: 200px;
   }
   
 
   .payment-popup .car-images {
     position: relative;
-    max-width: 100%;   /* Ensure the image does not exceed the container width */
-    max-height: 100%;  /* Ensure the image does not exceed the container height */
+    max-width: 200px;   /* Ensure the image does not exceed the container width */
+    max-height: 200px;  /* Ensure the image does not exceed the container height */
     border-radius: 40px; /* Maintain the border radius */
   }
 
   .payment-popup .cashbackground {
     background-color: #e80029;
     border-radius: 35px;
-    height: 55px;
+    height: 50px;
     position: relative;
-    width: 570px;
+    width: 400px;
     border: none;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
@@ -495,8 +497,8 @@
     background: none;
     background-color: #00D17D;
     position: relative;
-    width: 570px;
-    height: 55px;
+    width: 400px;
+    height: 50px;
     border-radius: 30px;
     cursor: pointer;
   }

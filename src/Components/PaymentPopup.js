@@ -365,7 +365,7 @@ const updateOnlineEarnings = async (ownerId, amount) => {
               <img className="vector" alt="Vector" src={back} />
           </button>
           <div className="text-wrapper">Payment</div>
-          <button className="closes" onClick={onClose}>
+          <button className="closess" onClick={onClose}>
               <img className="vector-2" alt="Vector" src={close} />
           </button>
         </div>
@@ -385,14 +385,14 @@ const updateOnlineEarnings = async (ownerId, amount) => {
               </div>
             </div>
             <div className='groups33'>
-              <div className="text-wrapper-611">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-              <div className="text-wrapper-81">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-              <div className="text-wrapper-77">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+              <div className="text-wrapper-611">Return Date: <span className="normal-text"> {endDate ? endDate.toLocaleDateString() : "N/A"}</span></div>
+              <div className="text-wrapper-81">Pick-up Date: <span className="normal-text"> {startDate ? startDate.toLocaleDateString() : "N/A"} </span></div>
+              <div className="text-wrapper-77">Total: <span className="normal-text"> ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span></div>
               <div className="text-wrapper-99">
                 {deliveryOption === "Pickup" ? (
-                  <>Pick-up Location: {car.address}</>
+                  <>Pick-up Location: <span className="normal-text"> {car.address} </span></>
                 ) : (
-                  <>Delivery Location: {deliveryAddress}</>
+                  <>Delivery Location: <span className="normal-text"> {deliveryAddress} </span></>
                 )}
               </div>
             </div>

@@ -34,21 +34,21 @@ body {
 
 .registration .overlapss {
   background-color: #d7d1d1;
-  border-radius: 40px;
+  border-radius: 20px;
   width: 100%;
-  max-width: 700px;
+  max-width: 650px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 40px;
+  padding: 25px;
 }
 
 .registration .text-wrapper {
   color: #3e3a3a;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 700;
   text-align: center;
   margin-top: 0;
@@ -59,7 +59,7 @@ body {
   background-color: #e80029;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   border-radius: 35px;
   height: 50px;
@@ -78,7 +78,7 @@ body {
 .registration .already-have-an {
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   margin-top: 25px;
@@ -104,10 +104,10 @@ body {
   background-color: #ffffff;
   color: #848484;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
-  border-radius: 35px;
-  height: 60px;
+  border-radius: 25px;
+  height: 50px;
   width: 100%;
   max-width: 600px;
   border: none;
@@ -175,7 +175,7 @@ body {
   background-color: #e80029;
   border: none;
   cursor: pointer;
-  font-size: 19px;
+  font-size: 15px;
   color: #ffffff;
   border-radius: 20px;
   padding: 15px;

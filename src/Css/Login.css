@@ -48,7 +48,7 @@ body {
 .login .text-wrapper {
   color: #3e3a3a;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 700;
   text-align: center;
   margin-bottom: 40px
@@ -58,15 +58,15 @@ body {
 .login .div-wrapper {
   background-color: #ffffff;
   color: #848484;
-  border-radius: 35px;
+  border-radius: 25px;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 35px;
+  font-size: 25px;
   font-weight: 700;
-  height: 80px;
+  height: 60px;
   width: 100%;
   max-width: 700px;
   border: none;
-  padding: 0 35px;
+  padding: 0 20px;
   box-sizing: border-box;
   margin-bottom: 30px;
 }
@@ -74,7 +74,7 @@ body {
 .login .not-registered,
 .login .forgot-passwords {
   font-family: "Inter-Bold", Helvetica;
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
@@ -94,10 +94,10 @@ body {
   background-color: #e80029;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  border-radius: 35px;
-  height: 71px;
+  border-radius: 25px;
+  height: 50px;
   width: 100%;
   max-width: 700px;
   border: none;

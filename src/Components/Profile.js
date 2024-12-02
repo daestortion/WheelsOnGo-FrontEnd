@@ -200,7 +200,7 @@ const UserProfile = () => {
                         }}
                     />
 
-                    <div className="overlap-2">
+                    <div className="overlap-2s">
                         <div className="text-wrapper-3">
                             <span>{currentUser.fName} </span>
                             <span>{currentUser.lName} </span>
