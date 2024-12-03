@@ -47,7 +47,7 @@ export const ReverifyPopup = ({ closePopup }) => {
 
             console.log('Form Data:', formData);
 
-            const response = await fetch(`http://localhost:8080/verification/updateVerification/${userId}`, {
+            const response = await fetch(`https://wheelsongo-backend.onrender.com/verification/updateVerification/${userId}`, {
                 method: 'PUT',
                 body: formData
             });

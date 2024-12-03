@@ -15,7 +15,7 @@ const AdminPageUsers = () => {
   const fetchUsers = () => {
     setIsLoading(true);
     axios
-      .get("http://localhost:8080/user/getAllUsers")
+      .get("https://wheelsongo-backend.onrender.com/user/getAllUsers")
       .then((response) => {
         console.log("Fetched Users:", response.data); // Log fetched users
         setUsers(response.data);
@@ -43,7 +43,7 @@ const AdminPageUsers = () => {
   const handleDelete = (userId) => {
     setIsLoading(true);
     axios
-      .put(`http://localhost:8080/user/deleteUser/${userId}`)
+      .put(`https://wheelsongo-backend.onrender.com/user/deleteUser/${userId}`)
       .then(() => fetchUsers())
       .catch((error) => console.error("Error deleting user:", error))
       .finally(() => setIsLoading(false));
@@ -52,7 +52,7 @@ const AdminPageUsers = () => {
   const handleReactivate = (userId) => {
     setIsLoading(true);
     axios
-      .put(`http://localhost:8080/user/reactivateUser/${userId}`)
+      .put(`https://wheelsongo-backend.onrender.com/user/reactivateUser/${userId}`)
       .then(() => fetchUsers())
       .catch((error) => console.error("Error reactivating user:", error))
       .finally(() => setIsLoading(false));

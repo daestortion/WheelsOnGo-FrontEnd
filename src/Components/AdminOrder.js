@@ -19,7 +19,7 @@ const AdminPageOrder = () => {
   const fetchOrders = async () => {
     setIsLoading(true); // Start loading
     try {
-      const response = await fetch("http://localhost:8080/order/getAllOrders");
+      const response = await fetch("https://wheelsongo-backend.onrender.com/order/getAllOrders");
       const data = await response.json();
       console.log(data);
 
@@ -49,7 +49,7 @@ const AdminPageOrder = () => {
 
   const fetchUser = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/user/getUserById/${userId}`);
+      const response = await fetch(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
       const data = await response.json();
       setUsers((prevUsers) => ({ ...prevUsers, [userId]: data }));
     } catch (error) {
@@ -59,7 +59,7 @@ const AdminPageOrder = () => {
 
   const fetchProofOfPayment = async (orderId) => {
     try {
-      const response = await fetch(`http://localhost:8080/order/getProofOfPayment/${orderId}`);
+      const response = await fetch(`https://wheelsongo-backend.onrender.com/order/getProofOfPayment/${orderId}`);
       if (response.ok) {
         const imageBlob = await response.blob();
         setProofImage(URL.createObjectURL(imageBlob));
@@ -73,7 +73,7 @@ const AdminPageOrder = () => {
   const handleApprove = async (orderId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/order/approveOrder/${orderId}`, {
+      const response = await fetch(`https://wheelsongo-backend.onrender.com/order/approveOrder/${orderId}`, {
         method: "PUT",
       });
       if (response.ok) {
@@ -94,7 +94,7 @@ const AdminPageOrder = () => {
   const handleDeny = async (orderId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/order/denyOrder/${orderId}`, {
+      const response = await fetch(`https://wheelsongo-backend.onrender.com/order/denyOrder/${orderId}`, {
         method: "PUT",
       });
       if (response.ok) {

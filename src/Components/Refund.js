@@ -25,7 +25,7 @@ const RefundPage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/wallet/getRefundDetails/${userId}`
+        `https://wheelsongo-backend.onrender.com/wallet/getRefundDetails/${userId}`
       );
       setWalletData({
         refundAmount: response.data.refundAmount || 0,
@@ -41,7 +41,7 @@ const RefundPage = () => {
   const fetchUserRequests = useCallback(async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/request-form/getUserRequests/${userId}`
+        `https://wheelsongo-backend.onrender.com/request-form/getUserRequests/${userId}`
       );
       setRequests(response.data || []);
     } catch (error) {
@@ -108,7 +108,7 @@ const RefundPage = () => {
 
     try {
       await axios.post(
-        `http://localhost:8080/request-form/request-funds?userId=${userId}`,
+        `https://wheelsongo-backend.onrender.com/request-form/request-funds?userId=${userId}`,
         requestData
       );
       await fetchWalletData(userId);

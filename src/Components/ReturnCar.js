@@ -19,7 +19,7 @@ export const ReturnCar = () => {
         const fetchOrderDetails = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`http://localhost:8080/order/getOrderById/${orderId}`);
+                const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrderById/${orderId}`);
                 if (response.status === 200) {
                     setOrderDetails(response.data); // Set the fetched order details
                 }
@@ -71,7 +71,7 @@ export const ReturnCar = () => {
         }
     
         try {
-            const response = await axios.post(`http://localhost:8080/returnProof/createReturnProof`, formData, {
+            const response = await axios.post(`https://wheelsongo-backend.onrender.com/returnProof/createReturnProof`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

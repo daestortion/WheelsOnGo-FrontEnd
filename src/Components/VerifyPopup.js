@@ -48,7 +48,7 @@ export const VerifyPopup = ({ closePopup }) => {
 
             console.log('Form Data:', formData);
 
-            const response = await fetch('http://localhost:8080/verification/insertVerification', {
+            const response = await fetch('https://wheelsongo-backend.onrender.com/verification/insertVerification', {
                 method: 'POST',
                 body: formData
             });

@@ -14,7 +14,7 @@ const AdminOwnerPayments = () => {
   const fetchRequests = () => {
     setLoading(true);
     axios
-      .get("http://localhost:8080/request-form/getAllRequests")
+      .get("https://wheelsongo-backend.onrender.com/request-form/getAllRequests")
       .then((response) => {
         console.log("Fetched payment requests:", response.data);
         setRequests(response.data);
@@ -31,7 +31,7 @@ const AdminOwnerPayments = () => {
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:8080/request-form/approveRequest/${requestId}`
+        `https://wheelsongo-backend.onrender.com/request-form/approveRequest/${requestId}`
       );
       fetchRequests(); // Refresh the requests after approval
       alert("Request approved successfully!");
@@ -47,7 +47,7 @@ const AdminOwnerPayments = () => {
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:8080/request-form/denyRequest/${requestId}`
+        `https://wheelsongo-backend.onrender.com/request-form/denyRequest/${requestId}`
       );
       fetchRequests(); // Refresh the requests after denial
       alert("Request denied successfully!");
@@ -71,7 +71,7 @@ const AdminOwnerPayments = () => {
           const formData = new FormData();
           formData.append("proofImage", file); // Add the selected file
           await axios.put(
-            `http://localhost:8080/request-form/update/${requestId}`,
+            `https://wheelsongo-backend.onrender.com/request-form/update/${requestId}`,
             formData,
             {
               headers: {

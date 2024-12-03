@@ -23,7 +23,7 @@ const UpdateCar = () => {
     // Fetch car details based on carId
     const fetchCarDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/car/getCarById/${carId}`);
+        const response = await axios.get(`https://wheelsongo-backend.onrender.com/car/getCarById/${carId}`);
         if (response.status === 200) {
           const carData = response.data;
           setCarDetails({
@@ -78,7 +78,7 @@ const UpdateCar = () => {
             carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null // Ensure this is handled in the backend
         };
 
-        const response = await axios.put(`http://localhost:8080/car/updateCar`, updatedCarDetails);
+        const response = await axios.put(`https://wheelsongo-backend.onrender.com/car/updateCar`, updatedCarDetails);
         
         if (response.status === 200) {
             setShowCarUpdatedPopup(true);

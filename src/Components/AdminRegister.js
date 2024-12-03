@@ -51,7 +51,7 @@ export const AdminRegister = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/admin/insertAdmin", {
+      const response = await fetch("https://wheelsongo-backend.onrender.com/admin/insertAdmin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
