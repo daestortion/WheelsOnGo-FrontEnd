@@ -36,7 +36,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     const fetchBookedDates = async () => {
       try {
         setLoading(true); // Start loading when fetching booked dates
-        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
+        const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
   
         // Filter out returned or terminated orders and map the booked dates

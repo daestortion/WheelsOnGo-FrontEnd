@@ -55,7 +55,7 @@ export const EditProfile = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:8080/user/updateUser', {
+            const response = await fetch('https://wheelsongo-backend.onrender.com/user/updateUser', {
                 method: 'PUT',
                 body: formData,
             });

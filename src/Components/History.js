@@ -52,7 +52,7 @@ export const OrderHistoryPage = () => {
     setIsCalendarLoading(true); // Start loading calendar
     try {
       const response = await axios.get(
-        `http://localhost:8080/order/getAllOrders`
+        `https://wheelsongo-backend.onrender.com/order/getAllOrders`
       );
       const orders = response.data;
 
@@ -86,7 +86,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching begins
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/getAllOrdersFromUser/${userId}`
+        `https://wheelsongo-backend.onrender.com/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
         setAllOrders(response.data);
@@ -107,7 +107,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `http://localhost:8080/car/getCarById/${carId}`
+        `https://wheelsongo-backend.onrender.com/car/getCarById/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -125,7 +125,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `http://localhost:8080/order/getOrdersByCarId/${carId}`
+        `https://wheelsongo-backend.onrender.com/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -143,7 +143,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
         const response = await axios.get(
-            `http://localhost:8080/user/${userId}/carOrders`
+            `https://wheelsongo-backend.onrender.com/user/${userId}/carOrders`
         );
         if (response.status === 200) {
             const ordersWithProofAndAcknowledgment = await Promise.all(
@@ -172,7 +172,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching user data
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/getUserById/${userId}`
+        `https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`
       );
       if (response.status === 200) {
         setCurrentUser(response.data);
@@ -218,7 +218,7 @@ export const OrderHistoryPage = () => {
 
   const handleTerminate = async (orderId) => {
     try {
-      const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
+      const response = await axios.put(`https://wheelsongo-backend.onrender.com/order/terminateOrder/${orderId}`);
       console.log("Response Data:", response.data);
   
       if (response.status === 200 && response.data) {
@@ -254,7 +254,7 @@ export const OrderHistoryPage = () => {
           const userId = updatedOrder.user ? updatedOrder.user.userId : null;
           if (userId) {
             console.log("Sending to wallet API:", userId, refundAmount);
-            await axios.put('http://localhost:8080/wallet/addFunds', {
+            await axios.put('https://wheelsongo-backend.onrender.com/wallet/addFunds', {
               userId: userId,
               amount: refundAmount
             });
@@ -266,7 +266,7 @@ export const OrderHistoryPage = () => {
           const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
           if (ownerId) {
             console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
-            const ownerWalletResponse = await axios.put(`http://localhost:8080/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`);
+            const ownerWalletResponse = await axios.put(`https://wheelsongo-backend.onrender.com/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`);
   
             console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
   
@@ -310,7 +310,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:8080/order/approveOrder/${orderId}`,
+        `https://wheelsongo-backend.onrender.com/order/approveOrder/${orderId}`,
         { method: "PUT" }
       );
       if (response.ok) {
@@ -419,7 +419,7 @@ export const OrderHistoryPage = () => {
   const checkReturnProofExists = async (orderId) => {
     try {
         const response = await axios.get(
-            `http://localhost:8080/returnProof/exists/${orderId}`
+            `https://wheelsongo-backend.onrender.com/returnProof/exists/${orderId}`
         );
         return response.data; // Return true if proof exists
     } catch (error) {
@@ -430,7 +430,7 @@ export const OrderHistoryPage = () => {
 const checkOwnerAcknowledgment = async (orderId) => {
   try {
       const response = await axios.get(
-          `http://localhost:8080/returnProof/getAcknowledgmentStatus/${orderId}`
+          `https://wheelsongo-backend.onrender.com/returnProof/getAcknowledgmentStatus/${orderId}`
       );
       return response.data; // Return true if acknowledgment exists
   } catch (error) {

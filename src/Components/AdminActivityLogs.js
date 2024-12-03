@@ -23,7 +23,7 @@ const AdminActivityLogs = () => {
         setIsLoading(true); // Only show loading on the first fetch
       }
       axios
-        .get("http://localhost:8080/activity/logs")
+        .get("https://wheelsongo-backend.onrender.com/activity/logs")
         .then((response) => {
           console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
 

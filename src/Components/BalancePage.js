@@ -35,7 +35,7 @@ const BalancePage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/ownerWallet/getWalletDetails/${id}`
+        `https://wheelsongo-backend.onrender.com/ownerWallet/getWalletDetails/${id}`
       );
       const { onlineEarning, cashEarning, cashRefundable } = response.data;
       setWalletData({
@@ -54,7 +54,7 @@ const BalancePage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/request-form/getUserRequests/${id}`
+        `https://wheelsongo-backend.onrender.com/request-form/getUserRequests/${id}`
       );
       setRequests(response.data);
     } catch (error) {
@@ -115,7 +115,7 @@ const BalancePage = () => {
 
     try {
       await axios.post(
-        `http://localhost:8080/request-form/request-funds?userId=${userId}`,
+        `https://wheelsongo-backend.onrender.com/request-form/request-funds?userId=${userId}`,
         requestData
       );
       await fetchWalletData(userId);
@@ -138,7 +138,7 @@ const BalancePage = () => {
   const handleProofView = async (requestId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/request-form/getProofImage/${requestId}`,
+        `https://wheelsongo-backend.onrender.com/request-form/getProofImage/${requestId}`,
         { responseType: "arraybuffer" }
       );
       const blob = new Blob([response.data], { type: "image/png" });

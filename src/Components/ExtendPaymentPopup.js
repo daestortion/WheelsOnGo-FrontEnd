@@ -61,7 +61,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/order/getOrderById/${orderId}`);
+        const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrderById/${orderId}`);
         if (response.status === 200 && response.data) {
           setOrderDetails(response.data);
           const { car, endDate: orderEndDate } = response.data;
@@ -183,7 +183,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     if (!orderDetails) return;
 
     const amountInCentavos = Math.round(priceSummary.total * 100);
-    const response = await fetch('http://localhost:8080/api/payment/create-link', {
+    const response = await fetch('https://wheelsongo-backend.onrender.com/api/payment/create-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -214,7 +214,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
         // Make POST request to extend the order with the new end date
         const extensionResponse = await axios.post(
-            `http://localhost:8080/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
+            `https://wheelsongo-backend.onrender.com/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
             {}, // POST request; no request body needed as per the new API
             {
                 headers: {
@@ -236,7 +236,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
             // Update the payment status
             const paymentResponse = await axios.post(
-                `http://localhost:8080/order/updatePaymentStatus`,
+                `https://wheelsongo-backend.onrender.com/order/updatePaymentStatus`,
                 paymentData,
                 {
                     headers: {

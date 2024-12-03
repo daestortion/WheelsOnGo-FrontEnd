@@ -23,7 +23,7 @@ function AcknowledgementForm() {
     const fetchReturnDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/returnProof/getReturnDetails/${orderId}`
+          `https://wheelsongo-backend.onrender.com/returnProof/getReturnDetails/${orderId}`
         );
         if (response.status === 200) {
           setValue("carOwner", response.data.carOwner);
@@ -68,7 +68,7 @@ function AcknowledgementForm() {
 
     try {
         await axios.put(
-            `http://localhost:8080/returnProof/updateReturnProof/${orderId}`,
+            `https://wheelsongo-backend.onrender.com/returnProof/updateReturnProof/${orderId}`,
             formData,
             { headers: { "Content-Type": "multipart/form-data" } }
         );

@@ -20,7 +20,7 @@ const AdminPageCars = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get('http://localhost:8080/car/getAllCars');
+      const response = await axios.get('https://wheelsongo-backend.onrender.com/car/getAllCars');
       setCars(response.data);
       setHasFetchedOnce(true); // Mark data as fetched
     } catch (error) {
@@ -34,7 +34,7 @@ const AdminPageCars = () => {
   const handleApprove = async (carId) => {
     setIsLoading(true);
     try {
-      await axios.put(`http://localhost:8080/car/approveCar/${carId}`);
+      await axios.put(`https://wheelsongo-backend.onrender.com/car/approveCar/${carId}`);
       fetchCars();
     } catch (error) {
       console.error('Error approving car:', error);
@@ -46,7 +46,7 @@ const AdminPageCars = () => {
   const handleDeleteCar = async (carId) => {
     setIsLoading(true);
     try {
-      await axios.put(`http://localhost:8080/car/deleteCar/${carId}`);
+      await axios.put(`https://wheelsongo-backend.onrender.com/car/deleteCar/${carId}`);
       fetchCars();
     } catch (error) {
       console.error('Error deleting car:', error);
