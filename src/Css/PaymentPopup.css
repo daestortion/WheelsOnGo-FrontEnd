@@ -1,3 +1,11 @@
+body {
+  overflow: hidden; /* Prevents unnecessary scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .payment-popup {
   position: fixed;  
   top: 0;
@@ -10,20 +18,19 @@
   background-color: rgba(0, 0, 0, 0.5);  
   z-index: 1050;
   padding: 10px;
+  overflow-y: auto; 
 }
 
 .payment-popup .overlap11 {
-  background-color: #d7d1d1;
-  border-radius: 30px;
-  height: auto;
-  position: relative;
-  width: auto;
+  background-color: #d7d1d1; 
+  border-radius: 20px; 
+  position: relative; 
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  padding: 20px;
   gap: 20px;
+  padding: 20px;
+  max-height: calc(100vh - 80px); /* Use almost full viewport height */
+  overflow-y: auto;
 }
 
 .paymongo-button {
@@ -186,7 +193,7 @@
   .payment-popup .text-wrapper-33 {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 600;
     letter-spacing: 0.5px;
     line-height: normal;
@@ -337,7 +344,6 @@
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
-    width: 500px;
     height: auto;
     line-height: normal;
     position: relative;
@@ -622,3 +628,97 @@
     cursor: not-allowed;
   }
   
+  .normal-textss{
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 10;
+    width: 450px;
+    overflow-wrap: break-word;
+    height: auto;
+    white-space: normal;
+    position: relative;
+  }
+
+  .terms-checkbox {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  .terms-label {
+    color: red;
+    font-size: 18px;
+    line-height: 1.2;
+    display: inline-block;
+  }
+  
+  .terms-link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+  }
+  
+
+  @media (max-width: 1024px) {
+
+    .groups77{
+      flex-direction: column;
+    }
+
+    .payment-popup .image{
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+
+    .payment-popup .text-wrapper{
+      font-size: 22px;
+    }
+
+    .payment-popup .vector{
+      height: 35px;
+      width: 35px;
+    }
+
+    .payment-popup .vector-2{
+      height: 35px;
+      width: 35px;
+    }
+
+    .payment-popup .groups22{
+      flex-direction: column;
+    }
+
+    .normal-textss{
+      width: 300px;
+    }
+
+    .payment-popup .text-wrapper-444{
+      font-size: 20px;
+    }
+
+    .payment-popup .text-wrapper-555{
+      font-size: 20px;
+    }
+
+    .payment-popup .imgs{
+      height: 25px;
+    }
+
+    .terms-label{
+      font-size: 13px;
+    }
+
+    .terms-checkbox{
+      width: 25px;
+      height: 25px;
+    }
+
+    .payment-popup .cashbackground{
+      width: 350px;
+    }
+
+    .paymongo-button{
+      width: 350px;
+    }
+  }

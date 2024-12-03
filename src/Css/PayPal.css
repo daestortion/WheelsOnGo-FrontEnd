@@ -11,3 +11,9 @@
     height: 50px;
   }
   
+  @media (max-width: 600px) {
+
+  .paypal-button-container > div {
+    width: 350px;
+  }
+  }

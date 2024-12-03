@@ -390,31 +390,32 @@ const updateOnlineEarnings = async (ownerId, amount) => {
               <div className="text-wrapper-77">Total: <span className="normal-text"> ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span></div>
               <div className="text-wrapper-99">
                 {deliveryOption === "Pickup" ? (
-                  <>Pick-up Location: <span className="normal-text"> {car.address} </span></>
+                  <>Pick-up Location: <div className="normal-textss"> {car.address} </div></>
                 ) : (
-                  <>Delivery Location: <span className="normal-text"> {deliveryAddress} </span></>
+                  <>Delivery Location: <div className="normal-textss"> {deliveryAddress} </div></>
                 )}
               </div>
             </div>
 
             <div className="terms-conditions" style={{ marginTop: '15px' }}>
-  <input
-    type="checkbox"
-    id="termsCheckbox"
-    checked={isTermsAccepted}
-    onChange={handleTermsCheckbox} // Only toggle check state here
-    style={{ width: '30px', height: '30px', marginRight: '10px' }}
-  />
-  <label htmlFor="termsCheckbox" style={{ color: 'red', fontSize: '18px', lineHeight: '1.2', display: 'inline-block' }}>
-    <span>by clicking, you are confirming that you have read,</span><br />
-    <span>understood and agree to the </span>
-    <a
-      onClick={toggleTermsPopup} // Open modal only when the link is clicked
-      style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-    >
-      terms and conditions
-    </a>.
-  </label>
+            <input
+                type="checkbox"
+                id="termsCheckbox"
+                checked={isTermsAccepted}
+                onChange={handleTermsCheckbox} // Only toggle check state here
+                className="terms-checkbox"
+              />
+              <label htmlFor="termsCheckbox" className="terms-label">
+                <span>by clicking, you are confirming that you have read,</span><br />
+                <span>understood and agree to the </span>
+                <a
+                  onClick={toggleTermsPopup} // Open modal only when the link is clicked
+                  className="terms-link"
+                >
+                  terms and conditions
+                </a>.
+              </label>
+
 </div>
           </div>
           <div className='groups66'>

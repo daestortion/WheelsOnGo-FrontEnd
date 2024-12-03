@@ -18,7 +18,7 @@ body {
   background-color: rgba(0, 0, 0, 0.5);  
   z-index: 1050;
   padding: 10px;
-  overflow: hidden; /* Prevents scrolling on the background */
+  overflow-y: auto; /* Allows the popup to scroll vertically */
 }
 
 .checkout-popup .cp-overlap { 
@@ -26,14 +26,10 @@ body {
   border-radius: 20px; 
   position: relative; 
   display: flex;
-  width: 100%;
-  max-width: 1030px;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
   padding: 20px;
-  max-height: calc(100vh - 40px); /* Use almost full viewport height */
+  max-height: calc(100vh - 80px); /* Use almost full viewport height */
   overflow-y: auto; /* Enable scrolling for the content inside the popup */
 }
 
@@ -471,5 +467,110 @@ body {
 
   .checkout-popup .cp-overlap{
     max-width: 700px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .checkout-popup .text-wrapper{
+    font-size: 25px;
+  }
+
+  .checkout-popup .imgss{
+    height: 30px;
+    width: 30px;
+  }
+
+  .groups2{
+    flex-direction: column;
+    align-self: center;
+  }
+
+  .checkout-popup .text-wrapper-11{
+    width: 330px;
+  }
+
+  .checkout-popup .div-wrapper12{
+    width: 150px;
+  }
+
+  .overlap-2{
+    width: 150px;
+  }
+
+  .checkout-popup .overlap-group-2121{
+    height: 45px;
+    width: 250px;
+  }
+
+  .address-dropdown{
+    width: 320px;
+  }
+
+  .address-input{
+    width: 320px;
+  }
+
+  .checkout-popup .error-messagea{
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .checkout-popup .text-wrapper-11{
+    width: 250px;
+  }
+
+  .checkout-popup .text-wrapper-101{
+    font-size: 18px;
+  }
+
+  .checkout-popup .text-wrapper-51{
+    font-size: 18px;
+  }
+
+  .checkout-popup .text-wrapper-7{
+    font-size: 15px;
+  }
+
+  .checkout-popup .text-wrapper-12{
+    font-size: 15px;
+  }
+
+  .checkout-popup .div-wrapper12{
+    height: 40px;
+    width: 130px;
+  }
+
+  .overlap-2{
+    height: 40px;
+    width: 130px;
+  }
+
+  .address-dropdown{
+    width: 280px;
+  }
+
+  .address-input{
+    width: 280px;
+  }
+
+  .checkout-popup .text-wrapper-8{
+    font-size: 18px;
+  }
+
+  .radio-option{
+    font-size: 15px;
+  }
+
+  .checkout-popup .error-messagea{
+    font-size: 13px;
+  }
+
+  .checkout-popup .overlap-group-2121{
+    height: 35px;
+    font-size: 15px;
   }
 }
