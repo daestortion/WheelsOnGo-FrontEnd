@@ -144,7 +144,7 @@ const RefundPage = () => {
       </div>
       <div className="refund-note">
         <p>
-          <strong>Refund Logic:</strong>
+          <strong>Refund Terms:</strong>
           <br />
           - If the order is terminated/canceled 3 or more days before the booking date, only 85% of the total amount paid is refundable.
           <br />

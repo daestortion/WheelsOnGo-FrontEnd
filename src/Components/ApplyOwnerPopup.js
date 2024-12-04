@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import "../Css/ApplyOwnerPopup.css";
 import close from "../Images/close.svg";
+import Loading from "../Components/Loading.js";
 
 const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [showTermsPopup, setShowTermsPopup] = useState(false);
   const [isCheckboxEnabled, setIsCheckboxEnabled] = useState(false);
   const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const termsBodyRef = useRef(null);
 
@@ -14,11 +16,19 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
     setIsChecked(!isChecked);
   };
 
-  const handleYesClick = () => {
+  const handleYesClick = async () => {
     if (isChecked) {
-      confirmRegister();
+        setIsLoading(true); // Show loading state
+
+        try {
+            await confirmRegister(); // Assuming this is an async function
+        } catch (error) {
+            console.error("Error during registration:", error);
+        } finally {
+            setIsLoading(false); // Hide loading state after registration process ends
+        }
     } else {
-      console.log("Please agree to the terms and conditions first.");
+        console.log("Please agree to the terms and conditions first.");
     }
   };
 
@@ -47,6 +57,7 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
 
   return (
     <div className="apply-as-owner-popup">
+      {isLoading && <Loading />}
       <div className="overlap-wrapper211">
        
           

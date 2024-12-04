@@ -364,6 +364,7 @@ const updateOnlineEarnings = async (ownerId, amount) => {
 
   return (
     <div className="payment-popup">
+      {isLoading && <Loading />}
       <div className="overlap11">
         <div className='groups88'>
           <button className="back" onClick={onBack}>
