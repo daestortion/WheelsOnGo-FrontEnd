@@ -24,6 +24,7 @@ import image9 from "../Images/image9.png";
 import line1 from "../Images/line11.png";
 import paymonggo from "../Images/paymongo.svg";
 import BookedPopup from './BookedPopup';
+import Loading from "../Components/Loading.js";
 
 const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
@@ -33,6 +34,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const [showTermsPopup, setShowTermsPopup] = useState(false);
   const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const termsBodyRef = useRef(null);
 
   const calculateDays = () => {
@@ -66,6 +68,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   };
 
   const handleCash = async () => {
+    setIsLoading(true);
     try {
         const orderPayload = {
             startDate,
@@ -107,8 +110,10 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         }
     } catch (error) {
         console.error("Error submitting cash order:", error);
+    } finally {
+        setIsLoading(false); // Ensure loading state is reset in both success and failure cases
     }
-};
+  };
 
 const updateCashEarnings = async (ownerId, amount) => {
   try {
