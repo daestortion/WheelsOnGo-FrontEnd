@@ -9,8 +9,7 @@ export const WaitVerificationPopup = ({ onClose }) => {
 
     return (
         <div className="for-verification">
-            <div className="overlap-wrapper">
-                <div className="overlap">
+                <div className="overlap1q">
                     <p className="wait-text-wrapper">Images have been uploaded. Please wait for verification.</p>
                     <div className="wait-group">
                         <div className="overlap-group" onClick={handleOkClick}>
@@ -18,7 +17,6 @@ export const WaitVerificationPopup = ({ onClose }) => {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };
