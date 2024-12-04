@@ -213,15 +213,16 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
         console.log("Creating a new order extension with the new end date...");
 
         // Make POST request to extend the order with the new end date
-        const extensionResponse = await axios.post(
-            `https://wheelsongo-backend.onrender.com/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
-            {}, // POST request; no request body needed as per the new API
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
+        const extensionResponse = await axios.put(
+          `https://wheelsongo-backend.onrender.com/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
+          {}, // PUT request; no request body needed as per the new API
+          {
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          }
+      );
+      
 
         if (extensionResponse.data) {
             console.log("New order extension created successfully:", extensionResponse.data);
