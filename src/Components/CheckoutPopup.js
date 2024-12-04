@@ -36,17 +36,17 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     const fetchBookedDates = async () => {
       try {
         setLoading(true); // Start loading when fetching booked dates
-        const response = await axios.get(`http://localhost:8080/order/getOrdersByCarId/${car.carId}`);
+        const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
-
-        // Filter out returned orders and map the booked dates
+  
+        // Filter out returned or terminated orders and map the booked dates
         const bookedRanges = orders
-          .filter(order => !order.returned) // Exclude returned orders
+          .filter(order => !order.returned && !order.terminated) // Exclude returned or terminated orders
           .map(order => ({
             start: new Date(order.startDate),
             end: new Date(order.endDate)
           }));
-
+  
         setBookedDates(bookedRanges);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
@@ -54,9 +54,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(false); // Stop loading after fetching
       }
     };
-
+  
     fetchBookedDates();
   }, [car.carId]);
+  
 
   const handleStartDateChange = (date) => {
     const normalizedDate = new Date(date.getTime());
@@ -235,7 +236,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
           <div className="overall2">
             <div className="groups5">      
               <div className="groups4">
-                <span className="text-wrapper-61">Pick-up Date</span>
+                <span className="text-wrapper-51">Pick-up Date</span>
                 <div className="div-wrapper12" onMouseEnter={clearErrorMessage}>
                   <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
                     {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
@@ -327,34 +328,37 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             )}
 
             <div className="wew11">
-              <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-              
-              {/* Display number of days */}
-              <div className="text-wrapper-8">
-                Days: {days}
+
+              <div className='divide1'>
+                <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                
+                {/* Display number of days */}
+                <div className="text-wrapper-8">
+                  Days: {days}
+                </div>
               </div>
 
               {!startDateOpen && !endDateOpen && (
-                <div className="delivery-options">
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Pickup"
-                      checked={deliveryOption === "Pickup"}
-                      onChange={handleDeliveryOptionChange}
-                    />
-                    Pickup
-                  </label>
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Delivery"
-                      checked={deliveryOption === "Delivery"}
-                      onChange={handleDeliveryOptionChange}
-                    />
-                    Delivery
-                  </label>
-                </div>
+                  <div className="delivery-options">
+                    <label className="radio-option">
+                      <input
+                        type="radio"
+                        value="Pickup"
+                        checked={deliveryOption === "Pickup"}
+                        onChange={handleDeliveryOptionChange}
+                      />
+                      Pickup
+                    </label>
+                    <label className="radio-option">
+                      <input
+                        type="radio"
+                        value="Delivery"
+                        checked={deliveryOption === "Delivery"}
+                        onChange={handleDeliveryOptionChange}
+                      />
+                      Delivery
+                    </label>
+                  </div>
               )}
             </div>
 

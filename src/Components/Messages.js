@@ -52,7 +52,7 @@ export const Messages = () => {
       const userId = JSON.parse(storedUser)?.userId;
       console.log("Fetching chats for userId: ", userId);
       const response = await axios.get(
-        `http://localhost:8080/chat/user/${userId}/chats`
+        `https://wheelsongo-backend.onrender.com/chat/user/${userId}/chats`
       );
       setChats(response.data);
       console.log("Chats fetched: ", response.data);
@@ -80,7 +80,7 @@ export const Messages = () => {
   const fetchNewMessages = async (chatId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/chat/${chatId}/messages?lastMessageId=${lastMessageId}`
+        `https://wheelsongo-backend.onrender.com/chat/${chatId}/messages?lastMessageId=${lastMessageId}`
       );
       const newMessages = response.data.filter(
         (msg) => !messageIds.has(msg.messageId)
@@ -103,7 +103,7 @@ export const Messages = () => {
   const fetchMessages = async (chatId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/chat/${chatId}/messages?limit=50`
+        `https://wheelsongo-backend.onrender.com/chat/${chatId}/messages?limit=50`
       );
       const initialMessages = response.data;
       setMessages(initialMessages);
@@ -118,7 +118,7 @@ export const Messages = () => {
     if (selectedChat && newMessage && currentUser) {
       try {
         await axios.post(
-          `http://localhost:8080/chat/${selectedChat.chatId}/send`,
+          `https://wheelsongo-backend.onrender.com/chat/${selectedChat.chatId}/send`,
           null,
           {
             params: {

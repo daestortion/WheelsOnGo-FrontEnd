@@ -48,50 +48,52 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
   return (
     <div className="apply-as-owner-popup">
       <div className="overlap-wrapper211">
-        <div className="overlap11">
-          <div className="ao-overlap-group">
+       
+          
             <p className="do-you-want-to-apply">
-              Do you want to <br /> apply as owner?
+              Do you want to apply as owner?
             </p>
-          </div>
-          <div className="group">
-            <div className="ao-div-wrapper" onClick={handleYesClick}>
-              <div className="text-wrapper">Yes</div>
+        
+        <div className="lines1">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+                disabled={!isCheckboxEnabled}
+              />
+              <label htmlFor="terms"></label>
+
+
+
+            <div className="ao-understood-and-agree">
+            <p className="ao-div">
+              by clicking, you are confirming that you have read,
+
+            </p>
+              <span className="span">understood and agree to the </span>
+              <span
+                className="ao-text-wrapper-2"
+                onClick={toggleTermsPopup}
+                style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+              >
+                terms and conditions
+              </span>
             </div>
           </div>
-          <div className="overlap-group-wrapper">
+
+        <div className="lines2">
+          <div className="ao-div-wrapper" onClick={handleYesClick}>
+              Yes
+            </div>
+
+
             <div className="ao-div-wrapper" onClick={handleNoClick}>
-              <div className="text-wrapper">No</div>
+              No
             </div>
+
           </div>
-          <div className="close" onClick={closePopup} style={{ cursor: "pointer" }}>
-            <img className="ao-vector" alt="Vector" src={close} />
-          </div>
-          <p className="ao-div">
-            by clicking, you are confirming that you have read,
-          </p>
-          <p className="ao-understood-and-agree">
-            <span className="span">understood and agree to the </span>
-            <span
-              className="ao-text-wrapper-2"
-              onClick={toggleTermsPopup}
-              style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-            >
-              terms and conditions
-            </span>
-            <span className="span">.</span>
-          </p>
-          <div className="ao-rectangle">
-            <input
-              type="checkbox"
-              id="terms"
-              checked={isChecked}
-              onChange={handleCheckboxChange}
-              disabled={!isCheckboxEnabled}
-            />
-            <label htmlFor="terms"></label>
-          </div>
-        </div>
+        
       </div>
 
       {showTermsPopup && (

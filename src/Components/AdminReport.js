@@ -49,7 +49,7 @@ export const AdminPageReports = () => {
   const fetchAdminReports = () => {
     setIsLoading(true);
     axios
-      .get("http://localhost:8080/report/getAll")
+      .get("https://wheelsongo-backend.onrender.com/report/getAll")
       .then((response) => {
         if (Array.isArray(response.data)) {
           setAdminReports(response.data);
@@ -73,7 +73,7 @@ export const AdminPageReports = () => {
   const checkAdminForExistingGroupChat = async (reportId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/chat/check?reportId=${reportId}`
+        `https://wheelsongo-backend.onrender.com/chat/check?reportId=${reportId}`
       );
       if (response.data && response.data.chatId) {
         setAdminSelectedChatId(response.data.chatId);
@@ -93,7 +93,7 @@ export const AdminPageReports = () => {
       try {
         const adminId = localStorage.getItem("adminId");
         const reportUserResponse = await axios.get(
-          `http://localhost:8080/user/getUserById/${adminSelectedReport.user.userId}`
+          `https://wheelsongo-backend.onrender.com/user/getUserById/${adminSelectedReport.user.userId}`
         );
         const reportUser = reportUserResponse.data;
 
@@ -103,7 +103,7 @@ export const AdminPageReports = () => {
         };
 
         const response = await axios.post(
-          `http://localhost:8080/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`,
+          `https://wheelsongo-backend.onrender.com/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`,
           chatEntity
         );
         const chatId = response.data.chatId;
@@ -119,7 +119,7 @@ export const AdminPageReports = () => {
   const fetchAdminMessages = async (chatId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/chat/${chatId}/messages`
+        `https://wheelsongo-backend.onrender.com/chat/${chatId}/messages`
       );
       setAdminMessages(response.data);
     } catch (error) {
@@ -132,7 +132,7 @@ export const AdminPageReports = () => {
       try {
         const adminId = localStorage.getItem("adminId");
         await axios.post(
-          `http://localhost:8080/chat/${adminSelectedChatId}/send`,
+          `https://wheelsongo-backend.onrender.com/chat/${adminSelectedChatId}/send`,
           null,
           {
             params: {
@@ -152,7 +152,7 @@ export const AdminPageReports = () => {
   const fetchAvailableUsers = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/chat/${adminSelectedChatId}/available-users`
+        `https://wheelsongo-backend.onrender.com/chat/${adminSelectedChatId}/available-users`
       );
       setSearchResults(response.data);
     } catch (error) {
@@ -163,7 +163,7 @@ export const AdminPageReports = () => {
   const handleAddUser = async (userId) => {
     try {
       await axios.post(
-        `http://localhost:8080/chat/${adminSelectedChatId}/addUser`,
+        `https://wheelsongo-backend.onrender.com/chat/${adminSelectedChatId}/addUser`,
         null,
         { params: { userId } }
       );

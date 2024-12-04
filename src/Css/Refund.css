@@ -1,0 +1,284 @@
+/* General Page Styling */
+.refund-page {
+    padding-top: 90px; /* Adjust padding to match the height of the header */
+    background-color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  /* Dashboard cards */
+  .dashboard-cards-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 10px;
+  }
+  
+  .cards {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px; /* Increased padding */
+    margin: 10px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px; /* Increase max width */
+    text-align: center;
+    border: 2px solid #d32f2f; /* Red border */
+  }
+  
+  .cards h2 {
+    color: #d32f2f; /* Red title */
+    font-size: 22px; /* Bigger title */
+    margin-bottom: 15px;
+  }
+  
+  .cards p {
+    font-size: 30px; /* Bigger text */
+    color: #4caf50; /* Green for positive numbers */
+    font-weight: bold;
+  }
+  
+  /* Request Funds Button */
+  .request-container {
+    text-align: center;
+    margin: 20px auto;
+  }
+  
+  .request-funds-btn {
+    background-color: #d32f2f;
+    color: white;
+    padding: 15px 30px; /* Bigger button */
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .request-funds-btn:hover {
+    background-color: #c62828;
+  }
+  
+  /* Request Form Styling */
+  .request-funds-form {
+    max-width: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    border: 2px solid #d32f2f;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .submit-btn {
+    background-color: #d32f2f;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .submit-btn:hover {
+    background-color: #c62828;
+  }
+  
+  /* Request Log Table */
+  .request-log {
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: #333;
+    overflow-x: auto;
+  }
+  
+ /* Refund Requests Table */
+.request-log table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .request-log th,
+  .request-log td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd; /* Light gray border */
+  }
+  
+  .request-log th {
+    background-color: #f44336; /* Red header background */
+    color: #ffffff; /* White text for headers */
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .request-log tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light gray for alternate rows */
+  }
+  
+  .request-log tr:nth-child(odd) {
+    background-color: #ffffff; /* White for other rows */
+  }
+  
+  .request-log tr:hover {
+    background-color: #f5f5f5; /* Light hover effect */
+    cursor: pointer;
+  }
+  
+  .request-log td {
+    color: #333333; /* Dark gray text for table data */
+  }
+  
+  .request-log .status-approved {
+    color: #4caf50; /* Green for approved */
+    font-weight: bold;
+  }
+  
+  .request-log .status-denied {
+    color: #f44336; /* Red for denied */
+    font-weight: bold;
+  }
+  
+  .request-log .status-pending {
+    color: #ff9800; /* Orange for pending */
+    font-weight: bold;
+  }
+  
+  /* Center "No refund requests found" text */
+  .request-log tbody tr td[colspan] {
+    text-align: center;
+    font-style: italic;
+    color: #757575; /* Neutral gray for empty state text */
+  }
+  
+  
+  /* Refresh Button */
+  .refresh-container {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .refresh-btn {
+    background-color: #d32f2f;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .refresh-btn:hover {
+    background-color: #c62828;
+  }
+  
+  @media (max-width: 1024px) {
+    .refund-page {
+      padding-top: 75px;
+    }
+  
+    .dashboard-cards-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .cards {
+      width: 90%;
+      margin: 10px 0;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .refund-page {
+      padding-top: 60px;
+    }
+  
+    .form-group input,
+    .form-group select {
+      padding: 10px;
+    }
+  
+    .submit-btn {
+      padding: 12px;
+    }
+  }
+
+  /* Refund Logic Note Styling */
+.refund-note {
+  background-color: #f9f9f9;
+  border-left: 4px solid #d32f2f;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.refund-note p {
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+.refund-note strong {
+  color: #d32f2f;
+}
+
+.request-log table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.request-log table, .request-log th, .request-log td {
+  border: 1px solid #ddd;
+}
+
+.request-log th, .request-log td {
+  padding: 10px;
+  text-align: left;
+}
+
+.request-log th {
+  background-color: red;
+}
+
+.request-log tr:nth-child(even) {
+  background-color:red;
+}
+
+.request-log tr:hover {
+  background-color: #f1f1f1;
+}
+
+  

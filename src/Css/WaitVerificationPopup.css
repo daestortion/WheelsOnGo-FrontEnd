@@ -20,13 +20,15 @@
   background: none;
 }
 
-.for-verification .overlap {
+.for-verification .overlap1q {
   background-color: #d7d1d1;
-  border-radius: 40px;
-  height: 410px;
+  border-radius: 20px;
   width: 100%; /* Ensure overlap is centered within overlap-wrapper */
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  max-width: 600px;
+  gap: 30px;
   align-items: center; /* Center content horizontally */
   justify-content: center; /* Center content vertically */
 }
@@ -34,9 +36,10 @@
 .for-verification .wait-text-wrapper {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 600;
   text-align: center;
+  margin: 0;
 }
 
 .for-verification .wait-group {
@@ -50,19 +53,17 @@
 .for-verification .overlap-group {
   background-color: #e80029;
   border-radius: 35px;
-  height: 71px;
-  width: 168px;
+  height: 40px;
+  width: 150px;
   display: flex;
   justify-content: center;
   align-items: center; /* Center button content */
-  top: 300px;
-  left: 360px;
 }
 
 .for-verification .wait-div {
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   text-align: center;
 }

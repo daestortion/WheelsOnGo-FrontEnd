@@ -52,7 +52,7 @@ export const OrderHistoryPage = () => {
     setIsCalendarLoading(true); // Start loading calendar
     try {
       const response = await axios.get(
-        `http://localhost:8080/order/getAllOrders`
+        `https://wheelsongo-backend.onrender.com/order/getAllOrders`
       );
       const orders = response.data;
 
@@ -86,7 +86,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching begins
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/getAllOrdersFromUser/${userId}`
+        `https://wheelsongo-backend.onrender.com/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
         setAllOrders(response.data);
@@ -107,7 +107,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `http://localhost:8080/car/getCarById/${carId}`
+        `https://wheelsongo-backend.onrender.com/car/getCarById/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -125,7 +125,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `http://localhost:8080/order/getOrdersByCarId/${carId}`
+        `https://wheelsongo-backend.onrender.com/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -143,7 +143,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
         const response = await axios.get(
-            `http://localhost:8080/user/${userId}/carOrders`
+            `https://wheelsongo-backend.onrender.com/user/${userId}/carOrders`
         );
         if (response.status === 200) {
             const ordersWithProofAndAcknowledgment = await Promise.all(
@@ -172,7 +172,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching user data
     try {
       const response = await axios.get(
-        `http://localhost:8080/user/getUserById/${userId}`
+        `https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`
       );
       if (response.status === 200) {
         setCurrentUser(response.data);
@@ -216,28 +216,9 @@ export const OrderHistoryPage = () => {
     setTimeout(() => setIsLoading(false), 500); // Simulate slight delay
   };
 
-  // Handle terminate order action
   const handleTerminate = async (orderId) => {
     setIsLoading(true);
     try {
-<<<<<<< Updated upstream
-      const response = await axios.put(
-        `http://localhost:8080/order/terminateOrder/${orderId}`
-      );
-      if (response.status === 200) {
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.orderId === orderId
-              ? { ...order, terminated: true, active: false, terminationDate: new Date().toISOString() }
-              : order
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error terminating the order:", error.response?.data || error.message);
-    } finally {
-      setIsLoading(false); // Ensure loading is stopped after the operation
-=======
         // Send the terminate request to the backend
         const response = await axios.put(`http://localhost:8080/order/terminateOrder/${orderId}`);
 
@@ -302,10 +283,9 @@ export const OrderHistoryPage = () => {
         // Log and show a detailed error message if the request fails
         console.error("Error terminating order:", error);
         alert("Error terminating the order. Please try again.");
->>>>>>> Stashed changes
     }
   };
-  
+
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
   };
@@ -320,7 +300,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:8080/order/approveOrder/${orderId}`,
+        `https://wheelsongo-backend.onrender.com/order/approveOrder/${orderId}`,
         { method: "PUT" }
       );
       if (response.ok) {
@@ -429,7 +409,7 @@ export const OrderHistoryPage = () => {
   const checkReturnProofExists = async (orderId) => {
     try {
         const response = await axios.get(
-            `http://localhost:8080/returnProof/exists/${orderId}`
+            `https://wheelsongo-backend.onrender.com/returnProof/exists/${orderId}`
         );
         return response.data; // Return true if proof exists
     } catch (error) {
@@ -440,7 +420,7 @@ export const OrderHistoryPage = () => {
 const checkOwnerAcknowledgment = async (orderId) => {
   try {
       const response = await axios.get(
-          `http://localhost:8080/returnProof/getAcknowledgmentStatus/${orderId}`
+          `https://wheelsongo-backend.onrender.com/returnProof/getAcknowledgmentStatus/${orderId}`
       );
       return response.data; // Return true if acknowledgment exists
   } catch (error) {
@@ -448,8 +428,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
       return false; // Assume no acknowledgment if an error occurs
   }
 };
-
-
   return (
     <div className="order-history-page">
       <Header />
@@ -490,9 +468,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
           <Loading /> // Show loading spinner while loading
         ) : (
           <div className="overlap213">
-
-         
-
               <div className="rectangle213">
                 <div className="table-container213">
                 <table className="order-table213">
@@ -549,6 +524,13 @@ const checkOwnerAcknowledgment = async (orderId) => {
                               </td>
                               {!showOwnedCars && !showOngoingRents && (
                                   <td>
+                                      <button
+                                          className="terminate"
+                                          onClick={() => handleTerminate(order.orderId)}
+                                          disabled={order.terminated}
+                                      >
+                                          Terminate
+                                      </button>
                                       <button
                                           className="return-cars"
                                           onClick={() => handleReturnCar(order.orderId)}
@@ -621,12 +603,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
               </table>
                 </div>
               </div>
-              
-         
-  
-
-            
-            
           </div>
         )}
       </div>

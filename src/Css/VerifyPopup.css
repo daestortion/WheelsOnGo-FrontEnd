@@ -9,6 +9,7 @@
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1050;
+    padding: 20px;
 }
 
 .vap-popupver .vap-wrapperver {
@@ -22,10 +23,11 @@
 
 .vap-popupver .vap-overlapver {
     background-color: #d7d1d1;
-    border-radius: 40px;
-    height: 560px;
+    border-radius: 20px;
     position: relative;
     display: flex;
+    width: 100%;
+    max-width: 600px;
     flex-direction: column; /* Arrange items vertically */
     justify-content: center; /* Center items vertically */
     gap: 20px; /* Adjust this value for the desired gap */
@@ -36,34 +38,33 @@
 .vap-popupver .vap-text-wrapperver {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 600;
-    letter-spacing: 0.62px;
     text-align: center;
     width: 100%;
     position: relative;
     margin: 0;
-    padding-bottom: 30px;
 }
 
 .vap-group-wrapperver, 
 .vap-overlap-2ver {
     background-color: #ffffff;
-    border-radius: 35px;
-    height: 71px;
+    border-radius: 25px;
+    height: 50px;
     width: 100%;
     display: flex;
     justify-content: space-between; /* Ensure the text is on the left and button on the right */
     align-items: center; /* Vertically center items */
     padding: 0 20px;
     position: relative;
+    padding-right: 10px;
 }
 
 
 .vap-popupver .vap-groupver {
     height: 50px;
     left: 485px;
-    position: absolute;
+    position: relative;
     top: 10px;
     width: 212px;
 }
@@ -71,12 +72,12 @@
 .vap-popupver .vap-div-wrapperver1 {
     background-color: #e80029;
     border-radius: 35px;
-    height: 50px;
-    width: 210px;
+    height: 40px;
+    width: 120px;
     cursor: pointer;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     text-align: center; 
     white-space: nowrap;
@@ -96,12 +97,12 @@
 .vap-popupver .vap-div-wrapperver2 {
     background-color: #e80029;
     border-radius: 35px;
-    height: 50px;
-    width: 210px;
+    height: 40px;
+    width: 120px;
     cursor: pointer;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     text-align: center; 
     white-space: nowrap;
@@ -114,13 +115,11 @@
 }
 
 .closever {
-    margin-left: auto; /* Pushes it to the right */
     position: relative;
     display: flex;
-    right: 20px;
-    align-self: flex-end; /* Align it to the top-right (or flex-end for bottom-right) */
+    height: 35px;
+    width: 35px;
 }
-
 
 
 .vap-div-wrapperver2:hover {
@@ -129,7 +128,7 @@
 
 .vap-popupver .vap-text-2ver {
     color: #848484;
-    font-size: 30px;
+    font-size: 20px;
     line-height: normal;
     white-space: nowrap;
     width: 400px;
@@ -150,7 +149,7 @@
 
 .vap-popupver .vap-text-3ver {
     color: #848484;
-    font-size: 30px;
+    font-size: 20px;
     line-height: normal;
     white-space: nowrap;
     width: 400px;
@@ -170,7 +169,7 @@
 .vap-popupver .vap-overlap-3ver {
     background-color: #e80029;
     border-radius: 35px;
-    height: 71px;
+    height: 45px;
     width: 100%;
     cursor: pointer;
     display: flex;
@@ -178,7 +177,7 @@
     align-items: center;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     text-align: center; 
     white-space: nowrap;
@@ -194,7 +193,7 @@
     font-size: 20px;
     left: 258px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: center;
     top: 22px;
     width: 200px;
@@ -205,4 +204,57 @@
     color: #000000;
     position: relative;
     text-align: center;
+}
+
+.line1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+@media (max-width: 500px) {
+
+    .vap-popupver .vap-text-wrapperver{
+        font-size: 20px;
+    }
+
+    .closever{
+        height: 25px;
+        width: 25px;
+    }
+
+    .vap-group-wrapperver, .vap-overlap-2ver{
+        height: 40px;
+        padding-left: 10px;
+    }
+
+    .vap-popupver .vap-text-2ver{
+        font-size: 15px;
+    }
+
+    .vap-popupver .vap-text-3ver{
+        font-size: 15px;
+    }
+
+    .vap-popupver .vap-text-info211ver{
+        font-size: 12px;
+    }
+
+    .vap-popupver .vap-div-wrapperver1{
+        height: 30px;
+        font-size: 11px;
+    }
+
+    .vap-popupver .vap-div-wrapperver2{
+        height: 30px;
+        font-size: 11px;
+    }
+
+    .vap-popupver .vap-overlap-3ver{
+        height: 30px;
+        font-size: 12px;
+    }
 }

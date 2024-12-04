@@ -12,7 +12,7 @@ export const RegisteredPopup = () => {
   return (
     <div className="successful-register">
         <div className="overlap">
-          <h1 className="ok-text-wrapper">You have successfully registered.</h1>
+          <h1 className="ok-text-wrapper">You have successfully registered. Please check your email for activation.</h1>
             <button className="overlap-group23" onClick={handleOkClick}>
               <span className="ok-div">OK</span>
             </button>

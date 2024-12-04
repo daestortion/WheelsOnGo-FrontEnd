@@ -76,7 +76,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             paymentOption: "Cash",
         };
 
-        const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
+        const response = await axios.post(`https://wheelsongo-backend.onrender.com/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
 
         if (response.data) {
             setOrder(response.data);
@@ -94,7 +94,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             console.log("Payment Data being sent to the backend:", paymentData);
 
             // Create the payment with 'pending' status for cash
-            const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
+            const paymentResponse = await axios.post("https://wheelsongo-backend.onrender.com/api/payment/create", paymentData, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
@@ -113,7 +113,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 const updateCashEarnings = async (ownerId, amount) => {
   try {
       const response = await axios.put(
-          `http://localhost:8080/ownerWallet/addToCashEarnings/${ownerId}`,
+          `https://wheelsongo-backend.onrender.com/ownerWallet/addToCashEarnings/${ownerId}`,
           null,
           { params: { amount } }
       );
@@ -128,7 +128,7 @@ const updateCashEarnings = async (ownerId, amount) => {
     const amountInCentavos = Math.round(totalPrice * 100);
 
     try {
-      const response = await fetch('http://localhost:8080/api/payment/create-link', {
+      const response = await fetch('https://wheelsongo-backend.onrender.com/api/payment/create-link', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ const updateCashEarnings = async (ownerId, amount) => {
                 deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
             };
 
-            const response = await axios.post(`http://localhost:8080/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
+            const response = await axios.post(`https://wheelsongo-backend.onrender.com/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
@@ -202,7 +202,7 @@ const updateCashEarnings = async (ownerId, amount) => {
 
         console.log("Payment Data being sent to the backend:", paymentData);
 
-        const paymentResponse = await axios.post("http://localhost:8080/api/payment/create", paymentData, {
+        const paymentResponse = await axios.post("https://wheelsongo-backend.onrender.com/api/payment/create", paymentData, {
             headers: { 'Content-Type': 'application/json' },
         });
 
@@ -224,7 +224,7 @@ const updateCashEarnings = async (ownerId, amount) => {
 const updateOnlineEarnings = async (ownerId, amount) => {
   try {
       const response = await axios.put(
-          `http://localhost:8080/ownerWallet/addToOnlineEarnings/${ownerId}`,
+          `https://wheelsongo-backend.onrender.com/ownerWallet/addToOnlineEarnings/${ownerId}`,
           null,
           { params: { amount } }
       );
@@ -250,10 +250,10 @@ const updateOnlineEarnings = async (ownerId, amount) => {
 
   const generateReceipt = async () => {
     try {
-      const renterResponse = await axios.get(`http://localhost:8080/user/getUserById/${userId}`);
+      const renterResponse = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
       const renter = renterResponse.data;
 
-      const ownerResponse = await axios.get(`http://localhost:8080/user/getUserById/${car.owner.userId}`);
+      const ownerResponse = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${car.owner.userId}`);
       const owner = ownerResponse.data;
 
       const doc = new jsPDF();
@@ -365,7 +365,7 @@ const updateOnlineEarnings = async (ownerId, amount) => {
               <img className="vector" alt="Vector" src={back} />
           </button>
           <div className="text-wrapper">Payment</div>
-          <button className="closes" onClick={onClose}>
+          <button className="closess" onClick={onClose}>
               <img className="vector-2" alt="Vector" src={close} />
           </button>
         </div>
@@ -385,36 +385,37 @@ const updateOnlineEarnings = async (ownerId, amount) => {
               </div>
             </div>
             <div className='groups33'>
-              <div className="text-wrapper-611">Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-              <div className="text-wrapper-81">Pick-up Date: {startDate ? startDate.toLocaleDateString() : "N/A"}</div>
-              <div className="text-wrapper-77">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+              <div className="text-wrapper-611">Return Date: <span className="normal-text"> {endDate ? endDate.toLocaleDateString() : "N/A"}</span></div>
+              <div className="text-wrapper-81">Pick-up Date: <span className="normal-text"> {startDate ? startDate.toLocaleDateString() : "N/A"} </span></div>
+              <div className="text-wrapper-77">Total: <span className="normal-text"> ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span></div>
               <div className="text-wrapper-99">
                 {deliveryOption === "Pickup" ? (
-                  <>Pick-up Location: {car.address}</>
+                  <>Pick-up Location: <div className="normal-textss"> {car.address} </div></>
                 ) : (
-                  <>Delivery Location: {deliveryAddress}</>
+                  <>Delivery Location: <div className="normal-textss"> {deliveryAddress} </div></>
                 )}
               </div>
             </div>
 
             <div className="terms-conditions" style={{ marginTop: '15px' }}>
-  <input
-    type="checkbox"
-    id="termsCheckbox"
-    checked={isTermsAccepted}
-    onChange={handleTermsCheckbox} // Only toggle check state here
-    style={{ width: '30px', height: '30px', marginRight: '10px' }}
-  />
-  <label htmlFor="termsCheckbox" style={{ color: 'red', fontSize: '18px', lineHeight: '1.2', display: 'inline-block' }}>
-    <span>by clicking, you are confirming that you have read,</span><br />
-    <span>understood and agree to the </span>
-    <a
-      onClick={toggleTermsPopup} // Open modal only when the link is clicked
-      style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-    >
-      terms and conditions
-    </a>.
-  </label>
+            <input
+                type="checkbox"
+                id="termsCheckbox"
+                checked={isTermsAccepted}
+                onChange={handleTermsCheckbox} // Only toggle check state here
+                className="terms-checkbox"
+              />
+              <label htmlFor="termsCheckbox" className="terms-label">
+                <span>by clicking, you are confirming that you have read,</span><br />
+                <span>understood and agree to the </span>
+                <a
+                  onClick={toggleTermsPopup} // Open modal only when the link is clicked
+                  className="terms-link"
+                >
+                  terms and conditions
+                </a>.
+              </label>
+
 </div>
           </div>
           <div className='groups66'>

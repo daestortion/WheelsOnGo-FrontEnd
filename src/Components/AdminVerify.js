@@ -19,7 +19,7 @@ const AdminVerify = () => {
     setIsLoading(true);
 
     axios
-      .get("http://localhost:8080/verification/getAllVerification")
+      .get("https://wheelsongo-backend.onrender.com/verification/getAllVerification")
       .then((response) => {
         const verificationsData = response.data;
         setVerifications(verificationsData);
@@ -33,7 +33,7 @@ const AdminVerify = () => {
 
         const userRequests = uniqueUserIds.map((userId) =>
           axios
-            .get(`http://localhost:8080/user/getUserById/${userId}`)
+            .get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`)
             .then((userResponse) => {
               setUsers((prevUsers) => ({
                 ...prevUsers,
@@ -68,7 +68,7 @@ const AdminVerify = () => {
   const handleApprove = (vId) => {
     setIsLoading(true);
     axios
-      .put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=1`)
+      .put(`https://wheelsongo-backend.onrender.com/verification/changeStatus/${vId}?newStatus=1`)
       .then(() => {
         setVerifications((prev) =>
           prev.map((verification) =>
@@ -87,7 +87,7 @@ const AdminVerify = () => {
   const handleDeny = (vId) => {
     setIsLoading(true);
     axios
-      .put(`http://localhost:8080/verification/changeStatus/${vId}?newStatus=2`)
+      .put(`https://wheelsongo-backend.onrender.com/verification/changeStatus/${vId}?newStatus=2`)
       .then(() => {
         setVerifications((prev) =>
           prev.map((verification) =>

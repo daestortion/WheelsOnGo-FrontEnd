@@ -64,42 +64,38 @@ const Header = () => {
   }, [sideNavOpen]);
 
   return (
-    <div className="overlap-233">
+  <div className="overlap-233">
       <img className="sideview" alt="Sideview" onClick={handleHomeClick} src={sidelogo} />
-      
-      {/* Menu icon should always be visible for side nav toggling */}
+
       {isAuthenticated && (
         <div className="menu-icon right" onClick={toggleSideNav}>&#9776;</div>
       )}
 
-      {/* Conditionally render the side-nav based on isAuthenticated */}
       {isAuthenticated && (
         <div ref={sideNavRef} className={`side-nav ${sideNavOpen ? 'open' : ''}`}>
           <div className="close-btn" onClick={closeSideNav}>&times;</div>
-        <div className="top-links">
-        <a href="#home" onClick={handleHomeClick} className="home-link">
-          <img src={home} alt="Home Icon" className="link-icon" /> Home
-        </a>
-        <a href="#cars" onClick={handleCarsClick} className="cars-link">
-          <img src={cars} alt="Cars Icon" className="link-icon" /> Cars
-        </a>
-        <a href="#about" onClick={handleAboutClick} className="about-link">
-          <img src={about} alt="About Icon" className="link-icon" /> About
-        </a>
-
-        </div>
-        <div className="bottom-links">
-        <a href="#userprofile" onClick={goToProfile} className="profile-link">
-          <img src={profiles} alt="Profile Icon" className="link-icon" /> Profile
-        </a>
-        <a href="#logout" onClick={handleLogout} className="logout-link">
-          <img src={logouts} alt="Logout Icon" className="link-icon" /> Logout
-        </a>
-        </div>
+          <div className="top-links">
+            <a href="#home" onClick={handleHomeClick} className="home-link">
+              <img src={home} alt="Home Icon" className="link-icon" /> Home
+            </a>
+            <a href="#cars" onClick={handleCarsClick} className="cars-link">
+              <img src={cars} alt="Cars Icon" className="link-icon" /> Cars
+            </a>
+            <a href="#about" onClick={handleAboutClick} className="about-link">
+              <img src={about} alt="About Icon" className="link-icon" /> About
+            </a>
           </div>
+          <div className="bottom-links">
+            <a href="#userprofile" onClick={goToProfile} className="profile-link">
+              <img src={profiles} alt="Profile Icon" className="link-icon" /> Profile
+            </a>
+            <a href="#logout" onClick={handleLogout} className="logout-link">
+              <img src={logouts} alt="Logout Icon" className="link-icon" /> Logout
+            </a>
+          </div>
+        </div>
       )}
 
-      {/* Conditionally render based on isAuthenticated */}
       {isAuthenticated ? (
         <div className="header-items">
           <div className="text-wrapper-4" onClick={handleHomeClick}>Home</div>

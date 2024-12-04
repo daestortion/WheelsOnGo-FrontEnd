@@ -1,17 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import "../Css/BalancePage.css";
+import "../Css/Refund.css";
 import Header from "../Components/Header";
 
-const BalancePage = () => {
+const RefundPage = () => {
   const [walletData, setWalletData] = useState({
-    credit: 0,
-    debit: 0,
-    refundable: 0,
+    refundAmount: 0,
+    terminationFee: 0,
   });
-  const navigate = useNavigate();
-  const [sideNavOpen, setSideNavOpen] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -24,55 +20,49 @@ const BalancePage = () => {
   const [amount, setAmount] = useState("");
   const [formError, setFormError] = useState(null);
   const [requests, setRequests] = useState([]);
-  const [proofImage, setProofImage] = useState(null); // State for proof image modal
+
+  const fetchWalletData = useCallback(async (userId) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `https://wheelsongo-backend.onrender.com/wallet/getRefundDetails/${userId}`
+      );
+      setWalletData({
+        refundAmount: response.data.refundAmount || 0,
+        terminationFee: response.data.terminationFee || 0,
+      });
+    } catch (error) {
+      console.error("Error fetching refund details:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);  
+
+  const fetchUserRequests = useCallback(async (userId) => {
+    try {
+      const response = await axios.get(
+        `https://wheelsongo-backend.onrender.com/request-form/getUserRequests/${userId}`
+      );
+      setRequests(response.data || []);
+    } catch (error) {
+      console.error("Error fetching user requests:", error);
+    }
+  }, []); 
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.userId);
-    }
-  }, []);
 
-  const fetchWalletData = useCallback(async (id) => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/ownerWallet/getWalletDetails/${id}`
-      );
-      const { onlineEarning, cashEarning, cashRefundable } = response.data;
-      setWalletData({
-        credit: cashEarning,
-        debit: onlineEarning,
-        refundable: cashRefundable,
-      });
-    } catch (error) {
-      console.error("Error fetching wallet data:", error);
-    } finally {
+      fetchWalletData(parsedUser.userId);
+      fetchUserRequests(parsedUser.userId);
+    } else {
+      console.error("User not found in local storage.");
       setIsLoading(false);
     }
-  }, []);
-
-  const fetchUserRequests = useCallback(async (id) => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/request-form/getUserRequests/${id}`
-      );
-      setRequests(response.data);
-    } catch (error) {
-      console.error("Error fetching user requests:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      fetchWalletData(userId);
-      fetchUserRequests(userId);
-    }
-  }, [userId, fetchWalletData, fetchUserRequests]);
+  }, [fetchWalletData, fetchUserRequests]);
 
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
@@ -86,10 +76,17 @@ const BalancePage = () => {
       setFormError("Please fill in all required fields.");
       return;
     }
+
+    if (parseFloat(amount) > walletData.refundAmount) {
+      setFormError("Amount exceeds available refund balance.");
+      return;
+    }
+
     if (requestType === "gcash" && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
       return;
     }
+
     if (
       requestType === "bank" &&
       (!accountName ||
@@ -102,19 +99,12 @@ const BalancePage = () => {
       return;
     }
 
-    let requestData = {
+    const requestData = {
       requestType,
       amount: parseFloat(amount),
+      ...(requestType === "gcash" && { fullName, gcashNumber }),
+      ...(requestType === "bank" && { accountName, bankName, accountNumber }),
     };
-    if (requestType === "gcash") {
-      requestData.fullName = fullName;
-      requestData.gcashNumber = gcashNumber;
-    }
-    if (requestType === "bank") {
-      requestData.accountName = accountName;
-      requestData.bankName = bankName;
-      requestData.accountNumber = accountNumber;
-    }
 
     try {
       await axios.post(
@@ -123,45 +113,16 @@ const BalancePage = () => {
       );
       await fetchWalletData(userId);
       await fetchUserRequests(userId);
-      alert("Request submitted successfully!");
+      alert("Refund request submitted successfully!");
       setIsFormOpen(false);
     } catch (error) {
-      alert("Failed to submit the request.");
+      alert("Failed to submit the refund request.");
       console.error(error);
     }
   };
 
-  const refreshWalletData = async () => {
-    if (userId) {
-      await fetchWalletData(userId);
-      await fetchUserRequests(userId);
-    }
-  };
-
-  const handleProofView = async (requestId) => {
-    try {
-      const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/request-form/getProofImage/${requestId}`,
-        { responseType: "arraybuffer" }
-      );
-      const blob = new Blob([response.data], { type: "image/png" });
-      const imageUrl = URL.createObjectURL(blob);
-      setProofImage(imageUrl);
-    } catch (error) {
-      console.error("Error fetching proof image:", error);
-      alert("Unable to fetch proof of payment.");
-    }
-  };
-
-  const handleRefundClick = () => {
-    navigate('/refund');
-    setSideNavOpen(false);
-  };
-
-  const closeModal = () => setProofImage(null);
-
   return (
-    <div className="balance-page">
+    <div className="refund-page">
       <Header />
       <div className="dashboard-cards-container">
         {isLoading ? (
@@ -169,30 +130,10 @@ const BalancePage = () => {
         ) : (
           <>
             <div className="cards">
-              <h2>Total Outstanding Balance</h2>
+              <h2>Total Refund Amount</h2>
               <p>
                 ₱
-                {walletData.credit.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }) || "0.00"}
-              </p>
-            </div>
-            <div className="cards">
-              <h2>Total Online Earnings (Withdrawable)</h2>
-              <p>
-                ₱
-                {walletData.debit.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }) || "0.00"}
-              </p>
-            </div>
-            <div className="cards">
-              <h2>Cancelled/Terminated Orders</h2>
-              <p>
-                ₱
-                {walletData.refundable.toLocaleString("en-US", {
+                {walletData.refundAmount.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) || "0.00"}
@@ -201,12 +142,20 @@ const BalancePage = () => {
           </>
         )}
       </div>
-
-      <button className="request-funds-btn" onClick={handleRefundClick}> Request Refund</button>
-
+      <div className="refund-note">
+        <p>
+          <strong>Refund Logic:</strong>
+          <br />
+          - If the order is terminated/canceled 3 or more days before the booking date, only 85% of the total amount paid is refundable.
+          <br />
+          - If canceled 1 to 2 days before the booking date, only 50% of the total amount paid is refundable.
+          <br />
+          - If canceled on the day of the booking, there is no refund.
+        </p>
+      </div>
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
-          {isFormOpen ? "Close Request Form" : "Request Funds"}
+          {isFormOpen ? "Close Refund Request Form" : "Request Refund"}
         </button>
         {isFormOpen && (
           <form onSubmit={handleSubmit} className="request-funds-form">
@@ -300,21 +249,22 @@ const BalancePage = () => {
                 required
               />
               <small>
-                Available Balance: ₱
-                {walletData.credit?.toLocaleString("en-US", {
+                Available Refundable Amount: ₱
+                {walletData.refundAmount.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) || "0.00"}
               </small>
             </div>
             <button type="submit" className="submit-btn">
-              Submit Request
+              Submit Refund Request
             </button>
           </form>
         )}
       </div>
+
       <div className="request-log">
-        <h3>Your Requests</h3>
+        <h3>Your Refund Requests</h3>
         <table>
           <thead>
             <tr>
@@ -323,92 +273,39 @@ const BalancePage = () => {
               <th>Amount</th>
               <th>Submitted On</th>
               <th>Status</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {requests.length > 0 ? (
               requests.map((request) => (
-                <tr key={request.requestId}>
+                <tr key={request.id}>
                   <td>{request.requestType}</td>
                   <td>
                     {request.requestType === "gcash" ? (
                       <>
-                        <strong>Full Name:</strong> {request.fullName}
-                        <br />
-                        <strong>GCash Number:</strong> {request.gcashNumber}
+                        GCash - {request.gcashNumber} ({request.fullName})
                       </>
-                    ) : request.requestType === "bank" ? (
+                    ) : (
                       <>
-                        <strong>Account Name:</strong> {request.accountName}
-                        <br />
-                        <strong>Bank Name:</strong> {request.bankName}
-                        <br />
-                        <strong>Account Number:</strong>{" "}
-                        {request.accountNumber}
+                        Bank - {request.bankName} ({request.accountName}) - {request.accountNumber}
                       </>
-                    ) : (
-                      "N/A"
                     )}
                   </td>
-                  <td>₱{request.amount.toFixed(2)}</td>
-                  <td>
-                    {new Date(request.createdAt).toLocaleString("en-US")}
-                  </td>
-                  <td>
-                    <span
-                      className={
-                        request.status === "approved"
-                          ? "status-approved"
-                          : request.status === "denied"
-                          ? "status-denied"
-                          : "status-pending"
-                      }
-                    >
-                      {request.status || "pending"}
-                    </span>
-                  </td>
-                  <td>
-                    {request.proofImage ? (
-                      <button
-                        onClick={() => handleProofView(request.requestId)}
-                        className="proof-view-btn"
-                      >
-                        See Proof of Payment
-                      </button>
-                    ) : (
-                      "No Proof"
-                    )}
-                  </td>
+                  <td>₱{request.amount.toLocaleString("en-US")}</td>
+                  <td>{new Date(request.createdAt).toLocaleString()}</td>
+                  <td>{request.status}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6">No requests found.</td>
+                <td colSpan="5">No requests found.</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-
-      {/* Modal for Proof of Payment */}
-      {proofImage && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close-button" onClick={closeModal}>
-              &times;
-            </span>
-            <img src={proofImage} alt="Proof of Payment" />
-          </div>
-        </div>
-      )}
-      <div className="refresh-container">
-        <button onClick={refreshWalletData} className="refresh-btn">
-          Refresh Balance
-        </button>
-      </div>
     </div>
   );
 };
 
-export default BalancePage;
+export default RefundPage;

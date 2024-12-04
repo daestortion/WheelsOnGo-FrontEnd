@@ -32,7 +32,7 @@ export const Dashboard = () => {
           <button className="div-wrapper" onClick={handleCarsClick}>Book Now</button>
         </div>
 
-        <div className="overlap-2">
+        <div className="overlap-2ss">
           <div className="image-group">
             <img className="rectangle" alt="Rectangle" src={car1} />
             <img className="rectangle-2" alt="Rectangle" src={car3} />

@@ -12,19 +12,19 @@ export const CantrentownPopup = () => {
 
   return (
     <div className="cantrentown-popup">
-      <div className="overlap-wrapperwe">
+     
         <div className="overlapwew">
           <p className="you-cannot-rent-your1q">
             You cannot rent <br />
             your own car.
           </p>
-          <div className="groupza">
+
             <button className="overlap-group212" onClick={handleOkClick}>
-              <div className="text-wrapperwqq">OK</div>
+             OK
             </button>
-          </div>
+
         </div>
-      </div>
+    
     </div>
   );
 };

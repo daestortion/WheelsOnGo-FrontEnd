@@ -9,6 +9,7 @@
   justify-content: center;  /* Center horizontally */
   background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
   z-index: 1050;  /* Ensure it's above all other content */
+  padding: 20px;
 }
 
 .terms-popup {
@@ -49,9 +50,15 @@
 
 .apply-as-owner-popup .overlap-wrapper211 {
   background-color: #ffffff;
-  height: 473px;
-  width: 907px;
-  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 20px;
+  gap: 30px;
+  padding: 30px;
 }
 
 .apply-as-owner-popup .overlap11 {
@@ -71,15 +78,12 @@
 .apply-as-owner-popup .do-you-want-to-apply {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 50px;
+  font-size: 25px;
   font-weight: 600;
-  left: 0;
-  letter-spacing: 0.62px;
   line-height: normal;
-  position: absolute;
+  position: relative;
   text-align: center;
-  top: -40px;
-  width: 623px;
+  margin: 0;
 }
 
 .apply-as-owner-popup .group {
@@ -92,24 +96,20 @@
 
 .apply-as-owner-popup .ao-div-wrapper {
   background-color: #e80029;
-  border-radius: 35px;
-  height: 71px;
+  border-radius: 25px;
+  height: 40px;
   position: relative;
-  width: 155px;
-}
-
-.apply-as-owner-popup .text-wrapper {
+  width: 130px;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
-  left: 35px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
   text-align: center;
-  top: 22px;
-  width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .apply-as-owner-popup .overlap-group-wrapper {
@@ -141,16 +141,15 @@
 .apply-as-owner-popup .ao-div {
   color: #e32128;
   font-family: "Inter-Medium", Helvetica;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
-  height: 34px;
-  left: 231px;
-  letter-spacing: 0.25px;
-  line-height: 140px;
-  position: absolute;
-  top: 170px;
+  position: relative;
   white-space: nowrap;
-  width: 504px;
+  margin: 0;
+}
+
+.span{
+  font-size: 15px
 }
 
 .apply-as-owner-popup .ao-understood-and-agree {
@@ -158,14 +157,9 @@
   font-family: "Inter-Medium", Helvetica;
   font-size: 20px;
   font-weight: 500;
-  height: 34px;
-  left: 231px;
-  letter-spacing: 0.25px;
-  line-height: 140px;
-  position: absolute;
-  top: 200px;
+  position: relative;
   white-space: nowrap;
-  width: 504px;
+
 }
 
 .apply-as-owner-popup .span {
@@ -175,6 +169,7 @@
 .apply-as-owner-popup .ao-text-wrapper-2 {
   letter-spacing: 0.05px;
   text-decoration: underline;
+  font-size: 15px;
 }
 
 .apply-as-owner-popup .ao-rectangle {
@@ -204,6 +199,7 @@
   border: 2px solid #e32128;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
   position: relative;
 }
 
@@ -316,3 +312,44 @@
   cursor: not-allowed;
 }
 
+.lines1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  gap: 20px;
+}
+
+.lines2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  gap: 30px;
+}
+
+@media (max-width: 500px) {
+
+  .apply-as-owner-popup input[type="checkbox"] + label{
+    width: 20px;
+    height: 20px;
+  }
+
+  .apply-as-owner-popup .ao-div{
+    font-size: 12px;
+  }
+
+  .span{
+    font-size: 12px;
+  }
+
+  .apply-as-owner-popup .ao-text-wrapper-2{
+    font-size: 12px;
+  }
+
+  .lines1{
+    gap: 10px;
+  }
+}

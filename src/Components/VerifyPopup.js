@@ -48,7 +48,7 @@ export const VerifyPopup = ({ closePopup }) => {
 
             console.log('Form Data:', formData);
 
-            const response = await fetch('http://localhost:8080/verification/insertVerification', {
+            const response = await fetch('https://wheelsongo-backend.onrender.com/verification/insertVerification', {
                 method: 'POST',
                 body: formData
             });
@@ -75,14 +75,15 @@ export const VerifyPopup = ({ closePopup }) => {
 
     return (
         <div className="vap-popupver">
-            <div className="vap-wrapperver">
                 <div className="vap-overlapver">
-    
-                    <div className="closever" onClick={closePopup}>
-                        <img className="vectorver" alt="Close" src={close} />
-                    </div>
-    
+
+                <div className='line1'>
                     <h1 className="vap-text-wrapperver">Verify Account</h1>
+                        <div className="closever" onClick={closePopup}>
+                            <img className="vectorver" alt="Close" src={close} />
+                        </div>
+                    </div>
+                    
     
                     <div className="vap-group-wrapperver">
 
@@ -125,7 +126,7 @@ export const VerifyPopup = ({ closePopup }) => {
 
                     
                 </div>
-            </div>
+          
             {showWaitVerificationPopup && (
                 <WaitVerificationPopup onClose={handleCloseWaitVerificationPopup} />
             )}
