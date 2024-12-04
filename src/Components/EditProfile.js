@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import Loading from "../Components/Loading.js"; // Import Loading component
 import ProfileUpdatePopup from '../Components/ProfileUpdatePopup';
 import "../Css/EditProfile.css";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const EditProfile = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
@@ -55,7 +56,7 @@ export const EditProfile = () => {
         }
     
         try {
-            const response = await fetch('https://wheelsongo-backend.onrender.com/user/updateUser', {
+            const response = await fetch('${BASE_URL}/user/updateUser', {
                 method: 'PUT',
                 body: formData,
             });

@@ -10,6 +10,7 @@ import close from "../Images/close.svg";
 import vector7 from "../Images/vector7.png";
 import Loading from "./Loading"; // Import Loading component
 import PaymentPopup from "./PaymentPopup";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const CheckoutPopup = ({ car, closePopup }) => {
   const [startDate, setStartDate] = useState(null);
@@ -36,7 +37,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
     const fetchBookedDates = async () => {
       try {
         setLoading(true); // Start loading when fetching booked dates
-        const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrdersByCarId/${car.carId}`);
+        const response = await axios.get(`${BASE_URL}/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
   
         // Filter out returned or terminated orders and map the booked dates

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const ChatPage = () => {
   const { chatId } = useParams(); // Get chatId from the URL

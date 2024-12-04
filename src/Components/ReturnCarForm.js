@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "../Components/Header";
 import Modal from "react-modal";
 import "../Css/ReturnCarForm.css";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 Modal.setAppElement("#root");
 
@@ -23,7 +24,7 @@ function AcknowledgementForm() {
     const fetchReturnDetails = async () => {
       try {
         const response = await axios.get(
-          `https://wheelsongo-backend.onrender.com/returnProof/getReturnDetails/${orderId}`
+          `${BASE_URL}/returnProof/getReturnDetails/${orderId}`
         );
         if (response.status === 200) {
           setValue("carOwner", response.data.carOwner);
@@ -68,7 +69,7 @@ function AcknowledgementForm() {
 
     try {
         await axios.put(
-            `https://wheelsongo-backend.onrender.com/returnProof/updateReturnProof/${orderId}`,
+            `${BASE_URL}/returnProof/updateReturnProof/${orderId}`,
             formData,
             { headers: { "Content-Type": "multipart/form-data" } }
         );

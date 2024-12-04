@@ -25,6 +25,7 @@ import line1 from "../Images/line11.png";
 import paymonggo from "../Images/paymongo.svg";
 import BookedPopup from './BookedPopup';
 import Loading from "../Components/Loading.js";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress, totalPrice, onClose, onBack, userId, carId }) => {
   const [showBookedPopup, setShowBookedPopup] = useState(false);
@@ -79,7 +80,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             paymentOption: "Cash",
         };
 
-        const response = await axios.post(`https://wheelsongo-backend.onrender.com/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
+        const response = await axios.post(`${BASE_URL}/order/insertOrder?userId=${userId}&carId=${carId}`, orderPayload);
 
         if (response.data) {
             setOrder(response.data);
@@ -97,7 +98,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             console.log("Payment Data being sent to the backend:", paymentData);
 
             // Create the payment with 'pending' status for cash
-            const paymentResponse = await axios.post("https://wheelsongo-backend.onrender.com/api/payment/create", paymentData, {
+            const paymentResponse = await axios.post("${BASE_URL}/api/payment/create", paymentData, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
@@ -118,7 +119,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
 const updateCashEarnings = async (ownerId, amount) => {
   try {
       const response = await axios.put(
-          `https://wheelsongo-backend.onrender.com/ownerWallet/addToCashEarnings/${ownerId}`,
+          `${BASE_URL}/ownerWallet/addToCashEarnings/${ownerId}`,
           null,
           { params: { amount } }
       );
@@ -133,7 +134,7 @@ const updateCashEarnings = async (ownerId, amount) => {
     const amountInCentavos = Math.round(totalPrice * 100);
 
     try {
-      const response = await fetch('https://wheelsongo-backend.onrender.com/api/payment/create-link', {
+      const response = await fetch(`${BASE_URL}/api/payment/create-link`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -184,7 +185,7 @@ const updateCashEarnings = async (ownerId, amount) => {
                 deliveryAddress: deliveryOption === "Delivery" ? deliveryAddress : car.address,
             };
 
-            const response = await axios.post(`https://wheelsongo-backend.onrender.com/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
+            const response = await axios.post(`${BASE_URL}/order/insertOrder?userId=${userId}&carId=${carId}`, newOrder, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
@@ -207,7 +208,7 @@ const updateCashEarnings = async (ownerId, amount) => {
 
         console.log("Payment Data being sent to the backend:", paymentData);
 
-        const paymentResponse = await axios.post("https://wheelsongo-backend.onrender.com/api/payment/create", paymentData, {
+        const paymentResponse = await axios.post(`${BASE_URL}/api/payment/create`, paymentData, {
             headers: { 'Content-Type': 'application/json' },
         });
 
@@ -229,7 +230,7 @@ const updateCashEarnings = async (ownerId, amount) => {
 const updateOnlineEarnings = async (ownerId, amount) => {
   try {
       const response = await axios.put(
-          `https://wheelsongo-backend.onrender.com/ownerWallet/addToOnlineEarnings/${ownerId}`,
+          `${BASE_URL}/ownerWallet/addToOnlineEarnings/${ownerId}`,
           null,
           { params: { amount } }
       );
@@ -255,10 +256,10 @@ const updateOnlineEarnings = async (ownerId, amount) => {
 
   const generateReceipt = async () => {
     try {
-      const renterResponse = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
+      const renterResponse = await axios.get(`${BASE_URL}/user/getUserById/${userId}`);
       const renter = renterResponse.data;
 
-      const ownerResponse = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${car.owner.userId}`);
+      const ownerResponse = await axios.get(`${BASE_URL}/user/getUserById/${car.owner.userId}`);
       const owner = ownerResponse.data;
 
       const doc = new jsPDF();

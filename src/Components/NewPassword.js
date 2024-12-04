@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Css/NewPassword.css";
 import logo from "../Images/wheelsongo.png";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const NewPassword = () => {
   const [userInput, setUserInput] = useState({
@@ -43,7 +44,7 @@ const NewPassword = () => {
     }
 
     try {
-      const response = await fetch('https://wheelsongo-backend.onrender.com/user/reset-password', {
+      const response = await fetch(`${BASE_URL}/user/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -7,6 +7,7 @@ import "../Css/History.css";
 import ExtendPaymentPopup from "./ExtendPaymentPopup";
 import Header from "./Header.js";
 import Loading from "./Loading"; // Import Loading component
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 // Utility function to format dates
 const formatDate = (date) => {
@@ -52,7 +53,7 @@ export const OrderHistoryPage = () => {
     setIsCalendarLoading(true); // Start loading calendar
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/order/getAllOrders`
+        `${BASE_URL}/order/getAllOrders`
       );
       const orders = response.data;
 
@@ -86,7 +87,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching begins
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/user/getAllOrdersFromUser/${userId}`
+        `${BASE_URL}/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
         setAllOrders(response.data);
@@ -107,7 +108,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/car/getCarById/${carId}`
+        `${BASE_URL}/car/getCarById/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -125,7 +126,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/order/getOrdersByCarId/${carId}`
+        `${BASE_URL}/order/getOrdersByCarId/${carId}`
       );
       if (response.status === 200) {
         return response.data;
@@ -143,7 +144,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
         const response = await axios.get(
-            `https://wheelsongo-backend.onrender.com/user/${userId}/carOrders`
+            `${BASE_URL}/user/${userId}/carOrders`
         );
         if (response.status === 200) {
             const ordersWithProofAndAcknowledgment = await Promise.all(
@@ -172,7 +173,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true); // Start loading when fetching user data
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`
+        `${BASE_URL}/user/getUserById/${userId}`
       );
       if (response.status === 200) {
         setCurrentUser(response.data);
@@ -300,7 +301,7 @@ export const OrderHistoryPage = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://wheelsongo-backend.onrender.com/order/approveOrder/${orderId}`,
+        `${BASE_URL}/order/approveOrder/${orderId}`,
         { method: "PUT" }
       );
       if (response.ok) {
@@ -409,7 +410,7 @@ export const OrderHistoryPage = () => {
   const checkReturnProofExists = async (orderId) => {
     try {
         const response = await axios.get(
-            `https://wheelsongo-backend.onrender.com/returnProof/exists/${orderId}`
+            `${BASE_URL}/returnProof/exists/${orderId}`
         );
         return response.data; // Return true if proof exists
     } catch (error) {
@@ -420,7 +421,7 @@ export const OrderHistoryPage = () => {
 const checkOwnerAcknowledgment = async (orderId) => {
   try {
       const response = await axios.get(
-          `https://wheelsongo-backend.onrender.com/returnProof/getAcknowledgmentStatus/${orderId}`
+          `${BASE_URL}/returnProof/getAcknowledgmentStatus/${orderId}`
       );
       return response.data; // Return true if acknowledgment exists
   } catch (error) {

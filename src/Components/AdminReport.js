@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../Css/AdminReport.css";
 import sidelogo from "../Images/sidelogo.png";
 import Loading from "./Loading";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const adminFormatTimestamp = (timestamp) => {
   const date = new Date(timestamp);
@@ -49,7 +50,7 @@ export const AdminPageReports = () => {
   const fetchAdminReports = () => {
     setIsLoading(true);
     axios
-      .get("https://wheelsongo-backend.onrender.com/report/getAll")
+      .get(`${BASE_URL}/report/getAll`)
       .then((response) => {
         if (Array.isArray(response.data)) {
           setAdminReports(response.data);
@@ -73,7 +74,7 @@ export const AdminPageReports = () => {
   const checkAdminForExistingGroupChat = async (reportId) => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/chat/check?reportId=${reportId}`
+        `${BASE_URL}/chat/check?reportId=${reportId}`
       );
       if (response.data && response.data.chatId) {
         setAdminSelectedChatId(response.data.chatId);
@@ -93,7 +94,7 @@ export const AdminPageReports = () => {
       try {
         const adminId = localStorage.getItem("adminId");
         const reportUserResponse = await axios.get(
-          `https://wheelsongo-backend.onrender.com/user/getUserById/${adminSelectedReport.user.userId}`
+          `${BASE_URL}/user/getUserById/${adminSelectedReport.user.userId}`
         );
         const reportUser = reportUserResponse.data;
 
@@ -103,7 +104,7 @@ export const AdminPageReports = () => {
         };
 
         const response = await axios.post(
-          `https://wheelsongo-backend.onrender.com/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`,
+          `${BASE_URL}/chat/create?adminId=${adminId}&reportId=${adminSelectedReport.reportId}`,
           chatEntity
         );
         const chatId = response.data.chatId;
@@ -119,7 +120,7 @@ export const AdminPageReports = () => {
   const fetchAdminMessages = async (chatId) => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/chat/${chatId}/messages`
+        `${BASE_URL}/chat/${chatId}/messages`
       );
       setAdminMessages(response.data);
     } catch (error) {
@@ -132,7 +133,7 @@ export const AdminPageReports = () => {
       try {
         const adminId = localStorage.getItem("adminId");
         await axios.post(
-          `https://wheelsongo-backend.onrender.com/chat/${adminSelectedChatId}/send`,
+          `${BASE_URL}/chat/${adminSelectedChatId}/send`,
           null,
           {
             params: {
@@ -152,7 +153,7 @@ export const AdminPageReports = () => {
   const fetchAvailableUsers = async () => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/chat/${adminSelectedChatId}/available-users`
+        `${BASE_URL}/chat/${adminSelectedChatId}/available-users`
       );
       setSearchResults(response.data);
     } catch (error) {
@@ -163,7 +164,7 @@ export const AdminPageReports = () => {
   const handleAddUser = async (userId) => {
     try {
       await axios.post(
-        `https://wheelsongo-backend.onrender.com/chat/${adminSelectedChatId}/addUser`,
+        `${BASE_URL}/chat/${adminSelectedChatId}/addUser`,
         null,
         { params: { userId } }
       );

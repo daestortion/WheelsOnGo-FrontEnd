@@ -4,6 +4,7 @@ import axios from 'axios';
 import "../Css/UpdateCar.css";
 import CarUpdated from "./CarUpdated.js";
 import Header from "./Header.js";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const UpdateCar = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const UpdateCar = () => {
     // Fetch car details based on carId
     const fetchCarDetails = async () => {
       try {
-        const response = await axios.get(`https://wheelsongo-backend.onrender.com/car/getCarById/${carId}`);
+        const response = await axios.get(`${BASE_URL}/car/getCarById/${carId}`);
         if (response.status === 200) {
           const carData = response.data;
           setCarDetails({
@@ -78,7 +79,7 @@ const UpdateCar = () => {
             carImage: carDetails.imageSrc ? carDetails.imageSrc.split(',')[1] : null // Ensure this is handled in the backend
         };
 
-        const response = await axios.put(`https://wheelsongo-backend.onrender.com/car/updateCar`, updatedCarDetails);
+        const response = await axios.put(`${BASE_URL}/car/updateCar`, updatedCarDetails);
         
         if (response.status === 200) {
             setShowCarUpdatedPopup(true);

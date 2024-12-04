@@ -3,6 +3,7 @@ import "../Css/AdminRegister.css";
 import wog from "../Images/adminlogoBLACK.png";
 import vector from "../Images/vectorBLACK.png";
 import AdminRegistered from './AdminRegistered';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const AdminRegister = () => {
   const [username, setUsername] = useState("");
@@ -51,7 +52,7 @@ export const AdminRegister = () => {
     };
 
     try {
-      const response = await fetch("https://wheelsongo-backend.onrender.com/admin/insertAdmin", {
+      const response = await fetch(`${BASE_URL}/admin/insertAdmin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

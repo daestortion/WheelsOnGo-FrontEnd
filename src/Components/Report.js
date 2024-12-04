@@ -3,6 +3,7 @@ import axios from "axios";
 import "../Css/Report.css";
 import close from "../Images/close.png";
 import { ReportSuccess } from "./ReportPopup"; // Import the Reportpopup component
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const Report = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -22,7 +23,7 @@ export const Report = () => {
       const userId = JSON.parse(storedUser).userId;
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
+          const response = await axios.get(`${BASE_URL}/user/getUserById/${userId}`);
           if (response.status === 200) {
             const userData = response.data;
             setCurrentUser({
@@ -62,7 +63,7 @@ export const Report = () => {
       },
     }; // Adjust the user object according to your backend requirements
     try {
-      await axios.post("https://wheelsongo-backend.onrender.com/report", report); // Adjust the URL according to your backend setup
+      await axios.post(`${BASE_URL}/report`, report); // Adjust the URL according to your backend setup
       setIsVisible(false);
     } catch (error) {
       console.error("There was an error submitting the report!", error);

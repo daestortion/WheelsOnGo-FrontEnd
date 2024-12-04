@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import "../Css/ReverifyPopup.css";
 import close from "../Images/close.svg";
 import WaitVerificationPopup from "./WaitVerificationPopup";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const ReverifyPopup = ({ closePopup }) => {
     const fileInputRefGovId = useRef(null);
@@ -47,7 +48,7 @@ export const ReverifyPopup = ({ closePopup }) => {
 
             console.log('Form Data:', formData);
 
-            const response = await fetch(`https://wheelsongo-backend.onrender.com/verification/updateVerification/${userId}`, {
+            const response = await fetch(`${BASE_URL}/verification/updateVerification/${userId}`, {
                 method: 'PUT',
                 body: formData
             });

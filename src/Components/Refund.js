@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../Css/Refund.css";
 import Header from "../Components/Header";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const RefundPage = () => {
   const [walletData, setWalletData] = useState({
@@ -25,7 +26,7 @@ const RefundPage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/wallet/getRefundDetails/${userId}`
+        `${BASE_URL}/wallet/getRefundDetails/${userId}`
       );
       setWalletData({
         refundAmount: response.data.refundAmount || 0,
@@ -41,7 +42,7 @@ const RefundPage = () => {
   const fetchUserRequests = useCallback(async (userId) => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/request-form/getUserRequests/${userId}`
+        `${BASE_URL}/request-form/getUserRequests/${userId}`
       );
       setRequests(response.data || []);
     } catch (error) {
@@ -108,7 +109,7 @@ const RefundPage = () => {
 
     try {
       await axios.post(
-        `https://wheelsongo-backend.onrender.com/request-form/request-funds?userId=${userId}`,
+        `${BASE_URL}/request-form/request-funds?userId=${userId}`,
         requestData
       );
       await fetchWalletData(userId);

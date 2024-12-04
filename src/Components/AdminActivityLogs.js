@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../Css/AdminActivityLogs.css"; // Matching styling to AdminDashboard
 import sidelogo from "../Images/sidelogo.png"; // Logo image
 import Loading from './Loading';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const AdminActivityLogs = () => {
   const [logs, setLogs] = useState([]); // State to hold logs
@@ -23,7 +24,7 @@ const AdminActivityLogs = () => {
         setIsLoading(true); // Only show loading on the first fetch
       }
       axios
-        .get("https://wheelsongo-backend.onrender.com/activity/logs")
+        .get("${BASE_URL}/activity/logs")
         .then((response) => {
           console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
 

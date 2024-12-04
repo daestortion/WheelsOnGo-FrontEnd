@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../Css/AdminOwner.css";
 import sidelogo from "../Images/sidelogo.png";
 import Loading from "./Loading";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const AdminOwnerPayments = () => {
   const [requests, setRequests] = useState([]);
@@ -14,7 +15,7 @@ const AdminOwnerPayments = () => {
   const fetchRequests = () => {
     setLoading(true);
     axios
-      .get("https://wheelsongo-backend.onrender.com/request-form/getAllRequests")
+      .get(`${BASE_URL}/request-form/getAllRequests`)
       .then((response) => {
         console.log("Fetched payment requests:", response.data);
         setRequests(response.data);
@@ -31,7 +32,7 @@ const AdminOwnerPayments = () => {
     setLoading(true);
     try {
       await axios.put(
-        `https://wheelsongo-backend.onrender.com/request-form/approveRequest/${requestId}`
+        `${BASE_URL}/request-form/approveRequest/${requestId}`
       );
       fetchRequests(); // Refresh the requests after approval
       alert("Request approved successfully!");
@@ -47,7 +48,7 @@ const AdminOwnerPayments = () => {
     setLoading(true);
     try {
       await axios.put(
-        `https://wheelsongo-backend.onrender.com/request-form/denyRequest/${requestId}`
+        `${BASE_URL}/request-form/denyRequest/${requestId}`
       );
       fetchRequests(); // Refresh the requests after denial
       alert("Request denied successfully!");
@@ -71,7 +72,7 @@ const AdminOwnerPayments = () => {
           const formData = new FormData();
           formData.append("proofImage", file); // Add the selected file
           await axios.put(
-            `https://wheelsongo-backend.onrender.com/request-form/update/${requestId}`,
+            `${BASE_URL}/request-form/update/${requestId}`,
             formData,
             {
               headers: {

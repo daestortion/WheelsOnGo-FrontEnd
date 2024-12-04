@@ -4,6 +4,7 @@ import "../Css/AdminLogin.css";
 import wog from "../Images/adminlogo.png";
 import vector from "../Images/adminvector.png";
 import { useAdminAuth } from '../AdminAuthContext';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -28,7 +29,7 @@ export const AdminLogin = () => {
     };
 
     try {
-      const response = await fetch("https://wheelsongo-backend.onrender.com/admin/login", {
+      const response = await fetch(`${BASE_URL}/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

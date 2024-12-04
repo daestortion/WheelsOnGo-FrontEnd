@@ -11,6 +11,8 @@ import barangaysData from '../Data/refbrgy.json';
 import citiesData from '../Data/refcitymun.json';
 import provincesData from '../Data/refprovince.json';
 import Header from "./Header";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+
 
 const carData = {
   Toyota: ['Vios', 'Hilux', 'Fortuner', 'Innova', 'Wigo', 'Avanza', 'Rush', 'Hiace', 'Camry', 'Corolla Altis', 'Land Cruiser', 'Prado', 'RAV4', 'Yaris', 'Alphard'],
@@ -153,7 +155,7 @@ export const AddCar = () => {
     if (carOR) formData.append('carOR', carOR);
     if (carCR) formData.append('carCR', carCR);
     try {
-      const response = await axios.post(`https://wheelsongo-backend.onrender.com/car/insertCar/${userId}`, formData, {
+      const response = await axios.post(`${BASE_URL}/car/insertCar/${userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

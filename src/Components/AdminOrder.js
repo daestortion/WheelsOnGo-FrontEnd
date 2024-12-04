@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Css/AdminOrder.css"; // Matching AdminDashboard CSS
 import sidelogo from "../Images/sidelogo.png"; // Logo image
 import Loading from "./Loading";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const AdminPageOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -19,7 +20,7 @@ const AdminPageOrder = () => {
   const fetchOrders = async () => {
     setIsLoading(true); // Start loading
     try {
-      const response = await fetch("https://wheelsongo-backend.onrender.com/order/getAllOrders");
+      const response = await fetch(`${BASE_URL}/order/getAllOrders`);
       const data = await response.json();
       console.log(data);
 
@@ -49,7 +50,7 @@ const AdminPageOrder = () => {
 
   const fetchUser = async (userId) => {
     try {
-      const response = await fetch(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
+      const response = await fetch(`${BASE_URL}/user/getUserById/${userId}`);
       const data = await response.json();
       setUsers((prevUsers) => ({ ...prevUsers, [userId]: data }));
     } catch (error) {
@@ -59,7 +60,7 @@ const AdminPageOrder = () => {
 
   const fetchProofOfPayment = async (orderId) => {
     try {
-      const response = await fetch(`https://wheelsongo-backend.onrender.com/order/getProofOfPayment/${orderId}`);
+      const response = await fetch(`${BASE_URL}/order/getProofOfPayment/${orderId}`);
       if (response.ok) {
         const imageBlob = await response.blob();
         setProofImage(URL.createObjectURL(imageBlob));
@@ -73,7 +74,7 @@ const AdminPageOrder = () => {
   const handleApprove = async (orderId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://wheelsongo-backend.onrender.com/order/approveOrder/${orderId}`, {
+      const response = await fetch(`${BASE_URL}/order/approveOrder/${orderId}`, {
         method: "PUT",
       });
       if (response.ok) {
@@ -94,7 +95,7 @@ const AdminPageOrder = () => {
   const handleDeny = async (orderId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://wheelsongo-backend.onrender.com/order/denyOrder/${orderId}`, {
+      const response = await fetch(`${BASE_URL}/order/denyOrder/${orderId}`, {
         method: "PUT",
       });
       if (response.ok) {

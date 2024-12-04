@@ -4,6 +4,7 @@ import logo from "../Images/wheelsongo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../Components/Loading.js";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const ForgotPassword = () => {
         setIsLoading(true);
         setMessage(''); // Clear previous message
         try {
-            const response = await axios.get(`https://wheelsongo-backend.onrender.com/user/forgot-password`, {
+            const response = await axios.get(`${BASE_URL}/user/forgot-password`, {
                 params: { identifier: email }
             });
             if (response.status === 200) {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../Css/AdminUsers.css"; // Matching styling to AdminDashboard
 import sidelogo from "../Images/sidelogo.png"; // Logo image
 import Loading from "./Loading";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const AdminPageUsers = () => {
   const [users, setUsers] = useState([]); // Initially empty
@@ -15,7 +16,7 @@ const AdminPageUsers = () => {
   const fetchUsers = () => {
     setIsLoading(true);
     axios
-      .get("https://wheelsongo-backend.onrender.com/user/getAllUsers")
+      .get(`${BASE_URL}/user/getAllUsers`)
       .then((response) => {
         console.log("Fetched Users:", response.data); // Log fetched users
         setUsers(response.data);
@@ -43,7 +44,7 @@ const AdminPageUsers = () => {
   const handleDelete = (userId) => {
     setIsLoading(true);
     axios
-      .put(`https://wheelsongo-backend.onrender.com/user/deleteUser/${userId}`)
+      .put(`${BASE_URL}/user/deleteUser/${userId}`)
       .then(() => fetchUsers())
       .catch((error) => console.error("Error deleting user:", error))
       .finally(() => setIsLoading(false));
@@ -52,7 +53,7 @@ const AdminPageUsers = () => {
   const handleReactivate = (userId) => {
     setIsLoading(true);
     axios
-      .put(`https://wheelsongo-backend.onrender.com/user/reactivateUser/${userId}`)
+      .put(`${BASE_URL}/user/reactivateUser/${userId}`)
       .then(() => fetchUsers())
       .catch((error) => console.error("Error reactivating user:", error))
       .finally(() => setIsLoading(false));

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import "../Css/BalancePage.css";
 import Header from "../Components/Header";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
@@ -38,7 +39,7 @@ const BalancePage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/ownerWallet/getWalletDetails/${id}`
+        `${BASE_URL}/ownerWallet/getWalletDetails/${id}`
       );
       const { onlineEarning, cashEarning, cashRefundable } = response.data;
       setWalletData({
@@ -57,7 +58,7 @@ const BalancePage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/request-form/getUserRequests/${id}`
+        `${BASE_URL}/request-form/getUserRequests/${id}`
       );
       setRequests(response.data);
     } catch (error) {
@@ -118,7 +119,7 @@ const BalancePage = () => {
 
     try {
       await axios.post(
-        `https://wheelsongo-backend.onrender.com/request-form/request-funds?userId=${userId}`,
+        `${BASE_URL}/request-form/request-funds?userId=${userId}`,
         requestData
       );
       await fetchWalletData(userId);
@@ -141,7 +142,7 @@ const BalancePage = () => {
   const handleProofView = async (requestId) => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/request-form/getProofImage/${requestId}`,
+        `${BASE_URL}/request-form/getProofImage/${requestId}`,
         { responseType: "arraybuffer" }
       );
       const blob = new Blob([response.data], { type: "image/png" });

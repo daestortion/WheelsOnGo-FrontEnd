@@ -5,6 +5,7 @@ import logo from "../Images/wheelsongo.png";
 import axios from "axios";
 import RegisteredPopup from './RegisteredPopup';
 import Loading from './Loading';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const Registration = () => {
   const [userName, setUserName] = useState("");
@@ -44,7 +45,7 @@ export const Registration = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("https://wheelsongo-backend.onrender.com/user/insertUser", {
+      const response = await axios.post(`${BASE_URL}/user/insertUser`, {
         username: userName,
         fName: firstName,
         lName: lastName,

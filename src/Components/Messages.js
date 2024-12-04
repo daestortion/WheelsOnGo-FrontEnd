@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../Css/Messages.css";
 import Header from "./Header.js";
 import Loading from "./Loading"; // Assuming you have a Loading component like in the login
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const formatMessageTimestamp = (timestamp) => {
   const date = new Date(timestamp);
@@ -52,7 +53,7 @@ export const Messages = () => {
       const userId = JSON.parse(storedUser)?.userId;
       console.log("Fetching chats for userId: ", userId);
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/chat/user/${userId}/chats`
+        `${BASE_URL}/chat/user/${userId}/chats`
       );
       setChats(response.data);
       console.log("Chats fetched: ", response.data);
@@ -80,7 +81,7 @@ export const Messages = () => {
   const fetchNewMessages = async (chatId) => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/chat/${chatId}/messages?lastMessageId=${lastMessageId}`
+        `${BASE_URL}/chat/${chatId}/messages?lastMessageId=${lastMessageId}`
       );
       const newMessages = response.data.filter(
         (msg) => !messageIds.has(msg.messageId)
@@ -103,7 +104,7 @@ export const Messages = () => {
   const fetchMessages = async (chatId) => {
     try {
       const response = await axios.get(
-        `https://wheelsongo-backend.onrender.com/chat/${chatId}/messages?limit=50`
+        `${BASE_URL}/chat/${chatId}/messages?limit=50`
       );
       const initialMessages = response.data;
       setMessages(initialMessages);
@@ -118,7 +119,7 @@ export const Messages = () => {
     if (selectedChat && newMessage && currentUser) {
       try {
         await axios.post(
-          `https://wheelsongo-backend.onrender.com/chat/${selectedChat.chatId}/send`,
+          `${BASE_URL}/chat/${selectedChat.chatId}/send`,
           null,
           {
             params: {

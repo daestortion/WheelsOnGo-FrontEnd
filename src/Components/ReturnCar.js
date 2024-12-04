@@ -5,6 +5,7 @@ import Header from "../Components/Header";
 import Loading from "../Components/Loading.js";
 import "../Css/ReturnCar.css";
 import ReturnSuccessPopup from './ReturnSuccessPopup';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const ReturnCar = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ export const ReturnCar = () => {
         const fetchOrderDetails = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrderById/${orderId}`);
+                const response = await axios.get(`${BASE_URL}/order/getOrderById/${orderId}`);
                 if (response.status === 200) {
                     setOrderDetails(response.data); // Set the fetched order details
                 }
@@ -71,7 +72,7 @@ export const ReturnCar = () => {
         }
     
         try {
-            const response = await axios.post(`https://wheelsongo-backend.onrender.com/returnProof/createReturnProof`, formData, {
+            const response = await axios.post(`${BASE_URL}/returnProof/createReturnProof`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import "../Css/AdminVerify.css";
 import sidelogo from "../Images/sidelogo.png";
 import Loading from "./Loading";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const AdminVerify = () => {
   const [verifications, setVerifications] = useState([]);
@@ -19,7 +20,7 @@ const AdminVerify = () => {
     setIsLoading(true);
 
     axios
-      .get("https://wheelsongo-backend.onrender.com/verification/getAllVerification")
+      .get(`${BASE_URL}/verification/getAllVerification`)
       .then((response) => {
         const verificationsData = response.data;
         setVerifications(verificationsData);
@@ -33,7 +34,7 @@ const AdminVerify = () => {
 
         const userRequests = uniqueUserIds.map((userId) =>
           axios
-            .get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`)
+            .get(`${BASE_URL}/user/getUserById/${userId}`)
             .then((userResponse) => {
               setUsers((prevUsers) => ({
                 ...prevUsers,
@@ -68,7 +69,7 @@ const AdminVerify = () => {
   const handleApprove = (vId) => {
     setIsLoading(true);
     axios
-      .put(`https://wheelsongo-backend.onrender.com/verification/changeStatus/${vId}?newStatus=1`)
+      .put(`${BASE_URL}/verification/changeStatus/${vId}?newStatus=1`)
       .then(() => {
         setVerifications((prev) =>
           prev.map((verification) =>
@@ -87,7 +88,7 @@ const AdminVerify = () => {
   const handleDeny = (vId) => {
     setIsLoading(true);
     axios
-      .put(`https://wheelsongo-backend.onrender.com/verification/changeStatus/${vId}?newStatus=2`)
+      .put(`${BASE_URL}/verification/changeStatus/${vId}?newStatus=2`)
       .then(() => {
         setVerifications((prev) =>
           prev.map((verification) =>

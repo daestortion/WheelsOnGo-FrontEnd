@@ -17,6 +17,7 @@ import {
 import "../Css/AdminDashboard.css";
 import sidelogo from "../Images/sidelogo.png";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 ChartJS.register(
   ArcElement,
@@ -77,7 +78,7 @@ const AdminDashboard = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("https://wheelsongo-backend.onrender.com/user/getAllUsers");
+      const response = await axios.get(`${BASE_URL}/user/getAllUsers`);
       const users = response.data;
 
       let carOwners = 0;
@@ -103,7 +104,7 @@ const AdminDashboard = () => {
 
   const fetchCarData = async () => {
     try {
-      const response = await axios.get("https://wheelsongo-backend.onrender.com/car/getAllCars");
+      const response = await axios.get(`${BASE_URL}/car/getAllCars`);
       const cars = response.data;
 
       let rentedCars = 0;
@@ -133,7 +134,7 @@ const AdminDashboard = () => {
 
   const fetchOrderData = async () => {
     try {
-      const response = await axios.get("https://wheelsongo-backend.onrender.com/order/getAllOrders");
+      const response = await axios.get(`${BASE_URL}/order/getAllOrders`);
       const orders = response.data;
 
       let pendingOrders = 0;
@@ -160,7 +161,7 @@ const AdminDashboard = () => {
   // Fetch Gross and Net Income
   const fetchIncomeData = async () => {
     try {
-      const response = await axios.get("https://wheelsongo-backend.onrender.com/api/payment/allPayments");
+      const response = await axios.get(`${BASE_URL}/api/payment/allPayments`);
       const payments = response.data;
 
       let totalGrossIncome = 0;
@@ -178,7 +179,7 @@ const AdminDashboard = () => {
 
   const fetchRentsPerCar = async () => {
     try {
-      const response = await axios.get("https://wheelsongo-backend.onrender.com/car/allCarsWithOrders");
+      const response = await axios.get(`${BASE_URL}/car/allCarsWithOrders`);
       const cars = response.data;
       const labels = cars.map((car) => car.carModel);
       const rentCounts = cars.map((car) => car.orders.length);
@@ -200,7 +201,7 @@ const AdminDashboard = () => {
 
   const fetchRentOverTime = async () => {
     try {
-      const response = await axios.get("https://wheelsongo-backend.onrender.com/order/getAllOrders");
+      const response = await axios.get(`${BASE_URL}/order/getAllOrders`);
       const orders = response.data;
 
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

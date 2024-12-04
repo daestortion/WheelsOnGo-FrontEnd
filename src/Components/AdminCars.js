@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import "../Css/AdminCars.css";
 import sidelogo from "../Images/sidelogo.png";
 import Loading from './Loading';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const AdminPageCars = () => {
   const [cars, setCars] = useState([]); // Initially empty
@@ -20,7 +21,7 @@ const AdminPageCars = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get('https://wheelsongo-backend.onrender.com/car/getAllCars');
+      const response = await axios.get('${BASE_URL}/car/getAllCars');
       setCars(response.data);
       setHasFetchedOnce(true); // Mark data as fetched
     } catch (error) {
@@ -34,7 +35,7 @@ const AdminPageCars = () => {
   const handleApprove = async (carId) => {
     setIsLoading(true);
     try {
-      await axios.put(`https://wheelsongo-backend.onrender.com/car/approveCar/${carId}`);
+      await axios.put(`${BASE_URL}/car/approveCar/${carId}`);
       fetchCars();
     } catch (error) {
       console.error('Error approving car:', error);
@@ -46,7 +47,7 @@ const AdminPageCars = () => {
   const handleDeleteCar = async (carId) => {
     setIsLoading(true);
     try {
-      await axios.put(`https://wheelsongo-backend.onrender.com/car/deleteCar/${carId}`);
+      await axios.put(`${BASE_URL}/car/deleteCar/${carId}`);
       fetchCars();
     } catch (error) {
       console.error('Error deleting car:', error);

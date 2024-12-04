@@ -5,6 +5,7 @@ import "../Css/Login.css";
 import logo from "../Images/wheelsongo.png";
 import axios from "axios";
 import Loading from './Loading';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 export const Login = () => {
   const [identifier, setIdentifier] = useState("");
@@ -17,7 +18,7 @@ export const Login = () => {
   useEffect(() => {
     const clearLocalStorageIfEmpty = async () => {
       try {
-        const response = await axios.get("https://wheelsongo-backend.onrender.com/user/checkDatabaseEmpty");
+        const response = await axios.get(`${BASE_URL}/user/checkDatabaseEmpty`);
         if (response.data) {
           localStorage.removeItem('user');
         }
@@ -40,7 +41,7 @@ export const Login = () => {
     setIsLoading(true);
   
     try {
-      const response = await axios.post("https://wheelsongo-backend.onrender.com/user/login", {
+      const response = await axios.post("${BASE_URL}/user/login", {
         identifier,
         password,
       });
@@ -51,12 +52,12 @@ export const Login = () => {
   
         // Fetch user profile including isRenting status
         try {
-          const userProfileResponse = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
+          const userProfileResponse = await axios.get(`${BASE_URL}/user/getUserById/${userId}`);
           const userProfile = userProfileResponse.data;
   
           // Fetch verification status
           try {
-            const verificationResponse = await axios.get(`https://wheelsongo-backend.onrender.com/verification/getVerificationByUserId/${userId}`);
+            const verificationResponse = await axios.get(`${BASE_URL}/verification/getVerificationByUserId/${userId}`);
             const userWithVerification = {
               userId: userProfile.userId,
               userName: userProfile.userName,
