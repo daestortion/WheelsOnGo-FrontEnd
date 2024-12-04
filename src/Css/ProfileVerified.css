@@ -381,6 +381,10 @@ body {
   .profile-not-verified .text-wrapper-69{
     font-size: 12px;
   }
+
+  .profile-not-verified .no-cars-message{
+    font-size: 80px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -465,6 +469,10 @@ body {
     height: 20px;
     width: 50px;
   }
+
+  .profile-not-verified .no-cars-message{
+    font-size: 60px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -526,6 +534,10 @@ body {
   .profile-not-verified .car-frame{
     width: 150px;
     height: 150px;
+  }
+
+  .profile-not-verified .no-cars-message{
+    font-size: 45px;
   }
 
 }
