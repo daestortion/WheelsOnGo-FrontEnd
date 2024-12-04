@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import "../Css/BalancePage.css";
 import Header from "../Components/Header";
 
@@ -9,6 +10,8 @@ const BalancePage = () => {
     debit: 0,
     refundable: 0,
   });
+  const navigate = useNavigate();
+  const [sideNavOpen, setSideNavOpen] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -150,6 +153,11 @@ const BalancePage = () => {
     }
   };
 
+  const handleRefundClick = () => {
+    navigate('/refund');
+    setSideNavOpen(false);
+  };
+
   const closeModal = () => setProofImage(null);
 
   return (
@@ -193,6 +201,9 @@ const BalancePage = () => {
           </>
         )}
       </div>
+
+      <button className="request-funds-btn" onClick={handleRefundClick}> Request Refund</button>
+
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
           {isFormOpen ? "Close Request Form" : "Request Funds"}
