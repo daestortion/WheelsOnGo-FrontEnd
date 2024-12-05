@@ -1,7 +1,8 @@
 import React from 'react';
 import "../Css/WaitVerificationPopup.css";
 import Loading from "./Loading";
-import React, { useState } from 'react';
+import { useState } from 'react'; // Only import useState
+
 
 export const WaitVerificationPopup = ({ onClose }) => {
     const [isLoading, setIsLoading] = useState(false);
