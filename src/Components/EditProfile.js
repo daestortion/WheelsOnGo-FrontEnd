@@ -56,7 +56,7 @@ export const EditProfile = () => {
         }
     
         try {
-            const response = await fetch('${BASE_URL}/user/updateUser', {
+            const response = await fetch(`${BASE_URL}/user/updateUser`, {
                 method: 'PUT',
                 body: formData,
             });
