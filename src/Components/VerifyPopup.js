@@ -3,10 +3,12 @@ import "../Css/VerifyPopup.css";
 import close from "../Images/close.svg";
 import WaitVerificationPopup from "./WaitVerificationPopup";
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import Loading from "./Loading";
 
 export const VerifyPopup = ({ closePopup }) => {
     const fileInputRefGovId = useRef(null);
     const fileInputRefDriverLicense = useRef(null);
+    const [isLoading, setIsLoading] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? user.userId : null;
     console.log(userId);
@@ -31,41 +33,45 @@ export const VerifyPopup = ({ closePopup }) => {
 
     const handleVerify = async () => {
         console.log('Verify button clicked');
-
+    
         if (fileInputRefGovId.current.files.length === 0 || fileInputRefDriverLicense.current.files.length === 0) {
             window.alert("Please upload both files.");
             return;
         }
-
+    
+        setIsLoading(true); // Start loading
+    
         console.log('Before displaying WaitVerificationPopup');
         setShowWaitVerificationPopup(true);
-
+    
         try {
             const formData = new FormData();
             formData.append('userId', userId);
             formData.append('status', 0);
             formData.append('govId', fileInputRefGovId.current.files[0]);
             formData.append('driversLicense', fileInputRefDriverLicense.current.files[0]);
-
+    
             console.log('Form Data:', formData);
 
             const response = await fetch(`${BASE_URL}/verification/insertVerification`, {
                 method: 'POST',
                 body: formData
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const data = await response.json();
             console.log('Response data:', data);
-            
-
+    
             // Optionally, handle response data or close the popup
+    
         } catch (error) {
             console.error('Error during verification:', error);
-            setShowWaitVerificationPopup(false); // Hide popup if there's an error
+        } finally {
+            setIsLoading(false); // End loading state
+            setShowWaitVerificationPopup(false); // Hide the popup once verification ends
         }
     };
 
@@ -76,6 +82,7 @@ export const VerifyPopup = ({ closePopup }) => {
 
     return (
         <div className="vap-popupver">
+            {isLoading && <Loading />}
                 <div className="vap-overlapver">
 
                 <div className='line1'>

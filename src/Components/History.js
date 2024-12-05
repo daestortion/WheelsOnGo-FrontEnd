@@ -429,6 +429,24 @@ const checkOwnerAcknowledgment = async (orderId) => {
       return false; // Assume no acknowledgment if an error occurs
   }
 };
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const filteredOrders = orders.filter((order) => {
+    switch (filter) {
+      case "active":
+        return order.status === "active";
+      case "Terminated":
+        return order.status === "Terminated";
+      case "Returned":
+        return order.status === "Returned";
+      default:
+        return true; // No filter applied, show all orders
+    }
+  });
+
   return (
     <div className="order-history-page">
       <Header />
@@ -471,6 +489,16 @@ const checkOwnerAcknowledgment = async (orderId) => {
           <div className="overlap213">
               <div className="rectangle213">
                 <div className="table-container213">
+                  {showOwnedCars && (
+                    <div className="filter-container">
+                      <select onChange={handleFilterChange} value={filter} className="user-filter">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="Terminated">Terminated</option>
+                        <option value="Returned">Returned</option>
+                      </select>
+                    </div>
+                  )}
                 <table className="order-table213">
                   <thead>
                       <tr>
@@ -493,114 +521,120 @@ const checkOwnerAcknowledgment = async (orderId) => {
                       </tr>
                   </thead>
                   <tbody>
-                      {orders.map((order) => (
-                          <tr key={order.orderId}>
-                              <td>{order.car.carBrand} {order.car.carModel}</td>
-                              <td>{formatDate(order.startDate)}</td>
-                              <td>{formatDate(order.endDate)}</td>
-                              <td>₱{order.totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                              <td>{order.referenceNumber}</td>
-                              <td>{order.car.address}</td>
-                              <td>{order.car.owner.username}</td>
-                              <td>{order.car.owner.pNum}</td>
-                              <td>{order.paymentOption}</td>
-                              {showOwnedCars && (order.paymentOption === "Cash" ? (
-                                  <td>
-                                      <button
-                                          className="button-approve"
-                                          onClick={() => handleApprove(order.orderId)}
-                                      >
-                                          Approve
-                                      </button>
-                                  </td>
-                              ) : (
-                                  <td></td>
-                              ))}
-                              <td>{getStatusText(order.status)}</td>
-                              <td>{getActivity(order.active)}</td>
-                              <td>
-                                  {order.terminated
-                                      ? `Terminated on ${new Date(order.terminationDate).toISOString().split("T")[0]}`
-                                      : ""}
-                              </td>
-                              {!showOwnedCars && !showOngoingRents && (
-                                  <td>
-                                      <button
-                                          className="terminate"
-                                          onClick={() => handleTerminate(order.orderId)}
-                                          disabled={order.terminated}
-                                      >
-                                          Terminate
-                                      </button>
-                                      <button
-                                          className="return-cars"
-                                          onClick={() => handleReturnCar(order.orderId)}
-                                      >
-                                          Return Car
-                                      </button>
-                                  </td>
+                  {filteredOrders.map((order) => (
+                    <tr key={order.orderId}>
+                      <td>{order.car.carBrand} {order.car.carModel}</td>
+                      <td>{formatDate(order.startDate)}</td>
+                      <td>{formatDate(order.endDate)}</td>
+                      <td>₱{order.totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                      <td>{order.referenceNumber}</td>
+                      <td>{order.car.address}</td>
+                      <td>{order.car.owner.username}</td>
+                      <td>{order.car.owner.pNum}</td>
+                      <td>{order.paymentOption}</td>
+                      {showOwnedCars && (
+                        <td>
+                          <button
+                            className="button-approve"
+                            onClick={() => handleApprove(order.orderId)}
+                            disabled={order.terminated || order.returned}
+                          >
+                            Approve
+                          </button>
+                        </td>
+                      )}
+                      <td>{getStatusText(order.status)}</td>
+                      <td>{getActivity(order.active)}</td>
+                      <td>
+                        {order.terminated
+                          ? `Terminated on ${new Date(order.terminationDate).toISOString().split("T")[0]}`
+                          : ""}
+                      </td>
+                      {!showOwnedCars && !showOngoingRents && (
+                        <td>
+                          <button
+                            className="terminate"
+                            onClick={() => handleTerminate(order.orderId)}
+                            disabled={order.terminated || order.returned}
+                          >
+                            Terminate
+                          </button>
+                          <button
+                            className="return-cars"
+                            onClick={() => handleReturnCar(order.orderId)}
+                            disabled={order.terminated || order.returned}
+                          >
+                            Return Car
+                          </button>
+                        </td>
+                      )}
+                      {showOwnedCars && (
+                        <td>
+                          {order.returnProofExists ? (
+                            order.ownerAcknowledged ? (
+                              "Acknowledged"
+                            ) : (
+                              <button
+                                className="return"
+                                onClick={() => handleCarReturned(order.orderId)}
+                                disabled={order.terminated || order.returned}
+                              >
+                                Returned
+                              </button>
+                            )
+                          ) : (
+                            "No Return Form"
+                          )}
+                        </td>
+                      )}
+                      {showOngoingRents && (
+                        <td>
+                          {order.active && (
+                            <div>
+                              <button
+                                className="extend"
+                                onClick={() => handleExtendRent(order.orderId, order.endDate)}
+                                disabled={order.terminated || order.returned}
+                              >
+                                {showDatePicker === order.orderId ? "Submit" : "Extend"}
+                              </button>
+                              {showDatePicker === order.orderId && (
+                                <div className="datepicker-wrapper">
+                                  <DatePicker
+                                    selected={selectedDate}
+                                    onChange={(date) =>
+                                      handleDateChange(date, order.endDate, order.car.carId)
+                                    }
+                                    minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
+                                    excludeDates={disabledDates} // Disable already booked dates
+                                    placeholderText="Select new end date"
+                                    className="custom-datepicker"
+                                    calendarClassName="custom-calendar"
+                                  />
+                                  <div className="summary">
+                                    <h4>Summary of the Cost for Extension:</h4>
+                                    <p>Days: {priceSummary.days}</p>
+                                    <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
+                                    <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
+                                  </div>
+                                </div>
                               )}
-                              {showOwnedCars && (
-                                  <td>
-                                      {order.returnProofExists ? ( // Check if the return proof exists
-                                          order.ownerAcknowledged ? ( // Check if the acknowledgment form has been submitted
-                                              "Acknowledged"
-                                          ) : (
-                                              <button
-                                                  className="return"
-                                                  onClick={() => handleCarReturned(order.orderId)}
-                                              >
-                                                  Returned
-                                              </button>
-                                          )
-                                      ) : (
-                                          "No Return Form"
-                                      )}
-                                  </td>
-                              )}
-                              {showOngoingRents && (
-                                  <td>
-                                      {order.active && (
-                                          <div>
-                                              <button
-                                                  className="extend"
-                                                  onClick={() => handleExtendRent(order.orderId, order.endDate)}
-                                              >
-                                                  {showDatePicker === order.orderId ? "Submit" : "Extend"}
-                                              </button>
-                                              {showDatePicker === order.orderId && (
-                                                <div className="datepicker-wrapper">
-                                                    <DatePicker
-                                                        selected={selectedDate}
-                                                        onChange={(date) =>
-                                                            handleDateChange(date, order.endDate, order.car.carId)
-                                                        }
-                                                        minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
-                                                        excludeDates={disabledDates} // Disable already booked dates
-                                                        placeholderText="Select new end date"
-                                                        className="custom-datepicker"
-                                                        calendarClassName="custom-calendar"
-                                                    />
-                                                    <div className="summary">
-                                                        <h4>Summary of the Cost for Extension:</h4>
-                                                        <p>Days: {priceSummary.days}</p>
-                                                        <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
-                                                        <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
-                                                    </div>
-                                                </div>
-                                            )}
-                                          </div>
-                                      )}
-                                      {showDatePicker !== order.orderId && (
-                                          <button className="terminate" onClick={() => handleTerminate(order.orderId)}>
-                                              Terminate
-                                          </button>
-                                      )}
-                                  </td>
-                              )}
-                          </tr>
-                      ))}
-                  </tbody>
+                            </div>
+                          )}
+                          {showDatePicker !== order.orderId && (
+                            <button
+                              className="terminate"
+                              onClick={() => handleTerminate(order.orderId)}
+                              disabled={order.terminated || order.returned}
+                            >
+                              Terminate
+                            </button>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
               </table>
                 </div>
               </div>
