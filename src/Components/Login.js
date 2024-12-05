@@ -41,7 +41,7 @@ export const Login = () => {
     setIsLoading(true);
   
     try {
-      const response = await axios.post("${BASE_URL}/user/login", {
+      const response = await axios.post(`${BASE_URL}/user/login`, {
         identifier,
         password,
       });
