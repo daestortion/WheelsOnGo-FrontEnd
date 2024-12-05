@@ -19,6 +19,7 @@ export const Registration = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false); // Track registration success
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -65,6 +66,7 @@ export const Registration = () => {
       setConfirmPassword("");
       setError("");
       setIsPopupVisible(true);
+      setIsSuccess(true); // Set success state to true on successful registration
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message);
@@ -160,7 +162,6 @@ export const Registration = () => {
                 </button>
               </div>
               
-          
 
           {error && <div className="error-message">{error}</div>}
 
@@ -174,7 +175,17 @@ export const Registration = () => {
           </form>
         </div>
       </div>
+
       {isPopupVisible && <RegisteredPopup />}
+
+      {/* Display success message after registration */}
+      {isSuccess && (
+        <div className="activation-message">
+          <p>
+            Registration successful! Please check your email for the activation link.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

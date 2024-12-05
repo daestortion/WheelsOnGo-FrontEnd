@@ -5,7 +5,9 @@ import PayPal from "../Components/PayPal";
 import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import "../Css/ExtendPaymentPopup.css";
+
 import close from "../Images/close.png";
+
 import image1 from "../Images/image1.jpg";
 import image10 from "../Images/image10.png";
 import image11 from "../Images/image11.svg";
@@ -21,9 +23,16 @@ import image7 from "../Images/image7.jpg";
 import image8 from "../Images/image8.png";
 import image9 from "../Images/image9.png";
 import line1 from "../Images/line11.png";
+
+
+
+
 import paymonggo from "../Images/paymongo.svg";
+
+
+
 import ExtendSuccessPopup from './ExtendSuccessPopup';
-import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+
 
 const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   const [isChecked, setIsChecked] = useState(false);
@@ -52,7 +61,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/order/getOrderById/${orderId}`);
+        const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrderById/${orderId}`);
         if (response.status === 200 && response.data) {
           setOrderDetails(response.data);
           const { car, endDate: orderEndDate } = response.data;
@@ -174,7 +183,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     if (!orderDetails) return;
 
     const amountInCentavos = Math.round(priceSummary.total * 100);
-    const response = await fetch('${BASE_URL}/api/payment/create-link', {
+    const response = await fetch('https://wheelsongo-backend.onrender.com/api/payment/create-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -201,22 +210,6 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
         const extendedEndDate = new Date(endDate).toISOString().split("T")[0]; // Format the extended end date
 
-        console.log("Creating a new order extension with the new end date...");
-
-        // Make POST request to extend the order with the new end date
-        const extensionResponse = await axios.put(
-          `${BASE_URL}/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
-          {}, // PUT request; no request body needed as per the new API
-          {
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          }
-      );
-      
-
-        if (extensionResponse.data) {
-            console.log("New order extension created successfully:", extensionResponse.data);
         // Make request to extend the order with the new end date
         const updateResponse = await axios.put(
             `http://localhost:8080/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,{},{
@@ -224,39 +217,12 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
             }
         );
 
-        // Check if the order update was successful
-        if (updateResponse && updateResponse.data) {
-            const { updatedOrder, extensionCost } = updateResponse.data;
-            console.log("Order updated successfully:", updatedOrder);
-            console.log("Extension cost for payment:", extensionCost);
 
-            // Prepare payment data for updating the payment status
-            const paymentData = {
-                orderId: extensionResponse.data.orderId,  // Use the new order ID from response
-                transactionId: details.id,               // Use the PayPal transaction ID from details
-                paymentOption: "PayPal",                 // Set payment option as PayPal
-                status: 1
-            };
 
-            // Update the payment status
-            const paymentResponse = await axios.post(
-                `${BASE_URL}/order/updatePaymentStatus`,
-                paymentData,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
 
-            if (paymentResponse.data) {
-                console.log("Payment status updated successfully.");
-                generateReceipt({ ...orderDetails, orderId: extensionResponse.data.orderId, referenceNumber: details.id }); // Generate receipt using new order ID and PayPal transaction ID
-                setShowExtendSuccessPopup(true); // Show success popup
-            } else {
-                throw new Error("Failed to update payment status.");
-            }
-        );
+
+
+
 
         // Check if the order update was successful
         if (updateResponse && updateResponse.data) {
@@ -279,6 +245,19 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
             // Show the success popup
             setShowExtendSuccessPopup(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
         } else {
             throw new Error("Failed to update the order with the extended date.");
         }

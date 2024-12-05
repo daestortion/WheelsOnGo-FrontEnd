@@ -28,15 +28,14 @@ import PrivateRoute from './PrivateRoute';
 import AdminReport from './Components/AdminReport.js';
 import AdminDashboard from './Components/AdminDashboard.js';
 import ChatPage from './Components/ChatPage.js';
-import Messages from './Components/Messages.js'
+import Messages from './Components/Messages.js';
 import AdminActivityLogs from './Components/AdminActivityLogs.js';
-import Balance from './Components/BalancePage.js'
-import AdminOwnerPayments from './Components/AdminOwnerPayments.js'
-import ReturnCarForm from './Components/ReturnCarForm.js'
+import Balance from './Components/BalancePage.js';
+import AdminOwnerPayments from './Components/AdminOwnerPayments.js';
+import ReturnCarForm from './Components/ReturnCarForm.js';
 import ReturnCar from './Components/ReturnCar.js';
-import Refund from './Components/Refund.js'; 
-import { BASE_URL } from './ApiConfig';  // Import the BASE_URL here
-
+import Refund from './Components/Refund.js';
+import ActivateAccountPage from './Components/ActivationPage';  // Import the ActivateAccountPage
 
 function DebugRoutes() {
     const location = useLocation();
@@ -57,8 +56,6 @@ function AuthRoutes() {
             <Route path="/resetpassword" element={<NewPassword />} />
             <Route path="/home" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/refund" element={<PrivateRoute><Refund /></PrivateRoute>} />
-
-
             <Route path="/cars" element={<PrivateRoute><Cars /></PrivateRoute>} />
             <Route path="/addcar" element={<AddCar />} />
             <Route path="/updatecar/:carId" element={<PrivateRoute><UpdateCar /></PrivateRoute>} />
@@ -88,6 +85,8 @@ function AuthRoutes() {
             <Route path="/history" element={<History />} />
             <Route path="/adminreport" element={<AdminReport />} />
 
+            {/* Add the new route for the activation page */}
+            <Route path="/activate/:userId/:token" element={<ActivateAccountPage />} />
         </Routes>
     );
 }  
