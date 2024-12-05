@@ -71,6 +71,10 @@ body {
   margin-bottom: 30px;
 }
 
+.login .div-wrapper{
+  margin: 0;
+}
+
 .login .not-registered,
 .login .forgot-passwords {
   font-family: "Inter-Bold", Helvetica;
@@ -121,6 +125,31 @@ body {
   text-align: center;
 }
 
+.password-field-login{
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 700px;
+  padding-bottom: 30px;
+}
+
+.toggle-login{
+  background-color: #e80029;
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 20px;
+  height: 60px;
+  width: 100px;
+  border: none;
+  cursor: pointer;
+}
+
 @media (max-width: 1024px) {
 
   .login .div {
@@ -149,7 +178,6 @@ body {
   .login .div-wrapper{
     font-size: 28px;
     height: 60px;
-    margin-bottom: 30px;
     padding: 0 20px;
     max-width: 650px;
   }
@@ -201,7 +229,6 @@ body {
   .login .div-wrapper{
     font-size: 25px;
     height: 55px;
-    margin-bottom: 30px;
     padding: 0 20px;
   }
 
@@ -228,6 +255,10 @@ body {
     font-size: 20px;
     height: 55px;
   }
+
+  .toggle-login{
+    height: 55px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -252,7 +283,6 @@ body {
   .login .div-wrapper{
     font-size: 17px;
     height: 45px;
-    margin-bottom: 30px;
     padding: 0 20px;
   }
 
@@ -279,6 +309,12 @@ body {
     font-size: 17px;
     height: 50px;
   }
+
+  .toggle-login{
+    height: 45px;
+    font-size: 15px;
+    width: 70px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -303,7 +339,6 @@ body {
   .login .div-wrapper{
     font-size: 15px;
     height: 35px;
-    margin-bottom: 20px;
     padding: 0 20px;
   }
 
@@ -366,5 +401,11 @@ body {
     font-family: "Inter-Bold", Helvetica;
     cursor: pointer;
     outline: none;
+  }
+
+  .toggle-login{
+    height: 35px;
+    font-size: 12px;
+    width: 60px;
   }
 }
