@@ -161,13 +161,31 @@ export const AdminPageReports = () => {
     }
   };
 
-  const handleAddUser = async (userId) => {
+  const handleAddUser = async (userId, username) => {
     try {
       await axios.post(
         `${BASE_URL}/chat/${adminSelectedChatId}/addUser`,
         null,
         { params: { userId } }
       );
+      
+      // Send a message to the chat indicating that the user was added
+      const adminId = localStorage.getItem("adminId");
+      const messageContent = `Admin added ${username} to the chat`;
+  
+      // Send this message in the chat
+      await axios.post(
+        `${BASE_URL}/chat/${adminSelectedChatId}/send`,
+        null,
+        {
+          params: {
+            adminId: adminId,
+            messageContent: messageContent,
+          },
+        }
+      );
+  
+      // Refresh the chat messages and available users
       fetchAdminMessages(adminSelectedChatId); // Refresh the chat messages
       fetchAvailableUsers(); // Refresh the available users
     } catch (error) {
@@ -182,30 +200,43 @@ export const AdminPageReports = () => {
 
   const renderAdminMessages = () => {
     const adminId = parseInt(localStorage.getItem("adminId"));
-    return adminMessages.map((message, index) => (
-      <div
-        key={index}
-        className={`admin-chat-message ${
-          message.adminId === adminId || message.sender?.userId === adminId
-            ? "sender-message"
-            : "receiver-message"
-        }`}
-      >
+    return adminMessages.map((message, index) => {
+      const isSystemMessage =
+        message.messageContent && message.messageContent.includes("Admin added");
+
+      return (
         <div
-          className={`admin-chat-bubble ${
+          key={index}
+          className={`admin-chat-message ${
             message.adminId === adminId || message.sender?.userId === adminId
-              ? "bubble-right"
-              : "bubble-left"
+              ? "sender-message"
+              : "receiver-message"
           }`}
         >
-          <div className="sender-name">{message.senderLabel || "Unknown"}</div>
-          {message.messageContent}
-          <span className="admin-timestamp">
-            {adminFormatTimestamp(message.sentAt)}
-          </span>
+          {isSystemMessage ? (
+            // This is the system notification message
+            <div className="admin-chat-system-message">
+              {message.messageContent}
+            </div>
+          ) : (
+            // Regular chat messages
+            <div
+              className={`admin-chat-bubble ${
+                message.adminId === adminId || message.sender?.userId === adminId
+                  ? "bubble-right"
+                  : "bubble-left"
+              }`}
+            >
+              <div className="sender-name">{message.senderLabel || "Unknown"}</div>
+              {message.messageContent}
+              <span className="admin-timestamp">
+                {adminFormatTimestamp(message.sentAt)}
+              </span>
+            </div>
+          )}
         </div>
-      </div>
-    ));
+      );
+    });
   };
 
   return (
@@ -341,28 +372,34 @@ export const AdminPageReports = () => {
                       </button>
                       {isAddMemberVisible && (
                         <div className="add-member-section">
-                            <div className="add-member-dropdown">
+                          <div className="add-member-dropdown">
                             <input
-                                type="text"
-                                placeholder="Search for users..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                              type="text"
+                              placeholder="Search for users..."
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <ul>
-                                {searchResults
+                              {searchResults
                                 .filter((user) =>
-                                    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+                                  user.username
+                                    .toLowerCase()
+                                    .includes(searchQuery.toLowerCase())
                                 )
                                 .map((user) => (
-                                    <li key={user.userId}>
+                                  <li key={user.userId}>
                                     {user.username}{" "}
-                                    <button onClick={() => handleAddUser(user.userId)}>Add</button>
-                                    </li>
+                                    <button
+                                      onClick={() => handleAddUser(user.userId, user.username)}
+                                    >
+                                      Add
+                                    </button>
+                                  </li>
                                 ))}
                             </ul>
-                            </div>
+                          </div>
                         </div>
-                        )}
+                      )}
                       <h3>Group Chat</h3>
                       <div className="admin-chat-messages">
                         {renderAdminMessages()}
@@ -372,9 +409,7 @@ export const AdminPageReports = () => {
                         <textarea
                           placeholder="Type your message here..."
                           value={adminNewMessage}
-                          onChange={(e) =>
-                            setAdminNewMessage(e.target.value)
-                          }
+                          onChange={(e) => setAdminNewMessage(e.target.value)}
                         />
                         <button onClick={sendAdminMessage}>Send</button>
                       </div>

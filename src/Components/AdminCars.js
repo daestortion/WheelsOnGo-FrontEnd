@@ -21,7 +21,7 @@ const AdminPageCars = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get('${BASE_URL}/car/getAllCars');
+      const response = await axios.get(`${BASE_URL}/car/getAllCars`);
       setCars(response.data);
       setHasFetchedOnce(true); // Mark data as fetched
     } catch (error) {

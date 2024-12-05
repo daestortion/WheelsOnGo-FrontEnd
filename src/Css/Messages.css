@@ -213,5 +213,47 @@
   text-align: right;
 }
 
+/* System Message Styling */
+.chat-message.system-message {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.chat-bubble.system-bubble {
+  background-color: #f0f0f0; /* Light gray for system messages */
+  color: #333;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 14px;
+  text-align: center;
+  font-style: italic;
+  font-weight: normal;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.chat-bubble.system-bubble .sender-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.timestamp {
+  display: none;
+  position: absolute;
+  bottom: -20px;
+  right: 10px;
+  font-size: 12px;
+  color: gray;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.chat-bubble:hover .timestamp {
+  display: inline-block;
+}
 
 

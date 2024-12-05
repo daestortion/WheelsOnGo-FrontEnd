@@ -31,7 +31,7 @@ export const Cars = () => {
     const fetchCars = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('${BASE_URL}/car/getAllCars');
+        const response = await axios.get(`${BASE_URL}/car/getAllCars`);
         const approvedCars = response.data.filter(car => car.approved && !car.deleted);
         
         console.log("Fetched Cars:", approvedCars); // Log fetched cars

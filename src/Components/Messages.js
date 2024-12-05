@@ -32,7 +32,6 @@ export const Messages = () => {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setCurrentUser(parsedUser);
-      console.log("Current User: ", parsedUser);
     }
     fetchUserChats();
   }, []);
@@ -51,12 +50,10 @@ export const Messages = () => {
     try {
       const storedUser = localStorage.getItem("user");
       const userId = JSON.parse(storedUser)?.userId;
-      console.log("Fetching chats for userId: ", userId);
       const response = await axios.get(
         `${BASE_URL}/chat/user/${userId}/chats`
       );
       setChats(response.data);
-      console.log("Chats fetched: ", response.data);
     } catch (error) {
       console.error("Failed to fetch user chats", error);
     } finally {
@@ -141,13 +138,10 @@ export const Messages = () => {
       <Header />
 
       <div className="title">
-          <h1>Messages</h1>
-        </div>
+        <h1>Messages</h1>
+      </div>
 
       <div className="messages-container">
-        
-
-
         {isLoading ? (
           <Loading />
         ) : (
@@ -168,35 +162,46 @@ export const Messages = () => {
             {selectedChat && (
               <div className="chat-section">
                 <div className="chat-messages">
-                  {messages.map((message, index) => (
-                    <div
-                      key={index}
-                      className={`chat-message ${
-                        message.userId === currentUser?.userId
-                          ? "user-message"
-                          : "admin-message"
-                      }`}
-                    >
-                      <div
-                        className={`chat-bubble ${
-                          message.userId === currentUser?.userId
-                            ? "bubble-right"
-                            : "bubble-left"
-                        }`}
-                      >
-                        <div className="sender-name">
-                          {message.userId === currentUser?.userId
-                            ? "You"
-                            : message.senderLabel || "Admin"}
+                  {messages.map((message, index) => {
+                    // Check for system messages and show them as separate info
+                    if (message.messageType === "system") {
+                      return (
+                        <div key={index} className="chat-message system-message">
+                          <div className="chat-bubble system-bubble">
+                            <div className="sender-name">System</div>
+                            <div>{message.messageContent}</div>
+                            <div className="timestamp">
+                              {formatMessageTimestamp(message.sentAt)}
+                            </div>
+                          </div>
                         </div>
-                        {message.messageContent}
-                        <div className="timestamp">
-                          {formatMessageTimestamp(message.sentAt)}
+                      );
+                    }
+
+                    // Normal user/admin messages
+                    return (
+                      <div
+                        key={index}
+                        className={`chat-message ${message.userId === currentUser?.userId ? "user-message" : "admin-message"}`}
+                      >
+                        <div
+                          className={`chat-bubble ${message.userId === currentUser?.userId ? "bubble-right" : "bubble-left"}`}
+                        >
+                          <div className="sender-name">
+                            {message.userId === currentUser?.userId
+                              ? "You"
+                              : message.senderLabel || "Admin"}
+                          </div>
+                          {message.messageContent}
+                          <div className="timestamp">
+                            {formatMessageTimestamp(message.sentAt)}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
+
                 <div className="chat-input">
                   <textarea
                     placeholder="Type your message here..."

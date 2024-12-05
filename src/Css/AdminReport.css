@@ -153,38 +153,46 @@
     word-wrap: break-word;
 }
 
-/* Sender (Right - Blue Bubble) */
-.sender-message {
-    align-self: flex-end;
+/* Sender & Receiver Messages */
+.bubble-left, .bubble-right {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.bubble-left {
+    background-color: #f4f4f4;
+    margin-right: auto;
 }
 
 .bubble-right {
     background-color: #38a1f3;
     color: white;
-    border-radius: 18px 18px 0 18px;
-    text-align: left;
-    max-width: 100%;
-    padding: 14px 20px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    word-wrap: break-word;
+    margin-left: auto;
 }
 
-/* Receiver (Left - Gray Bubble) */
+/* System Message */
+.admin-chat-system-message {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    border-radius: 5px;
+    width: 100%;
+    display: inline-block;
+}
+
+/* Message Alignment */
+.sender-message {
+    align-self: flex-end;
+}
+
 .receiver-message {
     align-self: flex-start;
-}
-
-.bubble-left {
-    background-color: #e8e9ea;
-    color: black;
-    border-radius: 18px 18px 18px 0;
-    text-align: left;
-    max-width: 100%;
-    padding: 14px 20px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    word-wrap: break-word;
 }
 
 /* Sender Name Styling */
@@ -302,43 +310,42 @@
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
-  
-  .add-member-dropdown {
+}
+
+.add-member-dropdown {
     margin-top: 10px;
-  }
-  
-  .add-member-dropdown input {
+}
+
+.add-member-dropdown input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-  }
-  
-  .add-member-dropdown ul {
+}
+
+.add-member-dropdown ul {
     list-style: none;
     padding: 0;
     margin: 10px 0;
-  }
-  
-  .add-member-dropdown li {
+}
+
+.add-member-dropdown li {
     margin: 5px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .add-member-dropdown button {
+}
+
+.add-member-dropdown button {
     padding: 5px 10px;
     background-color: #38a1f3;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .add-member-dropdown button:hover {
+}
+
+.add-member-dropdown button:hover {
     background-color: #0056b3;
-  }
-  
+}
