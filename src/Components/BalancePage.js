@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import "../Css/BalancePage.css";
+import { BASE_URL } from '../ApiConfig'; // Adjust the path if necessary
 import Header from "../Components/Header";
-import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import "../Css/BalancePage.css";
 
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
@@ -14,7 +14,7 @@ const BalancePage = () => {
   const navigate = useNavigate();
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [requestType, setRequestType] = useState("");
   const [fullName, setFullName] = useState("");
@@ -117,6 +117,8 @@ const BalancePage = () => {
       requestData.accountNumber = accountNumber;
     }
 
+    setIsLoading(true); // Start loading when form is submitted
+
     try {
       await axios.post(
         `${BASE_URL}/request-form/request-funds?userId=${userId}`,
@@ -129,6 +131,8 @@ const BalancePage = () => {
     } catch (error) {
       alert("Failed to submit the request.");
       console.error(error);
+    } finally {
+      setIsLoading(false); // Stop loading after request is completed
     }
   };
 
@@ -180,7 +184,7 @@ const BalancePage = () => {
               </p>
             </div>
             <div className="cards">
-              <h2>Total Online Earnings (Withdrawable)</h2>
+              <h2>Total Online Earnings (Remittable)</h2>
               <p>
                 ₱
                 {walletData.debit.toLocaleString("en-US", {
@@ -203,7 +207,7 @@ const BalancePage = () => {
         )}
       </div>
 
-      <button className="request-funds-btn" onClick={handleRefundClick}> Request Refund</button>
+      <button className="request-funds-btn" onClick={handleRefundClick}> Remittable Balance</button>
 
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
@@ -302,7 +306,7 @@ const BalancePage = () => {
               />
               <small>
                 Available Balance: ₱
-                {walletData.credit?.toLocaleString("en-US", {
+                {walletData.debit?.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) || "0.00"}

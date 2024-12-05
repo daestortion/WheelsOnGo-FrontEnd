@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Css/AdminOwner.css";
@@ -10,8 +10,18 @@ const AdminOwnerPayments = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasFetchedOnce, setHasFetchedOnce] = useState(false); // Track if data has been fetched
+  const [uploadedFileNames, setUploadedFileNames] = useState({}); // Track uploaded file names for each row
   const navigate = useNavigate();
 
+  // Step 2: Retrieve uploaded file names from localStorage on component mount
+  useEffect(() => {
+    const savedFileNames = JSON.parse(localStorage.getItem("uploadedFileNames"));
+    if (savedFileNames) {
+      setUploadedFileNames(savedFileNames);
+    }
+  }, []);
+
+  // Fetch data for requests
   const fetchRequests = () => {
     setLoading(true);
     axios
@@ -31,11 +41,25 @@ const AdminOwnerPayments = () => {
   const handleApprove = async (requestId) => {
     setLoading(true);
     try {
-      await axios.put(
-        `${BASE_URL}/request-form/approveRequest/${requestId}`
+      // Step 1: Approve the request
+      await axios.put(`${BASE_URL}/request-form/approveRequest/${requestId}`);
+      
+      // Step 2: Attempt to deduct funds from the user's wallet
+      const request = requests.find((r) => r.requestId === requestId);
+      const userId = request.user.userId;  // Assuming the request contains userId
+  
+      const response = await axios.put(
+        `${BASE_URL}/ownerWallet/deductFromOnlineEarnings/${userId}/${requestId}`
       );
+      
+      if (response.status === 200) {
+        alert("Request approved and funds successfully deducted!");
+      } else {
+        alert("Error: " + response.data);  // Show the error from the backend if any
+      }
+  
       fetchRequests(); // Refresh the requests after approval
-      alert("Request approved successfully!");
+  
     } catch (error) {
       console.error("Error approving request:", error);
       alert("Error processing approval: " + error.message);
@@ -67,6 +91,13 @@ const AdminOwnerPayments = () => {
     fileInput.onchange = async (event) => {
       const file = event.target.files[0];
       if (file) {
+        // Update the file name for the specific request (row)
+        setUploadedFileNames((prev) => {
+          const updated = { ...prev, [requestId]: file.name };
+          localStorage.setItem("uploadedFileNames", JSON.stringify(updated)); // Step 1: Store in localStorage
+          return updated;
+        });
+
         try {
           setLoading(true);
           const formData = new FormData();
@@ -174,7 +205,7 @@ const AdminOwnerPayments = () => {
             </button>
           </div>
 
-          <h2 className="admin-owner-content-title">Owner Payments Requests</h2>
+          <h2 className="admin-owner-content-title">Withdrawal Requests</h2>
 
           {/* Payments Table */}
           <div className="owner-payments-table-container">
@@ -235,14 +266,14 @@ const AdminOwnerPayments = () => {
                         <button
                           className="button-approve"
                           onClick={() => handleApprove(request.requestId)}
-                          disabled={loading || request.status !== "pending"}
+                          disabled={loading || request.status !== "pending" || !uploadedFileNames[request.requestId]}
                         >
                           Approve
                         </button>
                         <button
                           className="button-deny"
                           onClick={() => handleDeny(request.requestId)}
-                          disabled={loading || request.status !== "pending"}
+                          disabled={loading || request.status !== "pending" || !uploadedFileNames[request.requestId]}
                         >
                           Deny
                         </button>
@@ -254,6 +285,9 @@ const AdminOwnerPayments = () => {
                         >
                           Send Funds
                         </button>
+                        {uploadedFileNames[request.requestId] && (
+                          <p>Uploaded File: {uploadedFileNames[request.requestId]}</p>
+                        )}
                       </td>
                     </tr>
                   ))

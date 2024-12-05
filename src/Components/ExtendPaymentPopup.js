@@ -43,6 +43,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   const [showTermsPopup, setShowTermsPopup] = useState(false);
   const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
   const termsBodyRef = useRef(null);
+  const userId = localStorage.getItem('userId'); // If stored in local storage
 
   useEffect(() => {
     // Ensure orderId is valid before making the request
@@ -192,52 +193,66 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     }
   };
 
-  const handlePayPalSuccess = async (details) => {
+  const updateOnlineEarnings = async (ownerId, amount) => {
     try {
-        setPaypalPaid(true); // Mark PayPal as paid
-
-        if (!orderDetails || !orderDetails.orderId) {
-            throw new Error("Order details are missing or invalid.");
-        }
-
-        const extendedEndDate = new Date(endDate).toISOString().split("T")[0]; // Format the extended end date
-
-        // Make request to extend the order with the new end date
-        const updateResponse = await axios.put(
-            `${BASE_URL}/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,{},{
-                headers: { 'Content-Type': 'application/json' }
-            }
+        const response = await axios.put(
+            `${BASE_URL}/ownerWallet/addToOnlineEarnings/${ownerId}`,
+            null,
+            { params: { amount } } // Pass the full amount, backend will handle the 85% calculation
         );
-        // Check if the order update was successful
-        if (updateResponse && updateResponse.data) {
-            const { updatedOrder, extensionCost } = updateResponse.data;
-            console.log("Order updated successfully:", updatedOrder);
-            console.log("Extension cost for payment:", extensionCost);
-
-            // Prepare and log payment data for receipt generation
-            const paymentData = {
-                orderId: updatedOrder.orderId,
-                transactionId: details.id,     // Use the PayPal transaction ID from details
-                paymentOption: "PayPal",       // Set payment option to PayPal
-                amount: extensionCost,         // Only the extension cost
-                status: 1                      // Mark payment as completed
-            };
-            console.log("Prepared payment data for receipt:", paymentData);
-
-            // Generate receipt
-            generateReceipt({ ...updatedOrder, referenceNumber: details.id });
-
-            // Show the success popup
-            setShowExtendSuccessPopup(true);
-        } else {
-            throw new Error("Failed to update the order with the extended date.");
-        }
+        console.log("Online earnings updated:", response.data);
     } catch (error) {
-        // Handle error if order update fails
-        console.error("Error during PayPal success handling:", error.message);
-        setShowPayPalError(true); // Show PayPal error popup
+        console.error("Error updating online earnings:", error);
     }
   };
+  
+  
+  const handlePayPalSuccess = async (details) => {
+      try {
+          setPaypalPaid(true);
+  
+          if (!orderDetails || !orderDetails.orderId) {
+              throw new Error("Order details are missing or invalid.");
+          }
+  
+          const extendedEndDate = new Date(endDate).toISOString().split("T")[0];
+  
+          const updateResponse = await axios.put(
+              `${BASE_URL}/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,
+              {},
+              { headers: { 'Content-Type': 'application/json' } }
+          );
+  
+          if (updateResponse && updateResponse.data) {
+              const { updatedOrder, extensionCost } = updateResponse.data;
+              console.log("Order updated successfully:", updatedOrder);
+              console.log("Extension cost for payment:", extensionCost);
+  
+              // Extract owner's userId from the order details
+              const ownerId = orderDetails.car.owner.userId;
+  
+              // Update the owner's online earnings
+              await updateOnlineEarnings(ownerId, extensionCost);
+  
+              const paymentData = {
+                  orderId: updatedOrder.orderId,
+                  transactionId: details.id,
+                  paymentOption: "PayPal",
+                  amount: extensionCost,
+                  status: 1,
+              };
+              console.log("Prepared payment data for receipt:", paymentData);
+  
+              generateReceipt({ ...updatedOrder, referenceNumber: details.id });
+              setShowExtendSuccessPopup(true);
+          } else {
+              throw new Error("Failed to update the order with the extended date.");
+          }
+      } catch (error) {
+          console.error("Error during PayPal success handling:", error.message);
+          setShowPayPalError(true); 
+      }
+  };  
 
   const generateReceipt = (updatedOrder) => {
     const doc = new jsPDF();
