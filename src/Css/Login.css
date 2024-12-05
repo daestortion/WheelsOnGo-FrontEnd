@@ -330,4 +330,41 @@ body {
     font-size: 14px;
     height: 40px;
   }
+
+  
+  .password-field-login {
+    position: relative; /* Ensures the toggle button positions correctly */
+    width: 100%;
+    max-width: 700px; /* Set the maximum width */
+    margin-bottom: 30px; /* Add spacing */
+  }
+  
+  .password-input-login {
+    background-color: #ffffff;
+    color: #848484;
+    border-radius: 25px;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 25px;
+    font-weight: 700;
+    height: 60px; /* Set height */
+    width: 100%; /* Ensures the input takes full width of its container */
+    max-width: 700px; /* Enforces consistent width */
+    border: none;
+    padding: 0 20px; /* Adds space inside the input */
+    box-sizing: border-box; /* Prevents padding from affecting overall size */
+  }
+  
+  .toggle-password-login {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: #e80029;
+    border: none;
+    font-size: 18px;
+    font-family: "Inter-Bold", Helvetica;
+    cursor: pointer;
+    outline: none;
+  }
 }

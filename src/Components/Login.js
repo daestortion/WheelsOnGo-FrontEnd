@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../AuthContext';
 import "../Css/Login.css";
 import logo from "../Images/wheelsongo.png";
-import axios from "axios";
 import Loading from './Loading';
+
 
 export const Login = () => {
   const [identifier, setIdentifier] = useState("");
@@ -13,6 +14,7 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const clearLocalStorageIfEmpty = async () => {
@@ -99,6 +101,10 @@ export const Login = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleLogin(event);
@@ -127,19 +133,27 @@ export const Login = () => {
             autoComplete="username"
           />
     
-          <input
-            className="div-wrapper"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setErrorMessage(""); // Clear error message on input change
-            }}
-            onKeyPress={handleKeyPress}
-            name="password"
-            autoComplete="current-password"
-          />
+    <div className="password-field-login">
+            <input
+              className="password-input-login"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setErrorMessage("");
+              }}
+              name="password"
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              className="toggle-password-login"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
     
           {errorMessage && (
             <div className="error">
@@ -159,6 +173,8 @@ export const Login = () => {
               Forgot Password?
             </Link>
           </div>
+
+         
     
           <button className="overlap-group-2as" onClick={handleLogin}>
             Login
