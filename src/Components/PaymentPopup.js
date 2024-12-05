@@ -98,7 +98,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             console.log("Payment Data being sent to the backend:", paymentData);
 
             // Create the payment with 'pending' status for cash
-            const paymentResponse = await axios.post("${BASE_URL}/api/payment/create", paymentData, {
+            const paymentResponse = await axios.post(`${BASE_URL}/api/payment/create`, paymentData, {
                 headers: { 'Content-Type': 'application/json' },
             });
 
