@@ -46,7 +46,7 @@ export const VerifyPopup = ({ closePopup }) => {
             formData.append('govId', fileInputRefGovId.current.files[0]);
             formData.append('driversLicense', fileInputRefDriverLicense.current.files[0]);
             console.log('Form Data:', formData);
-            const response = await fetch('https://wheelsongo-backend.onrender.com/verification/insertVerification', {
+            const response = await fetch(`${BASE_URL}/verification/insertVerification`, {
                 method: 'POST',
                 body: formData
             });
