@@ -22,6 +22,7 @@ export const OrderHistoryPage = () => {
   const [showOwnedCars, setShowOwnedCars] = useState(false);
   const [showOngoingRents, setShowOngoingRents] = useState(false);
   const [showExtendPaymentPopup, setExtendShowPaymentPopup] = useState(false); // State to control PaymentPopup
+  const [filter, setFilter] = useState("all");
   const [currentUser, setCurrentUser] = useState({
     userId: null,
     username: "username",
@@ -437,15 +438,15 @@ const checkOwnerAcknowledgment = async (orderId) => {
   const filteredOrders = orders.filter((order) => {
     switch (filter) {
       case "active":
-        return order.status === "active";
+        return order.active === true; // Filter by active orders
       case "Terminated":
-        return order.status === "Terminated";
+        return order.terminated === true; // Filter by terminated orders
       case "Returned":
-        return order.status === "Returned";
+        return order.returned === true; // Filter by returned orders
       default:
         return true; // No filter applied, show all orders
     }
-  });
+  });  
 
   return (
     <div className="order-history-page">
