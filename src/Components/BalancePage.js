@@ -302,7 +302,7 @@ const BalancePage = () => {
               />
               <small>
                 Available Balance: ₱
-                {walletData.credit?.toLocaleString("en-US", {
+                {walletData.debit?.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) || "0.00"}
