@@ -11,6 +11,7 @@ import ReverifyPopup from './ReverifyPopup';
 import DeleteCarPopup from './DeleteCar';
 import { Report } from './Report'; // Import the named export
 import Header from "../Components/Header";
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -68,7 +69,7 @@ const UserProfile = () => {
             const fetchUserData = async () => {
                 setIsLoading(true);
                 try {
-                    const response = await axios.get(`https://wheelsongo-backend.onrender.com/user/getUserById/${userId}`);
+                    const response = await axios.get(`${BASE_URL}/user/getUserById/${userId}`);
                     if (response.status === 200) {
                         const userData = response.data;
                         setCurrentUser({
@@ -104,7 +105,7 @@ const UserProfile = () => {
 
     const fetchCars = async () => {
         try {
-            const response = await axios.get(`https://wheelsongo-backend.onrender.com/user/getCars/${currentUser.userId}`);
+            const response = await axios.get(`${BASE_URL}/user/getCars/${currentUser.userId}`);
             if (response.status === 200) {
                 setCurrentUser(prevState => ({
                     ...prevState,
@@ -134,7 +135,7 @@ const UserProfile = () => {
     const confirmDeleteCar = async () => {
         if (carToDelete) {
             try {
-                const response = await axios.put(`https://wheelsongo-backend.onrender.com/car/deleteCar/${carToDelete}`);
+                const response = await axios.put(`${BASE_URL}/car/deleteCar/${carToDelete}`);
                 if (response.status === 200) {
                     console.log(response.data);
                     fetchCars();
@@ -157,7 +158,7 @@ const UserProfile = () => {
 
     const handleConfirmRegisterAsOwner = async () => {
         try {
-            const response = await axios.put(`https://wheelsongo-backend.onrender.com/user/updateIsOwner/${currentUser.userId}`, {
+            const response = await axios.put(`${BASE_URL}/user/updateIsOwner/${currentUser.userId}`, {
                 isOwner: true
             });
             if (response.status === 200) {

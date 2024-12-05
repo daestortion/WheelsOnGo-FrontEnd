@@ -87,7 +87,7 @@ function AuthRoutes() {
 
             {/* Add the new route for the activation page */}
             <Route path="/activate/:userId/:token" element={<ActivateAccountPage />} />
-        </Routes>
+            </Routes>
     );
 }  
 

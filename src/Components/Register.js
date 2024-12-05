@@ -19,7 +19,8 @@ export const Registration = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false); // Track registration success
+  const [message, setMessage] = useState(""); // To handle success/error message
+  const [errorMessage, setErrorMessage] = useState(""); // For error messages
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,6 +47,7 @@ export const Registration = () => {
     setIsLoading(true);
 
     try {
+      // Step 1: Register the user
       const response = await axios.post(`${BASE_URL}/user/insertUser`, {
         username: userName,
         fName: firstName,
@@ -57,6 +59,19 @@ export const Registration = () => {
         isDeleted: false,
       });
       console.log(response.data);
+
+      // Step 2: Send the activation email
+      const userId = response.data.userId;  // Assuming response contains the user's ID
+      const activationResponse = await axios.post(`${BASE_URL}/user/send-activation-email/${userId}`);
+
+      if (activationResponse.status === 200) {
+        setMessage('Registration successful! Please check your email for the activation link.');
+        setErrorMessage('');
+      } else {
+        setErrorMessage('Failed to send activation email.');
+      }
+
+      // Reset form
       setUserName("");
       setFirstName("");
       setLastName("");
@@ -66,13 +81,13 @@ export const Registration = () => {
       setConfirmPassword("");
       setError("");
       setIsPopupVisible(true);
-      setIsSuccess(true); // Set success state to true on successful registration
+
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.message);
+        setErrorMessage(error.response.data.message);
       } else {
         console.error("Registration Error:", error);
-        setError("Failed to register. Please try again.");
+        setErrorMessage("Failed to register. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -144,48 +159,39 @@ export const Registration = () => {
               </button>
             </div>
 
+            <div className="password-input-wrapper">
+              <input
+                className="overlap-6"
+                type={showPassword ? "text" : "password"}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
 
-              <div className="password-input-wrapper">
-                <input
-                  className="overlap-6"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="toggle-password"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </button>
-              </div>
-              
+            {error && <div className="error-message">{error}</div>}
 
-          {error && <div className="error-message">{error}</div>}
+            {message && <div className="success-message">{message}</div>}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-          <div className="already-have-an">
-            <span className="span">Already have an Account? </span>
-            <Link to="/login" className="text-wrapper-3">Login</Link>
-          </div>
+            <div className="already-have-an">
+              <span className="span">Already have an Account? </span>
+              <Link to="/login" className="text-wrapper-3">Login</Link>
+            </div>
 
-          <button type="submit" className="overlap-group">Register</button>
+            <button type="submit" className="overlap-group">Register</button>
 
           </form>
         </div>
       </div>
-
       {isPopupVisible && <RegisteredPopup />}
-
-      {/* Display success message after registration */}
-      {isSuccess && (
-        <div className="activation-message">
-          <p>
-            Registration successful! Please check your email for the activation link.
-          </p>
-        </div>
-      )}
     </div>
   );
 };
