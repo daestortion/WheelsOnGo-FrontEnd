@@ -136,7 +136,7 @@ export const Login = () => {
     
     <div className="password-field-login">
             <input
-              className="div-wrapper"
+              className="password-input-login"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
@@ -149,7 +149,7 @@ export const Login = () => {
             />
             <button
               type="button"
-              className="toggle-login"
+              className="toggle-password-login"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? "Hide" : "Show"}
