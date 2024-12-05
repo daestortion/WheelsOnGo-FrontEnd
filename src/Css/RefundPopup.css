@@ -1,0 +1,119 @@
+.successful-refund {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;  /* Center vertically */
+  justify-content: center;  /* Center horizontally */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+  padding: 20px;
+}
+
+.overlap {
+  background-color: #d7d1d1;
+  border-radius: 20px;
+  padding: 40px;  /* Add some padding to space content nicely */
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  flex-direction: column;
+  align-items: center;  /* Center the h1 and button horizontally */
+  justify-content: center;  /* Center the h1 and button vertically */
+}
+
+.ok-text-wrapper {
+  color: #000000;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;  /* Space between the text and button */
+}
+
+.overlap-group23 {
+  background-color: #e80029;
+  border-radius: 35px;
+  height: 40px;
+  width: 120px;
+  display: flex;
+  align-items: center;  /* Center text vertically */
+  justify-content: center;  /* Center text horizontally */
+  cursor: pointer;
+  border: none;
+}
+
+.ok-div {
+  color: #ffffff;
+  font-family: "Inter-Bold", Helvetica;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+
+  .ok-text-wrapper{
+    font-size: 30px;
+  }
+
+  .overlap{
+    padding: 20px;
+  }
+
+  .overlap-group23{
+    height: 40px;
+    width: 100px;
+  }
+
+  .ok-div{
+    font-size: 18px;
+  }
+  
+}
+
+@media (max-width: 600px) {
+
+  .ok-text-wrapper{
+    font-size: 25px;
+  }
+
+  .overlap{
+    padding: 20px;
+    max-width: 500px;
+  }
+
+  .overlap-group23{
+    height: 35px;
+    width: 100px;
+  }
+
+  .ok-div{
+    font-size: 15px;
+  }
+  
+}
+
+
+@media (max-width: 400px) {
+
+  .ok-text-wrapper{
+    font-size: 18px;
+  }
+
+  .overlap{
+    padding: 20px;
+  }
+
+  .overlap-group23{
+    height: 25px;
+    width: 100px;
+  }
+
+  .ok-div{
+    font-size: 10px;
+  }
+  
+}

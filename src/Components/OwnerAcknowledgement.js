@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../Css/RegisteredPopup.css";
+import "../Css/OwnerAcknowledgement.css";
 
 export const RegisteredPopup = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export const RegisteredPopup = () => {
   };
 
   return (
-    <div className="successful-register">
+    <div className="Owner-Acknowledgement">
         <div className="overlap">
           <h1 className="ok-text-wrapper">Return Proof Acknowledgement Successfully.</h1>
             <button className="overlap-group23" onClick={handleOkClick}>
