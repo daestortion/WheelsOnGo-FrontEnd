@@ -122,10 +122,11 @@ export const Login = () => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleLogin(event);
+      event.preventDefault(); // Prevent the default form submission behavior
+      handleLogin(event); // Call handleLogin function
     }
   };
-
+  
   return (
     <div className="login">
       {isLoading && <Loading />}
@@ -133,7 +134,7 @@ export const Login = () => {
         <img className="wheels-on-go" alt="Wheels on go" src={logo} />
         <div className="overlap11">
           <div className="text-wrapper">LOGIN</div>
-
+  
           <input
             className="overlap-group"
             type="text"
@@ -143,11 +144,11 @@ export const Login = () => {
               setIdentifier(e.target.value);
               setErrorMessage(""); // Clear error message on input change
             }}
-            onKeyPress={handleKeyPress}
+            onKeyPress={handleKeyPress} // Trigger handleLogin on Enter press
             name="identifier"
             autoComplete="username"
           />
-
+  
           <div className="password-field-login">
             <input
               className="div-wrapper"
@@ -160,6 +161,7 @@ export const Login = () => {
               }}
               name="password"
               autoComplete="current-password"
+              onKeyPress={handleKeyPress} // Also trigger on Enter press for the password field
             />
             <button
               type="button"
@@ -169,33 +171,33 @@ export const Login = () => {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-
+  
           {errorMessage && (
             <div className="error">
               <p className="error-messages">{errorMessage}</p>
             </div>
           )}
-
+  
           <div className="not-registered">
             <span className="span">Not Registered? </span>
             <Link to="/register" className="text-wrapper-323">
               Create an Account
             </Link>
           </div>
-
+  
           <div className="forgot-passwords">
             <Link to="/forgotpassword" className="text-wrapper-323">
               Forgot Password?
             </Link>
           </div>
-
+  
           <button className="overlap-group-2as" onClick={handleLogin}>
             Login
           </button>
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default Login;
