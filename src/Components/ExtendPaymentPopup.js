@@ -5,9 +5,7 @@ import PayPal from "../Components/PayPal";
 import PayPalError from "../Components/PaypalError";
 import PayPalSuccessful from "../Components/PaypalSuccessful";
 import "../Css/ExtendPaymentPopup.css";
-
 import close from "../Images/close.png";
-
 import image1 from "../Images/image1.jpg";
 import image10 from "../Images/image10.png";
 import image11 from "../Images/image11.svg";
@@ -23,15 +21,9 @@ import image7 from "../Images/image7.jpg";
 import image8 from "../Images/image8.png";
 import image9 from "../Images/image9.png";
 import line1 from "../Images/line11.png";
-
-
-
-
 import paymonggo from "../Images/paymongo.svg";
-
-
-
 import ExtendSuccessPopup from './ExtendSuccessPopup';
+import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 
 
 const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
@@ -61,7 +53,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`https://wheelsongo-backend.onrender.com/order/getOrderById/${orderId}`);
+        const response = await axios.get(`${BASE_URL}/order/getOrderById/${orderId}`);
         if (response.status === 200 && response.data) {
           setOrderDetails(response.data);
           const { car, endDate: orderEndDate } = response.data;
@@ -183,7 +175,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
     if (!orderDetails) return;
 
     const amountInCentavos = Math.round(priceSummary.total * 100);
-    const response = await fetch('https://wheelsongo-backend.onrender.com/api/payment/create-link', {
+    const response = await fetch('${BASE_URL}/api/payment/create-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -212,18 +204,10 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
         // Make request to extend the order with the new end date
         const updateResponse = await axios.put(
-            `http://localhost:8080/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,{},{
+            `${BASE_URL}/order/extendOrder/${orderDetails.orderId}?newEndDate=${extendedEndDate}`,{},{
                 headers: { 'Content-Type': 'application/json' }
             }
         );
-
-
-
-
-
-
-
-
         // Check if the order update was successful
         if (updateResponse && updateResponse.data) {
             const { updatedOrder, extensionCost } = updateResponse.data;
@@ -245,19 +229,6 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
             // Show the success popup
             setShowExtendSuccessPopup(true);
-
-
-
-
-
-
-
-
-
-
-
-
-
         } else {
             throw new Error("Failed to update the order with the extended date.");
         }
