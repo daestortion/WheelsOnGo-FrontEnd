@@ -132,6 +132,10 @@ const UserProfile = () => {
         setShowDeleteCarPopup(true);
     };
 
+    const handleRefundsClick = () =>{
+        navigate('/refund');
+      };
+
     const confirmDeleteCar = async () => {
         if (carToDelete) {
             try {
@@ -245,6 +249,10 @@ const UserProfile = () => {
 
                     <button onClick={toggleReportPopup} className="button1">
                         Submit a Report
+                    </button>
+
+                    <button onClick={handleRefundsClick} className="button1">
+                        Request Refund
                     </button>
 
                     {currentUser.verificationStatus === 1 && (

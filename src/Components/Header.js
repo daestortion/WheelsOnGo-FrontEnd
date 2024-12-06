@@ -85,9 +85,6 @@ const Header = () => {
             <a href="#cars" onClick={handleCarsClick} className="cars-link">
               <img src={cars} alt="Cars Icon" className="link-icon" /> Cars
             </a>
-            <a href="#Refunds" onClick={handleRefundsClick} className="refunds-link">
-              <img src={about} alt="Money Icon" className="link-icon" /> Refund
-            </a>
             <a href="#about" onClick={handleAboutClick} className="about-link">
               <img src={about} alt="About Icon" className="link-icon" /> About
             </a>
@@ -107,7 +104,6 @@ const Header = () => {
         <div className="header-items">
           <div className="text-wrapper-4" onClick={handleHomeClick}>Home</div>
           <div className="text-wrapper-5" onClick={handleCarsClick}>Cars</div>
-          <div className="text-wrapper-6" onClick={handleRefundsClick}>Refund</div>
           <div className="text-wrapper-6" onClick={handleAboutClick}>About</div>
           <Dropdown>
             <img className="group" alt="Group" src={profile} />

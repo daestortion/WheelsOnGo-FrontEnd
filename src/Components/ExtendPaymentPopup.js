@@ -333,10 +333,10 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
               </div>
 
                 <div className='extend3'>
-                  <div className="ref-id">Reference No: {referenceNumber}</div>
-                  <div className="start-date">Start Date: {startDate ? new Date(startDate).toLocaleDateString() : "N/A"}</div>
-                  <div className="end-date">New Return Date: {endDate ? endDate.toLocaleDateString() : "N/A"}</div>
-                  <div className="balance">Balance: ₱{priceSummary.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                  <div className="ref-id">Reference No: <span className="normal-text">{referenceNumber} </span></div>
+                  <div className="start-date">Start Date: <span className="normal-text">{startDate ? new Date(startDate).toLocaleDateString() : "N/A"} </span> </div>
+                  <div className="end-date">New Return Date:<span className="normal-text"> {endDate ? endDate.toLocaleDateString() : "N/A"} </span> </div>
+                  <div className="balance">Balance: <span className="normal-text"> ₱{priceSummary.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span></div>
                 </div>
 
                 <div className='extend5'>

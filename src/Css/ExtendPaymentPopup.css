@@ -9,20 +9,19 @@
     justify-content: center;  
     background-color: rgba(0, 0, 0, 0.5);  
     z-index: 1050; 
+    padding: 20px;
   }
   
   .extend-payment-popup .content {
-    background-color: #d7d1d1;
-    border-radius: 30px;
-    height: auto;
-    position: relative;
-    width: auto;
+    background-color: #d7d1d1; 
+    border-radius: 20px; 
+    position: relative; 
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    padding: 50px;
-    gap: 50px;
+    gap: 20px;
+    padding: 20px;
+    max-height: calc(100vh - 80px); /* Use almost full viewport height */
+    overflow-y: auto;
   }
 
   .spacer1 {
@@ -47,7 +46,7 @@
     .extend-payment-popup .header {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 50px;
+      font-size: 30px;
       font-weight: 600;
       letter-spacing: 0.62px;
       line-height: normal;
@@ -158,7 +157,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      gap: 150px;
+      gap: 20px;
     }
     
     .extend9 {
@@ -213,7 +212,6 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 10px;
     }
     
     .extend-payment-popup .spanthis {
@@ -259,7 +257,7 @@
     .extend-payment-popup .car-deets {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 40px;
+      font-size: 25px;
       font-weight: 600;
       line-height: normal;
       position: relative;
@@ -277,7 +275,7 @@
     .extend-payment-popup .price {
       color: #e32128;
       font-family: "Inter-Medium", Helvetica;
-      font-size: 30px;
+      font-size: 25px;
       font-weight: 500;
       position: relative;
       white-space: nowrap;
@@ -286,7 +284,7 @@
     .extend-payment-popup .pnum {
       color: #e32128;
       font-family: "Inter-Medium", Helvetica;
-      font-size: 30px;
+      font-size: 25px;
       font-weight: 500;
       position: relative;
       white-space: nowrap;
@@ -294,12 +292,13 @@
     
     .extend-payment-popup .vertical {
       position: relative;
+      height: 25px;
     }
     
     .extend-payment-popup .end-date {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 25px;
+      font-size: 20px;
       font-weight: 600;
       letter-spacing: 0;
       line-height: normal;
@@ -309,7 +308,7 @@
     .extend-payment-popup .balance {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 25px;
+      font-size: 20px;
       font-weight: 600;
       letter-spacing: 0;
       line-height: normal;
@@ -319,7 +318,7 @@
     .extend-payment-popup .start-date {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 25px;
+      font-size: 20px;
       font-weight: 600;
       letter-spacing: 0;
       line-height: normal;
@@ -329,7 +328,7 @@
     .extend-payment-popup .ref-id {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 25px;
+      font-size: 20px;
       font-weight: 600;
       letter-spacing: 0;
       line-height: normal;
@@ -443,15 +442,17 @@
     .extend-payment-popup .vector-2 {
       position: relative;
       border-radius: 9px;
+      height: 40px;
+      width: 40px;
     }
     
     .extend-payment-popup .image-slide {
-      height: 280px;
+      height: 200px;
       max-width: 100%;  /* Ensure the image doesn't exceed the container's width */
       max-height: 100%; /* Ensure the image doesn't exceed the container's height */
       object-fit: contain; /* Fit the image inside the container while preserving aspect ratio */
       position: relative;
-      width: 280px;
+      width: 200px;
     }
     
   
@@ -499,8 +500,8 @@
       background: none;
       background-color: #00D17D;
       position: relative;
-      width: 570px;
-      height: 55px;
+      width: 400px;
+      height: 50px;
       border-radius: 30px;
     }
 
@@ -617,4 +618,70 @@
     
     .tac-link:hover {
       color: darkblue; /* Optional: darker blue on hover */
+    }
+
+    @media (max-width: 1024px) {
+
+      .extend8{
+        flex-direction: column;
+      }
+
+      .extend-payment-popup .image-slide{
+        display: none;
+      }
+    }
+
+    
+    @media (max-width: 600px) {
+
+      .extend-payment-popup .header{
+        font-size: 20px;
+      }
+
+      .extend-payment-popup .vector-2{
+        height: 30px;
+        width: 30px;
+      }
+
+      .extend2{
+        flex-direction: column;
+      }
+
+      .extend-payment-popup .by-click{
+        font-size: 12px;
+      }
+
+      .extend-payment-popup .spanthis{
+        font-size: 12px;
+      }
+
+      .extend-payment-popup .tac-link{
+        font-size: 12px;
+      }
+
+      .extend-payment-popup .price{
+        font-size: 20px;
+      }
+
+      .extend-payment-popup .pnum{
+        font-size: 20px
+      }
+
+      .extend-payment-popup .vertical{
+        height: 20px;
+      }
+
+      .extend4{
+        align-items: center;
+      }
+
+      .extend-payment-popup .checkbox{
+        height: 20px;
+        width: 20px;
+      }
+
+      .paymongo-option{
+        width: 350px;
+      }
+
     }
