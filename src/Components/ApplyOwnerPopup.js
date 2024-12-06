@@ -82,7 +82,7 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
               by clicking, you are confirming that you have read,
 
             </p>
-              <span className="span">understood and agree to the </span>
+              <span className="spans">understood and agree to the </span>
               <span
                 className="ao-text-wrapper-2"
                 onClick={toggleTermsPopup}

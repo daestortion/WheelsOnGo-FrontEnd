@@ -9,26 +9,27 @@
     justify-content: center;  /* Center horizontally */
     background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
     z-index: 1050;  /* Ensure it's above all other content */
+    padding: 10px;
   }
 
   
   .booked-successpopup .bp-overlap {
     background-color: #d7d1d1;
-    border-radius: 40px;
-    padding: 40px;
+    border-radius: 20px;
+    padding: 20px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 800px;
-    gap: 40px;
+    width: 600px;
+    gap: 30px;
     flex-direction: column;
   }
   
   .booked-successpopup .bp-car-booked {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 25px;
     font-weight: 600;
     letter-spacing: 0.62px;
     line-height: normal;
@@ -40,13 +41,13 @@
   
   .booked-successpopup .bp-overlap-group {
     background-color: #e80029;
-    border-radius: 35px;
-    height: 71px;
+    border-radius: 25px;
+    height: 50px;
     position: relative;
     width: 168px;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;

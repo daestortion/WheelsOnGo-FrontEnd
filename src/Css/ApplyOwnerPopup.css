@@ -326,6 +326,10 @@
   gap: 30px;
 }
 
+.spans{
+  font-size: 15px;
+}
+
 @media (max-width: 500px) {
 
   .apply-as-owner-popup input[type="checkbox"] + label{
@@ -337,15 +341,15 @@
     font-size: 12px;
   }
 
-  .span{
-    font-size: 12px;
-  }
-
   .apply-as-owner-popup .ao-text-wrapper-2{
     font-size: 12px;
   }
 
   .lines1{
     gap: 10px;
+  }
+
+  .spans{
+    font-size: 12px;
   }
 }

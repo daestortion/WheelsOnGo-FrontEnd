@@ -10,17 +10,18 @@ const PayPalSuccessful = ({ onClose, closePaymentPopup }) => {
   };
   return (
     <div className="payment-successful">
-      <div className="overlap-wrapper232">
+
         <div className="overlap232">
-          <div className="text-wrapper1231">PayPal payment successful.</div>
-          <div className="div232">Thank You!</div>
-          <div className="group" onClick={handleOkClick}>
-            <button className="overlap-group">
+          <div className="text-wrapper1231">Thank You! PayPal Payment Successful.</div>
+          
+
+            <button className="overlap-groupss" onClick={handleOkClick}>
               <div className="text-wrapper-2">OK</div>
             </button>
-          </div>
+ 
+          
         </div>
-      </div>
+      
     </div>
   );
 };
