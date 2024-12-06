@@ -6,7 +6,7 @@ export const RefundPopup = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    navigate('/login');
+    navigate('/balance-page');
   };
 
   return (
