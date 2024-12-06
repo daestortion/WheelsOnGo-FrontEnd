@@ -225,8 +225,8 @@
 }
 
 .terms-content {
-  width: 60%;
-  max-width: 1500px;
+  width: 90%;
+  max-width: 900px;
   background-color: white;
   border-radius: 10px;
   display: flex;
