@@ -236,9 +236,8 @@ const AdminOwnerPayments = () => {
                   <th>Details</th>
                   <th>Amount</th>
                   <th>Submitted On</th>
-                  <th>Status</th>
-                  <th>Actions</th>
                   <th>Send Funds</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -282,6 +281,17 @@ const AdminOwnerPayments = () => {
                       <td>{request.status || "pending"}</td>
                       <td>
                         <button
+                          className="send-funds"
+                          onClick={() => handleSendFunds(request.requestId)}
+                        >
+                          Send Funds
+                        </button>
+                        {uploadedFileNames[request.requestId] && (
+                          <p>Uploaded File: {uploadedFileNames[request.requestId]}</p>
+                        )}
+                      </td>
+                      <td>
+                        <button
                           className="button-approve"
                           onClick={() => handleApprove(request.requestId)}
                           disabled={loading || request.status !== "pending" || !uploadedFileNames[request.requestId]}
@@ -295,17 +305,6 @@ const AdminOwnerPayments = () => {
                         >
                           Deny
                         </button>
-                      </td>
-                      <td>
-                        <button
-                          className="send-funds"
-                          onClick={() => handleSendFunds(request.requestId)}
-                        >
-                          Send Funds
-                        </button>
-                        {uploadedFileNames[request.requestId] && (
-                          <p>Uploaded File: {uploadedFileNames[request.requestId]}</p>
-                        )}
                       </td>
                     </tr>
                   ))
