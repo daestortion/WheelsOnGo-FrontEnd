@@ -59,11 +59,6 @@ const AdminOwnerPayments = () => {
       }
   
       fetchRequests(); // Refresh the requests after approval
-<<<<<<< Updated upstream
-  
-=======
-
->>>>>>> Stashed changes
     } catch (error) {
       console.error("Error approving request:", error);
       alert("Error processing approval: " + error.message);
@@ -75,15 +70,9 @@ const AdminOwnerPayments = () => {
   const handleDeny = async (requestId) => {
     setLoading(true);
     try {
-<<<<<<< Updated upstream
-      await axios.put(
-        `${BASE_URL}/request-form/denyRequest/${requestId}`
-      );
-=======
       await axios.put(`${BASE_URL}/request-form/denyRequest/${requestId}`);
 
 
->>>>>>> Stashed changes
       fetchRequests(); // Refresh the requests after denial
       alert("Request denied successfully!");
     } catch (error) {
