@@ -77,6 +77,7 @@ const AdminOwnerPayments = () => {
       }
 
       fetchRequests(); // Refresh the requests after approval
+
     } catch (error) {
       console.error("Error approving request:", error);
       alert("Error processing approval: " + error.message);
@@ -89,6 +90,8 @@ const AdminOwnerPayments = () => {
     setLoading(true);
     try {
       await axios.put(`${BASE_URL}/request-form/denyRequest/${requestId}`);
+
+
       fetchRequests(); // Refresh the requests after denial
       alert("Request denied successfully!");
     } catch (error) {
