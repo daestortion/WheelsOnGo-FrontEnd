@@ -22,6 +22,7 @@ const RefundPage = () => {
   const [formError, setFormError] = useState(null);
   const [requests, setRequests] = useState([]);
 
+  // Fetch wallet data (including refund amount)
   const fetchWalletData = useCallback(async (userId) => {
     try {
       setIsLoading(true);
@@ -39,6 +40,7 @@ const RefundPage = () => {
     }
   }, []);  
 
+  // Fetch user's previous refund requests
   const fetchUserRequests = useCallback(async (userId) => {
     try {
       const response = await axios.get(
@@ -50,6 +52,7 @@ const RefundPage = () => {
     }
   }, []); 
 
+  // Initialize user data on component load
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 
@@ -59,6 +62,9 @@ const RefundPage = () => {
 
       fetchWalletData(parsedUser.userId);
       fetchUserRequests(parsedUser.userId);
+
+      // Set the UserType to 'Renter' as it's the RefundPage
+      localStorage.setItem('userType', 'Renter');
     } else {
       console.error("User not found in local storage.");
       setIsLoading(false);
@@ -69,6 +75,7 @@ const RefundPage = () => {
     setIsFormOpen(!isFormOpen);
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null);
@@ -78,11 +85,13 @@ const RefundPage = () => {
       return;
     }
 
+    // Check if the refund amount exceeds available balance
     if (parseFloat(amount) > walletData.refundAmount) {
       setFormError("Amount exceeds available refund balance.");
       return;
     }
 
+    // Validate GCash or Bank information
     if (requestType === "gcash" && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
       return;
@@ -103,17 +112,18 @@ const RefundPage = () => {
     const requestData = {
       requestType,
       amount: parseFloat(amount),
+      userType: localStorage.getItem('userType'), // Adding UserType here
       ...(requestType === "gcash" && { fullName, gcashNumber }),
       ...(requestType === "bank" && { accountName, bankName, accountNumber }),
     };
 
     try {
       await axios.post(
-        `${BASE_URL}/request-form/request-funds?userId=${userId}`,
+        `${BASE_URL}/request-form/request-refund/${userId}`,
         requestData
       );
-      await fetchWalletData(userId);
-      await fetchUserRequests(userId);
+      await fetchWalletData(userId);  // Update wallet data after submission
+      await fetchUserRequests(userId);  // Refresh user requests
       alert("Refund request submitted successfully!");
       setIsFormOpen(false);
     } catch (error) {
@@ -129,20 +139,19 @@ const RefundPage = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <>
-            <div className="cards">
-              <h2>Total Refund Amount</h2>
-              <p>
-                ₱
-                {walletData.refundAmount.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }) || "0.00"}
-              </p>
-            </div>
-          </>
+          <div className="cards">
+            <h2>Total Refund Amount</h2>
+            <p>
+              ₱
+              {walletData.refundAmount.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }) || "0.00"}
+            </p>
+          </div>
         )}
       </div>
+
       <div className="refund-note">
         <p>
           <strong>Refund Terms:</strong>
@@ -154,10 +163,12 @@ const RefundPage = () => {
           - If canceled on the day of the booking, there is no refund.
         </p>
       </div>
+
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
           {isFormOpen ? "Close Refund Request Form" : "Request Refund"}
         </button>
+
         {isFormOpen && (
           <form onSubmit={handleSubmit} className="request-funds-form">
             {formError && <p className="form-error">{formError}</p>}
@@ -174,6 +185,7 @@ const RefundPage = () => {
                 <option value="bank">Bank</option>
               </select>
             </div>
+
             {requestType === "gcash" && (
               <>
                 <div className="form-group">
@@ -198,6 +210,7 @@ const RefundPage = () => {
                 </div>
               </>
             )}
+
             {requestType === "bank" && (
               <>
                 <div className="form-group">
@@ -240,6 +253,7 @@ const RefundPage = () => {
                 </div>
               </>
             )}
+
             <div className="form-group">
               <label htmlFor="amount">Amount:</label>
               <input
@@ -257,6 +271,7 @@ const RefundPage = () => {
                 }) || "0.00"}
               </small>
             </div>
+
             <button type="submit" className="submit-btn">
               Submit Refund Request
             </button>
@@ -279,7 +294,7 @@ const RefundPage = () => {
           <tbody>
             {requests.length > 0 ? (
               requests.map((request) => (
-                <tr key={request.id}>
+                <tr key={request.id || `${request.requestType}-${request.amount}-${request.createdAt}`}>
                   <td>{request.requestType}</td>
                   <td>
                     {request.requestType === "gcash" ? (

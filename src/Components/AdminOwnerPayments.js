@@ -13,7 +13,7 @@ const AdminOwnerPayments = () => {
   const [uploadedFileNames, setUploadedFileNames] = useState({}); // Track uploaded file names for each row
   const navigate = useNavigate();
 
-  // Step 2: Retrieve uploaded file names from localStorage on component mount
+  // Step 1: Retrieve uploaded file names from localStorage on component mount
   useEffect(() => {
     const savedFileNames = JSON.parse(localStorage.getItem("uploadedFileNames"));
     if (savedFileNames) {
@@ -41,24 +41,43 @@ const AdminOwnerPayments = () => {
   const handleApprove = async (requestId) => {
     setLoading(true);
     try {
-      // Step 1: Approve the request
-      await axios.put(`${BASE_URL}/request-form/approveRequest/${requestId}`);
-      
-      // Step 2: Attempt to deduct funds from the user's wallet
       const request = requests.find((r) => r.requestId === requestId);
-      const userId = request.user.userId;  // Assuming the request contains userId
-  
-      const response = await axios.put(
-        `${BASE_URL}/ownerWallet/deductFromOnlineEarnings/${userId}/${requestId}`
-      );
-      
-      if (response.status === 200) {
-        alert("Request approved and funds successfully deducted!");
-      } else {
-        alert("Error: " + response.data);  // Show the error from the backend if any
+      if (!request) {
+        alert("Request not found.");
+        return;
       }
-  
+
+      if (request.userType === "Renter") {
+        // Approve Renter's refund request
+        const renterResponse = await axios.put(
+          `${BASE_URL}/request-form/approve-renter-refund/${requestId}`
+        );
+        if (renterResponse.status === 200) {
+          alert("Renter refund request approved!");
+        } else {
+          alert("Error approving renter refund: " + renterResponse.data);
+        }
+      } else if (request.userType === "Car Owner") {
+        // Approve Car Owner's request
+        await axios.put(`${BASE_URL}/request-form/approveRequest/${requestId}`);
+
+        // Deduct funds from the owner's wallet
+        const userId = request.user.userId;
+        const ownerResponse = await axios.put(
+          `${BASE_URL}/ownerWallet/deductFromOnlineEarnings/${userId}/${requestId}`
+        );
+
+        if (ownerResponse.status === 200) {
+          alert("Car Owner's request approved and funds successfully deducted!");
+        } else {
+          alert("Error deducting funds from Car Owner's wallet: " + ownerResponse.data);
+        }
+      } else {
+        alert("Unsupported User Type.");
+      }
+
       fetchRequests(); // Refresh the requests after approval
+
     } catch (error) {
       console.error("Error approving request:", error);
       alert("Error processing approval: " + error.message);
@@ -90,7 +109,6 @@ const AdminOwnerPayments = () => {
     fileInput.onchange = async (event) => {
       const file = event.target.files[0];
       if (file) {
-        // Update the file name for the specific request (row)
         setUploadedFileNames((prev) => {
           const updated = { ...prev, [requestId]: file.name };
           localStorage.setItem("uploadedFileNames", JSON.stringify(updated)); // Step 1: Store in localStorage
@@ -213,6 +231,7 @@ const AdminOwnerPayments = () => {
                 <tr>
                   <th>ID</th>
                   <th>User</th>
+                  <th>User Type</th>
                   <th>Request Type</th>
                   <th>Details</th>
                   <th>Amount</th>
@@ -228,7 +247,7 @@ const AdminOwnerPayments = () => {
                     <tr key={request.requestId}>
                       <td>{request.requestId}</td>
                       <td>{request.user.username}</td>
-                      <td>{request.requestType}</td>
+                      <td>{request.userType}</td> {/* Display the userType here */}
                       <td>
                         {request.requestType === "gcash" ? (
                           <>
@@ -292,7 +311,7 @@ const AdminOwnerPayments = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="9" style={{ textAlign: "center" }}>
+                    <td colSpan="10" style={{ textAlign: "center" }}>
                       {hasFetchedOnce
                         ? "No payment requests found."
                         : "Click 'Fetch Data' to load payment requests."}
