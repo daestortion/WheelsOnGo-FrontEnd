@@ -6,7 +6,7 @@ import Header from "../Components/Header";
 import Modal from "react-modal";
 import "../Css/ReturnCarForm.css";
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
-import OwnerAcknowledgement from "OwnerAcknowledgement.js";
+import OwnerAcknowledgement from "./OwnerAcknowledgement.js";
 
 Modal.setAppElement("#root");
 
