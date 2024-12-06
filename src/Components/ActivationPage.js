@@ -5,7 +5,7 @@ import { BASE_URL } from '../ApiConfig';
 import '../Css/ActivationPage.css';  // Adjust the path if necessary
 
 const ActivateAccountPage = () => {
-  const { userId, token } = useParams(); 
+  const { userId, token } = useParams();  // Extract userId and token from the URL
   const [activationStatus, setActivationStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isResending, setIsResending] = useState(false); // State to track resend status
@@ -16,13 +16,13 @@ const ActivateAccountPage = () => {
       try {
         console.log("Activating user with:", { userId, token });
 
-        const response = await axios.get(`${BASE_URL}/user/activate`, {
-          params: { userId, token }
-        });
+        // Send userId and token as part of the URL path to match the backend route
+        const response = await axios.get(`${BASE_URL}/user/activate/${userId}/${token}`);
 
         console.log("Activation response:", response);
         setActivationStatus('Your account has been successfully activated!');
 
+        // Redirect to login page after a few seconds
         setTimeout(() => navigate('/login'), 3000);
       } catch (error) {
         console.error("Activation error:", error);
@@ -44,7 +44,7 @@ const ActivateAccountPage = () => {
     };
 
     if (userId && token) {
-      activateUser();
+      activateUser();  // Call the activation function if userId and token exist
     } else {
       setActivationStatus('Missing userId or token.');
       setLoading(false);
