@@ -26,7 +26,7 @@
   .verify-first-popup .text-wrapperd {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 600;
     line-height: normal;
     position: relative;
@@ -38,13 +38,13 @@
     background-color: #e80029;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
     text-align: center;
     border-radius: 25px;
-    height: 50px;
+    height: 30px;
     position: relative;
     width: 150px;
     border: none;
