@@ -554,7 +554,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           <button
                             className="button-approve"
                             onClick={() => handleApprove(order.orderId)}
-                            disabled={order.terminated || order.returned}
+                            disabled={order.terminated || order.returned || order.paymentOption !== 'Cash'}
                           >
                             Approve
                           </button>

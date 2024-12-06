@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../Css/RefundPopup.css";
 
-export const RegisteredPopup = () => {
+export const RefundPopup = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
@@ -22,4 +22,4 @@ export const RegisteredPopup = () => {
   );
 };
 
-export default RegisteredPopup;
+export default RefundPopup;
