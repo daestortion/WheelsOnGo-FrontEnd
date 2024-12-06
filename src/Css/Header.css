@@ -153,6 +153,7 @@
 
   .side-nav.open {
     transform: translateX(0);
+    padding-bottom: 50px;
   }
 
   .side-nav a {
