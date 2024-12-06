@@ -78,7 +78,7 @@
 .apply-as-owner-popup .do-you-want-to-apply {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 600;
   line-height: normal;
   position: relative;
@@ -202,10 +202,10 @@
 .apply-as-owner-popup input[type="checkbox"]:checked + label::after {
   content: '';
   position: absolute;
-  top: 5px;
+  top: 2px;
   left: 10px;
-  width: 10px;
-  height: 20px;
+  width: 5px;
+  height: 15px;
   border: solid #e32128;
   border-width: 0 4px 4px 0;
   transform: rotate(45deg);
@@ -333,8 +333,8 @@
 @media (max-width: 500px) {
 
   .apply-as-owner-popup input[type="checkbox"] + label{
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
 
   .apply-as-owner-popup .ao-div{
