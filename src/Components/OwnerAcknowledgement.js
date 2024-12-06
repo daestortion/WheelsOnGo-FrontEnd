@@ -6,7 +6,7 @@ export const RegisteredPopup = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    navigate('/login');
+    navigate('/history');
   };
 
   return (

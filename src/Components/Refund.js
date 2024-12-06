@@ -3,6 +3,7 @@ import axios from "axios";
 import "../Css/Refund.css";
 import Header from "../Components/Header";
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import RefundPopup from "./RefundPopup.js";
 
 const RefundPage = () => {
   const [walletData, setWalletData] = useState({
@@ -124,7 +125,8 @@ const RefundPage = () => {
       );
       await fetchWalletData(userId);  // Update wallet data after submission
       await fetchUserRequests(userId);  // Refresh user requests
-      alert("Refund request submitted successfully!");
+      console.log("Refund request submitted successfully!");
+      setShowRefundPopup(true);
       setIsFormOpen(false);
     } catch (error) {
       alert("Failed to submit the refund request.");
@@ -320,6 +322,7 @@ const RefundPage = () => {
           </tbody>
         </table>
       </div>
+      {showRefundPopup && <RefundPopup />}
     </div>
   );
 };
