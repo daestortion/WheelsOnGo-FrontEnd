@@ -569,14 +569,14 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           <button
                             className="terminate"
                             onClick={() => handleTerminate(order.orderId)}
-                            disabled={order.terminated || order.returned}
+                            disabled={order.terminated || order.returnProofExists}
                           >
                             Terminate
                           </button>
                           <button
                             className="return-cars"
                             onClick={() => handleReturnCar(order.orderId)}
-                            disabled={order.terminated || order.returned}
+                            disabled={order.terminated || order.returnProofExists}
                           >
                             Return Car
                           </button>
@@ -608,7 +608,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                               <button
                                 className="extend"
                                 onClick={() => handleExtendRent(order.orderId, order.endDate)}
-                                disabled={order.terminated || order.returned}
+                                disabled={order.terminated || order.returnProofExists}
                               >
                                 {showDatePicker === order.orderId ? "Submit" : "Extend"}
                               </button>
@@ -639,7 +639,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                             <button
                               className="terminate"
                               onClick={() => handleTerminate(order.orderId)}
-                              disabled={order.terminated || order.returned}
+                              disabled={order.terminated || order.returnProofExists}
                             >
                               Terminate
                             </button>
