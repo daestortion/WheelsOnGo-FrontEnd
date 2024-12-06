@@ -8,19 +8,17 @@
     min-height: 100vh;
     overflow-x: auto;
     overflow-y: auto;
-    padding-top: 112px; /* Offset for the fixed header height */
+    padding-top: 90px; /* Offset for the fixed header height */
     }
     
     .return-car .overlap-wrapper {
       background-color: #ffffff;
       height: auto;
-      width: 1920px;
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      gap: 150px;
-      height: 100%; /* Adjust to 100% of parent's height */
+      gap: 50px;
     }
     
     .return-car .overlap1211 {
@@ -31,19 +29,19 @@
       position: relative;
     }
     
-    .return-car .overlap-2 {
+    .return-car .overlap-22s {
       background-color: #d7d1d1;
       border-radius: 40px;
       height: auto;
       position: relative;
       width: 100%;
-      max-width: 900px;
+      max-width: 600px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 30px;
-      padding: 40px;
+      padding: 20px;
     }
     
     .return-car .text-wrapper-3 {
@@ -62,43 +60,32 @@
     
     .return-car .assessment {
       background-color: #ffffff;
-      border-radius: 35px;
-      height: 120px;
+      border-radius: 25px;
+      height: auto;
       position: relative;
       color: #848484;
       font-family: "Inter-Bold", Helvetica;
-      font-size: 30px;
+      font-size: 25px;
       font-weight: 700;
       letter-spacing: 0;
       line-height: normal;
       white-space: nowrap;
-      padding-left: 40px;
-      padding-right: 40px;
+      padding: 20px;
       border: none;
-      width: 80%;
-      overflow: hidden; /* Hide the scrollbar */
-      overflow-y: scroll; /* Enable vertical scrolling without showing the scrollbar */
-      scrollbar-width: none;
-    }
-    
-    .return-car .overlap-group-wrapper {
-      height: 71px;
-      left: 99px;
-      position: absolute;
-      top: 534px;
-      width: 714px;
+      width: 100%;
+      overflow-wrap: break-word;
     }
     
     .return-car .button-return {
       background-color: #e80029;
-      border-radius: 35px;
-      height: 71px;
+      border-radius: 25px;
+      height: 50px;
       position: relative;
-      width: 90%;
+      width: 400px;
       border: none;
       color: #ffffff;
       font-family: "Inter-Bold", Helvetica;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       letter-spacing: 0;
       line-height: normal;
@@ -120,7 +107,7 @@
     .return-car .rented-car {
       color: #000000;
       font-family: "Inter-Bold", Helvetica;
-      font-size: 40px;
+      font-size: 25px;
       font-weight: 700;
       letter-spacing: 0;
       line-height: normal;
@@ -128,11 +115,19 @@
       white-space: nowrap;
       margin: 0;
     }
+
+    .return-car .ref-id{
+      font-size: 20px;
+    }
+
+    .return-car .end-date{
+      font-size: 20px;
+    }
     
     .return-car .text-wrapper-6wq {
       color: #000000;
       font-family: "Inter-SemiBold", Helvetica;
-      font-size: 50px;
+      font-size: 30px;
       font-weight: 600;
       line-height: normal;
       position: relative;
@@ -141,9 +136,9 @@
     .return-car .proofOfReturn {
         color: #000000;
         border-radius: 40px;
-        height: 450px;
+        height: 300px;
         position: relative;
-        width: 450px;
+        width: 300px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -161,9 +156,9 @@
     .return-car .upload {
       background-color: #e80029;
       border-radius: 35px;
-      height: 71px;
+      height: 50px;
       position: relative;
-      width: 448px;
+      width: 300px;
       border: none;
       color: #ffffff;
       font-family: "Inter-Bold", Helvetica;
@@ -200,4 +195,35 @@
       padding-right: 40px;
       border: none;
       width: 80%;
+    }
+
+    .car-image{
+      height: 200px;
+      width: 200px;
+    }
+
+    @media (max-width: 1024px) {
+
+      .return-car{
+        padding-top: 75px;
+      }
+    }
+
+    @media (max-width: 800px) {
+
+      .return-car{
+        padding-top: 70px;
+      }
+
+      .return-car .overlap-wrapper{
+        flex-direction: column;
+      }
+
+      .wew1{
+        padding-top: 30px;
+      }
+
+      .return-car .overlap-22s{
+        margin-bottom: 20px;
+      }
     }

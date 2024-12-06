@@ -122,7 +122,7 @@ export const ReturnCar = () => {
                     </button>
                 </div>
 
-                <div className="overlap-2">
+                <div className="overlap-22s">
                     <div className="order-carImage">
                         {/* Display the car image correctly */}
                         {orderDetails?.car?.carImage && (
