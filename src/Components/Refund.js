@@ -22,6 +22,7 @@ const RefundPage = () => {
   const [amount, setAmount] = useState("");
   const [formError, setFormError] = useState(null);
   const [requests, setRequests] = useState([]);
+  const [showRefundPopup, setShowRefundPopup] = useState(false);
 
   // Fetch wallet data (including refund amount)
   const fetchWalletData = useCallback(async (userId) => {
