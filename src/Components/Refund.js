@@ -4,6 +4,7 @@ import "../Css/Refund.css";
 import Header from "../Components/Header";
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 import RefundPopup from "./RefundPopup.js";
+import Loading from "./Loading";
 
 const RefundPage = () => {
   const [walletData, setWalletData] = useState({
@@ -119,6 +120,8 @@ const RefundPage = () => {
       ...(requestType === "bank" && { accountName, bankName, accountNumber }),
     };
 
+    setIsLoading(true);
+
     try {
       await axios.post(
         `${BASE_URL}/request-form/request-refund/${userId}`,
@@ -132,6 +135,8 @@ const RefundPage = () => {
     } catch (error) {
       alert("Failed to submit the refund request.");
       console.error(error);
+    } finally {
+      setIsLoading(false); // Ensure loading state is set to false after completion
     }
   };
 

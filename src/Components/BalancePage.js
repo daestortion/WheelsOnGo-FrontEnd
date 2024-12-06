@@ -5,6 +5,7 @@ import { BASE_URL } from '../ApiConfig'; // Adjust the path if necessary
 import Header from "../Components/Header";
 import "../Css/BalancePage.css";
 import RefundPopup from "./RefundPopup.js";
+import Loading from "./Loading";
 
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
