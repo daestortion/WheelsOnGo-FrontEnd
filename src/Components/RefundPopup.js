@@ -12,7 +12,7 @@ export const RegisteredPopup = () => {
   return (
     <div className="successful-refund">
         <div className="overlap">
-          <h1 className="ok-text-wrapper">Refund Successfully.</h1>
+          <h1 className="ok-text-wrapper">Withdrawal request submitted successfully.</h1>
             <button className="overlap-group23" onClick={handleOkClick}>
               <span className="ok-div">OK</span>
             </button>

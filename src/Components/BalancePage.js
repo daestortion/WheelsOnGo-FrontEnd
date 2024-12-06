@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../ApiConfig'; // Adjust the path if necessary
 import Header from "../Components/Header";
 import "../Css/BalancePage.css";
+import RefundPopup from "./RefundPopup.js";
 
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
@@ -26,6 +27,7 @@ const BalancePage = () => {
   const [formError, setFormError] = useState(null);
   const [requests, setRequests] = useState([]);
   const [proofImage, setProofImage] = useState(null); // State for proof image modal
+  const [showRefundPopup, setShowRefundPopup] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -126,7 +128,8 @@ const BalancePage = () => {
       );
       await fetchWalletData(userId);
       await fetchUserRequests(userId);
-      alert("Request submitted successfully!");
+      console.log("Request submitted successfully!");
+      setShowRefundPopup(true);
       setIsFormOpen(false);
     } catch (error) {
       alert("Failed to submit the request.");
@@ -412,6 +415,7 @@ const BalancePage = () => {
           Refresh Balance
         </button>
       </div>
+      {showRefundPopup && <RefundPopup />}
     </div>
   );
 };

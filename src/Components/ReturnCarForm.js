@@ -6,6 +6,7 @@ import Header from "../Components/Header";
 import Modal from "react-modal";
 import "../Css/ReturnCarForm.css";
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import OwnerAcknowledgement from "./OwnerAcknowledgement.js";
 
 Modal.setAppElement("#root");
 
@@ -19,6 +20,7 @@ function AcknowledgementForm() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showOwnerAcknowledgement, setShowOwnerAcknowledgement] = useState(false);
 
   useEffect(() => {
     const fetchReturnDetails = async () => {
@@ -73,7 +75,8 @@ function AcknowledgementForm() {
             formData,
             { headers: { "Content-Type": "multipart/form-data" } }
         );
-        alert("Acknowledgment submitted successfully!");
+        console.log("Acknowledgment submitted successfully!");
+        setShowOwnerAcknowledgement(true);
         reset();
         navigate("/history"); // Redirect to history page
     } catch (err) {
@@ -169,6 +172,7 @@ function AcknowledgementForm() {
           </form>
         )}
       </div>
+      {showOwnerAcknowledgement && <OwnerAcknowledgement />}
 
       <Modal
         isOpen={isModalOpen}

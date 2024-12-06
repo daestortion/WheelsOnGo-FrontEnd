@@ -8,6 +8,7 @@ import ExtendPaymentPopup from "./ExtendPaymentPopup";
 import Header from "./Header.js";
 import Loading from "./Loading"; // Import Loading component
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import TerminatedPopup from "./TermindatedPopup.js";
 
 // Utility function to format dates
 const formatDate = (date) => {
@@ -17,6 +18,7 @@ const formatDate = (date) => {
 export const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [showTerminatedPopup, setShowTerminatedPopup] = useState(false);
   const [allOrders, setAllOrders] = useState([]);
   const [isCalendarLoading, setIsCalendarLoading] = useState(false); // Loading state for calendar
   const [showOwnedCars, setShowOwnedCars] = useState(false);
@@ -251,7 +253,8 @@ export const OrderHistoryPage = () => {
   
           console.log("Refund Amount:", refundAmount);
   
-          alert(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+          console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+          setShowTerminatedPopup(true);
   
           const userId = updatedOrder.user ? updatedOrder.user.userId : null;
           if (userId) {
@@ -569,14 +572,14 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           <button
                             className="terminate"
                             onClick={() => handleTerminate(order.orderId)}
-                            disabled={order.terminated || order.returned}
+                            disabled={order.terminated || order.returnProofExists}
                           >
                             Terminate
                           </button>
                           <button
                             className="return-cars"
                             onClick={() => handleReturnCar(order.orderId)}
-                            disabled={order.terminated || order.returned}
+                            disabled={order.terminated || order.returnProofExists}
                           >
                             Return Car
                           </button>
@@ -608,7 +611,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                               <button
                                 className="extend"
                                 onClick={() => handleExtendRent(order.orderId, order.endDate)}
-                                disabled={order.terminated || order.returned}
+                                disabled={order.terminated || order.returnProofExists}
                               >
                                 {showDatePicker === order.orderId ? "Submit" : "Extend"}
                               </button>
@@ -639,7 +642,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                             <button
                               className="terminate"
                               onClick={() => handleTerminate(order.orderId)}
-                              disabled={order.terminated || order.returned}
+                              disabled={order.terminated || order.returnProofExists}
                             >
                               Terminate
                             </button>
@@ -655,6 +658,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
           </div>
         )}
       </div>
+      {showTerminatedPopup && <TerminatedPopup />}
       {showExtendPaymentPopup && selectedOrder && (
         <ExtendPaymentPopup
           orderId={selectedOrder.orderId} // Pass the orderId
