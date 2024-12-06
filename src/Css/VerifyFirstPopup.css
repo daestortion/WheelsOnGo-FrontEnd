@@ -9,62 +9,44 @@
     justify-content: center;  /* Center horizontally */
     background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background for the dimming effect */
     z-index: 1050;  /* Ensure it's above all other content */
-  }
-  
-  .verify-first-popup .overlap-wrappera {
-    height: 410px;
-    width: 907px;
+    padding: 20px;
   }
   
   .verify-first-popup .overlaps {
     background-color: #d7d1d1;
-    border-radius: 40px;
-    height: 410px;
+    border-radius: 20px;
     position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
   }
   
   .verify-first-popup .text-wrapperd {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: 600;
-    left: 142px;
-    letter-spacing: 0.62px;
     line-height: normal;
-    position: absolute;
+    position: relative;
     text-align: center;
-    top: 50px;
-    width: 623px;
-  }
-  
-  .verify-first-popup .groupq {
-    height: 71px;
-    left: 376px;
-    position: absolute;
-    top: 280px;
-    width: 170px;
+    margin: 0;
   }
   
   .verify-first-popup .overlap-groupt {
     background-color: #e80029;
-    border-radius: 35px;
-    height: 71px;
-    position: relative;
-    width: 168px;
-    border: none;
-  }
-  
-  .verify-first-popup .div12 {
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
     font-size: 20px;
     font-weight: 700;
-    left: 40px;
     letter-spacing: 0;
     line-height: normal;
-    position: absolute;
     text-align: center;
-    top: 22px;
-    width: 92px;
+    border-radius: 25px;
+    height: 50px;
+    position: relative;
+    width: 150px;
+    border: none;
+    align-self: center;
   }
-  
