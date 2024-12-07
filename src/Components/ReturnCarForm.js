@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../Components/Header";
 import Modal from "react-modal";
+import Loading from './Loading';
 import "../Css/ReturnCarForm.css";
-import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import { BASE_URL } from '../ApiConfig'; 
 import OwnerAcknowledgement from "./OwnerAcknowledgement.js";
 
 Modal.setAppElement("#root");
 
 function AcknowledgementForm() {
   const { orderId } = useParams();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const { register, handleSubmit, reset, setValue } = useForm();
   const [renterProofURL, setRenterProofURL] = useState("");
   const [ownerProof, setOwnerProof] = useState(null);
   const [ownerProofPreviewURL, setOwnerProofPreviewURL] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // For initial data fetch
+  const [submitting, setSubmitting] = useState(false); // For form submission
   const [error, setError] = useState(null);
   const [showOwnerAcknowledgement, setShowOwnerAcknowledgement] = useState(false);
+  const [penalty, setPenalty] = useState("No Penalty");
 
   useEffect(() => {
     const fetchReturnDetails = async () => {
@@ -35,14 +38,11 @@ function AcknowledgementForm() {
           setValue("rentEndDate", response.data.rentEndDate);
           setValue("carReturnDate", response.data.carReturnDate);
           setValue("comments", response.data.remarks);
-  
+
+          setPenalty(response.data.penalty > 0 ? `Penalty: $${response.data.penalty}` : "No Penalty");
+
           if (response.data.proof) {
             setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);
-          }
-  
-          // Check if there's a penalty and log it to the console
-          if (response.data.penalty > 0) {
-            // console.log(`Penalty amount: ${response.data.penalty}`);
           }
         }
       } catch (err) {
@@ -52,10 +52,9 @@ function AcknowledgementForm() {
         setLoading(false);
       }
     };
-  
+
     fetchReturnDetails();
   }, [orderId, setValue]);
-  
 
   const handleOwnerProofUpload = (event) => {
     const file = event.target.files[0];
@@ -70,38 +69,39 @@ function AcknowledgementForm() {
   };
 
   const onSubmit = async (data) => {
+    setSubmitting(true); // Start submitting
     const formData = new FormData();
     formData.append("ownerProof", ownerProof);
     formData.append("ownerRemark", data.ownerRemark);
     formData.append("ownerApproval", data.ownerApproval ? "true" : "false");
-    
-    // Only append penalty if it's greater than 0
+
     if (data.penalty > 0) {
-        formData.append("penalty", data.penalty);
+      formData.append("penalty", data.penalty);
     }
 
     try {
-        await axios.put(
-            `${BASE_URL}/returnProof/updateReturnProof/${orderId}`,
-            formData,
-            { headers: { "Content-Type": "multipart/form-data" } }
-        );
-        // console.log("Acknowledgment submitted successfully!");
-        setShowOwnerAcknowledgement(true);
-        reset();
-        navigate("/history"); // Redirect to history page
+      await axios.put(
+        `${BASE_URL}/returnProof/updateReturnProof/${orderId}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setShowOwnerAcknowledgement(true);
+      reset();
+      navigate("/history");
     } catch (err) {
-        console.error("Error submitting acknowledgment:", err);
-        alert("Failed to submit acknowledgment.");
+      console.error("Error submitting acknowledgment:", err);
+      alert("Failed to submit acknowledgment.");
+    } finally {
+      setSubmitting(false); // End submitting
     }
-};
+  };
 
   return (
     <div>
       <Header />
       <div className="acknowledgement-form-container">
         {loading ? (
-          <p>Loading...</p>
+          <Loading />
         ) : error ? (
           <p>{error}</p>
         ) : (
@@ -142,6 +142,13 @@ function AcknowledgementForm() {
             </div>
 
             <div className="form-row">
+              <div>
+                <label>Penalty:</label>
+                <input type="text" value={penalty} disabled />
+              </div>
+            </div>
+
+            <div className="form-row">
               <label>Proof of Return (Renter):</label>
               {renterProofURL ? (
                 <img src={renterProofURL} alt="Renter Proof" className="uploaded-proof" />
@@ -177,8 +184,8 @@ function AcknowledgementForm() {
               </div>
             </div>
 
-            <button type="submit" className="submit-buttons">
-              Submit
+            <button type="submit" className="submit-buttons" disabled={submitting}>
+              {submitting ? "Submitting..." : "Submit"}
             </button>
           </form>
         )}
