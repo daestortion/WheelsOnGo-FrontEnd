@@ -64,9 +64,14 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   };
 
   const handleScroll = () => {
-    const isBottom = termsBodyRef.current.scrollHeight - termsBodyRef.current.scrollTop === termsBodyRef.current.clientHeight;
-    setIsAcceptEnabled(isBottom);
+    if (termsBodyRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = termsBodyRef.current;
+      const tolerance = 5; // A small tolerance value
+      const isBottom = (scrollTop + clientHeight) >= (scrollHeight - tolerance);
+      setIsAcceptEnabled(isBottom);
+    }
   };
+  
 
   const handleCash = async () => {
     setIsLoading(true);

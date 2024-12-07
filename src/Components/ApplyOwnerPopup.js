@@ -47,11 +47,11 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
   };
 
   const handleScroll = () => {
-    const { scrollTop, scrollHeight, clientHeight } = termsBodyRef.current;
-    
-    // Adding a small buffer of 5px to reliably detect scroll to bottom
-    if (scrollTop + clientHeight >= scrollHeight - 5) {
-      setIsAcceptEnabled(true);
+    if (termsBodyRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = termsBodyRef.current;
+      const tolerance = 5; // A small tolerance value
+      const isBottom = (scrollTop + clientHeight) >= (scrollHeight - tolerance);
+      setIsAcceptEnabled(isBottom);
     }
   };
 

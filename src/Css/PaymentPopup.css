@@ -347,6 +347,11 @@ body {
     height: auto;
     line-height: normal;
     position: relative;
+    max-width: 500px;
+    width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
+    position: relative;
   }
   
   .payment-popup .overlap-2 {
@@ -543,7 +548,7 @@ body {
   }
   
   .payment-terms-content {
-    width: 60%;
+    width: 90%;
     max-width: 1500px;
     max-height: 80vh;
     background-color: white;
@@ -563,7 +568,7 @@ body {
   
   .payment-terms-header h2 {
     margin: 0;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     flex-grow: 1;
   }
@@ -572,8 +577,8 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
   }
   
@@ -629,13 +634,11 @@ body {
   }
   
   .normal-textss{
-    font-family: "Inter-Bold", Helvetica;
-    font-weight: 10;
-    width: 450px;
-    overflow-wrap: break-word;
-    height: auto;
-    white-space: normal;
-    position: relative;
+    font-weight: normal;
+    overflow-wrap: break-word; /* Allows breaking long words */
+    word-break: break-word; /* Ensures long words break to the next line */
+    word-wrap: break-word; /* Fallback for older browsers */
+    display: inline-block; /* Ensures proper layout behavior */
   }
 
   .terms-checkbox {
@@ -689,10 +692,6 @@ body {
       flex-direction: column;
     }
 
-    .normal-textss{
-      width: 300px;
-    }
-
     .payment-popup .text-wrapper-444{
       font-size: 20px;
     }
@@ -706,7 +705,7 @@ body {
     }
 
     .terms-label{
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .terms-checkbox{
