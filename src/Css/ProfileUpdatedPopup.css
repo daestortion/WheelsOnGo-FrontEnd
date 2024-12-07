@@ -11,59 +11,37 @@
   z-index: 1050; 
 }
 
-.profile-updated .overlap-wrapper123 {
-  height: 410px;
-  width: 907px;
-}
-
 .profile-updated .overlappp {
   background-color: #d7d1d1;
-  border-radius: 40px;
+  border-radius: 20px;
   height: 410px;
+  width: 907px;
   position: relative;
 }
 
 .profile-updated .text-wrapper234 {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 50px;
+  font-size: 25px;
   font-weight: 600;
-  left: 142px;
   letter-spacing: 0.62px;
   line-height: normal;
-  position: absolute;
+  position: relative;
   text-align: center;
-  top: 94px;
-  width: 623px;
-}
-
-.profile-updated .group111 {
-  height: 71px;
-  left: 376px;
-  position: absolute;
-  top: 296px;
-  width: 170px;
 }
 
 .profile-updated .overlap-grouppp {
   background-color: #e80029;
   border-radius: 35px;
-  height: 71px;
-  position: relative;
-  width: 168px;
-  border: none;
-}
-
-.profile-updated .diver {
+  height: 40px;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
   font-size: 20px;
   font-weight: 700;
-  left: 40px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
   text-align: center;
-  top: 22px;
-  width: 92px;
+  position: relative;
+  width: 150px;
+  border: none;
 }

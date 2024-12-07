@@ -11,16 +11,17 @@ export const ProfileUpdated = () => {
 
     return (
       <div className="profile-updated">
-        <div className="overlap-wrapper123">
+
           <div className="overlappp">
+
             <div className="text-wrapper234">Profile updated successfully.</div>
-            <div className="group111">
+          
               <button className="overlap-grouppp"  onClick={handleOkClick}>
                 <div className="diver">OK</div>
               </button>
-            </div>
+            
           </div>
-        </div>
+        
       </div>
     );
   };
