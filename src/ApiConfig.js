@@ -8,3 +8,6 @@ console.log(`API Base URL: ${BASE_URL}`);
 
 // Export the base URL for use in other parts of your application
 export { BASE_URL };
+
+//https://wheelsongo-backend.onrender.com
+//http://localhost:8080

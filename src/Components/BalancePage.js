@@ -162,11 +162,6 @@ const BalancePage = () => {
     }
   };
 
-  const handleRefundClick = () => {
-    navigate('/refund');
-    setSideNavOpen(false);
-  };
-
   const closeModal = () => setProofImage(null);
 
   return (
@@ -210,8 +205,6 @@ const BalancePage = () => {
           </>
         )}
       </div>
-
-      <button className="request-funds-btn" onClick={handleRefundClick}> Remittable Balance</button>
 
       <div className="request-container">
         <button onClick={toggleForm} className="request-funds-btn">
