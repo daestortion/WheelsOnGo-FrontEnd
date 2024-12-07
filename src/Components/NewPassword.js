@@ -68,33 +68,42 @@ const NewPassword = () => {
 
   return (
     <div className="new-password">
-      <div>
+
+    <img className="wheels-on-go" alt="Wheels on go" src={logo} />
+
+      
+        
         <form onSubmit={handleSubmit}>
-          <div className="overlap">
+          <div className="overlapsas">
+
+          <div className="text-wrapper-4s">Reset Password</div>
+            
             <input 
-              className="overlap-2" 
+              className="overlap-2ss" 
               type="password" 
               placeholder="New password" 
               name="newPassword"
               value={userInput.newPassword}
               onChange={handleChange}
             />
+            
             <input 
-              className="div-wrapper" 
+              className="overlap-2ss" 
               type="password" 
               placeholder="Confirm password"
               name="confirmPassword"
               value={userInput.confirmPassword}
               onChange={handleChange}
             />
+            
             <button className="overlap-group" type="submit">
-              <div className="text-wrapper">Reset Password</div>
+              Reset Password
             </button>
-            <div className="text-wrapper-4">Forgot Password</div>
+            
           </div>
         </form>
-        <img className="wheels-on-go" alt="Wheels on go" src={logo} />
-      </div>
+        
+      
     </div>
   );
 };
