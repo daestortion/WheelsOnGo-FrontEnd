@@ -15,6 +15,7 @@ const AdminPageOrder = () => {
   const [filter, setFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [hasFetchedOnce, setHasFetchedOnce] = useState(false); // Track if data has been fetched
+  const [selectedOrder, setSelectedOrder] = useState(null); // Track selected order for payment details
   const navigate = useNavigate();
 
   const fetchOrders = async () => {
@@ -230,7 +231,14 @@ const AdminPageOrder = () => {
                 {filteredOrders.length > 0 ? (
                   filteredOrders.map((order) => (
                     <tr key={order.orderId}>
-                      <td>{order.orderId}</td>
+                      <td>
+                        <button
+                          onClick={() => setSelectedOrder(order)} // Open payment details popup
+                          style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
+                        >
+                          {order.orderId}
+                        </button>
+                      </td>
                       <td>{new Date(order.timeStamp).toLocaleString()}</td>
                       <td>
                         {order.user ? `${order.user.fName} ${order.user.lName}` : "N/A"}
@@ -311,6 +319,40 @@ const AdminPageOrder = () => {
           </div>
         </div>
       </div>
+
+      {/* Payment Details Popup */}
+      {selectedOrder && (
+        <div className="payment-popup">
+          <div className="popup-content">
+            <h3>Payment Details for Order ID: {selectedOrder.orderId}</h3>
+            <table className="payment-details-table">
+              <thead>
+                <tr>
+                  <th>Payment Date</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedOrder.payments.map((payment, index) => (
+                  <tr key={index}>
+                    <td>{new Date(payment.paymentDate).toLocaleDateString()}</td>
+                    <td>
+                      ₱
+                      {payment.amount.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={() => setSelectedOrder(null)} className="close-popup-btn">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Image Popup */}
       {showImagePopup && (
