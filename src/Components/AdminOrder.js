@@ -335,7 +335,7 @@ const AdminPageOrder = () => {
               <tbody>
                 {selectedOrder.payments.map((payment, index) => (
                   <tr key={index}>
-                    <td>{new Date(payment.date).toLocaleDateString()}</td>
+                    <td>{new Date(payment.paymentDate).toLocaleDateString()}</td>
                     <td>
                       ₱
                       {payment.amount.toLocaleString("en-US", {
