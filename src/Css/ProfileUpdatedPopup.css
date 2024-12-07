@@ -9,20 +9,25 @@
   justify-content: center;  
   background-color: rgba(0, 0, 0, 0.5);  
   z-index: 1050; 
+  padding: 20px;
 }
 
 .profile-updated .overlappp {
   background-color: #d7d1d1;
   border-radius: 20px;
-  height: 410px;
   width: 907px;
   position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
 }
 
 .profile-updated .text-wrapper234 {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.62px;
   line-height: normal;
@@ -36,7 +41,7 @@
   height: 40px;
   color: #ffffff;
   font-family: "Inter-Bold", Helvetica;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0;
   line-height: normal;
