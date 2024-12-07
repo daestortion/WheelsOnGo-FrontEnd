@@ -6,7 +6,7 @@ export const OwnerAcknowledgement = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    navigate('/history');
+    navigate('/balance');
   };
 
   return (
@@ -14,7 +14,7 @@ export const OwnerAcknowledgement = () => {
         <div className="overlap">
           <h1 className="ok-text-wrapper">Return Proof Acknowledgement Successfully.</h1>
             <button className="overlap-group23" onClick={handleOkClick}>
-              <span className="ok-div">OK</span>
+              OK
             </button>
         </div>
 
