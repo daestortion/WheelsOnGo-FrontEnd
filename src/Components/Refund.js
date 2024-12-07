@@ -129,7 +129,7 @@ const RefundPage = () => {
       );
       await fetchWalletData(userId);  // Update wallet data after submission
       await fetchUserRequests(userId);  // Refresh user requests
-      console.log("Refund request submitted successfully!");
+      // console.log("Refund request submitted successfully!");
       setShowRefundPopup(true);
       setIsFormOpen(false);
     } catch (error) {

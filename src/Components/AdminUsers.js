@@ -18,7 +18,7 @@ const AdminPageUsers = () => {
     axios
       .get(`${BASE_URL}/user/getAllUsers`)
       .then((response) => {
-        console.log("Fetched Users:", response.data); // Log fetched users
+        // console.log("Fetched Users:", response.data); // Log fetched users
         setUsers(response.data);
         setHasFetchedOnce(true); // Mark that data has been fetched
       })

@@ -129,7 +129,7 @@ const BalancePage = () => {
       );
       await fetchWalletData(userId);
       await fetchUserRequests(userId);
-      console.log("Request submitted successfully!");
+      // console.log("Request submitted successfully!");
       setShowRefundPopup(true);
       setIsFormOpen(false);
     } catch (error) {

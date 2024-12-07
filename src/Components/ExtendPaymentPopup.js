@@ -69,7 +69,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
           setPriceSummary({ days, pricePerDay: car.rentPrice, total });
 
-          console.log("Order details fetched:", response.data);
+          // console.log("Order details fetched:", response.data);
         } else {
           throw new Error("Order details not found or invalid response");
         }
@@ -200,7 +200,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
             null,
             { params: { amount } } // Pass the full amount, backend will handle the 85% calculation
         );
-        console.log("Online earnings updated:", response.data);
+        // console.log("Online earnings updated:", response.data);
     } catch (error) {
         console.error("Error updating online earnings:", error);
     }
@@ -225,8 +225,8 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   
           if (updateResponse && updateResponse.data) {
               const { updatedOrder, extensionCost } = updateResponse.data;
-              console.log("Order updated successfully:", updatedOrder);
-              console.log("Extension cost for payment:", extensionCost);
+              // console.log("Order updated successfully:", updatedOrder);
+              // console.log("Extension cost for payment:", extensionCost);
   
               // Extract owner's userId from the order details
               const ownerId = orderDetails.car.owner.userId;
@@ -241,7 +241,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
                   amount: extensionCost,
                   status: 1,
               };
-              console.log("Prepared payment data for receipt:", paymentData);
+              // console.log("Prepared payment data for receipt:", paymentData);
   
               generateReceipt({ ...updatedOrder, referenceNumber: details.id });
               setShowExtendSuccessPopup(true);

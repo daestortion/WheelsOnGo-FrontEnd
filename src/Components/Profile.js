@@ -141,7 +141,7 @@ const UserProfile = () => {
             try {
                 const response = await axios.put(`${BASE_URL}/car/deleteCar/${carToDelete}`);
                 if (response.status === 200) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     fetchCars();
                 } else {
                     console.error('Error deleting car:', response.status);

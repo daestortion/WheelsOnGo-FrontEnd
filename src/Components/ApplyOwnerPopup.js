@@ -28,7 +28,7 @@ const ApplyOwnerPopup = ({ closePopup, confirmRegister }) => {
             setIsLoading(false); // Hide loading state after registration process ends
         }
     } else {
-        console.log("Please agree to the terms and conditions first.");
+        // console.log("Please agree to the terms and conditions first.");
     }
   };
 

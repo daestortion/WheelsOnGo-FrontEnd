@@ -85,7 +85,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
         if (response.data) {
             setOrder(response.data);
             setShowBookedPopup(true);
-            console.log("Cash order created successfully:", response.data);
+            // console.log("Cash order created successfully:", response.data);
 
             const paymentData = {
                 orderId: response.data.orderId,
@@ -95,7 +95,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 status: 0, // Indicate 'pending' status for Cash payment
             };
 
-            console.log("Payment Data being sent to the backend:", paymentData);
+            // console.log("Payment Data being sent to the backend:", paymentData);
 
             // Create the payment with 'pending' status for cash
             const paymentResponse = await axios.post(`${BASE_URL}/api/payment/create`, paymentData, {
@@ -103,7 +103,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
             });
 
             if (paymentResponse.data) {
-                console.log("Payment created with 'pending' status.");
+                // console.log("Payment created with 'pending' status.");
 
                 // Update cash earnings for the owner
                 await updateCashEarnings(car.owner.userId, totalPrice);
@@ -123,7 +123,7 @@ const updateCashEarnings = async (ownerId, amount) => {
           null,
           { params: { amount } }
       );
-      console.log("Cash earnings updated:", response.data);
+      // console.log("Cash earnings updated:", response.data);
   } catch (error) {
       console.error("Error updating cash earnings:", error);
   }
@@ -192,7 +192,7 @@ const updateCashEarnings = async (ownerId, amount) => {
             if (response.data) {
                 currentOrder = response.data;
                 setOrder(currentOrder);
-                console.log("Order created successfully:", response.data);
+                // console.log("Order created successfully:", response.data);
             } else {
                 throw new Error("Failed to create order before PayPal success.");
             }
@@ -206,7 +206,7 @@ const updateCashEarnings = async (ownerId, amount) => {
             status: 1, // Indicate success
         };
 
-        console.log("Payment Data being sent to the backend:", paymentData);
+        // console.log("Payment Data being sent to the backend:", paymentData);
 
         const paymentResponse = await axios.post(`${BASE_URL}/api/payment/create`, paymentData, {
             headers: { 'Content-Type': 'application/json' },
@@ -218,7 +218,7 @@ const updateCashEarnings = async (ownerId, amount) => {
 
             generateReceipt();
             setShowPayPalSuccess(true);
-            console.log("Payment created successfully, and online earnings updated.");
+            // console.log("Payment created successfully, and online earnings updated.");
         }
     } catch (error) {
         console.error("Error processing payment:", error.message);
@@ -234,7 +234,7 @@ const updateOnlineEarnings = async (ownerId, amount) => {
           null,
           { params: { amount } }
       );
-      console.log("Online earnings updated:", response.data);
+      // console.log("Online earnings updated:", response.data);
   } catch (error) {
       console.error("Error updating online earnings:", error);
   }

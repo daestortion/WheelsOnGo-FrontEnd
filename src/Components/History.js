@@ -223,7 +223,7 @@ export const OrderHistoryPage = () => {
   const handleTerminate = async (orderId) => {
     try {
       const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
-      console.log("Response Data:", response.data);
+      // console.log("Response Data:", response.data);
   
       if (response.status === 200 && response.data) {
         const { updatedOrder } = response.data;
@@ -237,8 +237,8 @@ export const OrderHistoryPage = () => {
           const terminationDate = new Date(updatedOrder.terminationDate);
           const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
   
-          console.log(`Date difference: ${dateDifference} days`);
-          console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
+          // console.log(`Date difference: ${dateDifference} days`);
+          // console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
   
           let refundPercentage = 0.0;
           if (dateDifference >= 3) {
@@ -251,14 +251,14 @@ export const OrderHistoryPage = () => {
   
           const refundAmount = latestPaymentAmount * refundPercentage;
   
-          console.log("Refund Amount:", refundAmount);
+          // console.log("Refund Amount:", refundAmount);
   
-          console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+          // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
           setShowTerminatedPopup(true);
   
           const userId = updatedOrder.user ? updatedOrder.user.userId : null;
           if (userId) {
-            console.log("Sending to wallet API:", userId, refundAmount);
+            // console.log("Sending to wallet API:", userId, refundAmount);
             await axios.put(`${BASE_URL}/wallet/addFunds`, {
               userId: userId,
               amount: refundAmount
@@ -270,10 +270,10 @@ export const OrderHistoryPage = () => {
           // Access the owner data correctly
           const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
           if (ownerId) {
-            console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
+            // console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
             const ownerWalletResponse = await axios.put(`${BASE_URL}/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`);
   
-            console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
+            // console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
   
             if (ownerWalletResponse.status !== 200) {
               console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
@@ -397,7 +397,7 @@ export const OrderHistoryPage = () => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const userId = JSON.parse(storedUser).userId;
-      console.log("Stored user ID:", userId);
+      // console.log("Stored user ID:", userId);
       fetchUserData(userId);
       fetchBookedDates(); // Fetch booked dates for disabling calendar
     } else {

@@ -160,7 +160,7 @@ export const AddCar = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setShowAddCarPopup(true); // Show popup after successful registration
     } catch (error) {
       console.error('Error submitting form', error);

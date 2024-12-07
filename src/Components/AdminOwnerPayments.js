@@ -27,7 +27,7 @@ const AdminOwnerPayments = () => {
     axios
       .get(`${BASE_URL}/request-form/getAllRequests`)
       .then((response) => {
-        console.log("Fetched payment requests:", response.data);
+        // console.log("Fetched payment requests:", response.data);
         setRequests(response.data);
         setHasFetchedOnce(true); // Mark data as fetched
       })

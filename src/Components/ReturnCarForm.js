@@ -42,7 +42,7 @@ function AcknowledgementForm() {
   
           // Check if there's a penalty and log it to the console
           if (response.data.penalty > 0) {
-            console.log(`Penalty amount: ${response.data.penalty}`);
+            // console.log(`Penalty amount: ${response.data.penalty}`);
           }
         }
       } catch (err) {
@@ -86,7 +86,7 @@ function AcknowledgementForm() {
             formData,
             { headers: { "Content-Type": "multipart/form-data" } }
         );
-        console.log("Acknowledgment submitted successfully!");
+        // console.log("Acknowledgment submitted successfully!");
         setShowOwnerAcknowledgement(true);
         reset();
         navigate("/history"); // Redirect to history page

@@ -14,12 +14,12 @@ const ActivateAccountPage = () => {
   useEffect(() => {
     const activateUser = async () => {
       try {
-        console.log("Activating user with:", { userId, token });
+        // console.log("Activating user with:", { userId, token });
 
         // Send userId and token as part of the URL path to match the backend route
         const response = await axios.get(`${BASE_URL}/user/activate/${userId}/${token}`);
 
-        console.log("Activation response:", response);
+        // console.log("Activation response:", response);
         setActivationStatus('Your account has been successfully activated!');
 
         // Redirect to login page after a few seconds

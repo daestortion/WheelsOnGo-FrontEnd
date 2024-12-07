@@ -61,7 +61,7 @@ export const EditProfile = () => {
                 body: formData,
             });
             const data = await response.json();
-            console.log('Update successful:', data);
+            // console.log('Update successful:', data);
     
             // Update user data in local storage
             localStorage.setItem('user', JSON.stringify({ ...user, pNum: phoneNumber, email, profilePic: profilePicUrl }));

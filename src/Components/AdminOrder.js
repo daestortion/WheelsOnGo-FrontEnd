@@ -23,7 +23,7 @@ const AdminPageOrder = () => {
     try {
       const response = await fetch(`${BASE_URL}/order/getAllOrders`);
       const data = await response.json();
-      console.log(data);
+      // // console.log(data);
 
       if (Array.isArray(data)) {
         setOrders(data);

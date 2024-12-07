@@ -14,7 +14,7 @@ const NewPassword = () => {
     const params = new URLSearchParams(window.location.search);
     const userIdParam = params.get('userId');
     setUserId(userIdParam);
-    console.log(userIdParam);
+    // console.log(userIdParam);
   }, []);
 
   const validatePassword = (password) => {

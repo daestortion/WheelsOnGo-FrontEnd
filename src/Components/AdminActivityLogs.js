@@ -26,7 +26,7 @@ const AdminActivityLogs = () => {
       axios
         .get("${BASE_URL}/activity/logs")
         .then((response) => {
-          console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
+          // console.log("Fetched logs: ", response.data); // Debug: Check if logs are fetched
 
           // Sort logs to show the newest first by reversing the array
           const sortedLogs = response.data.sort(

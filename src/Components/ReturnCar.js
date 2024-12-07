@@ -57,7 +57,7 @@ export const ReturnCar = () => {
             return;
         }
     
-        console.log("Initiating return with orderId:", orderId); // Debug orderId
+        // console.log("Initiating return with orderId:", orderId); // Debug orderId
     
         setIsLoading(true);
         const formData = new FormData();
@@ -68,7 +68,7 @@ export const ReturnCar = () => {
     
         // Debug log formData
         for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
+            // console.log(pair[0] + ': ' + pair[1]);
         }
     
         try {
@@ -79,12 +79,12 @@ export const ReturnCar = () => {
             });
     
             if (response.status === 200) {
-                console.log("Car return processed successfully.");
+                // console.log("Car return processed successfully.");
                 setShowReturnSuccessPopup(true);
             }
         } catch (error) {
             console.error("Error returning car:", error);
-            console.log("An error occurred while processing the return.");
+            // console.log("An error occurred while processing the return.");
         } finally {
             setIsLoading(false);
         }

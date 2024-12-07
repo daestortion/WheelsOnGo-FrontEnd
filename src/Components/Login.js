@@ -37,7 +37,7 @@ export const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("Attempting login with identifier:", identifier, "and password:", password);
+    // console.log("Attempting login with identifier:", identifier, "and password:", password);
     setErrorMessage("");
     setIsLoading(true);
 
@@ -46,7 +46,7 @@ export const Login = () => {
         identifier,
         password,
       });
-      console.log("Login response:", response.data);
+      // console.log("Login response:", response.data);
 
       if (response.data && response.data.userId) {
         const userId = response.data.userId;
@@ -57,7 +57,7 @@ export const Login = () => {
           const userProfile = userProfileResponse.data;
 
           // Log user profile to see data structure
-          console.log("User Profile Response:", userProfileResponse.data);
+          // console.log("User Profile Response:", userProfileResponse.data);
 
           // Check if the user account is active
           if (!userProfile.active) {  // Change isActive to active
@@ -72,7 +72,7 @@ export const Login = () => {
             const verificationStatus = verificationResponse.data ? verificationResponse.data.status : null;
 
             // Log verification response to check if status is missing
-            console.log("Verification Response:", verificationResponse.data);
+            // console.log("Verification Response:", verificationResponse.data);
 
             const userWithVerification = {
               userId: userProfile.userId,

@@ -9,7 +9,7 @@ export const ReverifyPopup = ({ closePopup }) => {
     const fileInputRefDriverLicense = useRef(null);
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user ? user.userId : null;
-    console.log(userId);
+    // console.log(userId);
 
     const [govIdFileName, setGovIdFileName] = useState("Upload Valid Government ID");
     const [driverLicenseFileName, setDriverLicenseFileName] = useState("Upload Driver’s License");
@@ -22,22 +22,22 @@ export const ReverifyPopup = ({ closePopup }) => {
     const handleFileChange = (event, setFileName) => {
         const file = event.target.files[0];
         setFileName(file ? file.name : "Upload");
-        console.log(file);
+        // console.log(file);
     };
 
     useEffect(() => {
-        console.log('showWaitVerificationPopup updated:', showWaitVerificationPopup);
+        // console.log('showWaitVerificationPopup updated:', showWaitVerificationPopup);
     }, [showWaitVerificationPopup]);
 
     const handleVerify = async () => {
-        console.log('Verify button clicked');
+        // console.log('Verify button clicked');
 
         if (fileInputRefGovId.current.files.length === 0 || fileInputRefDriverLicense.current.files.length === 0) {
             window.alert("Please upload both files.");
             return;
         }
 
-        console.log('Before displaying WaitVerificationPopup');
+        // console.log('Before displaying WaitVerificationPopup');
         setShowWaitVerificationPopup(true);
 
         try {
@@ -46,7 +46,7 @@ export const ReverifyPopup = ({ closePopup }) => {
             formData.append('govId', fileInputRefGovId.current.files[0]);
             formData.append('driversLicense', fileInputRefDriverLicense.current.files[0]);
 
-            console.log('Form Data:', formData);
+            // console.log('Form Data:', formData);
 
             const response = await fetch(`${BASE_URL}/verification/updateVerification/${userId}`, {
                 method: 'PUT',
@@ -58,7 +58,7 @@ export const ReverifyPopup = ({ closePopup }) => {
             }
 
             const data = await response.json();
-            console.log('Response data:', data);
+            // console.log('Response data:', data);
 
             // Optionally, handle response data or close the popup
         } catch (error) {

@@ -58,7 +58,7 @@ export const Registration = () => {
         isAdmin: false,
         isDeleted: false,
       });
-      console.log(response.data);
+      // console.log(response.data);
 
       // Step 2: Send the activation email
       const userId = response.data.userId;  // Assuming response contains the user's ID
