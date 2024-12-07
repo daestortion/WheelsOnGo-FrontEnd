@@ -6,7 +6,7 @@ export const OwnerAcknowledgement = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    navigate('/balance');
+    navigate('/balance-page');
   };
 
   return (
