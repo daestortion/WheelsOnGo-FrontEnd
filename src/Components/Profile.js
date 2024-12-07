@@ -291,12 +291,11 @@ const UserProfile = () => {
                     </div>
                 </div>
             )}
-
             {/* Car List Section for Owners */}
             {currentUser.verificationStatus === 1 && currentUser.isOwner && (
                 <div className="overlap-33">
                     {currentUser.cars && currentUser.cars.length > 0 ? (
-                        currentUser.cars.filter(car => car.approved).map(car => (
+                        currentUser.cars.map(car => (
                             <div key={car.carId} className="car-frame">
                                 <button
                                     className="carbutton"
@@ -314,6 +313,8 @@ const UserProfile = () => {
                                     src={trash}
                                     onClick={() => handleDeleteCar(car.carId)}
                                 />
+                                {/* Display "pending" if car is not approved */}
+                                {!car.approved && <span className="status-pending">Pending</span>}
                             </div>
                         ))
                     ) : (
@@ -321,7 +322,6 @@ const UserProfile = () => {
                     )}
                 </div>
             )}
-
             {/* Popups */}
             {showVerifyPopup && <VerifyPopup closePopup={toggleVerifyPopup} />}
             {showReverifyPopup && <ReverifyPopup closePopup={toggleReverifyPopup} />}
