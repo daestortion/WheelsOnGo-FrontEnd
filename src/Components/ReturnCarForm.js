@@ -35,9 +35,14 @@ function AcknowledgementForm() {
           setValue("rentEndDate", response.data.rentEndDate);
           setValue("carReturnDate", response.data.carReturnDate);
           setValue("comments", response.data.remarks);
-
+  
           if (response.data.proof) {
             setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);
+          }
+  
+          // Check if there's a penalty and log it to the console
+          if (response.data.penalty > 0) {
+            console.log(`Penalty amount: ${response.data.penalty}`);
           }
         }
       } catch (err) {
@@ -47,9 +52,10 @@ function AcknowledgementForm() {
         setLoading(false);
       }
     };
-
+  
     fetchReturnDetails();
   }, [orderId, setValue]);
+  
 
   const handleOwnerProofUpload = (event) => {
     const file = event.target.files[0];
@@ -68,6 +74,11 @@ function AcknowledgementForm() {
     formData.append("ownerProof", ownerProof);
     formData.append("ownerRemark", data.ownerRemark);
     formData.append("ownerApproval", data.ownerApproval ? "true" : "false");
+    
+    // Only append penalty if it's greater than 0
+    if (data.penalty > 0) {
+        formData.append("penalty", data.penalty);
+    }
 
     try {
         await axios.put(
