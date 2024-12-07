@@ -38,12 +38,12 @@ const ForgotPassword = () => {
             <div className="div11">
                 <img className="wheels-on-go" alt="Wheels on go" src={logo} />
                 <div className="overlap12">
-                    <h1 className="text-wrapper-6">Forgot Password</h1>
+                    <h1 className="text-wrapper-6qs">Forgot Password</h1>
                     <span className="text-wrapper">
                         Please enter your email address or username. You will receive a link to create a new password via email.
                     </span>
     
-                    <span className="text-wrapper-5">Your Email:</span>
+                    <span className="text-wrapper-5qs">Your Email:</span>
     
                     <input
                         className="div-wrapper"
