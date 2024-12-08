@@ -255,7 +255,6 @@ export const OrderHistoryPage = () => {
                 // console.log("Refund Amount:", refundAmount);
 
                 // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
-                setShowTerminatedPopup(true);
 
                 const userId = updatedOrder.user ? updatedOrder.user.userId : null;
                 if (userId) {
@@ -292,6 +291,9 @@ export const OrderHistoryPage = () => {
                             : order
                     )
                 );
+
+                // Show the terminated popup after all other processes are done
+                setShowTerminatedPopup(true);
             } else {
                 alert("Failed to process refund. Please try again.");
             }
@@ -304,7 +306,7 @@ export const OrderHistoryPage = () => {
     } finally {
         setIsLoading(false); // Stop loading
     }
-};
+  };
 
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
@@ -313,7 +315,7 @@ export const OrderHistoryPage = () => {
   // Handle car returned action
   const handleCarReturned = (orderId) => {
     navigate(`/return-car-form/${orderId}`);
-};
+  };
 
   // Handle approve order action
   const handleApprove = async (orderId) => {
