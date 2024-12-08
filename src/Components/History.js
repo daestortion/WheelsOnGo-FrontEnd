@@ -598,7 +598,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
                               <button
                                 className="return"
                                 onClick={() => handleCarReturned(order.orderId)}
-                                disabled={order.terminated || order.returned}
                               >
                                 Returned
                               </button>
