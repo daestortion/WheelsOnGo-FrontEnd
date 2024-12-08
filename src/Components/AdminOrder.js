@@ -224,7 +224,6 @@ const AdminPageOrder = () => {
                   <th>Payment Status</th>
                   <th>Proof of Payment</th>
                   <th>Termination</th>
-                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -286,24 +285,6 @@ const AdminPageOrder = () => {
                               .toISOString()
                               .split("T")[0]}`
                           : ""}
-                      </td>
-                      <td>
-                        {order.paymentOption === "Cash" ? (
-                          <>
-                            <button
-                              className="button-approve"
-                              onClick={() => handleApprove(order.orderId)}
-                            >
-                              Approve
-                            </button>
-                            <button
-                              className="button-deny"
-                              onClick={() => handleDeny(order.orderId)}
-                            >
-                              Deny
-                            </button>
-                          </>
-                        ) : null}
                       </td>
                     </tr>
                   ))

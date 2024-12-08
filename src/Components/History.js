@@ -576,7 +576,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           <button
                             className="terminate"
                             onClick={() => handleTerminate(order.orderId)}
-                            disabled={order.terminated || order.returnProofExists}
+                            disabled={order.terminated || order.returnProofExists || order.active}
                           >
                             Terminate
                           </button>
@@ -644,11 +644,11 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           )}
                           {showDatePicker !== order.orderId && (
                             <button
-                              className="terminate"
-                              onClick={() => handleTerminate(order.orderId)}
-                              disabled={order.terminated || order.returnProofExists}
+                              className="return-cars"
+                              onClick={() => handleReturnCar(order.orderId)}
+                              disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProofExists}
                             >
-                              Terminate
+                              Return Car
                             </button>
                           )}
                         </td>
