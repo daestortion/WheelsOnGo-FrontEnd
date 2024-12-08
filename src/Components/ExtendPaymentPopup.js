@@ -43,6 +43,7 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
   const [showTermsPopup, setShowTermsPopup] = useState(false);
   const [isAcceptEnabled, setIsAcceptEnabled] = useState(false);
   const termsBodyRef = useRef(null);
+  const [isComingSoon, setIsComingSoon] = useState(true);
   const userId = localStorage.getItem('userId'); // If stored in local storage
 
   useEffect(() => {
@@ -171,27 +172,31 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
     return <img src={images[currentImageIndex]} alt="Slideshow" width="500" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />;
   };
-
-  const createPaymentLink = async () => {
-    if (!orderDetails) return;
-
-    const amountInCentavos = Math.round(priceSummary.total * 100);
-    const response = await fetch('${BASE_URL}/api/payment/create-link', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: amountInCentavos,
-        description: `Payment for Order ID: ${orderId}`,
-      }),
-    });
-
-    const data = await response.json();
-    if (data?.data?.attributes?.checkout_url) {
-      window.location.href = data.data.attributes.checkout_url;
-    } else {
-      console.error('Failed to create payment link');
-    }
-  };
+  
+    const createPaymentLink = async () => {
+      if (isComingSoon || !orderDetails) return;
+  
+      const amountInCentavos = Math.round(priceSummary.total * 100);
+      try {
+        const response = await fetch(`${BASE_URL}/api/payment/create-link`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: amountInCentavos,
+            description: `Payment for Order ID: ${orderId}`,
+          }),
+        });
+  
+        const data = await response.json();
+        if (data?.data?.attributes?.checkout_url) {
+          window.location.href = data.data.attributes.checkout_url;
+        } else {
+          console.error('Failed to create payment link');
+        }
+      } catch (error) {
+        console.error('Error creating payment link:', error);
+      }
+    };
 
   const updateOnlineEarnings = async (ownerId, amount) => {
     try {
@@ -369,14 +374,18 @@ const ExtendPaymentPopup = ({ orderId, endDate, onClose }) => {
 
                     <button
                       onClick={createPaymentLink}
-                      className="paymongo-option"
-                      disabled={!isChecked}
-                      style={{
-                        pointerEvents: isChecked ? 'auto' : 'none',
-                        opacity: isChecked ? 1 : 0.5,
-                      }}
+                      className={`paymongo-button ${isComingSoon ? 'disabled' : ''}`}
+                      disabled={isComingSoon}
                     >
-                      <img src={paymonggo} alt="PayMongo Logo" className="paymongologo" />
+                      <div className="button-content">
+                        <img
+                          src={paymonggo}
+                          alt="PayMongo Logo"
+                          className="paymongo-logo"
+                          style={{ opacity: isComingSoon ? 0.5 : 1 }}
+                        />
+                        {isComingSoon && <span className="coming-soon-text">Coming Soon</span>}
+                      </div>
                     </button>
 
                     <div
