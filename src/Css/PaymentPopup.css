@@ -514,6 +514,23 @@ body {
     cursor: pointer;
   }
 
+  .coming-soon-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for proper centering */
+    font-size: 25px;
+    color: rgba(0, 0, 0, 0.8); /* Slightly dimmed white text */
+    font-weight: bold;
+    text-align: center;
+    z-index: 2; /* Ensure it stays above everything */
+  }
+
+  .paymongo-button.disabled {
+    cursor: not-allowed;
+    background-color: #00D17D; /* Dimmed green for disabled state */
+  }
+
   .paypal-button {
     padding: 12px 24px;
     font-size: 18px;
