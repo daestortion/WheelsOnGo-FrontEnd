@@ -7,7 +7,6 @@ body {
 }
 
 .about-us-FINAL {
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,9 +19,8 @@ body {
 .about-us-FINAL .frame {
   width: 100%;
   position: relative;
-  overflow-y: auto;
   padding-bottom: 20px;
-  max-height: calc(100vh - 90px); 
+  max-height: calc(100vh - 60px); 
   display: flex;
   flex-direction: column;
 }
@@ -34,7 +32,7 @@ body {
 
 .about-us-FINAL .wheels-on-go {
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 64px;
+  font-size: 45px;
   font-weight: 600;
   line-height: normal;
   position: relative;
@@ -54,20 +52,19 @@ body {
 .about-us-FINAL .at-wheels-on-go-we {
   color: #000000;
   font-family: "Inter-Regular", Helvetica;
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 400;
-  height: 140px;
   letter-spacing: 0;
   line-height: 35px;
   position: relative;
   text-align: right;
-  width: 751px;
+  width: 450px;
 }
 
 .about-us-FINAL .img {
-  height: 70px;
+  height: 30px;
   position: relative;
-  width: 450px;
+  width: 280px;
 }
 
 .part1 {
@@ -85,7 +82,7 @@ body {
   align-items: center;
   position: relative;
   gap: 30px;
-  padding: 30px;
+  padding: 15px;
 }
 
 .part3 {
@@ -111,7 +108,7 @@ body {
   align-items: flex-start;
   position: relative;
   gap: 30px;
-  padding: 30px;
+  padding: 15px;
 }
 
 .part6 {
@@ -139,7 +136,7 @@ body {
 }
 
 .about-us-FINAL .image {
-  height: 700px;
+  height: 400px;
   object-fit: cover;
   position: relative;
 }
@@ -147,7 +144,7 @@ body {
 .about-us-FINAL .div {
   color: #ff0009;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 64px;
+  font-size: 45px;
   font-weight: 600;
   line-height: normal;
   position: relative;
@@ -156,15 +153,16 @@ body {
 .about-us-FINAL .wheels-on-go-was {
   color: #000000;
   font-family: "Inter-Regular", Helvetica;
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 400;
-  height: 210px;
   position: relative;
-  width: 751px;
+  width: 400px;
+  letter-spacing: 0;
+  line-height: 35px;
 }
 
 .about-us-FINAL .nobvg {
-  height: 772px;
+  height: 400px;
   object-fit: cover;
   position: relative;
 }
@@ -172,7 +170,7 @@ body {
 .about-us-FINAL .text-wrapper-2 {
   color: #000000;
   font-family: "Inter-Regular", Helvetica;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 400;
   position: relative;
   text-align: center;
@@ -181,7 +179,7 @@ body {
 .about-us-FINAL .text-wrapper-9 {
   color: #000000;
   font-family: "Inter-SemiBold", Helvetica;
-  font-size: 64px;
+  font-size: 45px;
   font-weight: 600;
   line-height: normal;
   position: relative;
@@ -196,7 +194,7 @@ body {
   align-items: center;
   gap: 50px;
   width: 100%;
-  padding: 20px;
+  padding: 15px;
   box-sizing: border-box;
   position: relative;
   overflow-y: auto;
@@ -210,8 +208,8 @@ body {
 }
 
 .ashercircle, .dancircle, .godwincircle, .kencircle, .zartcircle {
-  height: 221px;
-  width: 221px;
+  height: 180px;
+  width: 180px;
   object-fit: cover;
 }
 
@@ -223,4 +221,206 @@ body {
   line-height: normal;
   position: relative;
   text-align: center;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 1024px) {
+
+  .about-us-FINAL{
+    padding-top: 75px;
+  }
+
+  .about-us-FINAL .image{
+    height: 300px;
+  }
+
+  .about-us-FINAL .wheels-on-go{
+    font-size: 35px;
+  }
+
+  .about-us-FINAL .at-wheels-on-go-we{
+    font-size: 15px;
+    width: 350px;
+    line-height: 30px;
+  }
+
+  .part2{
+    gap: 15px;
+  }
+
+  .about-us-FINAL .div{
+    font-size: 35px;
+  }
+
+  .about-us-FINAL .wheels-on-go-was{
+    font-size: 15px;
+    width: 350px;
+    line-height: 30px;
+  }
+
+  .about-us-FINAL .nobvg{
+    height: 280px;
+  }
+
+  .part5{
+    gap: 15px;
+  }
+
+  .about-us-FINAL .text-wrapper-9{
+    font-size: 35px;
+  }
+
+  .ashercircle, .dancircle, .godwincircle, .kencircle, .zartcircle {
+    height: 150px;
+    width: 150px;
+  }
+
+  .about-us-grid{
+    gap: 30px;
+  }
+
+  .about-us-FINAL .text-wrapper-2{
+    font-size: 18px;
+  }
+
+  .about-us-FINAL .interested-contact{
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 800px) {
+
+  .about-us-FINAL{
+    padding-top: 70px;
+  }
+
+  .about-us-FINAL .image{
+    height: 220px;
+  }
+
+  .about-us-FINAL .wheels-on-go{
+    font-size: 30px;
+  }
+
+  .about-us-FINAL .img{
+    height: 25px;
+    width: 220px;
+  }
+
+  .about-us-FINAL .at-wheels-on-go-we{
+    font-size: 12px;
+    width: 270px;
+    line-height: 20px;
+  }
+
+  .about-us-FINAL .div{
+    font-size: 30px;
+  }
+
+  .about-us-FINAL .wheels-on-go-was{
+    font-size: 12px;
+    width: 270px;
+    line-height: 20px;
+  }
+
+  .about-us-FINAL .nobvg{
+    height: 200px;
+  }
+
+  .part5{
+    gap: 15px;
+  }
+
+  .about-us-FINAL .text-wrapper-9{
+    font-size: 30px;
+  }
+
+  .ashercircle, .dancircle, .godwincircle, .kencircle, .zartcircle {
+    height: 120px;
+    width: 120px;
+  }
+
+  .about-us-grid{
+    gap: 30px;
+  }
+
+  .about-us-FINAL .text-wrapper-2{
+    font-size: 12px;
+  }
+
+  .about-us-FINAL .interested-contact{
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .about-us-FINAL{
+    padding-top: 60px;
+  }
+
+  .about-us-FINAL .image{
+    height: 160px;
+  }
+
+  .about-us-FINAL .wheels-on-go{
+    font-size: 20px;
+  }
+
+  .about-us-FINAL .img{
+    height: 15px;
+    width: 130px;
+  }
+
+  .about-us-FINAL .at-wheels-on-go-we{
+    font-size: 11px;
+    width: 175px;
+    line-height: 15px;
+  }
+
+  .part2{
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .about-us-FINAL .div{
+    font-size: 20px;
+  }
+
+  .about-us-FINAL .wheels-on-go-was{
+    font-size: 11px;
+    width: 180px;
+    line-height: 15px;
+  }
+
+  .about-us-FINAL .nobvg{
+    height: 135px;
+  }
+
+  .part5{
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .about-us-FINAL .text-wrapper-9{
+    font-size: 20px;
+  }
+
+  .ashercircle, .dancircle, .godwincircle, .kencircle, .zartcircle {
+    height: 100px;
+    width: 100px;
+  }
+
+  .about-us-grid{
+    gap: 20px;
+  }
+
+  .about-us-FINAL .text-wrapper-2{
+    font-size: 11px;
+  }
+
+  .about-us-FINAL .interested-contact{
+    font-size: 12px;
+  }
+
 }

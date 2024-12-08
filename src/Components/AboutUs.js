@@ -80,7 +80,7 @@ return (
       <div className="part8">
         <span className="interested-contact">
           Interested? Contact Us
-          <br />
+          <br /> <br />
           Facebook: WheelsOnGo Cebu | Contact No: 123456789
         </span>
       </div>

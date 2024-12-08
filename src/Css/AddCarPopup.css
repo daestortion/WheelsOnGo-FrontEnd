@@ -9,6 +9,7 @@
   justify-content: center;  /* Center horizontally */
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1050;
+  padding: 20px;
   }
   
   .add-car-success .overlap-wrapper11 {
@@ -24,9 +25,8 @@
   
   .add-car-success .overlapw1 {
     background-color: #d7d1d1;
-    border-radius: 40px;
-    height: 400px;
-    gap: 80px;
+    border-radius: 20px;
+    gap: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,7 +39,7 @@
   .add-car-success .ac-text-wrapper {
     color: #000000;
     font-family: "Inter-SemiBold", Helvetica;
-    font-size: 50px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0.62px;
     line-height: normal;
@@ -58,13 +58,13 @@
   
   .add-car-success .overlap-group {
     background-color: #e80029;
-    border-radius: 35px;
-    height: 71px;
+    border-radius: 25px;
+    height: 35px;
     position: relative;
-    width: 168px;
+    width: 130px;
     color: #ffffff;
     font-family: "Inter-Bold", Helvetica;
-    font-size: 20px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 0;
     line-height: normal;
