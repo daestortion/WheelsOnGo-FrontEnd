@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../Css/TerminatePopup.css";
 
-export const TerminatedPopup = () => {
+export const RegisteredPopup = () => {
   const navigate = useNavigate();
 
   const handleOkClick = () => {
-    navigate('/history');
+    navigate('/userprofile');
   };
 
   return (
@@ -22,4 +22,4 @@ export const TerminatedPopup = () => {
   );
 };
 
-export default TerminatedPopup;
+export default RegisteredPopup;

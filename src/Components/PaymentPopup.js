@@ -37,6 +37,7 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const termsBodyRef = useRef(null);
+  const [isComingSoon, setIsComingSoon] = useState(true);
 
   const calculateDays = () => {
     if (!startDate || !endDate) return 0;
@@ -136,6 +137,8 @@ const updateCashEarnings = async (ownerId, amount) => {
 
 
   const createPaymentLink = async () => {
+    if (isComingSoon) return; // Prevent action when in "Coming Soon" mode
+
     const amountInCentavos = Math.round(totalPrice * 100);
 
     try {
@@ -152,7 +155,7 @@ const updateCashEarnings = async (ownerId, amount) => {
       });
 
       const data = await response.json();
-      if (data && data.data && data.data.attributes && data.data.attributes.checkout_url) {
+      if (data?.data?.attributes?.checkout_url) {
         const paymentUrl = data.data.attributes.checkout_url;
         window.open(paymentUrl, '_blank');
       } else {
@@ -443,14 +446,24 @@ const updateOnlineEarnings = async (ownerId, amount) => {
             >
               Cash
             </button>
+
             <button
-              onClick={createPaymentLink}
-              className="paymongo-button"
-              disabled={!isTermsAccepted}
-              style={{ opacity: isTermsAccepted ? 1 : 0.5 }}
-            >
-              <img src={paymonggo} alt="PayMongo Logo" className="paymongo-logo" />
-            </button>
+                onClick={createPaymentLink}
+                className={`paymongo-button ${isComingSoon ? 'disabled' : ''}`}
+                disabled={isComingSoon}
+              >
+                <div className="button-content">
+                  <img
+                    src={paymonggo}
+                    alt="PayMongo Logo"
+                    className="paymongo-logo"
+                    style={{ opacity: isComingSoon ? 0.5 : 1 }}
+                  />
+                  {isComingSoon && <span className="coming-soon-text">Coming Soon</span>}
+                </div>
+              </button>
+
+
             <div style={{ position: 'relative', opacity: isTermsAccepted ? 1 : 0.5 }}>
               {isTermsAccepted ? (
                 <PayPal totalPrice={totalPrice} onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
