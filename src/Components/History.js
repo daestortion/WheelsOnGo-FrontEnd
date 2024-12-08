@@ -579,7 +579,7 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           <button
                             className="return-cars"
                             onClick={() => handleReturnCar(order.orderId)}
-                            disabled={order.terminated || order.returnProofExists}
+                            disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProofExists}
                           >
                             Return Car
                           </button>
