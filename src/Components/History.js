@@ -25,9 +25,6 @@ export const OrderHistoryPage = () => {
   const [showOngoingRents, setShowOngoingRents] = useState(false);
   const [showExtendPaymentPopup, setExtendShowPaymentPopup] = useState(false); // State to control PaymentPopup
   const [filter, setFilter] = useState("all");
-  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
-  const [selectedReturnDetails, setSelectedReturnDetails] = useState(null);
-
   const [currentUser, setCurrentUser] = useState({
     userId: null,
     username: "username",
@@ -471,23 +468,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
     }
   });  
 
-  const handleShowDetails = async (orderId) => {
-    // Fetch return details if not already available
-    try {
-      const response = await axios.get(`${BASE_URL}/returnProof/getReturnDetails/${orderId}`);
-      setSelectedReturnDetails(response.data); // Assuming response contains the details
-      setShowDetailsPopup(true); // Show popup
-    } catch (error) {
-      console.error("Error fetching return details:", error);
-    }
-  };
-  
-  
-  const closeDetailsPopup = () => {
-    setShowDetailsPopup(false);
-    setSelectedReturnDetails(null);
-  };
-
   return (
     <div className="order-history-page">
       <Header />
@@ -600,28 +580,13 @@ const checkOwnerAcknowledgment = async (orderId) => {
                           >
                             Terminate
                           </button>
-                          {
-                            order.ownerAcknowledged ? (
-                              <button
-                                className="show-details"
-                                onClick={() => handleShowDetails(order.orderId)}
-                              >
-                                View
-                              </button>
-                            ) : (
-                              <button
-                                className="return-cars"
-                                onClick={() => handleReturnCar(order.orderId)}
-                                disabled={
-                                  new Date() < new Date(order.startDate) ||
-                                  order.terminated ||
-                                  order.returnProofExists
-                                }
-                              >
-                                Return Car
-                              </button>
-                            )
-                          }
+                          <button
+                            className="return-cars"
+                            onClick={() => handleReturnCar(order.orderId)}
+                            disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProofExists}
+                          >
+                            Return Car
+                          </button>
                         </td>
                       )}
                       {showOwnedCars && (
@@ -697,27 +662,6 @@ const checkOwnerAcknowledgment = async (orderId) => {
           </div>
         )}
       </div>
-
-      {showDetailsPopup && selectedReturnDetails && (
-        <div className="popup-container">
-          <div className="popup">
-            <h2>Return Details</h2>
-            <div className="details-view">
-              <p><strong>Proof:</strong> {selectedReturnDetails.proof || "N/A"}</p>
-              <p><strong>End Date:</strong> {formatDate(selectedReturnDetails.endDate)}</p>
-              <p><strong>Return Date:</strong> {formatDate(selectedReturnDetails.returnDate)}</p>
-              <p><strong>Remarks:</strong> {selectedReturnDetails.remarks || "N/A"}</p>
-              <p><strong>Penalty:</strong> ₱{selectedReturnDetails.penalty?.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || "0.00"}</p>
-              <p><strong>Owner Remark:</strong> {selectedReturnDetails.ownerRemark || "N/A"}</p>
-              <p><strong>Owner Proof:</strong> {selectedReturnDetails.ownerProof || "N/A"}</p>
-            </div>
-            <button className="close-popup" onClick={closeDetailsPopup}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
       {showTerminatedPopup && <TerminatedPopup />}
       {showExtendPaymentPopup && selectedOrder && (
         <ExtendPaymentPopup
