@@ -1,149 +1,102 @@
 /* Center the form container vertically and horizontally */
-.acknowledgement-form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Full viewport height */
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-  }
-  
-  /* Form styling */
-  .acknowledgement-form {
-    margin-top: 100px;
-    margin-bottom: 100px;
-    max-width: 700px;
-    width: 100%;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .acknowledgement-form h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-  }
-  
-  /* Grid for form rows with two columns */
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 15px;
-  }
-  
-  /* Styling for individual form elements */
-  .form-row div {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-row label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 16px;
-  }
-  
-  .form-row input[type="text"],
-  .form-row input[type="date"],
-  .form-row input[type="number"],
-  .form-row textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
-  
-  .form-row input[type="text"],
-  .form-row input[type="date"],
-  .form-row input[type="number"] {
-    width: 100%; /* Make input fields fill the available width */
-  }
-  
-  .form-row textarea {
-    grid-column: span 2; /* Span across both columns */
-    resize: vertical;
-  }
-  
-  /* File input */
-  .form-row input[type="file"] {
-    grid-column: span 2; /* Span across both columns */
-  }
-  
-  .image-carousel {
-    display: flex;
-    overflow-x: auto;
-    margin-bottom: 15px;
-  }
-  
-  .carousel-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 10px;
-  }
-  
-  .submit-buttons {
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  .submit-buttons:hover {
-    background-color: #45a049;
-  }
-  
-  /* Responsive styling */
-  @media (max-width: 768px) {
-    .acknowledgement-form {
-      width: 90%;
-      padding: 20px;
-    }
-  
-    .form-row {
-      grid-template-columns: 1fr;
-    }
-  
-    .carousel-image {
-      width: 80px;
-      height: 80px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .acknowledgement-form {
-      width: 100%;
-      padding: 15px;
-    }
-  
-    .carousel-image {
-      width: 60px;
-      height: 60px;
-    }
-  
-    .submit-buttons {
-      font-size: 16px;
-      padding: 10px;
-    }
-  }
-  
-  /* Adjust renter proof image styling */
-.uploaded-proof {
+.ack-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+/* Form styling */
+.ack-form {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  max-width: 700px;
+  width: 100%;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.ack-form h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Grid for form rows with two columns */
+.ack-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+/* Styling for individual form elements */
+.ack-form-row div {
+  display: flex;
+  flex-direction: column;
+}
+
+.ack-form-row label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.ack-form-row input[type="text"],
+.ack-form-row input[type="date"],
+.ack-form-row input[type="number"],
+.ack-form-row textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.ack-form-row input[type="text"],
+.ack-form-row input[type="date"],
+.ack-form-row input[type="number"] {
+  width: 100%; /* Make input fields fill the available width */
+}
+
+.ack-form-row textarea {
+  grid-column: span 2; /* Span across both columns */
+  resize: vertical;
+}
+
+/* File input */
+.ack-form-row input[type="file"] {
+  grid-column: span 2; /* Span across both columns */
+}
+
+.ack-submit-button {
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.ack-submit-button:hover {
+  background-color: #45a049;
+}
+
+/* Adjust renter proof image styling */
+.ack-uploaded-proof {
   max-width: 100%; /* Ensure it doesn't exceed the container width */
   height: auto; /* Maintain the aspect ratio */
   object-fit: cover; /* Ensure proper fit */
@@ -152,16 +105,8 @@
   margin: 10px 0; /* Add spacing */
 }
 
-/* Limit the maximum size for the image */
-.form-row img.uploaded-proof {
-  max-height: 300px; /* Limit the height */
-  max-width: 500px; /* Limit the width */
-  display: block; /* Ensure the image stays as a block element */
-  margin: 0 auto; /* Center the image */
-}
-
 /* Modal overlay styling */
-.modal-overlay {
+.ack-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -175,7 +120,7 @@
 }
 
 /* Modal content styling */
-.modal {
+.ack-modal {
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -186,26 +131,107 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* Ensure content inside modal is centered */
+  position: relative; /* Important for positioning the close button */
 }
 
 /* Modal image styling */
-.modal-image {
-  max-width: 100%;
-  height: auto;
+.ack-modal-image {
+  height: 500px;
+  width: 500px;
+  object-fit: contain; /* Ensures the image maintains aspect ratio without stretching */
   display: block;
   margin: 0 auto;
 }
 
 /* Close button styling */
-.close-modal-button {
+.ack-close-modal-button {
   background: red;
   color: white;
   border: none;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  top: -15px; /* Move the button just above the modal */
+  right: -15px; /* Position it just outside the right corner of the modal */
   font-size: 14px;
+  z-index: 1050; /* Ensure it's above the modal content */
+}
+
+/* Mobile-specific styling */
+@media (max-width: 768px) {
+  /* Adjust the form container */
+  .ack-container {
+    padding: 10px; /* Reduce padding on mobile */
+  }
+
+  /* Adjust the form layout */
+  .ack-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+
+  .ack-form h2 {
+    font-size: 20px;
+  }
+
+  /* Adjust form row layout for small screens */
+  .ack-form-row {
+    grid-template-columns: 1fr; /* Stack form fields in one column */
+  }
+
+  .ack-form-row label {
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .ack-form-row input[type="text"],
+  .ack-form-row input[type="date"],
+  .ack-form-row input[type="number"],
+  .ack-form-row textarea {
+    font-size: 14px; /* Smaller font size for inputs */
+  }
+
+  /* Make button smaller for mobile */
+  .ack-submit-button {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  /* Modal image adjustments */
+  .ack-modal-image {
+    width: 100%;  /* Make modal image responsive */
+    height: auto;
+  }
+
+  .ack-close-modal-button {
+    top: -10px;  /* Adjust close button position */
+    right: -10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ack-form {
+    padding: 15px;
+  }
+
+  .ack-submit-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .ack-form h2 {
+    font-size: 18px;
+    padding-top: 20px;
+  }
+
+  .ack-form-row label {
+    font-size: 12px;
+  }
+
+  .ack-form-row input[type="text"],
+  .ack-form-row input[type="date"],
+  .ack-form-row input[type="number"],
+  .ack-form-row textarea {
+    font-size: 12px;
+  }
 }

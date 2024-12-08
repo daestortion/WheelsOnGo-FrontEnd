@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../Components/Header";
 import Modal from "react-modal";
-import Loading from './Loading';
+import Loading from "./Loading"; // Import Loading component
 import "../Css/ReturnCarForm.css";
 import { BASE_URL } from '../ApiConfig'; 
 import OwnerAcknowledgement from "./OwnerAcknowledgement.js";
@@ -99,16 +99,16 @@ function AcknowledgementForm() {
   return (
     <div>
       <Header />
-      <div className="acknowledgement-form-container">
+      <div className="ack-container">
         {loading ? (
           <Loading />
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <form className="acknowledgement-form" onSubmit={handleSubmit(onSubmit)}>
+          <form className="ack-form" onSubmit={handleSubmit(onSubmit)}>
             <h2>Car Return Acknowledgement</h2>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <div>
                 <label>Car Owner:</label>
                 <input type="text" {...register("carOwner")} disabled />
@@ -118,8 +118,8 @@ function AcknowledgementForm() {
                 <input type="text" {...register("renter")} disabled />
               </div>
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <div>
                 <label>Rent Start Date:</label>
                 <input type="date" {...register("rentStartDate")} disabled />
@@ -129,8 +129,8 @@ function AcknowledgementForm() {
                 <input type="date" {...register("rentEndDate")} disabled />
               </div>
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <div>
                 <label>Car Return Date:</label>
                 <input type="date" {...register("carReturnDate")} disabled />
@@ -140,39 +140,39 @@ function AcknowledgementForm() {
                 <textarea {...register("comments")} disabled rows="4" />
               </div>
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <div>
                 <label>Penalty:</label>
                 <input type="text" value={penalty} disabled />
               </div>
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <label>Proof of Return (Renter):</label>
               {renterProofURL ? (
-                <img src={renterProofURL} alt="Renter Proof" className="uploaded-proof" />
+                <img src={renterProofURL} alt="Renter Proof" className="ack-uploaded-proof" />
               ) : (
                 <p>No proof provided by renter.</p>
               )}
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <label>Owner's Remarks:</label>
               <textarea {...register("ownerRemark")} placeholder="Enter your remarks" rows="4" required />
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <label>Owner's Proof:</label>
               <input type="file" onChange={handleOwnerProofUpload} accept="image/*" required />
               {ownerProofPreviewURL && (
-                <button type="button" className="show-image-button" onClick={toggleModal}>
+                <button type="button" className="ack-show-image-button" onClick={toggleModal}>
                   Show Image
                 </button>
               )}
             </div>
-
-            <div className="form-row">
+  
+            <div className="ack-form-row">
               <div>
                 <label>
                   <input
@@ -183,33 +183,33 @@ function AcknowledgementForm() {
                 </label>
               </div>
             </div>
-
-            <button type="submit" className="submit-buttons" disabled={submitting}>
-              {submitting ? "Submitting..." : "Submit"}
+  
+            <button type="submit" className="ack-submit-button" disabled={submitting}>
+              {submitting ? <Loading /> : "Submit"}
             </button>
           </form>
         )}
       </div>
       {showOwnerAcknowledgement && <OwnerAcknowledgement />}
-
+  
       <Modal
         isOpen={isModalOpen}
         onRequestClose={toggleModal}
         contentLabel="Owner Proof"
-        className="modal"
-        overlayClassName="modal-overlay"
+        className="ack-modal"
+        overlayClassName="ack-modal-overlay"
       >
-        <button className="close-modal-button" onClick={toggleModal}>
+        <button className="ack-close-modal-button" onClick={toggleModal}>
           Close
         </button>
         {ownerProofPreviewURL ? (
-          <img src={ownerProofPreviewURL} alt="Owner Proof Preview" className="modal-image" />
+          <img src={ownerProofPreviewURL} alt="Owner Proof Preview" className="ack-modal-image" />
         ) : (
           <p>No image uploaded yet.</p>
         )}
       </Modal>
     </div>
-  );
+  );  
 }
 
 export default AcknowledgementForm;
