@@ -221,88 +221,90 @@ export const OrderHistoryPage = () => {
   };
 
   const handleTerminate = async (orderId) => {
+    setIsLoading(true); // Start loading
     try {
-      const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
-      // console.log("Response Data:", response.data);
-  
-      if (response.status === 200 && response.data) {
-        const { updatedOrder } = response.data;
-  
-        if (updatedOrder) {
-          const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
-            ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
-            : 0;
-  
-          const startDate = new Date(updatedOrder.startDate);
-          const terminationDate = new Date(updatedOrder.terminationDate);
-          const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
-  
-          // console.log(`Date difference: ${dateDifference} days`);
-          // console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
-  
-          let refundPercentage = 0.0;
-          if (dateDifference >= 3) {
-            refundPercentage = 0.85;
-          } else if (dateDifference >= 1 && dateDifference <= 2) {
-            refundPercentage = 0.50;
-          } else {
-            refundPercentage = 0.0;
-          }
-  
-          const refundAmount = latestPaymentAmount * refundPercentage;
-  
-          // console.log("Refund Amount:", refundAmount);
-  
-          // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
-          setShowTerminatedPopup(true);
-  
-          const userId = updatedOrder.user ? updatedOrder.user.userId : null;
-          if (userId) {
-            // console.log("Sending to wallet API:", userId, refundAmount);
-            await axios.put(`${BASE_URL}/wallet/addFunds`, {
-              userId: userId,
-              amount: refundAmount
-            });
-          } else {
-            console.error("Error: User data is missing in updatedOrder");
-          }
-  
-          // Access the owner data correctly
-          const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
-          if (ownerId) {
-            // console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
-            const ownerWalletResponse = await axios.put(`${BASE_URL}/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`);
-  
-            // console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
-  
-            if (ownerWalletResponse.status !== 200) {
-              console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
+        const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
+        // console.log("Response Data:", response.data);
 
+        if (response.status === 200 && response.data) {
+            const { updatedOrder } = response.data;
 
+            if (updatedOrder) {
+                const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
+                    ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
+                    : 0;
+
+                const startDate = new Date(updatedOrder.startDate);
+                const terminationDate = new Date(updatedOrder.terminationDate);
+                const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
+
+                // console.log(`Date difference: ${dateDifference} days`);
+                // console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
+
+                let refundPercentage = 0.0;
+                if (dateDifference >= 3) {
+                    refundPercentage = 0.85;
+                } else if (dateDifference >= 1 && dateDifference <= 2) {
+                    refundPercentage = 0.50;
+                } else {
+                    refundPercentage = 0.0;
+                }
+
+                const refundAmount = latestPaymentAmount * refundPercentage;
+
+                // console.log("Refund Amount:", refundAmount);
+
+                // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+                setShowTerminatedPopup(true);
+
+                const userId = updatedOrder.user ? updatedOrder.user.userId : null;
+                if (userId) {
+                    // console.log("Sending to wallet API:", userId, refundAmount);
+                    await axios.put(`${BASE_URL}/wallet/addFunds`, {
+                        userId: userId,
+                        amount: refundAmount,
+                    });
+                } else {
+                    console.error("Error: User data is missing in updatedOrder");
+                }
+
+                // Access the owner data correctly
+                const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+                if (ownerId) {
+                    // console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
+                    const ownerWalletResponse = await axios.put(
+                        `${BASE_URL}/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`
+                    );
+
+                    // console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
+
+                    if (ownerWalletResponse.status !== 200) {
+                        console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
+                    }
+                } else {
+                    console.error("Error: Owner data is missing in updatedOrder");
+                }
+
+                setOrders((prevOrders) =>
+                    prevOrders.map((order) =>
+                        order.orderId === orderId
+                            ? { ...order, terminated: true, active: false }
+                            : order
+                    )
+                );
+            } else {
+                alert("Failed to process refund. Please try again.");
             }
-          } else {
-            console.error("Error: Owner data is missing in updatedOrder");
-          }
-  
-          setOrders((prevOrders) =>
-            prevOrders.map((order) =>
-              order.orderId === orderId
-                ? { ...order, terminated: true, active: false }
-                : order
-            )
-          );
         } else {
-          alert("Failed to process refund. Please try again.");
+            alert("Failed to terminate the order. Please try again.");
         }
-      } else {
-        alert("Failed to terminate the order. Please try again.");
-      }
     } catch (error) {
-      console.error("Error terminating order:", error);
-      alert("Error terminating the order. Please try again.");
-
+        console.error("Error terminating order:", error);
+        alert("Error terminating the order. Please try again.");
+    } finally {
+        setIsLoading(false); // Stop loading
     }
-  };
+};
 
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
