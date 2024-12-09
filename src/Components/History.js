@@ -566,11 +566,7 @@ export const OrderHistoryPage = () => {
 <<<<<<< Updated upstream
                                 className="return"
                                 onClick={() => handleCarReturned(order.orderId)}
-=======
-                                className="button-approve"
-                                onClick={() => handleApprove(order.orderId)}
                                 disabled={order.terminated || order.returned || order.paymentOption !== 'Cash'}
->>>>>>> Stashed changes
                               >
                                 Approve
                               </button>
@@ -588,7 +584,7 @@ export const OrderHistoryPage = () => {
                               <button
                                 className="terminate"
                                 onClick={() => handleTerminate(order.orderId)}
-                                disabled={order.terminated || order.returnProofExists || order.active}
+                                disabled={order.terminated || order.returnProof != null || order.active}
                               >
                                 Terminate
                               </button>
