@@ -282,3 +282,38 @@
 }
 
   
+.proof-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.proof-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.proof-modal-content img {
+  width: 500px;
+  height: 500px;
+  border-radius: 8px;
+}
+
+.proof-modal-content button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
