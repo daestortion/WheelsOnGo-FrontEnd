@@ -264,7 +264,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               </div>
 
               <div className="groups4">
-                <div className="text-wrapper-51">Return Date</div>
+                <div className="text-wrapper-51">End Date: </div>
                 <div className="overlap-2" onMouseEnter={clearErrorMessage}>
                   <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
                     {endDate ? formatDateForManila(endDate) : "mm/dd/yyyy"}
