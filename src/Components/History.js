@@ -744,9 +744,10 @@ export const OrderHistoryPage = () => {
             <ul>
               {payments.map((payment) => (
                 <li key={payment.paymentId}>
+                  <p>Payment ID: ₱{payment.paymentId}</p>
                   <p>Amount: ₱{payment.amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                   <p>Date: {new Date(payment.paymentDate).toLocaleDateString()}</p>
-                  <p>Status: {payment.status}</p>
+                  <p>Payment Method: {payment.paymentMethod}</p>
                 </li>
               ))}
             </ul>
