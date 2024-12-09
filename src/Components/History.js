@@ -48,6 +48,8 @@ export const OrderHistoryPage = () => {
     total: 0,
   });
   const [disabledDates, setDisabledDates] = useState([]); // Track disabled dates
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -428,6 +430,24 @@ export const OrderHistoryPage = () => {
     return activity ? "Active" : "Inactive";
   };
 
+  const fetchPayments = async (orderId) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BASE_URL}/order/${orderId}/payments`); // Adjusted to use Axios
+      console.log(response.data); // Axios stores the response data in `response.data`
+      setPayments(response.data); // Set the fetched payments in state
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleViewPayment = (orderId) => {
+      fetchPayments(orderId);
+    console.log(`View payment for order ID: ${orderId}`);
+  };
+
   const checkReturnProofExists = async (orderId) => {
     try {
       const response = await axios.get(
@@ -440,6 +460,7 @@ export const OrderHistoryPage = () => {
       return false; // Assume no proof if an error occurs
     }
   };
+
   const checkOwnerAcknowledgment = async (orderId) => {
     try {
       const response = await axios.get(
@@ -544,11 +565,11 @@ export const OrderHistoryPage = () => {
                       {!showOwnedCars && !showOngoingRents && <th>Return</th>}
                       {showOwnedCars && <th>Return Status</th>}
                       {showOngoingRents && <th>Actions</th>}
+                      <th>Payment</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredOrders.map((order) => {
-                      // Call checkReturnProofExists for each order
                       return (
                         <tr key={order.orderId}>
                           <td>{order.car.carBrand} {order.car.carModel}</td>
@@ -563,7 +584,6 @@ export const OrderHistoryPage = () => {
                           {showOwnedCars && (
                             <td>
                               <button
-<<<<<<< Updated upstream
                                 className="return"
                                 onClick={() => handleCarReturned(order.orderId)}
                                 disabled={order.terminated || order.returned || order.paymentOption !== 'Cash'}
@@ -694,14 +714,48 @@ export const OrderHistoryPage = () => {
                               )}
                             </td>
                           )}
+                          {/* Add Payment column with "View Payment" button */}
+                          <td>
+                            <button
+                              className="view-payment-button"
+                              onClick={() => handleViewPayment(order.orderId)} // This function should handle the "View Payment" action
+                            >
+                              View Payment
+                            </button>
+                          </td>
                         </tr>
                       );
                     })}
                   </tbody>
+
                 </table>
+
               </div>
             </div>
           </div>
+        )}
+        {/* Show loading indicator while fetching */}
+        {loading && <div>Loading...</div>}
+
+        {/* Display payments once fetched */}
+        {payments.length > 0 && (
+          <div className="payments-modal">
+            <h2>Payments for Order</h2>
+            <ul>
+              {payments.map((payment) => (
+                <li key={payment.paymentId}>
+                  <p>Amount: ₱{payment.amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                  <p>Date: {new Date(payment.paymentDate).toLocaleDateString()}</p>
+                  <p>Status: {payment.status}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Handle case when no payments are found */}
+        {payments.length === 0 && !loading && (
+          <p>No payments found for this order.</p>
         )}
       </div>
       {showTerminatedPopup && <TerminatedPopup />}
@@ -713,6 +767,7 @@ export const OrderHistoryPage = () => {
         />
       )}
     </div>
+
   );
 };
 
