@@ -80,7 +80,7 @@ body {
   }
   
   .order-history-page .rectangle213 {
-    background-color: #d7d1d1;
+    background-color: #ffffff;
     border-radius: 10px;
     position: relative;
   }
@@ -170,24 +170,21 @@ body {
   }
   
   .order-table213 th, .order-table213 td {
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
     padding: 8px;
     text-align: left;
     text-align: center;
   }
   
   .order-table213 th {
-    background-color: #f2f2f2;
+    background-color: #ff9090;
     color: black;
   }
   
   .order-table213 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #ffcbcb;
   }
   
-  .order-table213 tr:hover {
-    background-color: #ddd;
-  }
   
   .booked-date {
     background-color: #ffcccc;
@@ -222,7 +219,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 60px;  /* Set a fixed width */
+    width: 80px;  /* Set a fixed width */
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -240,6 +237,20 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin: 2px;
+  }
+
+  .view-payment-button{
+    background-color: #e32128;
+    border-radius: 5px;
+    height: 30px;
+    position: relative;
+    width: 80px;
+    color: #ffffff;
+    font-family: "Inter-Bold", Helvetica;
+    font-size: 10px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
   }
 
   @media (max-width: 1024px) {

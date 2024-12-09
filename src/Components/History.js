@@ -9,6 +9,7 @@ import Header from "./Header.js";
 import Loading from "./Loading"; // Import Loading component
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 import TerminatedPopup from "./TermindatedPopup.js";
+import ViewPaymentPopup from './ViewPaymentPopup';
 
 // Utility function to format dates
 const formatDate = (date) => {
@@ -50,6 +51,7 @@ export const OrderHistoryPage = () => {
   const [disabledDates, setDisabledDates] = useState([]); // Track disabled dates
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const navigate = useNavigate();
 
@@ -433,9 +435,10 @@ export const OrderHistoryPage = () => {
   const fetchPayments = async (orderId) => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/order/${orderId}/payments`); // Adjusted to use Axios
-      console.log(response.data); // Axios stores the response data in `response.data`
-      setPayments(response.data); // Set the fetched payments in state
+      const response = await axios.get(`${BASE_URL}/order/${orderId}/payments`);
+      console.log(response.data);
+      setPayments(response.data);
+      setShowPopup(true); // Show the popup after payments are fetched
     } catch (error) {
       console.error("Error fetching payments:", error);
     } finally {
@@ -444,7 +447,7 @@ export const OrderHistoryPage = () => {
   };
 
   const handleViewPayment = (orderId) => {
-      fetchPayments(orderId);
+    fetchPayments(orderId);
     console.log(`View payment for order ID: ${orderId}`);
   };
 
@@ -716,12 +719,23 @@ export const OrderHistoryPage = () => {
                           )}
                           {/* Add Payment column with "View Payment" button */}
                           <td>
-                            <button
-                              className="view-payment-button"
-                              onClick={() => handleViewPayment(order.orderId)} // This function should handle the "View Payment" action
-                            >
-                              View Payment
-                            </button>
+                          <button
+                            className="view-payment-button"
+                            onClick={() => handleViewPayment(order.orderId)}
+                          >
+                            View Payment
+                          </button>
+
+                          {/* Show loading indicator while fetching */}
+                          {loading && <div>Loading...</div>}
+
+                          {/* Conditionally render the popup if showPopup is true */}
+                          {showPopup && (
+                            <ViewPaymentPopup
+                              payments={payments}
+                              onClose={() => setShowPopup(false)}
+                            />
+                          )}
                           </td>
                         </tr>
                       );
@@ -733,29 +747,6 @@ export const OrderHistoryPage = () => {
               </div>
             </div>
           </div>
-        )}
-        {/* Show loading indicator while fetching */}
-        {loading && <div>Loading...</div>}
-
-        {/* Display payments once fetched */}
-        {payments.length > 0 && (
-          <div className="payments-modal">
-            <h2>Payments for Order</h2>
-            <ul>
-              {payments.map((payment) => (
-                <li key={payment.paymentId}>
-                  <p>Amount: ₱{payment.amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                  <p>Date: {new Date(payment.paymentDate).toLocaleDateString()}</p>
-                  <p>Status: {payment.status}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Handle case when no payments are found */}
-        {payments.length === 0 && !loading && (
-          <p>No payments found for this order.</p>
         )}
       </div>
       {showTerminatedPopup && <TerminatedPopup />}
