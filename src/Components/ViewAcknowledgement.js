@@ -21,6 +21,7 @@ function ViewAcknowledgement() {
           `${BASE_URL}/returnProof/getReturnDetails/${orderId}`
         );
         if (response.status === 200) {
+          console.log(response.data);
           setReturnDetails(response.data);
           if (response.data.proof) {
             setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);

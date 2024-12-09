@@ -44,9 +44,12 @@ function AcknowledgementForm() {
           setValue("rentEndDate", formatDateForManila(new Date(response.data.rentEndDate)));
           setValue("carReturnDate", formatDateForManila(new Date(response.data.carReturnDate)));
           setValue("comments", response.data.remarks);
-
+  
+          // Set the ownerRemark field
+          setValue("ownerRemark", response.data.ownerRemark);
+  
           setPenalty(response.data.penalty > 0 ? `${response.data.penalty}` : "No Penalty");
-
+  
           if (response.data.proof) {
             setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);
           }
@@ -58,10 +61,10 @@ function AcknowledgementForm() {
         setLoading(false);
       }
     };
-
+  
     fetchReturnDetails();
-  }, [orderId, setValue]);
-
+  }, [orderId]);  // Add dependency on orderId to refetch if it changes
+  
   const handleOwnerProofUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
