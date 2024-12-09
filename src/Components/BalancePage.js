@@ -168,7 +168,7 @@ const BalancePage = () => {
         ) : (
           <>
             <div className="cards">
-              <h2>Total Outstanding Balance</h2>
+              <h2>Charge To Owner (Credit)</h2>
               <p>
                 ₱
                 {walletData.credit.toLocaleString("en-US", {
@@ -178,7 +178,7 @@ const BalancePage = () => {
               </p>
             </div>
             <div className="cards">
-              <h2>Total Online Earnings (Remittable)</h2>
+              <h2>Total Remittable Funds</h2>
               <p>
                 ₱
                 {walletData.debit.toLocaleString("en-US", {
@@ -361,7 +361,7 @@ const BalancePage = () => {
                         onClick={() => handleProofView(request.requestId)}
                         className="proof-view-btn"
                       >
-                        See Proof of Payment
+                        View Proof of Remittance
                       </button>
                     ) : (
                       "No Proof"

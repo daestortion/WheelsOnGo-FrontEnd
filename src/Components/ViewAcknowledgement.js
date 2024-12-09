@@ -92,7 +92,7 @@ function ViewAcknowledgement() {
                   type="text"
                   value={
                     returnDetails.penalty > 0
-                      ? `Penalty: $${returnDetails.penalty}`
+                      ? `Penalty: ${returnDetails.penalty}`
                       : "No Penalty"
                   }
                   disabled
