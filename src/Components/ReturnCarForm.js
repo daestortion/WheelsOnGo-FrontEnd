@@ -6,7 +6,7 @@ import Header from "../Components/Header";
 import Modal from "react-modal";
 import Loading from "./Loading"; // Import Loading component
 import "../Css/ReturnCarForm.css";
-import { BASE_URL } from '../ApiConfig'; 
+import { BASE_URL } from '../ApiConfig';
 import OwnerAcknowledgement from "./OwnerAcknowledgement.js";
 
 Modal.setAppElement("#root");
@@ -14,7 +14,7 @@ Modal.setAppElement("#root");
 function AcknowledgementForm() {
   const { orderId } = useParams();
   const navigate = useNavigate();
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset, setValue, watch } = useForm();
   const [renterProofURL, setRenterProofURL] = useState("");
   const [ownerProof, setOwnerProof] = useState(null);
   const [ownerProofPreviewURL, setOwnerProofPreviewURL] = useState(null);
@@ -24,6 +24,11 @@ function AcknowledgementForm() {
   const [error, setError] = useState(null);
   const [showOwnerAcknowledgement, setShowOwnerAcknowledgement] = useState(false);
   const [penalty, setPenalty] = useState("No Penalty");
+
+  const formatDateForManila = (date) => {
+    const options = { timeZone: "Asia/Manila", year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Intl.DateTimeFormat('en-PH', options).format(date);
+  };
 
   useEffect(() => {
     const fetchReturnDetails = async () => {
@@ -35,9 +40,9 @@ function AcknowledgementForm() {
           console.log(response.data);
           setValue("carOwner", response.data.carOwner);
           setValue("renter", response.data.renter);
-          setValue("rentStartDate", response.data.rentStartDate);
-          setValue("rentEndDate", response.data.rentEndDate);
-          setValue("carReturnDate", response.data.carReturnDate);
+          setValue("rentStartDate", formatDateForManila(new Date(response.data.rentStartDate)));
+          setValue("rentEndDate", formatDateForManila(new Date(response.data.rentEndDate)));
+          setValue("carReturnDate", formatDateForManila(new Date(response.data.carReturnDate)));
           setValue("comments", response.data.remarks);
 
           setPenalty(response.data.penalty > 0 ? `${response.data.penalty}` : "No Penalty");
@@ -80,6 +85,11 @@ function AcknowledgementForm() {
       formData.append("penalty", data.penalty);
     }
 
+    // Example of formatting car return date before submission
+    const formattedReturnDate = formatDateForManila(new Date(data.carReturnDate));
+
+    formData.append("carReturnDate", formattedReturnDate);  // Submit the formatted return date
+
     try {
       await axios.put(
         `${BASE_URL}/returnProof/updateReturnProof/${orderId}`,
@@ -108,7 +118,7 @@ function AcknowledgementForm() {
         ) : (
           <form className="ack-form" onSubmit={handleSubmit(onSubmit)}>
             <h2>Car Return Acknowledgement</h2>
-  
+
             <div className="ack-form-row">
               <div>
                 <label>Car Owner:</label>
@@ -119,36 +129,37 @@ function AcknowledgementForm() {
                 <input type="text" {...register("renter")} disabled />
               </div>
             </div>
-  
+
             <div className="ack-form-row">
               <div>
                 <label>Rent Start Date:</label>
-                <input type="date" {...register("rentStartDate")} disabled />
+                <input type="date" value={formatDateForManila(new Date(watch("rentStartDate")))} disabled />
               </div>
               <div>
                 <label>Rent End Date:</label>
-                <input type="date" {...register("rentEndDate")} disabled />
+                <input type="date" value={formatDateForManila(new Date(watch("rentEndDate")))} disabled />
               </div>
             </div>
-  
+
             <div className="ack-form-row">
               <div>
                 <label>Car Return Date:</label>
-                <input type="date" {...register("carReturnDate")} disabled />
+                <input type="date" value={formatDateForManila(new Date(watch("carReturnDate")))} disabled />
               </div>
               <div>
                 <label>Comments (Renter):</label>
                 <textarea {...register("comments")} disabled rows="4" />
               </div>
             </div>
-  
+
+
             <div className="ack-form-row">
               <div>
                 <label>Penalty:</label>
                 <input type="text" value={penalty} disabled />
               </div>
             </div>
-  
+
             <div className="ack-form-row">
               <label>Proof of Return (Renter):</label>
               {renterProofURL ? (
@@ -157,12 +168,12 @@ function AcknowledgementForm() {
                 <p>No proof provided by renter.</p>
               )}
             </div>
-  
+
             <div className="ack-form-row">
               <label>Owner's Remarks:</label>
               <textarea {...register("ownerRemark")} placeholder="Enter your remarks" rows="4" required />
             </div>
-  
+
             <div className="ack-form-row">
               <label>Owner's Proof:</label>
               <input type="file" onChange={handleOwnerProofUpload} accept="image/*" required />
@@ -172,7 +183,7 @@ function AcknowledgementForm() {
                 </button>
               )}
             </div>
-  
+
             <div className="ack-form-row">
               <div>
                 <label>
@@ -184,7 +195,7 @@ function AcknowledgementForm() {
                 </label>
               </div>
             </div>
-  
+
             <button type="submit" className="ack-submit-button" disabled={submitting}>
               {submitting ? <Loading /> : "Submit"}
             </button>
@@ -192,7 +203,7 @@ function AcknowledgementForm() {
         )}
       </div>
       {showOwnerAcknowledgement && <OwnerAcknowledgement />}
-  
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={toggleModal}
@@ -210,7 +221,7 @@ function AcknowledgementForm() {
         )}
       </Modal>
     </div>
-  );  
+  );
 }
 
 export default AcknowledgementForm;

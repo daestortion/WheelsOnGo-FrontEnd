@@ -32,6 +32,11 @@ export const CheckoutPopup = ({ car, closePopup }) => {
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const storedUserId = storedUser.userId;
 
+  const formatDateForManila = (date) => {
+    const options = { timeZone: "Asia/Manila", year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Intl.DateTimeFormat('en-PH', options).format(date);
+  };
+
   // Fetch booked dates
   useEffect(() => {
     const fetchBookedDates = async () => {
@@ -39,7 +44,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(true); // Start loading when fetching booked dates
         const response = await axios.get(`${BASE_URL}/order/getOrdersByCarId/${car.carId}`);
         const orders = response.data;
-  
+
         // Filter out returned or terminated orders and map the booked dates
         const bookedRanges = orders
           .filter(order => !order.returned && !order.terminated) // Exclude returned or terminated orders
@@ -47,7 +52,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
             start: new Date(order.startDate),
             end: new Date(order.endDate)
           }));
-  
+
         setBookedDates(bookedRanges);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
@@ -55,10 +60,10 @@ export const CheckoutPopup = ({ car, closePopup }) => {
         setLoading(false); // Stop loading after fetching
       }
     };
-  
+
     fetchBookedDates();
   }, [car.carId]);
-  
+
 
   const handleStartDateChange = (date) => {
     const normalizedDate = new Date(date.getTime());
@@ -225,22 +230,22 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 {deliveryOption === "Delivery" ? "Delivery Location:" : "Pick-up Location:"}
               </div>
               <div className="text-wrapper-11">
-                {deliveryOption === "Delivery" 
+                {deliveryOption === "Delivery"
                   ? `${houseNumberStreet}, ${selectedBarangay ? barangaysData.RECORDS.find(b => b.brgyCode === selectedBarangay)?.brgyDesc : ""}, 
                     ${selectedCity ? citiesData.RECORDS.find(c => c.citymunCode === selectedCity)?.citymunDesc : ""}, 
-                    ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}` 
+                    ${selectedProvince ? provincesData.RECORDS.find(p => p.provCode === selectedProvince)?.provDesc : ""}`
                   : car.address}
               </div>
             </div>
           </div>
 
           <div className="overall2">
-            <div className="groups5">      
+            <div className="groups5">
               <div className="groups4">
                 <span className="text-wrapper-51">Pick-up Date</span>
                 <div className="div-wrapper12" onMouseEnter={clearErrorMessage}>
                   <div className="text-wrapper-7" onClick={toggleStartDatePicker}>
-                    {startDate ? startDate.toLocaleDateString() : "mm/dd/yyyy"}
+                    {startDate ? formatDateForManila(startDate) : "mm/dd/yyyy"}
                   </div>
                   {startDateOpen && (
                     <>
@@ -262,7 +267,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                 <div className="text-wrapper-51">Return Date</div>
                 <div className="overlap-2" onMouseEnter={clearErrorMessage}>
                   <div className="text-wrapper-12" onClick={toggleEndDatePicker}>
-                    {endDate ? endDate.toLocaleDateString() : "mm/dd/yyyy"}
+                    {endDate ? formatDateForManila(endDate) : "mm/dd/yyyy"}
                   </div>
                   {endDateOpen && (
                     <>
@@ -279,7 +284,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
                   )}
                 </div>
               </div>
-            </div> 
+            </div>
 
             {deliveryOption === "Delivery" && !startDateOpen && !endDateOpen && (
               <div className="address-form">
@@ -332,7 +337,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
               <div className='divide1'>
                 <div className="text-wrapper-8">Total: ₱{totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                
+
                 {/* Display number of days */}
                 <div className="text-wrapper-8">
                   Days: {days}
@@ -340,26 +345,26 @@ export const CheckoutPopup = ({ car, closePopup }) => {
               </div>
 
               {!startDateOpen && !endDateOpen && (
-                  <div className="delivery-options">
-                    <label className="radio-option">
-                      <input
-                        type="radio"
-                        value="Pickup"
-                        checked={deliveryOption === "Pickup"}
-                        onChange={handleDeliveryOptionChange}
-                      />
-                      Pickup
-                    </label>
-                    <label className="radio-option">
-                      <input
-                        type="radio"
-                        value="Delivery"
-                        checked={deliveryOption === "Delivery"}
-                        onChange={handleDeliveryOptionChange}
-                      />
-                      Delivery
-                    </label>
-                  </div>
+                <div className="delivery-options">
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      value="Pickup"
+                      checked={deliveryOption === "Pickup"}
+                      onChange={handleDeliveryOptionChange}
+                    />
+                    Pickup
+                  </label>
+                  <label className="radio-option">
+                    <input
+                      type="radio"
+                      value="Delivery"
+                      checked={deliveryOption === "Delivery"}
+                      onChange={handleDeliveryOptionChange}
+                    />
+                    Delivery
+                  </label>
+                </div>
               )}
             </div>
 
@@ -372,7 +377,7 @@ export const CheckoutPopup = ({ car, closePopup }) => {
 
         </div>
       </div>
-      
+
       {showPaymentPopup && (
         <PaymentPopup
           car={car}

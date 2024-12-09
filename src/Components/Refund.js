@@ -166,7 +166,7 @@ const RefundPage = () => {
           <p>Loading...</p>
         ) : (
           <div className="cards">
-            <h2>Total Refund Amount</h2>
+            <h2>Total Refundable Amount</h2>
             <p>
               ₱
               {walletData.refundAmount.toLocaleString("en-US", {

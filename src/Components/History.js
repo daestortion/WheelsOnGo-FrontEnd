@@ -10,6 +10,7 @@ import Loading from "./Loading"; // Import Loading component
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
 import TerminatedPopup from "./TermindatedPopup.js";
 import ViewPaymentPopup from './ViewPaymentPopup';
+import moment from 'moment-timezone';
 
 // Utility function to format dates
 const formatDate = (date) => {
@@ -383,17 +384,17 @@ export const OrderHistoryPage = () => {
   const handleExtendRent = (orderId, endDate) => {
     // Check if a date has been selected and it's valid (after the current end date)
     if (showDatePicker === orderId && selectedDate && selectedDate > new Date(endDate)) {
-      // Adjust the date if needed
-      const adjustedDate = new Date(selectedDate);
-      adjustedDate.setHours(12, 0, 0, 0); // Set to noon to avoid timezone issues
-      const newEndDate = adjustedDate.toISOString().split("T")[0]; // Format the date as YYYY-MM-DD
-
+      // Convert the selected date to Manila time
+      const adjustedDate = moment(selectedDate).tz('Asia/Manila').set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+  
+      const newEndDate = adjustedDate.format('YYYY-MM-DD'); // Format the date as YYYY-MM-DD
+  
       // Set the selected order details and show the ExtendPaymentPopup
       setSelectedOrder({
         orderId: orderId,
         endDate: newEndDate,
       });
-
+  
       setExtendShowPaymentPopup(true); // Open the payment popup
     } else {
       // If "Extend" is clicked the first time or no valid date has been selected yet, show DatePicker
@@ -607,7 +608,7 @@ export const OrderHistoryPage = () => {
                               <button
                                 className="terminate"
                                 onClick={() => handleTerminate(order.orderId)}
-                                disabled={order.terminated || order.returnProof == null || order.active}
+                                disabled={order.terminated || order.active || order.returned}
                               >
                                 Terminate
                               </button>
@@ -639,7 +640,7 @@ export const OrderHistoryPage = () => {
                                 <button
                                   className="return-cars"
                                   onClick={() => handleReturnCar(order.orderId)}
-                                  disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProof != null}
+                                  disabled={ order.terminated || order.returnProof != null}
                                 >
                                   Return Car
                                 </button>
@@ -710,7 +711,7 @@ export const OrderHistoryPage = () => {
                                 <button
                                   className="return-cars"
                                   onClick={() => handleReturnCar(order.orderId)}
-                                  disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProof != null}
+                                  disabled={!order.active || order.terminated || order.returnProof != null}
                                 >
                                   Return Car
                                 </button>

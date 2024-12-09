@@ -6,6 +6,7 @@ import Loading from "../Components/Loading.js";
 import "../Css/ReturnCar.css";
 import ReturnSuccessPopup from './ReturnSuccessPopup';
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import moment from 'moment-timezone'; // Import moment-timezone
 
 export const ReturnCar = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -50,37 +51,32 @@ export const ReturnCar = () => {
             fileInput.click();
         }
     };
-    
+
     const handleReturnCar = async () => {
         if (!proof || !remarks) {
             alert("Please upload proof of return and provide remarks.");
             return;
         }
-    
-        // console.log("Initiating return with orderId:", orderId); // Debug orderId
-    
+
+        // Get the current date and convert it to Manila timezone for returnDate
+        const returnDate = moment().tz('Asia/Manila').format('YYYY-MM-DD'); // Get the current date in Manila timezone
+
         setIsLoading(true);
         const formData = new FormData();
         formData.append("proof", proof);
         formData.append("remarks", remarks);
-        formData.append("returnDate", new Date().toISOString().split("T")[0]); // Current date as return date
+        formData.append("returnDate", returnDate); // Use the Manila date as returnDate
         formData.append("orderId", orderId);
-    
-        // Debug log formData
-        for (let pair of formData.entries()) {
-            // console.log(pair[0] + ': ' + pair[1]);
-        }
-    
+
         try {
             const response = await axios.post(`${BASE_URL}/returnProof/createReturnProof`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
-    
+
             if (response.status === 200) {
                 console.log("Car return processed successfully.");
-                console.log(response.data);
                 setShowReturnSuccessPopup(true);
             }
         } catch (error) {
@@ -89,7 +85,7 @@ export const ReturnCar = () => {
         } finally {
             setIsLoading(false);
         }
-    };   
+    };
 
     return (
         <div className="return-car">
@@ -128,11 +124,9 @@ export const ReturnCar = () => {
                         {/* Display the car image correctly */}
                         {orderDetails?.car?.carImage && (
                             <img
-                                src={
-                                    orderDetails.car.carImage.startsWith("data:")
-                                        ? orderDetails.car.carImage // If already in base64 format
-                                        : `data:image/jpeg;base64,${orderDetails.car.carImage}` // Else assume it's base64 without prefix
-                                }
+                                src={orderDetails.car.carImage.startsWith("data:") 
+                                    ? orderDetails.car.carImage // If already in base64 format
+                                    : `data:image/jpeg;base64,${orderDetails.car.carImage}`} // Else assume it's base64 without prefix
                                 alt="Car"
                                 className="car-image"
                             />
@@ -147,7 +141,12 @@ export const ReturnCar = () => {
                     <div className='order-deets'>
                         {/* Access properties within orderDetails */}
                         <div className="ref-id">Reference No: {orderDetails?.referenceNumber || "N/A"}</div>
-                        <div className="end-date">End Date: {orderDetails?.endDate ? new Date(orderDetails.endDate).toLocaleDateString() : "N/A"}</div>
+                        <div className="end-date">
+                            End Date: {orderDetails?.endDate
+                                ? moment(orderDetails.endDate).tz('Asia/Manila').format('YYYY-MM-DD') // Convert to Manila time
+                                : "N/A"
+                            }
+                        </div>
                     </div>
 
                     <input className="assessment" type="text" placeholder="Remarks" onChange={(e) => setRemarks(e.target.value)} />
