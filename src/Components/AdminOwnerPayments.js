@@ -236,7 +236,7 @@ const AdminOwnerPayments = () => {
                   <th>Details</th>
                   <th>Amount</th>
                   <th>Submitted On</th>
-                  <th>Send Funds</th>
+                  <th>Proof of Remittance</th>
                   <th>Status</th>
                 </tr>
               </thead>
