@@ -277,6 +277,23 @@ const RefundPage = () => {
                 </div>
               </>
             )}
+              <div className="form-group">
+                <label htmlFor="amount">Amount:</label>
+                <input
+                  id="amount"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  required
+                />
+                <small>
+                  Available Refundable Amount: ₱
+                  {walletData.refundAmount.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }) || "0.00"}
+                </small>
+              </div>
             <button type="submit" className="submit-btn">
               Submit Refund Request
             </button>
