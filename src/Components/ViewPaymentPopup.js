@@ -14,9 +14,11 @@ const ViewPaymentPopup = ({ onClose, payments }) => {
           <ul className="payments-list">
             {payments.map((payment) => (
               <li className="payment-item" key={payment.paymentId}>
+                <p>Payment Id: {payment.paymentId}</p>
+                <p>Payment Method: {payment.paymentMethod}</p>
                 <p>Amount: ₱{payment.amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                 <p>Date: {new Date(payment.paymentDate).toLocaleDateString()}</p>
-                <p>Status: {payment.status}</p>
+                <p>Payment Method: {payment.paymentMethod}</p>
               </li>
             ))}
           </ul>
