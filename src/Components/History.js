@@ -604,7 +604,7 @@ export const OrderHistoryPage = () => {
                               <button
                                 className="terminate"
                                 onClick={() => handleTerminate(order.orderId)}
-                                disabled={order.terminated || order.returnProof != null || order.active}
+                                disabled={order.terminated || order.returnProof == null || order.active}
                               >
                                 Terminate
                               </button>
@@ -744,7 +744,7 @@ export const OrderHistoryPage = () => {
             <ul>
               {payments.map((payment) => (
                 <li key={payment.paymentId}>
-                  <p>Payment ID: ₱{payment.paymentId}</p>
+                  <p>Payment ID: {payment.paymentId}</p>
                   <p>Amount: ₱{payment.amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                   <p>Date: {new Date(payment.paymentDate).toLocaleDateString()}</p>
                   <p>Payment Method: {payment.paymentMethod}</p>
