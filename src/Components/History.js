@@ -607,7 +607,7 @@ export const OrderHistoryPage = () => {
                               <button
                                 className="terminate"
                                 onClick={() => handleTerminate(order.orderId)}
-                                disabled={order.terminated || order.returnProof != null || order.active}
+                                disabled={order.terminated || order.returnProof == null || order.active}
                               >
                                 Terminate
                               </button>
@@ -663,7 +663,7 @@ export const OrderHistoryPage = () => {
                                   <button
                                     className="return"
                                     onClick={() => handleCarReturned(order.orderId)}
-                                    disabled={order.terminated || !order.returned}
+                                    disabled={order.terminated || order.returned}
                                   >
                                     View Proof
                                   </button>
