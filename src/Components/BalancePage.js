@@ -1,20 +1,17 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../ApiConfig'; // Adjust the path if necessary
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../ApiConfig";
 import Header from "../Components/Header";
 import "../Css/BalancePage.css";
 import RefundPopup from "./RefundPopup.js";
-import Loading from "./Loading";
 
 const BalancePage = () => {
   const [walletData, setWalletData] = useState({
     credit: 0,
     debit: 0,
-    refundable: 0,
   });
   const navigate = useNavigate();
-  const [sideNavOpen, setSideNavOpen] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -27,7 +24,7 @@ const BalancePage = () => {
   const [amount, setAmount] = useState("");
   const [formError, setFormError] = useState(null);
   const [requests, setRequests] = useState([]);
-  const [proofImage, setProofImage] = useState(null); // State for proof image modal
+  const [proofImage, setProofImage] = useState(null);
   const [showRefundPopup, setShowRefundPopup] = useState(false);
 
   useEffect(() => {
@@ -44,11 +41,10 @@ const BalancePage = () => {
       const response = await axios.get(
         `${BASE_URL}/ownerWallet/getWalletDetails/${id}`
       );
-      const { onlineEarning, cashEarning, cashRefundable } = response.data;
+      const { onlineEarning, cashEarning } = response.data;
       setWalletData({
         credit: cashEarning,
         debit: onlineEarning,
-        refundable: cashRefundable,
       });
     } catch (error) {
       console.error("Error fetching wallet data:", error);
@@ -120,7 +116,7 @@ const BalancePage = () => {
       requestData.accountNumber = accountNumber;
     }
 
-    setIsLoading(true); // Start loading when form is submitted
+    setIsLoading(true);
 
     try {
       await axios.post(
@@ -129,14 +125,13 @@ const BalancePage = () => {
       );
       await fetchWalletData(userId);
       await fetchUserRequests(userId);
-      // console.log("Request submitted successfully!");
       setShowRefundPopup(true);
       setIsFormOpen(false);
     } catch (error) {
       alert("Failed to submit the request.");
       console.error(error);
     } finally {
-      setIsLoading(false); // Stop loading after request is completed
+      setIsLoading(false);
     }
   };
 
@@ -187,16 +182,6 @@ const BalancePage = () => {
               <p>
                 ₱
                 {walletData.debit.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }) || "0.00"}
-              </p>
-            </div>
-            <div className="cards">
-              <h2>Cancelled/Terminated Orders</h2>
-              <p>
-                ₱
-                {walletData.refundable.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) || "0.00"}
@@ -393,7 +378,6 @@ const BalancePage = () => {
         </table>
       </div>
 
-      {/* Modal for Proof of Payment */}
       {proofImage && (
         <div className="modal">
           <div className="modal-content">

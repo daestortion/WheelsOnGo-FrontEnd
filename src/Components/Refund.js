@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../Css/Refund.css";
 import Header from "../Components/Header";
-import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
-import RefundPopup from "./RefundPopup.js";
+import { BASE_URL } from "../ApiConfig";
+import RefundPopup from "./RefundPopup";
 import Loading from "./Loading";
 
 const RefundPage = () => {
@@ -23,6 +23,7 @@ const RefundPage = () => {
   const [amount, setAmount] = useState("");
   const [formError, setFormError] = useState(null);
   const [requests, setRequests] = useState([]);
+  const [selectedProofImage, setSelectedProofImage] = useState(null);
   const [showRefundPopup, setShowRefundPopup] = useState(false);
 
   // Fetch wallet data (including refund amount)
@@ -41,7 +42,7 @@ const RefundPage = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);  
+  }, []);
 
   // Fetch user's previous refund requests
   const fetchUserRequests = useCallback(async (userId) => {
@@ -53,7 +54,7 @@ const RefundPage = () => {
     } catch (error) {
       console.error("Error fetching user requests:", error);
     }
-  }, []); 
+  }, []);
 
   // Initialize user data on component load
   useEffect(() => {
@@ -62,12 +63,9 @@ const RefundPage = () => {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUserId(parsedUser.userId);
-
       fetchWalletData(parsedUser.userId);
       fetchUserRequests(parsedUser.userId);
-
-      // Set the UserType to 'Renter' as it's the RefundPage
-      localStorage.setItem('userType', 'Renter');
+      localStorage.setItem("userType", "Renter"); // Set the user type to Renter
     } else {
       console.error("User not found in local storage.");
       setIsLoading(false);
@@ -77,6 +75,29 @@ const RefundPage = () => {
   const toggleForm = () => {
     setIsFormOpen(!isFormOpen);
   };
+
+  // Fetch proof image
+  const handleShowProof = async (requestId) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/request-form/getProofImage/${requestId}`,
+        { responseType: "arraybuffer" } // To handle binary data
+      );
+  
+      // Convert the ArrayBuffer to a Base64 string
+      const base64Image = btoa(
+        new Uint8Array(response.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+  
+      setSelectedProofImage(`data:image/png;base64,${base64Image}`);
+    } catch (error) {
+      console.error("Error fetching proof image:", error);
+      alert("Failed to load proof image.");
+    }
+  };  
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -88,13 +109,11 @@ const RefundPage = () => {
       return;
     }
 
-    // Check if the refund amount exceeds available balance
     if (parseFloat(amount) > walletData.refundAmount) {
       setFormError("Amount exceeds available refund balance.");
       return;
     }
 
-    // Validate GCash or Bank information
     if (requestType === "gcash" && (!fullName || !gcashNumber)) {
       setFormError("Please fill in the required GCash fields.");
       return;
@@ -115,7 +134,7 @@ const RefundPage = () => {
     const requestData = {
       requestType,
       amount: parseFloat(amount),
-      userType: localStorage.getItem('userType'), // Adding UserType here
+      userType: localStorage.getItem("userType"),
       ...(requestType === "gcash" && { fullName, gcashNumber }),
       ...(requestType === "bank" && { accountName, bankName, accountNumber }),
     };
@@ -127,16 +146,15 @@ const RefundPage = () => {
         `${BASE_URL}/request-form/request-refund/${userId}`,
         requestData
       );
-      await fetchWalletData(userId);  // Update wallet data after submission
-      await fetchUserRequests(userId);  // Refresh user requests
-      // console.log("Refund request submitted successfully!");
+      await fetchWalletData(userId);
+      await fetchUserRequests(userId);
       setShowRefundPopup(true);
       setIsFormOpen(false);
     } catch (error) {
       alert("Failed to submit the refund request.");
       console.error(error);
     } finally {
-      setIsLoading(false); // Ensure loading state is set to false after completion
+      setIsLoading(false);
     }
   };
 
@@ -164,11 +182,11 @@ const RefundPage = () => {
         <p>
           <strong>Refund Terms:</strong>
           <br />
-          - If the order is terminated/canceled 3 or more days before the booking date, only 85% of the total amount paid is refundable.
+          - If canceled 3+ days before booking, 85% refundable.
           <br />
-          - If canceled 1 to 2 days before the booking date, only 50% of the total amount paid is refundable.
+          - 1-2 days before booking, 50% refundable.
           <br />
-          - If canceled on the day of the booking, there is no refund.
+          - On the day of booking, no refund.
         </p>
       </div>
 
@@ -193,7 +211,7 @@ const RefundPage = () => {
                 <option value="bank">Bank</option>
               </select>
             </div>
-
+            {/* Dynamic Form Fields */}
             {requestType === "gcash" && (
               <>
                 <div className="form-group">
@@ -218,7 +236,6 @@ const RefundPage = () => {
                 </div>
               </>
             )}
-
             {requestType === "bank" && (
               <>
                 <div className="form-group">
@@ -256,30 +273,10 @@ const RefundPage = () => {
                     required
                     maxLength={12}
                     minLength={10}
-                    placeholder="10-12 digit account number"
                   />
                 </div>
               </>
             )}
-
-            <div className="form-group">
-              <label htmlFor="amount">Amount:</label>
-              <input
-                id="amount"
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                required
-              />
-              <small>
-                Available Refundable Amount: ₱
-                {walletData.refundAmount.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }) || "0.00"}
-              </small>
-            </div>
-
             <button type="submit" className="submit-btn">
               Submit Refund Request
             </button>
@@ -297,38 +294,53 @@ const RefundPage = () => {
               <th>Amount</th>
               <th>Submitted On</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {requests.length > 0 ? (
               requests.map((request) => (
-                <tr key={request.id || `${request.requestType}-${request.amount}-${request.createdAt}`}>
+                <tr key={request.requestId}>
                   <td>{request.requestType}</td>
                   <td>
-                    {request.requestType === "gcash" ? (
-                      <>
-                        GCash - {request.gcashNumber} ({request.fullName})
-                      </>
-                    ) : (
-                      <>
-                        Bank - {request.bankName} ({request.accountName}) - {request.accountNumber}
-                      </>
-                    )}
+                    {request.requestType === "gcash"
+                      ? `GCash - ${request.gcashNumber} (${request.fullName})`
+                      : `Bank - ${request.bankName} (${request.accountName}) - ${request.accountNumber}`}
                   </td>
                   <td>₱{request.amount.toLocaleString("en-US")}</td>
                   <td>{new Date(request.createdAt).toLocaleString()}</td>
                   <td>{request.status}</td>
+                  <td>
+                    {request.proofImage ? (
+                      <button
+                        onClick={() => handleShowProof(request.requestId)}
+                      >
+                        Show Proof
+                      </button>
+                    ) : (
+                      "No Proof Available"
+                    )}
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5">No requests found.</td>
+                <td colSpan="6">No requests found.</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-      {showRefundPopup && <RefundPopup />}
+
+      {/* Proof Image Modal */}
+      {selectedProofImage && (
+        <div className="proof-modal">
+          <div className="proof-modal-content">
+            <img src={selectedProofImage} alt="Proof" />
+            <button onClick={() => setSelectedProofImage(null)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
