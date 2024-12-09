@@ -12,6 +12,7 @@ import DeleteCarPopup from './DeleteCar';
 import { Report } from './Report'; // Import the named export
 import Header from "../Components/Header";
 import { BASE_URL } from '../ApiConfig';  // Adjust the path if necessary
+import moment from 'moment-timezone';
 
 const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState({
@@ -28,6 +29,20 @@ const UserProfile = () => {
         orders: [],
         isOwner: false
     });
+
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Get the time zone offset in minutes from UTC
+    const timezoneOffset = currentDate.getTimezoneOffset();
+
+    // Get the current time zone name
+    const timeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    // Log the current time and time zone
+    console.log('Current Date and Time:', currentDate);
+    console.log('Time Zone Offset (in minutes):', timezoneOffset);
+    console.log('Time Zone Name:', timeZoneName);
 
     const [showVerifyPopup, setShowVerifyPopup] = useState(false);
     const [showApplyOwnerPopup, setShowApplyOwnerPopup] = useState(false);
@@ -132,9 +147,9 @@ const UserProfile = () => {
         setShowDeleteCarPopup(true);
     };
 
-    const handleRefundsClick = () =>{
+    const handleRefundsClick = () => {
         navigate('/refund');
-      };
+    };
 
     const confirmDeleteCar = async () => {
         if (carToDelete) {
