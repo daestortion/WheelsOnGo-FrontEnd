@@ -79,12 +79,13 @@ export const ReturnCar = () => {
             });
     
             if (response.status === 200) {
-                // console.log("Car return processed successfully.");
+                console.log("Car return processed successfully.");
+                console.log(response.data);
                 setShowReturnSuccessPopup(true);
             }
         } catch (error) {
             console.error("Error returning car:", error);
-            // console.log("An error occurred while processing the return.");
+            console.log("An error occurred while processing the return.");
         } finally {
             setIsLoading(false);
         }

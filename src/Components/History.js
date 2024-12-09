@@ -85,7 +85,6 @@ export const OrderHistoryPage = () => {
     }
   };
 
-  // Fetch orders for a user
   const fetchOrders = async (userId) => {
     setIsLoading(true); // Start loading when fetching begins
     try {
@@ -93,6 +92,7 @@ export const OrderHistoryPage = () => {
         `${BASE_URL}/user/getAllOrdersFromUser/${userId}`
       );
       if (response.status === 200) {
+        console.log(response.data);
         setAllOrders(response.data);
         setOrders(response.data); // Initially set all orders
       } else {
@@ -146,28 +146,28 @@ export const OrderHistoryPage = () => {
   const fetchCarOrdersByUserId = async (userId) => {
     setIsLoading(true);
     try {
-        const response = await axios.get(
-            `${BASE_URL}/user/${userId}/carOrders`
+      const response = await axios.get(
+        `${BASE_URL}/user/${userId}/carOrders`
+      );
+      if (response.status === 200) {
+        const ordersWithProofAndAcknowledgment = await Promise.all(
+          response.data.map(async (order) => ({
+            ...order,
+            returnProofExists: await checkReturnProofExists(order.orderId),
+            ownerAcknowledged: await checkOwnerAcknowledgment(order.orderId),
+          }))
         );
-        if (response.status === 200) {
-            const ordersWithProofAndAcknowledgment = await Promise.all(
-                response.data.map(async (order) => ({
-                    ...order,
-                    returnProofExists: await checkReturnProofExists(order.orderId),
-                    ownerAcknowledged: await checkOwnerAcknowledgment(order.orderId),
-                }))
-            );
-            setOrders(ordersWithProofAndAcknowledgment);
-        } else {
-            setOrders([]);
-        }
-    } catch (error) {
-        console.error("Error fetching car orders:", error);
+        setOrders(ordersWithProofAndAcknowledgment);
+      } else {
         setOrders([]);
+      }
+    } catch (error) {
+      console.error("Error fetching car orders:", error);
+      setOrders([]);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-};
+  };
 
 
 
@@ -223,88 +223,88 @@ export const OrderHistoryPage = () => {
   const handleTerminate = async (orderId) => {
     setIsLoading(true); // Start loading
     try {
-        const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
-        // console.log("Response Data:", response.data);
+      const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
+      // console.log("Response Data:", response.data);
 
-        if (response.status === 200 && response.data) {
-            const { updatedOrder } = response.data;
+      if (response.status === 200 && response.data) {
+        const { updatedOrder } = response.data;
 
-            if (updatedOrder) {
-                const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
-                    ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
-                    : 0;
+        if (updatedOrder) {
+          const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
+            ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
+            : 0;
 
-                const startDate = new Date(updatedOrder.startDate);
-                const terminationDate = new Date(updatedOrder.terminationDate);
-                const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
+          const startDate = new Date(updatedOrder.startDate);
+          const terminationDate = new Date(updatedOrder.terminationDate);
+          const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
 
-                // console.log(`Date difference: ${dateDifference} days`);
-                // console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
+          // console.log(`Date difference: ${dateDifference} days`);
+          // console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
 
-                let refundPercentage = 0.0;
-                if (dateDifference >= 3) {
-                    refundPercentage = 0.85;
-                } else if (dateDifference >= 1 && dateDifference <= 2) {
-                    refundPercentage = 0.50;
-                } else {
-                    refundPercentage = 0.0;
-                }
+          let refundPercentage = 0.0;
+          if (dateDifference >= 3) {
+            refundPercentage = 0.85;
+          } else if (dateDifference >= 1 && dateDifference <= 2) {
+            refundPercentage = 0.50;
+          } else {
+            refundPercentage = 0.0;
+          }
 
-                const refundAmount = latestPaymentAmount * refundPercentage;
+          const refundAmount = latestPaymentAmount * refundPercentage;
 
-                // console.log("Refund Amount:", refundAmount);
+          // console.log("Refund Amount:", refundAmount);
 
-                // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+          // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
 
-                const userId = updatedOrder.user ? updatedOrder.user.userId : null;
-                if (userId) {
-                    // console.log("Sending to wallet API:", userId, refundAmount);
-                    await axios.put(`${BASE_URL}/wallet/addFunds`, {
-                        userId: userId,
-                        amount: refundAmount,
-                    });
-                } else {
-                    console.error("Error: User data is missing in updatedOrder");
-                }
+          const userId = updatedOrder.user ? updatedOrder.user.userId : null;
+          if (userId) {
+            // console.log("Sending to wallet API:", userId, refundAmount);
+            await axios.put(`${BASE_URL}/wallet/addFunds`, {
+              userId: userId,
+              amount: refundAmount,
+            });
+          } else {
+            console.error("Error: User data is missing in updatedOrder");
+          }
 
-                // Access the owner data correctly
-                const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
-                if (ownerId) {
-                    // console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
-                    const ownerWalletResponse = await axios.put(
-                        `${BASE_URL}/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`
-                    );
+          // Access the owner data correctly
+          const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+          if (ownerId) {
+            // console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
+            const ownerWalletResponse = await axios.put(
+              `${BASE_URL}/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`
+            );
 
-                    // console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
+            // console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
 
-                    if (ownerWalletResponse.status !== 200) {
-                        console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
-                    }
-                } else {
-                    console.error("Error: Owner data is missing in updatedOrder");
-                }
-
-                setOrders((prevOrders) =>
-                    prevOrders.map((order) =>
-                        order.orderId === orderId
-                            ? { ...order, terminated: true, active: false }
-                            : order
-                    )
-                );
-
-                // Show the terminated popup after all other processes are done
-                setShowTerminatedPopup(true);
-            } else {
-                alert("Failed to process refund. Please try again.");
+            if (ownerWalletResponse.status !== 200) {
+              console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
             }
+          } else {
+            console.error("Error: Owner data is missing in updatedOrder");
+          }
+
+          setOrders((prevOrders) =>
+            prevOrders.map((order) =>
+              order.orderId === orderId
+                ? { ...order, terminated: true, active: false }
+                : order
+            )
+          );
+
+          // Show the terminated popup after all other processes are done
+          setShowTerminatedPopup(true);
         } else {
-            alert("Failed to terminate the order. Please try again.");
+          alert("Failed to process refund. Please try again.");
         }
+      } else {
+        alert("Failed to terminate the order. Please try again.");
+      }
     } catch (error) {
-        console.error("Error terminating order:", error);
-        alert("Error terminating the order. Please try again.");
+      console.error("Error terminating order:", error);
+      alert("Error terminating the order. Please try again.");
     } finally {
-        setIsLoading(false); // Stop loading
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -342,11 +342,11 @@ export const OrderHistoryPage = () => {
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);
     setIsCalendarLoading(true); // Start loading for calendar
-  
+
     // Fetch the car details and associated orders
     const car = await fetchCarDetails(carId);
     const orders = await fetchOrdersByCarId(carId);
-  
+
     // Prepare booked dates by filtering only active or non-returned orders
     const bookedDates = orders
       .filter((order) => !order.returned && new Date(order.startDate) <= date && new Date(order.endDate) >= date)
@@ -361,9 +361,9 @@ export const OrderHistoryPage = () => {
         return dates;
       })
       .flat(); // Flatten to a single array of dates
-  
+
     setDisabledDates(bookedDates); // Set disabled dates in state
-  
+
     if (car && date > new Date(endDate)) {
       const days = Math.ceil((date - new Date(endDate)) / (1000 * 60 * 60 * 24));
       const total = days * car.rentPrice;
@@ -371,9 +371,9 @@ export const OrderHistoryPage = () => {
     } else {
       setPriceSummary({ days: 0, pricePerDay: 0, total: 0 });
     }
-  
+
     setIsCalendarLoading(false); // Stop loading for calendar
-  };  
+  };
 
   // Handle extend rent action
   const handleExtendRent = (orderId, endDate) => {
@@ -393,7 +393,7 @@ export const OrderHistoryPage = () => {
       setExtendShowPaymentPopup(true); // Open the payment popup
     } else {
       // If "Extend" is clicked the first time or no valid date has been selected yet, show DatePicker
-      setShowDatePicker(orderId); 
+      setShowDatePicker(orderId);
     }
   };
 
@@ -430,26 +430,27 @@ export const OrderHistoryPage = () => {
 
   const checkReturnProofExists = async (orderId) => {
     try {
-        const response = await axios.get(
-            `${BASE_URL}/returnProof/exists/${orderId}`
-        );
-        return response.data; // Return true if proof exists
-    } catch (error) {
-        console.error("Error checking return proof:", error);
-        return false; // Assume no proof if an error occurs
-    }
-};
-const checkOwnerAcknowledgment = async (orderId) => {
-  try {
       const response = await axios.get(
-          `${BASE_URL}/returnProof/getAcknowledgmentStatus/${orderId}`
+        `${BASE_URL}/returnProof/exists/${orderId}`
+
+      );
+      return response.data; // Return true if proof exists
+    } catch (error) {
+      console.error("Error checking return proof:", error);
+      return false; // Assume no proof if an error occurs
+    }
+  };
+  const checkOwnerAcknowledgment = async (orderId) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/returnProof/getAcknowledgmentStatus/${orderId}`
       );
       return response.data; // Return true if acknowledgment exists
-  } catch (error) {
+    } catch (error) {
       console.error("Error checking acknowledgment status:", error);
       return false; // Assume no acknowledgment if an error occurs
-  }
-};
+    }
+  };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -466,198 +467,244 @@ const checkOwnerAcknowledgment = async (orderId) => {
       default:
         return true; // No filter applied, show all orders
     }
-  });  
+  });
+
+  const handleViewAcknowledgement = (orderId) => {
+    navigate(`/view-acknowledgement/${orderId}`);
+  };
 
   return (
     <div className="order-history-page">
       <Header />
-      
+
       <div className="overlap-wrapper213">
 
-    <div className="grouping2">
-      <div className="text-wrapper-5213">Transaction History</div>
-      
-      <div className="grouping1">
-                <button
-                  className="div-wrapper213"
-                  onClick={handleOngoingRentClick}
-                >
-                  Ongoing Rent
-                </button>
+        <div className="grouping2">
+          <div className="text-wrapper-5213">Transaction History</div>
 
-              {currentUser.owner ? (
-                  <button
-                    className="div-wrapper213"
-                    onClick={handleOwnedCarsClick}
-                  >
-                    Owned Cars
-                  </button>
-              ) : null}
+          <div className="grouping1">
+            <button
+              className="div-wrapper213"
+              onClick={handleOngoingRentClick}
+            >
+              Ongoing Rent
+            </button>
+
+            {currentUser.owner ? (
+              <button
+                className="div-wrapper213"
+                onClick={handleOwnedCarsClick}
+              >
+                Owned Cars
+              </button>
+            ) : null}
 
 
-                <button
-                  className="div-wrapper213"
-                  onClick={handleRentHistoryClick}
-                >
-                Rent History
-                </button>
-            </div>
-    </div>
+            <button
+              className="div-wrapper213"
+              onClick={handleRentHistoryClick}
+            >
+              Rent History
+            </button>
+          </div>
+        </div>
 
         {isLoading ? (
           <Loading /> // Show loading spinner while loading
         ) : (
           <div className="overlap213">
-              <div className="rectangle213">
-                <div className="table-container213">
-                  {showOwnedCars && (
-                    <div className="filter-container">
-                      <select onChange={handleFilterChange} value={filter} className="user-filter">
-                        <option value="all">All</option>
-                        <option value="active">Active</option>
-                        <option value="Terminated">Terminated</option>
-                        <option value="Returned">Returned</option>
-                      </select>
-                    </div>
-                  )}
+            <div className="rectangle213">
+              <div className="table-container213">
+                {showOwnedCars && (
+                  <div className="filter-container">
+                    <select onChange={handleFilterChange} value={filter} className="user-filter">
+                      <option value="all">All</option>
+                      <option value="active">Active</option>
+                      <option value="Terminated">Terminated</option>
+                      <option value="Returned">Returned</option>
+                    </select>
+                  </div>
+                )}
                 <table className="order-table213">
                   <thead>
-                      <tr>
-                          <th>Car</th>
-                          <th>Start Date</th>
-                          <th>End Date</th>
-                          <th>Total Price</th>
-                          <th>Reference Number</th>
-                          <th>Car Address</th>
-                          <th>Owner</th>
-                          <th>Owner Phone</th>
-                          <th>Payment Option</th>
-                          {showOwnedCars && <th>Approve</th>}
-                          <th>Status</th>
-                          <th>Activity</th>
-                          <th>Termination</th>
-                          {!showOwnedCars && !showOngoingRents && <th>Return</th>}
-                          {showOwnedCars && <th>isReturned</th>}
-                          {showOngoingRents && <th>Actions</th>}
-                      </tr>
+                    <tr>
+                      <th>Car</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Total Price</th>
+                      <th>Reference Number</th>
+                      <th>Car Address</th>
+                      <th>Owner</th>
+                      <th>Owner Phone</th>
+                      <th>Payment Option</th>
+                      {showOwnedCars && <th>Approve</th>}
+                      <th>Status</th>
+                      <th>Activity</th>
+                      <th>Termination</th>
+                      {!showOwnedCars && !showOngoingRents && <th>Return</th>}
+                      {showOwnedCars && <th>Return Status</th>}
+                      {showOngoingRents && <th>Actions</th>}
+                    </tr>
                   </thead>
                   <tbody>
-                  {filteredOrders.map((order) => (
-                    <tr key={order.orderId}>
-                      <td>{order.car.carBrand} {order.car.carModel}</td>
-                      <td>{formatDate(order.startDate)}</td>
-                      <td>{formatDate(order.endDate)}</td>
-                      <td>₱{order.totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                      <td>{order.referenceNumber}</td>
-                      <td>{order.car.address}</td>
-                      <td>{order.car.owner.username}</td>
-                      <td>{order.car.owner.pNum}</td>
-                      <td>{order.paymentOption}</td>
-                      {showOwnedCars && (
-                        <td>
-                          <button
-                            className="button-approve"
-                            onClick={() => handleApprove(order.orderId)}
-                            disabled={order.terminated || order.returned || order.paymentOption !== 'Cash'}
-                          >
-                            Approve
-                          </button>
-                        </td>
-                      )}
-                      <td>{getStatusText(order.status)}</td>
-                      <td>{getActivity(order.active)}</td>
-                      <td>
-                        {order.terminated
-                          ? `Terminated on ${new Date(order.terminationDate).toISOString().split("T")[0]}`
-                          : ""}
-                      </td>
-                      {!showOwnedCars && !showOngoingRents && (
-                        <td>
-                          <button
-                            className="terminate"
-                            onClick={() => handleTerminate(order.orderId)}
-                            disabled={order.terminated || order.returnProofExists || order.active}
-                          >
-                            Terminate
-                          </button>
-                          <button
-                            className="return-cars"
-                            onClick={() => handleReturnCar(order.orderId)}
-                            disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProofExists}
-                          >
-                            Return Car
-                          </button>
-                        </td>
-                      )}
-                      {showOwnedCars && (
-                        <td>
-                          {order.returnProofExists ? (
-                            order.ownerAcknowledged ? (
-                              "Acknowledged"
-                            ) : (
+                    {filteredOrders.map((order) => {
+                      // Call checkReturnProofExists for each order
+                      return (
+                        <tr key={order.orderId}>
+                          <td>{order.car.carBrand} {order.car.carModel}</td>
+                          <td>{formatDate(order.startDate)}</td>
+                          <td>{formatDate(order.endDate)}</td>
+                          <td>₱{order.totalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                          <td>{order.referenceNumber}</td>
+                          <td>{order.car.address}</td>
+                          <td>{order.car.owner.username}</td>
+                          <td>{order.car.owner.pNum}</td>
+                          <td>{order.paymentOption}</td>
+                          {showOwnedCars && (
+                            <td>
                               <button
+<<<<<<< Updated upstream
                                 className="return"
                                 onClick={() => handleCarReturned(order.orderId)}
+=======
+                                className="button-approve"
+                                onClick={() => handleApprove(order.orderId)}
+                                disabled={order.terminated || order.returned || order.paymentOption !== 'Cash'}
+>>>>>>> Stashed changes
                               >
-                                Returned
+                                Approve
                               </button>
-                            )
-                          ) : (
-                            "No Return Form"
+                            </td>
                           )}
-                        </td>
-                      )}
-                      {showOngoingRents && (
-                        <td>
-                          {order.active && (
-                            <div>
+                          <td>{getStatusText(order.status)}</td>
+                          <td>{getActivity(order.active)}</td>
+                          <td>
+                            {order.terminated
+                              ? `Terminated on ${new Date(order.terminationDate).toISOString().split("T")[0]}`
+                              : ""}
+                          </td>
+                          {!showOwnedCars && !showOngoingRents && (
+                            <td>
                               <button
-                                className="extend"
-                                onClick={() => handleExtendRent(order.orderId, order.endDate)}
-                                disabled={order.terminated || order.returnProofExists}
+                                className="terminate"
+                                onClick={() => handleTerminate(order.orderId)}
+                                disabled={order.terminated || order.returnProofExists || order.active}
                               >
-                                {showDatePicker === order.orderId ? "Submit" : "Extend"}
+                                Terminate
                               </button>
-                              {showDatePicker === order.orderId && (
-                                <div className="datepicker-wrapper">
-                                  <DatePicker
-                                    selected={selectedDate}
-                                    onChange={(date) =>
-                                      handleDateChange(date, order.endDate, order.car.carId)
-                                    }
-                                    minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
-                                    excludeDates={disabledDates} // Disable already booked dates
-                                    placeholderText="Select new end date"
-                                    className="custom-datepicker"
-                                    calendarClassName="custom-calendar"
-                                  />
-                                  <div className="summary">
-                                    <h4>Summary of the Cost for Extension:</h4>
-                                    <p>Days: {priceSummary.days}</p>
-                                    <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
-                                    <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
-                                  </div>
+                              {order.returnProof != null ? (
+                                <>
+                                  {order.returnProof.ownerApproval ? (
+                                    <>
+                                      <span>Acknowledged</span>
+                                      <button
+                                        className="view-submission-button"
+                                        onClick={() => handleViewAcknowledgement(order.orderId)} // Redirect to view acknowledgment
+                                      >
+                                        View Acknowledgement
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <span>Return Proof Submitted</span>
+                                      <button
+                                        className="view-submission-button"
+                                        onClick={() => handleViewAcknowledgement(order.orderId)} // Redirect to view acknowledgment
+                                      >
+                                        View Submission
+                                      </button>
+                                    </>
+                                  )}
+                                </>
+                              ) : (
+                                <button
+                                  className="return-cars"
+                                  onClick={() => handleReturnCar(order.orderId)}
+                                  disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProof != null}
+                                >
+                                  Return Car
+                                </button>
+                              )}
+                            </td>
+                          )}
+                          {showOwnedCars && (
+                            <td>
+                              {order.returnProofExists ? (
+                                order.ownerAcknowledged ? (
+                                  <>
+                                    "Acknowledged"
+                                    <button
+                                      onClick={() => handleViewAcknowledgement(order.orderId)}
+                                      style={{ marginLeft: "10px" }}
+                                    >
+                                      View Acknowledgement
+                                    </button>
+                                  </>
+                                ) : (
+                                  <button
+                                    className="return"
+                                    onClick={() => handleCarReturned(order.orderId)}
+                                    disabled={order.terminated || !order.returned}
+                                  >
+                                    View Proof
+                                  </button>
+                                )
+                              ) : (
+                                "Not Yet Returned"
+                              )}
+                            </td>
+                          )}
+                          {showOngoingRents && (
+                            <td>
+                              {order.active && (
+                                <div>
+                                  <button
+                                    className="extend"
+                                    onClick={() => handleExtendRent(order.orderId, order.endDate)}
+                                  >
+                                    {showDatePicker === order.orderId ? "Submit" : "Extend"}
+                                  </button>
+                                  {showDatePicker === order.orderId && (
+                                    <div className="datepicker-wrapper">
+                                      <DatePicker
+                                        selected={selectedDate}
+                                        onChange={(date) =>
+                                          handleDateChange(date, order.endDate, order.car.carId)
+                                        }
+                                        minDate={new Date(new Date(order.endDate).getTime() + 24 * 60 * 60 * 1000)} // Ensure the new end date is after the current end date
+                                        excludeDates={disabledDates} // Disable already booked dates
+                                        placeholderText="Select new end date"
+                                        className="custom-datepicker"
+                                        calendarClassName="custom-calendar"
+                                      />
+                                      <div className="summary">
+                                        <h4>Summary of the Cost for Extension:</h4>
+                                        <p>Days: {priceSummary.days}</p>
+                                        <p>Price per day: ₱{priceSummary.pricePerDay.toFixed(2)}</p>
+                                        <p>Total Remaining Balance: ₱{priceSummary.total.toFixed(2)}</p>
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                               )}
-                            </div>
+                              {showDatePicker !== order.orderId && (
+                                <button
+                                  className="return-cars"
+                                  onClick={() => handleReturnCar(order.orderId)}
+                                  disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProof != null}
+                                >
+                                  Return Car
+                                </button>
+                              )}
+                            </td>
                           )}
-                          {showDatePicker !== order.orderId && (
-                            <button
-                              className="return-cars"
-                              onClick={() => handleReturnCar(order.orderId)}
-                              disabled={new Date() < new Date(order.startDate) || order.terminated || order.returnProofExists}
-                            >
-                              Return Car
-                            </button>
-                          )}
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-                </div>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
+            </div>
           </div>
         )}
       </div>

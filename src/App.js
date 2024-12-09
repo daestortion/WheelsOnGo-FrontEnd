@@ -36,6 +36,7 @@ import ReturnCarForm from './Components/ReturnCarForm.js';
 import ReturnCar from './Components/ReturnCar.js';
 import Refund from './Components/Refund.js';
 import ActivateAccountPage from './Components/ActivationPage';  // Import the ActivateAccountPage
+import ViewAcknowledgement from './Components/ViewAcknowledgement';
 
 function DebugRoutes() {
     const location = useLocation();
@@ -84,6 +85,8 @@ function AuthRoutes() {
             <Route path="/popup1" element={<CheckoutPopup />} />
             <Route path="/history" element={<History />} />
             <Route path="/adminreport" element={<AdminReport />} />
+
+            <Route path="/view-acknowledgement/:orderId" element={<PrivateRoute><ViewAcknowledgement /></PrivateRoute>} />
 
             {/* Add the new route for the activation page */}
             <Route path="/activate/:userId/:token" element={<ActivateAccountPage />} />

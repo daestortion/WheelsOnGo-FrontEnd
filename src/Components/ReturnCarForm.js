@@ -32,6 +32,7 @@ function AcknowledgementForm() {
           `${BASE_URL}/returnProof/getReturnDetails/${orderId}`
         );
         if (response.status === 200) {
+          console.log(response.data);
           setValue("carOwner", response.data.carOwner);
           setValue("renter", response.data.renter);
           setValue("rentStartDate", response.data.rentStartDate);
@@ -39,7 +40,7 @@ function AcknowledgementForm() {
           setValue("carReturnDate", response.data.carReturnDate);
           setValue("comments", response.data.remarks);
 
-          setPenalty(response.data.penalty > 0 ? `Penalty: $${response.data.penalty}` : "No Penalty");
+          setPenalty(response.data.penalty > 0 ? `${response.data.penalty}` : "No Penalty");
 
           if (response.data.proof) {
             setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);
