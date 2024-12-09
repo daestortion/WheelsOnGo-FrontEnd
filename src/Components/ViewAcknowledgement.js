@@ -111,7 +111,7 @@ function ViewAcknowledgement() {
 
             <div className="ack-row">
               <label>Owner's Remarks:</label>
-              <textarea value={returnDetails.ownerRemarks} disabled rows="4" />
+              <textarea value={returnDetails.ownerRemark} disabled rows="4" />
             </div>
 
             <div className="ack-row">
