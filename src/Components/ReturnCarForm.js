@@ -40,16 +40,16 @@ function AcknowledgementForm() {
           console.log(response.data);
           setValue("carOwner", response.data.carOwner);
           setValue("renter", response.data.renter);
-          setValue("rentStartDate", formatDateForManila(new Date(response.data.rentStartDate)));
-          setValue("rentEndDate", formatDateForManila(new Date(response.data.rentEndDate)));
-          setValue("carReturnDate", formatDateForManila(new Date(response.data.carReturnDate)));
+          setValue("rentStartDate", response.data.rentStartDate);
+          setValue("rentEndDate", response.data.rentEndDate);
+          setValue("carReturnDate", response.data.carReturnDate);
           setValue("comments", response.data.remarks);
-  
+
           // Set the ownerRemark field
           setValue("ownerRemark", response.data.ownerRemark);
-  
+
           setPenalty(response.data.penalty > 0 ? `${response.data.penalty}` : "No Penalty");
-  
+
           if (response.data.proof) {
             setRenterProofURL(`data:image/jpeg;base64,${response.data.proof}`);
           }
@@ -61,10 +61,10 @@ function AcknowledgementForm() {
         setLoading(false);
       }
     };
-  
+
     fetchReturnDetails();
   }, [orderId]);  // Add dependency on orderId to refetch if it changes
-  
+
   const handleOwnerProofUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -88,10 +88,6 @@ function AcknowledgementForm() {
       formData.append("penalty", data.penalty);
     }
 
-    // Example of formatting car return date before submission
-    const formattedReturnDate = formatDateForManila(new Date(data.carReturnDate));
-
-    formData.append("carReturnDate", formattedReturnDate);  // Submit the formatted return date
 
     try {
       await axios.put(
@@ -136,22 +132,30 @@ function AcknowledgementForm() {
             <div className="ack-form-row">
               <div>
                 <label>Rent Start Date:</label>
-                <input type="date" value={formatDateForManila(new Date(watch("rentStartDate")))} disabled />
+                <input
+                  type="date"
+                  value={watch("rentStartDate")} // Use the raw value from `watch`
+                  disabled
+                />
               </div>
               <div>
                 <label>Rent End Date:</label>
-                <input type="date" value={formatDateForManila(new Date(watch("rentEndDate")))} disabled />
+                <input
+                  type="date"
+                  value={watch("rentEndDate")} // Use the raw value from `watch`
+                  disabled
+                />
               </div>
             </div>
 
             <div className="ack-form-row">
               <div>
                 <label>Car Return Date:</label>
-                <input type="date" value={formatDateForManila(new Date(watch("carReturnDate")))} disabled />
-              </div>
-              <div>
-                <label>Comments (Renter):</label>
-                <textarea {...register("comments")} disabled rows="4" />
+                <input
+                  type="date"
+                  value={watch("carReturnDate")} // Use the raw value from `watch`
+                  disabled
+                />
               </div>
             </div>
 
