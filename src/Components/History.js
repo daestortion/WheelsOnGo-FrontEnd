@@ -228,103 +228,107 @@ export const OrderHistoryPage = () => {
   const handleTerminate = async (orderId) => {
     setIsLoading(true); // Start loading
     try {
-        const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
+      // Check the current status of the order
+      const statusResponse = await axios.get(`${BASE_URL}/order/getOrderStatus/${orderId}`);
+      const currentStatus = statusResponse.data;
 
-        if (response.status === 200 && response.data) {
-            const { updatedOrder } = response.data;
+      // Proceed to terminate the order regardless of its status
+      const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
 
-            if (updatedOrder) {
-                // Check if the order is not approved (status !== 1)
-                if (updatedOrder.status !== 1) {
-                    // Simply terminate the order without touching the wallet
-                    setOrders((prevOrders) =>
-                        prevOrders.map((order) =>
-                            order.orderId === orderId
-                                ? { ...order, terminated: true, active: false }
-                                : order
-                        )
-                    );
-                    setShowTerminatedPopup(true);
-                    setIsLoading(false);
-                    return; // Exit early since no wallet operations are needed
-                }
+      if (response.status === 200 && response.data) {
+        const { updatedOrder } = response.data;
 
-                const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
-                    ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
-                    : 0;
+        if (updatedOrder) {
+          // If the order is not approved (status !== 1), skip wallet operations
+          if (currentStatus !== 1) {
+            console.log("Order not approved, skipping wallet operations.");
+            setOrders((prevOrders) =>
+              prevOrders.map((order) =>
+                order.orderId === orderId
+                  ? { ...order, terminated: true, active: false }
+                  : order
+              )
+            );
+            setShowTerminatedPopup(true);
+            return; // Exit early to skip wallet-related logic
+          }
 
-                // Determine if the first payment method is cash
-                const isCashPayment = updatedOrder.payments && updatedOrder.payments[0].paymentMethod === "Cash";
-                
-                // Apply refund percentage logic
-                let refundPercentage = 0.0;
-                if (isCashPayment) {
-                    // For cash payments, refund is fixed at 15%
-                    refundPercentage = 0.15;
-                } else {
-                    // For non-cash payments, calculate based on termination timing
-                    const startDate = new Date(updatedOrder.startDate);
-                    const terminationDate = new Date(updatedOrder.terminationDate);
-                    const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
+          // Wallet operations for approved orders (status === 1)
+          const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
+            ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
+            : 0;
 
-                    if (dateDifference >= 3) {
-                        refundPercentage = 0.85;
-                    } else if (dateDifference >= 1 && dateDifference <= 2) {
-                        refundPercentage = 0.50;
-                    } else {
-                        refundPercentage = 0.0;
-                    }
-                }
+          // Determine if the first payment method is cash
+          const isCashPayment = updatedOrder.payments && updatedOrder.payments[0].paymentMethod === "Cash";
 
-                const refundAmount = latestPaymentAmount * refundPercentage;
+          // Apply refund percentage logic
+          let refundPercentage = 0.0;
+          if (isCashPayment) {
+            refundPercentage = 0.15;
+          } else {
+            const startDate = new Date(updatedOrder.startDate);
+            const terminationDate = new Date(updatedOrder.terminationDate);
+            const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
 
-                const userId = updatedOrder.user ? updatedOrder.user.userId : null;
-
-                // Only add funds to the user's wallet if the payment is not cash
-                if (userId && !isCashPayment) {
-                    await axios.put(`${BASE_URL}/wallet/addFunds`, {
-                        userId: userId,
-                        amount: refundAmount,
-                    });
-                }
-
-                const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
-                if (ownerId) {
-                    // Deduct refund from the owner's wallet
-                    await axios.put(
-                        `${BASE_URL}/ownerWallet/deductRefund/${ownerId}`,
-                        null,
-                        {
-                            params: {
-                                refundAmount: refundAmount,
-                                isCashPayment: isCashPayment,
-                            },
-                        }
-                    );
-                }
-
-                setOrders((prevOrders) =>
-                    prevOrders.map((order) =>
-                        order.orderId === orderId
-                            ? { ...order, terminated: true, active: false }
-                            : order
-                    )
-                );
-
-                setShowTerminatedPopup(true);
+            if (dateDifference >= 3) {
+              refundPercentage = 0.85;
+            } else if (dateDifference >= 1 && dateDifference <= 2) {
+              refundPercentage = 0.50;
             } else {
-                alert("Failed to process refund. Please try again.");
+              refundPercentage = 0.0;
             }
+          }
+
+          const refundAmount = latestPaymentAmount * refundPercentage;
+
+          const userId = updatedOrder.user ? updatedOrder.user.userId : null;
+
+          // Only add funds to the user's wallet if the payment is not cash
+          if (userId && !isCashPayment) {
+            await axios.put(`${BASE_URL}/wallet/addFunds`, {
+              userId: userId,
+              amount: refundAmount,
+            });
+          }
+
+          const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+          if (ownerId) {
+            // Deduct refund from the owner's wallet
+            await axios.put(
+              `${BASE_URL}/ownerWallet/deductRefund/${ownerId}`,
+              null,
+              {
+                params: {
+                  refundAmount: refundAmount,
+                  isCashPayment: isCashPayment,
+                },
+              }
+            );
+          }
+
+          setOrders((prevOrders) =>
+            prevOrders.map((order) =>
+              order.orderId === orderId
+                ? { ...order, terminated: true, active: false }
+                : order
+            )
+          );
+
+          setShowTerminatedPopup(true);
         } else {
-            alert("Failed to terminate the order. Please try again.");
+          alert("Failed to process refund. Please try again.");
         }
+      } else {
+        alert("Failed to terminate the order. Please try again.");
+      }
     } catch (error) {
-        console.error("Error terminating order:", error);
-        alert("Error terminating the order. Please try again.");
+      console.error("Error terminating order:", error);
+      alert("Error terminating the order. Please try again.");
     } finally {
-        setIsLoading(false); // Stop loading
+      setIsLoading(false); // Stop loading
     }
-};
+  };
+
 
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
@@ -339,54 +343,54 @@ export const OrderHistoryPage = () => {
   const handleApprove = async (orderId) => {
     setIsLoading(true);
     try {
-        // Approve the order
-        const response = await fetch(
-            `${BASE_URL}/order/approveOrder/${orderId}`,
-            { method: "PUT" }
+      // Approve the order
+      const response = await fetch(
+        `${BASE_URL}/order/approveOrder/${orderId}`,
+        { method: "PUT" }
+      );
+
+      if (response.ok) {
+        const updatedOrder = await response.json(); // Fetch the updated order details
+
+        // Get ownerId from the updatedOrder
+        const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+
+        if (!ownerId) {
+          console.error("Owner ID not found in the order details.");
+          setIsLoading(false);
+          return;
+        }
+
+        // Calculate 15% of the order's total price
+        const amount = updatedOrder.totalPrice;
+
+        // Update the order's active status in the state
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.orderId === orderId ? { ...order, active: 1 } : order
+          )
         );
 
-        if (response.ok) {
-            const updatedOrder = await response.json(); // Fetch the updated order details
-
-            // Get ownerId from the updatedOrder
-            const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
-
-            if (!ownerId) {
-                console.error("Owner ID not found in the order details.");
-                setIsLoading(false);
-                return;
-            }
-
-            // Calculate 15% of the order's total price
-            const amount = updatedOrder.totalPrice;
-
-            // Update the order's active status in the state
-            setOrders((prevOrders) =>
-                prevOrders.map((order) =>
-                    order.orderId === orderId ? { ...order, active: 1 } : order
-                )
-            );
-
-            // Update cash earnings for the owner
-            try {
-                await axios.put(
-                    `${BASE_URL}/ownerWallet/addToCashEarnings/${ownerId}`,
-                    null,
-                    { params: { amount } }
-                );
-                console.log(`Cash earnings updated for ownerId ${ownerId}: ₱${amount.toFixed(2)}`);
-            } catch (error) {
-                console.error("Error updating cash earnings:", error);
-            }
-        } else {
-            console.error("Failed to approve order:", response.statusText);
+        // Update cash earnings for the owner
+        try {
+          await axios.put(
+            `${BASE_URL}/ownerWallet/addToCashEarnings/${ownerId}`,
+            null,
+            { params: { amount } }
+          );
+          console.log(`Cash earnings updated for ownerId ${ownerId}: ₱${amount.toFixed(2)}`);
+        } catch (error) {
+          console.error("Error updating cash earnings:", error);
         }
+      } else {
+        console.error("Failed to approve order:", response.statusText);
+      }
     } catch (error) {
-        console.error("Error approving order:", error);
+      console.error("Error approving order:", error);
     } finally {
-        setIsLoading(false); // Ensure loading is stopped after the operation
+      setIsLoading(false); // Ensure loading is stopped after the operation
     }
-};
+  };
 
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);
@@ -634,7 +638,7 @@ export const OrderHistoryPage = () => {
                               <button
                                 className="return"
                                 onClick={() => handleApprove(order.orderId)}
-                                disabled={order.terminated || order.returned || order.paymentOption !== 'Cash' || order.status==1}
+                                disabled={order.terminated || order.returned || order.paymentOption !== 'Cash' || order.status == 1}
                               >
                                 Approve
                               </button>
