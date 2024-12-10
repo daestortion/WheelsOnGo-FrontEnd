@@ -297,14 +297,14 @@ const AdminOwnerPayments = () => {
                         {/* Check if proof exists, show the appropriate button */}
                         {request.proofImage ? (
                           <button
-                            className="view-proof"
+                            className="return"
                             onClick={() => handleViewProof(request.requestId)}
                           >
                             View Proof
                           </button>
                         ) : (
                           <button
-                            className="upload-proof"
+                            className="return-cars"
                             onClick={() => handleSendFunds(request.requestId)}
                           >
                             Submit Proof

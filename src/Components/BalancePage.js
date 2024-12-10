@@ -359,7 +359,7 @@ const BalancePage = () => {
                     {request.proofImage ? (
                       <button
                         onClick={() => handleProofView(request.requestId)}
-                        className="proof-view-btn"
+                        className="return-cars  "
                       >
                         View Proof of Remittance
                       </button>

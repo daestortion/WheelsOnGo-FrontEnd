@@ -330,6 +330,7 @@ const RefundPage = () => {
                   <td>
                     {request.proofImage ? (
                       <button
+                      className="return-cars"
                         onClick={() => handleShowProof(request.requestId)}
                       >
                         Show Proof
