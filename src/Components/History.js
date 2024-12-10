@@ -616,9 +616,8 @@ export const OrderHistoryPage = () => {
                                 <>
                                   {order.returnProof.ownerApproval ? (
                                     <>
-                                      <span>Acknowledged</span>
                                       <button
-                                        className="view-submission-button"
+                                        className="return-cars"
                                         onClick={() => handleViewAcknowledgement(order.orderId)} // Redirect to view acknowledgment
                                       >
                                         View Acknowledgement
@@ -626,9 +625,8 @@ export const OrderHistoryPage = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <span>Return Proof Submitted</span>
                                       <button
-                                        className="view-submission-button"
+                                        className="return-cars"
                                         onClick={() => handleViewAcknowledgement(order.orderId)} // Redirect to view acknowledgment
                                       >
                                         View Submission
@@ -652,8 +650,8 @@ export const OrderHistoryPage = () => {
                               {order.returnProofExists ? (
                                 order.ownerAcknowledged ? (
                                   <>
-                                    "Acknowledged"
                                     <button
+                                      className="return-cars"
                                       onClick={() => handleViewAcknowledgement(order.orderId)}
                                       style={{ marginLeft: "10px" }}
                                     >
