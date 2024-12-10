@@ -640,7 +640,7 @@ export const OrderHistoryPage = () => {
                                 <button
                                   className="return-cars"
                                   onClick={() => handleReturnCar(order.orderId)}
-                                  disabled={ order.terminated || order.returnProof != null}
+                                  disabled={ !order.active || order.terminated || order.returnProof != null}
                                 >
                                   Return Car
                                 </button>
