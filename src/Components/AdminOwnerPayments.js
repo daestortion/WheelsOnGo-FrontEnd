@@ -12,6 +12,20 @@ const AdminOwnerPayments = () => {
   const [hasFetchedOnce, setHasFetchedOnce] = useState(false); // Track if data has been fetched
   const [uploadedFileNames, setUploadedFileNames] = useState({}); // Track uploaded file names for each row
   const navigate = useNavigate();
+  const [selectedProof, setSelectedProof] = useState(null);  // State to track proof image
+
+  const handleViewProof = async (requestId) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/request-form/getProofImage/${requestId}`, {
+        responseType: 'arraybuffer', // Important for fetching binary data
+      });
+      const proofUrl = URL.createObjectURL(new Blob([response.data]));
+      setSelectedProof(proofUrl); // Set the proof image URL for display
+    } catch (error) {
+      console.error("Error fetching proof image:", error);
+      alert("Error loading proof image.");
+    }
+  };
 
   // Step 1: Retrieve uploaded file names from localStorage on component mount
   useEffect(() => {
@@ -246,7 +260,7 @@ const AdminOwnerPayments = () => {
                     <tr key={request.requestId}>
                       <td>{request.requestId}</td>
                       <td>{request.user.username}</td>
-                      <td>{request.userType}</td> {/* Display the userType here */}
+                      <td>{request.userType}</td>
                       <td>
                         {request.requestType === "gcash" ? (
                           <>
@@ -280,12 +294,22 @@ const AdminOwnerPayments = () => {
                       <td>{new Date(request.createdAt).toLocaleString()}</td>
                       <td>{request.status || "pending"}</td>
                       <td>
-                        <button
-                          className="send-funds"
-                          onClick={() => handleSendFunds(request.requestId)}
-                        >
-                          Send Funds
-                        </button>
+                        {/* Check if proof exists, show the appropriate button */}
+                        {request.proofImage ? (
+                          <button
+                            className="view-proof"
+                            onClick={() => handleViewProof(request.requestId)}
+                          >
+                            View Proof
+                          </button>
+                        ) : (
+                          <button
+                            className="upload-proof"
+                            onClick={() => handleSendFunds(request.requestId)}
+                          >
+                            Submit Proof
+                          </button>
+                        )}
                         {uploadedFileNames[request.requestId] && (
                           <p>Uploaded File: {uploadedFileNames[request.requestId]}</p>
                         )}
@@ -317,8 +341,22 @@ const AdminOwnerPayments = () => {
                     </td>
                   </tr>
                 )}
+
               </tbody>
             </table>
+            {selectedProof && (
+              <div className="proof-modal">
+                <div className="proof-modal-content">
+                  <img src={selectedProof} alt="Proof" className="proof-modal-image" />
+                  <button
+                    className="close-proof-modal"
+                    onClick={() => setSelectedProof(null)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
