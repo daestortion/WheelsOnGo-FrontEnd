@@ -228,90 +228,103 @@ export const OrderHistoryPage = () => {
   const handleTerminate = async (orderId) => {
     setIsLoading(true); // Start loading
     try {
-      const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
-      // console.log("Response Data:", response.data);
+        const response = await axios.put(`${BASE_URL}/order/terminateOrder/${orderId}`);
 
-      if (response.status === 200 && response.data) {
-        const { updatedOrder } = response.data;
+        if (response.status === 200 && response.data) {
+            const { updatedOrder } = response.data;
 
-        if (updatedOrder) {
-          const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
-            ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
-            : 0;
+            if (updatedOrder) {
+                // Check if the order is not approved (status !== 1)
+                if (updatedOrder.status !== 1) {
+                    // Simply terminate the order without touching the wallet
+                    setOrders((prevOrders) =>
+                        prevOrders.map((order) =>
+                            order.orderId === orderId
+                                ? { ...order, terminated: true, active: false }
+                                : order
+                        )
+                    );
+                    setShowTerminatedPopup(true);
+                    setIsLoading(false);
+                    return; // Exit early since no wallet operations are needed
+                }
 
-          const startDate = new Date(updatedOrder.startDate);
-          const terminationDate = new Date(updatedOrder.terminationDate);
-          const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
+                const latestPaymentAmount = updatedOrder.payments && updatedOrder.payments.length > 0
+                    ? updatedOrder.payments[updatedOrder.payments.length - 1].amount
+                    : 0;
 
-          // console.log(`Date difference: ${dateDifference} days`);
-          // console.log(`Latest Payment Amount: ₱${latestPaymentAmount.toFixed(2)}`);
+                // Determine if the first payment method is cash
+                const isCashPayment = updatedOrder.payments && updatedOrder.payments[0].paymentMethod === "Cash";
+                
+                // Apply refund percentage logic
+                let refundPercentage = 0.0;
+                if (isCashPayment) {
+                    // For cash payments, refund is fixed at 15%
+                    refundPercentage = 0.15;
+                } else {
+                    // For non-cash payments, calculate based on termination timing
+                    const startDate = new Date(updatedOrder.startDate);
+                    const terminationDate = new Date(updatedOrder.terminationDate);
+                    const dateDifference = Math.ceil((startDate - terminationDate) / (1000 * 3600 * 24));
 
-          let refundPercentage = 0.0;
-          if (dateDifference >= 3) {
-            refundPercentage = 0.85;
-          } else if (dateDifference >= 1 && dateDifference <= 2) {
-            refundPercentage = 0.50;
-          } else {
-            refundPercentage = 0.0;
-          }
+                    if (dateDifference >= 3) {
+                        refundPercentage = 0.85;
+                    } else if (dateDifference >= 1 && dateDifference <= 2) {
+                        refundPercentage = 0.50;
+                    } else {
+                        refundPercentage = 0.0;
+                    }
+                }
 
-          const refundAmount = latestPaymentAmount * refundPercentage;
+                const refundAmount = latestPaymentAmount * refundPercentage;
 
-          // console.log("Refund Amount:", refundAmount);
+                const userId = updatedOrder.user ? updatedOrder.user.userId : null;
 
-          // console.log(`Order terminated successfully. Refund processed: ₱${refundAmount.toFixed(2)}`);
+                // Only add funds to the user's wallet if the payment is not cash
+                if (userId && !isCashPayment) {
+                    await axios.put(`${BASE_URL}/wallet/addFunds`, {
+                        userId: userId,
+                        amount: refundAmount,
+                    });
+                }
 
-          const userId = updatedOrder.user ? updatedOrder.user.userId : null;
-          if (userId) {
-            // console.log("Sending to wallet API:", userId, refundAmount);
-            await axios.put(`${BASE_URL}/wallet/addFunds`, {
-              userId: userId,
-              amount: refundAmount,
-            });
-          } else {
-            console.error("Error: User data is missing in updatedOrder");
-          }
+                const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+                if (ownerId) {
+                    // Deduct refund from the owner's wallet
+                    await axios.put(
+                        `${BASE_URL}/ownerWallet/deductRefund/${ownerId}`,
+                        null,
+                        {
+                            params: {
+                                refundAmount: refundAmount,
+                                isCashPayment: isCashPayment,
+                            },
+                        }
+                    );
+                }
 
-          // Access the owner data correctly
-          const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
-          if (ownerId) {
-            // console.log("Sending to owner's wallet deduction API:", ownerId, refundAmount);
-            const ownerWalletResponse = await axios.put(
-              `${BASE_URL}/ownerWallet/deductRefund/${ownerId}?refundAmount=${refundAmount}`
-            );
+                setOrders((prevOrders) =>
+                    prevOrders.map((order) =>
+                        order.orderId === orderId
+                            ? { ...order, terminated: true, active: false }
+                            : order
+                    )
+                );
 
-            // console.log("Owner Wallet Deduction Response:", ownerWalletResponse.data);
-
-            if (ownerWalletResponse.status !== 200) {
-              console.error("Error deducting refund from owner's wallet:", ownerWalletResponse.data);
+                setShowTerminatedPopup(true);
+            } else {
+                alert("Failed to process refund. Please try again.");
             }
-          } else {
-            console.error("Error: Owner data is missing in updatedOrder");
-          }
-
-          setOrders((prevOrders) =>
-            prevOrders.map((order) =>
-              order.orderId === orderId
-                ? { ...order, terminated: true, active: false }
-                : order
-            )
-          );
-
-          // Show the terminated popup after all other processes are done
-          setShowTerminatedPopup(true);
         } else {
-          alert("Failed to process refund. Please try again.");
+            alert("Failed to terminate the order. Please try again.");
         }
-      } else {
-        alert("Failed to terminate the order. Please try again.");
-      }
     } catch (error) {
-      console.error("Error terminating order:", error);
-      alert("Error terminating the order. Please try again.");
+        console.error("Error terminating order:", error);
+        alert("Error terminating the order. Please try again.");
     } finally {
-      setIsLoading(false); // Stop loading
+        setIsLoading(false); // Stop loading
     }
-  };
+};
 
   const handleReturnCar = (orderId) => {
     navigate(`/returncar/${orderId}`);
@@ -326,23 +339,54 @@ export const OrderHistoryPage = () => {
   const handleApprove = async (orderId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `${BASE_URL}/order/approveOrder/${orderId}`,
-        { method: "PUT" }
-      );
-      if (response.ok) {
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.orderId === orderId ? { ...order, active: 1 } : order
-          )
+        // Approve the order
+        const response = await fetch(
+            `${BASE_URL}/order/approveOrder/${orderId}`,
+            { method: "PUT" }
         );
-      }
+
+        if (response.ok) {
+            const updatedOrder = await response.json(); // Fetch the updated order details
+
+            // Get ownerId from the updatedOrder
+            const ownerId = updatedOrder.car && updatedOrder.car.owner ? updatedOrder.car.owner.userId : null;
+
+            if (!ownerId) {
+                console.error("Owner ID not found in the order details.");
+                setIsLoading(false);
+                return;
+            }
+
+            // Calculate 15% of the order's total price
+            const amount = updatedOrder.totalPrice;
+
+            // Update the order's active status in the state
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.orderId === orderId ? { ...order, active: 1 } : order
+                )
+            );
+
+            // Update cash earnings for the owner
+            try {
+                await axios.put(
+                    `${BASE_URL}/ownerWallet/addToCashEarnings/${ownerId}`,
+                    null,
+                    { params: { amount } }
+                );
+                console.log(`Cash earnings updated for ownerId ${ownerId}: ₱${amount.toFixed(2)}`);
+            } catch (error) {
+                console.error("Error updating cash earnings:", error);
+            }
+        } else {
+            console.error("Failed to approve order:", response.statusText);
+        }
     } catch (error) {
-      console.error("Error approving order:", error);
+        console.error("Error approving order:", error);
     } finally {
-      setIsLoading(false); // Ensure loading is stopped after the operation
+        setIsLoading(false); // Ensure loading is stopped after the operation
     }
-  };
+};
 
   const handleDateChange = async (date, endDate, carId) => {
     setSelectedDate(date);
@@ -386,15 +430,15 @@ export const OrderHistoryPage = () => {
     if (showDatePicker === orderId && selectedDate && selectedDate > new Date(endDate)) {
       // Convert the selected date to Manila time
       const adjustedDate = moment(selectedDate).tz('Asia/Manila').set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-  
+
       const newEndDate = adjustedDate.format('YYYY-MM-DD'); // Format the date as YYYY-MM-DD
-  
+
       // Set the selected order details and show the ExtendPaymentPopup
       setSelectedOrder({
         orderId: orderId,
         endDate: newEndDate,
       });
-  
+
       setExtendShowPaymentPopup(true); // Open the payment popup
     } else {
       // If "Extend" is clicked the first time or no valid date has been selected yet, show DatePicker
@@ -421,7 +465,7 @@ export const OrderHistoryPage = () => {
       case 1:
         return "Approved";
       case 2:
-        return "Denied";
+        return "Terminated";
       case 3:
         return "Finished";
       default:
@@ -589,8 +633,8 @@ export const OrderHistoryPage = () => {
                             <td>
                               <button
                                 className="return"
-                                onClick={() => handleCarReturned(order.orderId)}
-                                disabled={order.terminated || order.returned || order.paymentOption !== 'Cash'}
+                                onClick={() => handleApprove(order.orderId)}
+                                disabled={order.terminated || order.returned || order.paymentOption !== 'Cash' || order.status==1}
                               >
                                 Approve
                               </button>
@@ -638,7 +682,7 @@ export const OrderHistoryPage = () => {
                                 <button
                                   className="return-cars"
                                   onClick={() => handleReturnCar(order.orderId)}
-                                  disabled={ !order.active || order.terminated || order.returnProof != null}
+                                  disabled={!order.active || order.terminated || order.returnProof != null}
                                 >
                                   Return Car
                                 </button>
@@ -718,23 +762,23 @@ export const OrderHistoryPage = () => {
                           )}
                           {/* Add Payment column with "View Payment" button */}
                           <td>
-                          <button
-                            className="view-payment-button"
-                            onClick={() => handleViewPayment(order.orderId)}
-                          >
-                            View Payment
-                          </button>
+                            <button
+                              className="view-payment-button"
+                              onClick={() => handleViewPayment(order.orderId)}
+                            >
+                              View Payment
+                            </button>
 
-                          {/* Show loading indicator while fetching */}
-                          {loading && <div>Loading...</div>}
+                            {/* Show loading indicator while fetching */}
+                            {loading && <div>Loading...</div>}
 
-                          {/* Conditionally render the popup if showPopup is true */}
-                          {showPopup && (
-                            <ViewPaymentPopup
-                              payments={payments}
-                              onClose={() => setShowPopup(false)}
-                            />
-                          )}
+                            {/* Conditionally render the popup if showPopup is true */}
+                            {showPopup && (
+                              <ViewPaymentPopup
+                                payments={payments}
+                                onClose={() => setShowPopup(false)}
+                              />
+                            )}
                           </td>
                         </tr>
                       );

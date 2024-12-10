@@ -112,7 +112,6 @@ const PaymentPopup = ({ car, startDate, endDate, deliveryOption, deliveryAddress
                 // console.log("Payment created with 'pending' status.");
 
                 // Update cash earnings for the owner
-                await updateCashEarnings(car.owner.userId, totalPrice);
             }
         }
     } catch (error) {
